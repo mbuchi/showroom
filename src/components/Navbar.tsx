@@ -42,7 +42,11 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
             <Images size={15} className="text-white" />
           </span>
           <span className="hidden sm:flex items-baseline gap-1.5 leading-none">
-            <span className="text-[15px] font-bold text-gray-100 tracking-tight">Showroom</span>
+            <span className="text-2xl font-normal font-varela leading-none">
+              <span className="text-gray-900 dark:text-white">showr</span>
+              <span className="text-red-600">oo</span>
+              <span className="text-gray-900 dark:text-white">m</span>
+            </span>
             <span className="text-[10px] uppercase tracking-[0.18em] text-gray-500 font-semibold">
               Gallery
             </span>
