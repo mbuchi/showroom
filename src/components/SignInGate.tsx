@@ -42,7 +42,12 @@ export default function SignInGate() {
             <Images size={26} className="text-white" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-100">
-            Welcome to <span className="text-gradient-cyan">Showroom</span>
+            Welcome to{' '}
+            <span className="text-4xl font-normal font-varela align-baseline">
+              <span className="text-gray-900 dark:text-white">showr</span>
+              <span className="text-red-600">oo</span>
+              <span className="text-gray-900 dark:text-white">m</span>
+            </span>
           </h1>
           <p className="mt-3 text-sm text-gray-400 leading-relaxed max-w-sm mx-auto">
             A modern gallery for your parcel exports — screenshots, reports, and
