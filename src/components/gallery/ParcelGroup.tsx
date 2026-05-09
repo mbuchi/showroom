@@ -45,11 +45,11 @@ export default function ParcelGroup({
 
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-            <h3 className="text-sm font-semibold text-gray-100 truncate" title={title}>
+            <h3 className="text-sm font-semibold text-gray-400 truncate" title={title}>
               {title}
             </h3>
             {group.parcelId && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-mono text-gray-500">
+              <span className="inline-flex items-center gap-1 text-[11px] font-mono text-gray-100">
                 <Hash size={10} />
                 {group.parcelId}
               </span>
