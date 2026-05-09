@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useState } from 'react';
-import { Images, Search, Command } from 'lucide-react';
+import { Search, Command } from 'lucide-react';
 import UserMenu from './UserMenu';
 
 interface NavbarProps {
@@ -38,16 +38,11 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
           className="flex items-center gap-2 flex-shrink-0 group"
           aria-label="Showroom home"
         >
-          <span className="relative w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-indigo-500 flex items-center justify-center shadow-glow-cyan">
-            <Images size={15} className="text-white" />
-          </span>
-          <span className="hidden sm:flex items-baseline gap-1.5 leading-none">
+          <span className="flex items-baseline gap-1.5 leading-none">
             <span className="text-2xl font-normal font-varela leading-none">
-              <span className="text-gray-900 dark:text-white">showr</span>
-              <span className="text-red-600">oo</span>
-              <span className="text-gray-900 dark:text-white">m</span>
+              <span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">showr</span><span className="text-red-600 text-2xl font-normal font-varela leading-none">oo</span><span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">m</span>
             </span>
-            <span className="text-[10px] uppercase tracking-[0.18em] text-gray-500 font-semibold">
+            <span className="hidden sm:inline text-[10px] uppercase tracking-[0.18em] text-gray-500 font-semibold">
               Gallery
             </span>
           </span>
