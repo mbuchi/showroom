@@ -27,6 +27,10 @@ export const userManager = new UserManager({
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   automaticSilentRenew: true,
   monitorSession: false,
+  // Default is 10s — way too long to leave a freshly-loaded SPA hanging when
+  // there's no active Zitadel session. 4s is plenty for a same-origin iframe
+  // round-trip and falls back to the sign-in gate quickly otherwise.
+  silentRequestTimeoutInSeconds: 4,
   metadata: {
     issuer: authority,
     authorization_endpoint: `${authority}/oauth/v2/authorize`,

@@ -27,50 +27,58 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        if (hasOidcCallbackParams()) {
-          const callbackUser = await userManager.signinRedirectCallback();
-          setUser(callbackUser);
-          window.history.replaceState({}, '', window.location.pathname);
-          setIsLoading(false);
-          return;
-        }
+    let cancelled = false;
 
-        const storedUser = await userManager.getUser();
-        if (storedUser && !storedUser.expired) {
-          setUser(storedUser);
-          setIsLoading(false);
-          return;
-        }
-
-        // Try silent SSO so users that already have a Zitadel session land
-        // straight in the gallery instead of seeing the sign-in gate flash.
-        try {
-          const ssoUser = await userManager.signinSilent();
-          if (ssoUser && !ssoUser.expired) {
-            setUser(ssoUser);
-          }
-        } catch {
-          // No active SSO session — expected when user is genuinely logged out
-        }
-      } catch (err) {
-        console.error('Auth initialization error:', err);
-      }
-      setIsLoading(false);
+    const onUserLoaded = (loadedUser: User) => {
+      if (cancelled) return;
+      setUser(loadedUser);
     };
-
-    init();
-
-    const onUserLoaded = (loadedUser: User) => setUser(loadedUser);
-    const onUserUnloaded = () => setUser(null);
-    const onTokenExpired = () => setUser(null);
+    const onUserUnloaded = () => {
+      if (cancelled) return;
+      setUser(null);
+    };
+    const onTokenExpired = () => {
+      if (cancelled) return;
+      setUser(null);
+    };
 
     userManager.events.addUserLoaded(onUserLoaded);
     userManager.events.addUserUnloaded(onUserUnloaded);
     userManager.events.addAccessTokenExpired(onTokenExpired);
 
+    const init = async () => {
+      try {
+        if (hasOidcCallbackParams()) {
+          const callbackUser = await userManager.signinRedirectCallback();
+          if (!cancelled) setUser(callbackUser);
+          window.history.replaceState({}, '', window.location.pathname);
+          return;
+        }
+
+        const storedUser = await userManager.getUser();
+        if (storedUser && !storedUser.expired) {
+          if (!cancelled) setUser(storedUser);
+          return;
+        }
+
+        // Don't block initial paint on silent SSO. Kick it off in the
+        // background — if it succeeds, the `addUserLoaded` listener above
+        // will flip us from the sign-in gate to the gallery without the user
+        // having to wait through Zitadel's iframe timeout (up to 4s).
+        userManager.signinSilent().catch(() => {
+          // No active SSO session — expected when user is genuinely logged out
+        });
+      } catch (err) {
+        console.error('Auth initialization error:', err);
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+
+    init();
+
     return () => {
+      cancelled = true;
       userManager.events.removeUserLoaded(onUserLoaded);
       userManager.events.removeUserUnloaded(onUserUnloaded);
       userManager.events.removeAccessTokenExpired(onTokenExpired);
