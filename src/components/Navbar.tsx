@@ -32,7 +32,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         scrolled ? 'shadow-[0_8px_24px_rgba(0,0,0,0.35)]' : ''
       }`}
     >
-      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 h-14 flex items-center gap-3">
+      <div className="mx-auto max-w-[1600px] px-5 h-14 flex items-center gap-3">
         <a
           href="/"
           className="flex items-center gap-2 flex-shrink-0 group"
@@ -71,7 +71,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
           </div>
         )}
 
-        <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 ml-auto">
           {rightSlot}
           <UserMenu onOpenParcels={onOpenParcels} exportCount={exportCount} />
         </div>
