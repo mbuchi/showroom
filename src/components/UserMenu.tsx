@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { LogOut, ChevronDown, CircleUser as UserCircle, Bookmark, Image as ImageIcon } from 'lucide-react';
+import { LogOut, ChevronDown, CircleUser as UserCircle, Bookmark, Image as ImageIcon, Smile } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
+import { firstNameOf, fullNameOf, emailOf, initialsOf } from '../lib/profile';
+import { useAvatar } from '../lib/useAvatar';
+import { Avatar } from './Avatar';
+import { AvatarPicker } from './AvatarPicker';
 
 interface UserMenuProps {
   onOpenParcels?: () => void;
@@ -8,9 +12,10 @@ interface UserMenuProps {
 }
 
 export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) {
-  const { isAuthenticated, isLoading, login, logout, displayName, email, avatarUrl } = useAuth();
+  const { user, isAuthenticated, isLoading, login, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,29 +44,24 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
     );
   }
 
-  const initials = displayName
-    ? displayName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
-    : email?.[0]?.toUpperCase() || '?';
+  const firstName = firstNameOf(user);
+  const displayName = fullNameOf(user);
+  const email = emailOf(user);
+  const initials = initialsOf(user);
+  const { avatarUrl } = useAvatar();
 
   return (
     <>
       <div ref={menuRef} className="relative flex-shrink-0">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-1.5 rounded-full transition-all hover:ring-2 hover:ring-cyan-500/40 focus-ring"
+          className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full transition-all hover:ring-2 hover:ring-cyan-500/40 focus-ring"
           aria-label="Open user menu"
         >
-          {avatarUrl ? (
-            <img
-              src={avatarUrl}
-              alt={displayName}
-              className="w-9 h-9 rounded-full object-cover border-2 border-ink-700"
-            />
-          ) : (
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-500 flex items-center justify-center text-white text-sm font-semibold border-2 border-ink-700">
-              {initials}
-            </div>
-          )}
+          <Avatar url={avatarUrl} initials={initials} size={28} isDarkMode={true} />
+          <span className="text-sm font-medium hidden sm:block max-w-[100px] truncate text-gray-200">
+            {firstName}
+          </span>
           <ChevronDown
             size={14}
             className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
@@ -72,15 +72,9 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
           <div className="absolute right-0 top-full mt-2 w-72 surface-raised rounded-xl shadow-2xl overflow-hidden z-50 animate-in">
             <div className="px-4 py-4 border-b border-white/5">
               <div className="flex items-center gap-3">
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt={displayName} className="w-10 h-10 rounded-full object-cover border border-ink-700" />
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-500 flex items-center justify-center text-white text-sm font-semibold">
-                    {initials}
-                  </div>
-                )}
+                <Avatar url={avatarUrl} initials={initials} size={40} isDarkMode={true} />
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-gray-100 truncate">{displayName || 'User'}</p>
+                  <p className="text-sm font-semibold text-gray-100 truncate">{displayName || firstName || 'User'}</p>
                   {email && <p className="text-xs text-gray-400 truncate">{email}</p>}
                 </div>
               </div>
@@ -112,6 +106,13 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
                 </button>
               )}
               <button
+                onClick={() => { setIsOpen(false); setShowAvatarPicker(true); }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
+              >
+                <Smile size={16} />
+                <span>Change avatar</span>
+              </button>
+              <button
                 onClick={() => { setIsOpen(false); setShowProfile(true); }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
               >
@@ -132,12 +133,16 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
 
       {showProfile && (
         <ProfileModal
-          displayName={displayName}
+          displayName={displayName || firstName}
           email={email}
           avatarUrl={avatarUrl}
           initials={initials}
           onClose={() => setShowProfile(false)}
         />
+      )}
+
+      {showAvatarPicker && (
+        <AvatarPicker isDarkMode={true} onClose={() => setShowAvatarPicker(false)} />
       )}
     </>
   );
@@ -146,7 +151,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
 function ProfileModal({
   displayName, email, avatarUrl, initials, onClose,
 }: {
-  displayName: string; email: string; avatarUrl: string; initials: string; onClose: () => void;
+  displayName: string; email: string; avatarUrl: string | null; initials: string; onClose: () => void;
 }) {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -161,13 +166,7 @@ function ProfileModal({
         <div className="h-24 bg-gradient-to-br from-cyan-500 via-sky-500 to-indigo-500" />
         <div className="px-6 pb-6">
           <div className="-mt-12 flex flex-col items-center">
-            {avatarUrl ? (
-              <img src={avatarUrl} alt={displayName} className="w-24 h-24 rounded-full object-cover border-4 border-ink-850 shadow-lg" />
-            ) : (
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-500 flex items-center justify-center text-white text-2xl font-bold border-4 border-ink-850 shadow-lg">
-                {initials}
-              </div>
-            )}
+            <Avatar url={avatarUrl} initials={initials} size={96} isDarkMode={true} className="border-4 border-ink-850 shadow-lg" />
             <h2 className="mt-4 text-lg font-semibold text-gray-100">{displayName || 'User'}</h2>
             {email && <p className="mt-1 text-sm text-gray-400">{email}</p>}
             <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10">
