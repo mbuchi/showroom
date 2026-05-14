@@ -49,6 +49,21 @@ export const KIND_META: Record<ChangeKind, { label: string; classes: string; dot
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.4.1',
+    date: 'May 14, 2026',
+    codename: 'Stacking Order',
+    summary:
+      'Preventative fix to the navbar stacking context so the user menu dropdown always renders above side panels like Saved Parcels.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Bug,
+        text: 'Navbar z-index raised so the user menu dropdown is no longer trapped below same-level side panels.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.4.0',
     date: 'May 13, 2026',
     codename: 'Fast Boot',

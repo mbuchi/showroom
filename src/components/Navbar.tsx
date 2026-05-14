@@ -28,7 +28,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
 
   return (
     <header
-      className={`sticky top-0 z-40 glass-nav transition-shadow ${
+      className={`sticky top-0 z-[45] glass-nav transition-shadow ${
         scrolled ? 'shadow-[0_8px_24px_rgba(0,0,0,0.35)]' : ''
       }`}
     >
