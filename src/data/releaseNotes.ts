@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.5.5',
+    date: 'May 16, 2026',
+    codename: 'Shared Auth',
+    summary:
+      'Sign-in is now powered by the shared @swissnovo/shared package — the OIDC auth layer is de-duplicated across the SwissNovo suite. The sign-in experience is unchanged.',
+    items: [
+      {
+        kind: 'improved',
+        icon: Package,
+        text: 'OIDC authentication (sign-in, sign-up, single sign-on, token refresh) now comes from the shared @swissnovo/shared package instead of a per-app copy. The UX is identical, but auth fixes and improvements now roll out suite-wide from one source.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.5.4',
     date: 'May 16, 2026',
     codename: 'Patient Reporter',

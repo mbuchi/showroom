@@ -1,4 +1,4 @@
-import { userManager } from '../auth/authConfig';
+import { userManager } from '@swissnovo/shared';
 
 // Calls the RES reporter backend (project_RES routes/reporter.js), which
 // screenshots the 8 map-first apps at the given coordinates.
