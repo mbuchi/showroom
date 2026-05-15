@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.5.4',
+    date: 'May 16, 2026',
+    codename: 'Patient Reporter',
+    summary:
+      'The reporter no longer fails on slow runs. Capturing 8 apps can take several minutes, and the old single long request was killed by a gateway timeout — which the browser reported as a confusing CORS error. The reporter now polls a background job, so a cold capture finishes reliably however long it takes.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Bug,
+        text: 'Generating a report no longer fails partway through with a gateway-timeout / CORS-style error. The backend captures in the background and Showroom polls for the result, so long cold runs complete cleanly.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.5.3',
     date: 'May 15, 2026',
     codename: 'Top of the Stack',
