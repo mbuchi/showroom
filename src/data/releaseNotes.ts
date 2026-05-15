@@ -49,6 +49,21 @@ export const KIND_META: Record<ChangeKind, { label: string; classes: string; dot
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.4.4',
+    date: 'May 15, 2026',
+    codename: 'Avatar Live',
+    summary:
+      'Picking a new avatar updates the header (and any other avatar in the UI) immediately — no page refresh needed. useAvatar() now shares its state across every consumer.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: ImageIcon,
+        text: 'src/lib/useAvatar.ts moved from per-hook useState to a module-level subscriber set so AvatarPicker → UserMenu propagates in the same tick.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.4.3',
     date: 'May 15, 2026',
     codename: 'Avatar Anchored',
@@ -57,7 +72,7 @@ export const RELEASES: Release[] = [
     items: [
       {
         kind: 'fixed',
-        icon: Image,
+        icon: ImageIcon,
         text: 'src/lib/avatarStorage.ts now PUTs avatar_icon to https://res.zeroo.ch/res_api/swissnovo_user/profile (users_zitadel.avatar_icon); localStorage fallback retained.',
         prs: [],
       },
