@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
-    "@swissnovo/shared": "github:mbuchi/swissnovo-shared#v0.1.0",
+    "@swissnovo/shared": "github:mbuchi/swissnovo-shared#v0.3.0",
     "lucide-react": "^0.344.0",
     "oidc-client-ts": "^3.5.0",
     "react": "^18.3.1",
