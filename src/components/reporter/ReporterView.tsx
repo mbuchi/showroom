@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2, MapPin, RefreshCw, AlertTriangle, FileBarChart } from 'lucide-react';
 import Navbar from '../Navbar';
-import ReleaseNotesButton from '../ReleaseNotesButton';
+import { ReleaseNotesButton } from '@swissnovo/shared';
+import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import AddressSearch from './AddressSearch';
 import ReportCard from './ReportCard';
 import { navigate, useRoute } from '../../lib/router';
@@ -76,7 +77,18 @@ export default function ReporterView() {
 
   return (
     <>
-      <Navbar showSearch={false} rightSlot={<ReleaseNotesButton />} />
+      <Navbar
+        showSearch={false}
+        rightSlot={
+          <ReleaseNotesButton
+            releases={RELEASES}
+            repoUrl={REPO_URL}
+            storageKey="showroom:lastSeenReleaseVersion"
+            brandPrefix="showr"
+            brandSuffix="m"
+          />
+        }
+      />
 
       <main className="mx-auto max-w-[1600px] px-4 sm:px-6 py-6 sm:py-8">
         <div className="mb-6">
