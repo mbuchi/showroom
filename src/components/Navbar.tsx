@@ -1,6 +1,12 @@
 import { forwardRef, useEffect, useState } from 'react';
 import { Search, Command } from 'lucide-react';
 import UserMenu from './UserMenu';
+import { navigate, useRoute } from '../lib/router';
+
+const NAV_LINKS = [
+  { path: '/', label: 'Gallery' },
+  { path: '/reporter', label: 'Reporter' },
+];
 
 interface NavbarProps {
   searchValue?: string;
@@ -25,6 +31,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   }, []);
 
   const isMac = typeof navigator !== 'undefined' && /Mac/i.test(navigator.platform);
+  const { pathname } = useRoute();
 
   return (
     <header
@@ -35,18 +42,41 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
       <div className="mx-auto max-w-[1600px] px-5 h-14 flex items-center gap-3">
         <a
           href="/"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate('/');
+          }}
           className="flex items-center gap-2 flex-shrink-0 group"
           aria-label="Showroom home"
         >
-          <span className="flex items-baseline gap-1.5 leading-none">
-            <span className="text-2xl font-normal font-varela leading-none">
-              <span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">showr</span><span className="text-red-600 text-2xl font-normal font-varela leading-none">oo</span><span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">m</span>
-            </span>
-            <span className="hidden sm:inline text-[10px] uppercase tracking-[0.18em] text-gray-500 font-semibold">
-              Gallery
-            </span>
+          <span className="text-2xl font-normal font-varela leading-none">
+            <span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">showr</span><span className="text-red-600 text-2xl font-normal font-varela leading-none">oo</span><span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">m</span>
           </span>
         </a>
+
+        <nav className="hidden sm:flex items-center gap-1 flex-shrink-0">
+          {NAV_LINKS.map((link) => {
+            const active =
+              link.path === '/' ? pathname === '/' : pathname.startsWith(link.path);
+            return (
+              <a
+                key={link.path}
+                href={link.path}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(link.path);
+                }}
+                className={`px-2.5 py-1 rounded-md text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors ${
+                  active
+                    ? 'text-cyan-300 bg-cyan-500/10'
+                    : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+        </nav>
 
         {showSearch && (
           <div className="flex-1 flex items-center justify-center min-w-0">

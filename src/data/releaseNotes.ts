@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera,
 } from 'lucide-react';
 
 export type ChangeKind = 'new' | 'improved' | 'fixed' | 'docs';
@@ -48,6 +48,40 @@ export const KIND_META: Record<ChangeKind, { label: string; classes: string; dot
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.5.0',
+    date: 'May 15, 2026',
+    codename: 'Reporter',
+    summary:
+      'New /reporter page. Type a Swiss address and Showroom resolves it via Mapbox geocoding, then generates a standardized "showroom report" — a side-by-side capture of all 8 map-first SwissNovo apps (footprint, geopool, groove, valoo, proom, woom, scoore, soolar) at that exact location, ready for comparison. Reports are driven entirely from the URL, so any report is bookmarkable and shareable.',
+    highlight: true,
+    items: [
+      {
+        kind: 'new',
+        icon: FileBarChart,
+        text: 'New /reporter route — a consolidated comparison grid of all 8 map-first apps captured at one address. Each card carries a status badge and a deep-link into the live app at the resolved ?lat/?lng.',
+        prs: [],
+      },
+      {
+        kind: 'new',
+        icon: MapPin,
+        text: 'Mapbox-geocoded address search (src/lib/geocode.ts) with debounced autocomplete, keyboard navigation, and a clear banner when VITE_MAPBOX_TOKEN is not configured.',
+        prs: [],
+      },
+      {
+        kind: 'new',
+        icon: Camera,
+        text: 'Captures come from a new RES backend endpoint (GET res.zeroo.ch/reporter) that screenshots each app through an authenticated headless browser. Results are cached server-side, so a shared report URL reloads instantly.',
+        prs: [],
+      },
+      {
+        kind: 'improved',
+        icon: LayoutGrid,
+        text: 'Navbar now carries a Gallery / Reporter nav, and in-app navigation is a SPA transition (pushState) instead of a full reload — the auth boot no longer re-runs when switching pages.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.4.4',
     date: 'May 15, 2026',

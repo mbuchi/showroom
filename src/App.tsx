@@ -2,9 +2,12 @@ import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import SignInGate from './components/SignInGate';
 import GalleryView from './components/gallery/GalleryView';
+import ReporterView from './components/reporter/ReporterView';
+import { useRoute } from './lib/router';
 
 function AppShell() {
   const { isAuthenticated, isLoading } = useAuth();
+  const { pathname } = useRoute();
 
   if (isLoading) {
     return (
@@ -19,6 +22,10 @@ function AppShell() {
 
   if (!isAuthenticated) {
     return <SignInGate />;
+  }
+
+  if (pathname === '/reporter') {
+    return <ReporterView />;
   }
 
   return <GalleryView />;
