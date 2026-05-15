@@ -11,6 +11,27 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.5.2',
+    date: 'May 15, 2026',
+    codename: 'Shareable Links',
+    summary:
+      'Bookmarked and shared report links now work on Vercel. Showroom is a single-page app, so opening a deep link like /reporter?lat=…&lng=… directly (or refreshing the page) previously hit a 404 because the host had no SPA fallback. A vercel.json rewrite now routes every in-app path back to the app, making reports genuinely bookmarkable and shareable as advertised.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Bug,
+        text: 'Direct visits and refreshes on /reporter (and any shared /reporter?lat=…&lng=… link) no longer 404 on Vercel — added a vercel.json SPA rewrite to /index.html.',
+        prs: [],
+      },
+      {
+        kind: 'docs',
+        icon: Type,
+        text: 'Added .env.example documenting the required VITE_ZITADEL_* variables and the VITE_MAPBOX_TOKEN that powers the reporter address search.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.5.1',
     date: 'May 15, 2026',
     codename: 'Shared Foundations',
