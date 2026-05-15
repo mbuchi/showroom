@@ -1,53 +1,30 @@
-import type { LucideIcon } from 'lucide-react';
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package,
 } from 'lucide-react';
+import type { ChangeKind, ChangeItem, Release } from '@swissnovo/shared';
 
-export type ChangeKind = 'new' | 'improved' | 'fixed' | 'docs';
-
-export interface ChangeItem {
-  kind: ChangeKind;
-  icon: LucideIcon;
-  text: string;
-  prs: number[];
-}
-
-export interface Release {
-  version: string;
-  date: string;
-  codename: string;
-  summary: string;
-  highlight?: boolean;
-  items: ChangeItem[];
-}
-
-export const KIND_META: Record<ChangeKind, { label: string; classes: string; dot: string }> = {
-  new: {
-    label: 'New',
-    classes: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
-    dot: 'bg-cyan-500',
-  },
-  improved: {
-    label: 'Improved',
-    classes: 'text-amber-400 bg-amber-500/10 border-amber-500/30',
-    dot: 'bg-amber-500',
-  },
-  fixed: {
-    label: 'Fixed',
-    classes: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
-    dot: 'bg-emerald-500',
-  },
-  docs: {
-    label: 'Docs',
-    classes: 'text-sky-400 bg-sky-500/10 border-sky-500/30',
-    dot: 'bg-sky-500',
-  },
-};
+export type { ChangeKind, ChangeItem, Release };
+export { KIND_META } from '@swissnovo/shared';
 
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.5.1',
+    date: 'May 15, 2026',
+    codename: 'Shared Foundations',
+    summary:
+      'The release-notes panel is now provided by the shared @swissnovo/shared package instead of a copy-pasted component — the first step in de-duplicating common code across the SwissNovo suite.',
+    items: [
+      {
+        kind: 'improved',
+        icon: Package,
+        text: 'ReleaseNotesButton and ReleaseNotesPanel now come from the shared @swissnovo/shared package. The UI is unchanged, but changelog bug fixes and improvements now roll out suite-wide from one source instead of being hand-applied per app.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.5.0',
     date: 'May 15, 2026',
