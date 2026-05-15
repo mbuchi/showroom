@@ -49,6 +49,21 @@ export const KIND_META: Record<ChangeKind, { label: string; classes: string; dot
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.4.2',
+    date: 'May 15, 2026',
+    codename: 'Button Lifted',
+    summary:
+      'Release-notes pill is now a self-contained ReleaseNotesButton component. GalleryView.tsx no longer carries the open/unread state, storage handlers, or inlined pill JSX — matches the roots template so the suite stays consistent.',
+    items: [
+      {
+        kind: 'improved',
+        icon: LayoutGrid,
+        text: 'src/components/ReleaseNotesButton.tsx now owns the pill state, localStorage key, hash deep-link, and panel mount. ~70 lines of duplicated wiring removed from GalleryView.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.4.1',
     date: 'May 14, 2026',
     codename: 'Stacking Order',

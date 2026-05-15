@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Sparkles } from 'lucide-react';
 import { useAuth } from '../../auth/AuthContext';
 import { listImages, deleteImage, type SavedImage } from '../../services/imageService';
 import { groupExportsByParcel, sortGroups, sortFlat, matchesQuery, type SortMode } from '../../lib/grouping';
@@ -12,12 +11,9 @@ import ParcelGroup from './ParcelGroup';
 import ExportCard from './ExportCard';
 import ExportLightbox from '../lightbox/ExportLightbox';
 import SavedParcelsPanel from '../parcels/SavedParcelsPanel';
-import ReleaseNotesPanel from '../ReleaseNotesPanel';
-import { CURRENT_VERSION } from '../../data/releaseNotes';
+import ReleaseNotesButton from '../ReleaseNotesButton';
 
 const FILTERS_STORAGE_KEY = 'showroom:filters:v1';
-const RELEASE_NOTES_STORAGE_KEY = 'showroom:lastSeenReleaseVersion';
-const RELEASE_NOTES_HASH = '#release-notes';
 
 interface PersistedFilters {
   viewMode: ViewMode;
@@ -61,9 +57,6 @@ export default function GalleryView() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [parcelsPanelOpen, setParcelsPanelOpen] = useState(false);
 
-  const [showReleaseNotes, setShowReleaseNotes] = useState(false);
-  const [hasUnreadReleaseNotes, setHasUnreadReleaseNotes] = useState(false);
-
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -80,51 +73,6 @@ export default function GalleryView() {
       // ignore quota errors — filters are non-critical
     }
   }, [viewMode, sortMode]);
-
-  // Release notes: mark unread if the user hasn't seen the current version
-  // and support deep-linking via the URL hash (`#release-notes`).
-  useEffect(() => {
-    try {
-      const lastSeen = localStorage.getItem(RELEASE_NOTES_STORAGE_KEY);
-      if (lastSeen !== CURRENT_VERSION) {
-        setHasUnreadReleaseNotes(true);
-      }
-    } catch {
-      /* ignore storage errors (private mode etc.) */
-    }
-
-    if (window.location.hash === RELEASE_NOTES_HASH) {
-      setShowReleaseNotes(true);
-    }
-
-    const onHash = () => {
-      if (window.location.hash === RELEASE_NOTES_HASH) {
-        setShowReleaseNotes(true);
-      }
-    };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
-
-  const handleOpenReleaseNotes = useCallback(() => {
-    setShowReleaseNotes(true);
-    if (window.location.hash !== RELEASE_NOTES_HASH) {
-      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${RELEASE_NOTES_HASH}`);
-    }
-  }, []);
-
-  const handleCloseReleaseNotes = useCallback(() => {
-    setShowReleaseNotes(false);
-    setHasUnreadReleaseNotes(false);
-    try {
-      localStorage.setItem(RELEASE_NOTES_STORAGE_KEY, CURRENT_VERSION);
-    } catch {
-      /* ignore */
-    }
-    if (window.location.hash === RELEASE_NOTES_HASH) {
-      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-    }
-  }, []);
 
   const load = useCallback(async (showRefresh = false) => {
     try {
@@ -274,20 +222,6 @@ export default function GalleryView() {
   const isFiltering =
     appFilters.length > 0 || favoritesOnly || searchValue.trim().length > 0;
 
-  const releaseNotesPill = (
-    <button
-      onClick={handleOpenReleaseNotes}
-      title={`What's new — v${CURRENT_VERSION}`}
-      className="hidden sm:inline-flex items-center gap-1.5 h-7 pl-2 pr-2.5 rounded-full text-[11px] font-semibold border transition-colors border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10"
-    >
-      <Sparkles size={12} className="text-cyan-400" />
-      <span className="font-mono">v{CURRENT_VERSION}</span>
-      {hasUnreadReleaseNotes && (
-        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-      )}
-    </button>
-  );
-
   return (
     <>
       <Navbar
@@ -296,7 +230,7 @@ export default function GalleryView() {
         onSearchChange={setSearchValue}
         onOpenParcels={() => setParcelsPanelOpen(true)}
         exportCount={images.length}
-        rightSlot={releaseNotesPill}
+        rightSlot={<ReleaseNotesButton />}
       />
 
       <main className="mx-auto max-w-[1600px] px-4 sm:px-6 py-6 sm:py-8">
@@ -392,10 +326,6 @@ export default function GalleryView() {
         isOpen={parcelsPanelOpen}
         onClose={() => setParcelsPanelOpen(false)}
       />
-
-      {showReleaseNotes && (
-        <ReleaseNotesPanel onClose={handleCloseReleaseNotes} />
-      )}
     </>
   );
 }
