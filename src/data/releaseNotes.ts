@@ -49,6 +49,21 @@ export const KIND_META: Record<ChangeKind, { label: string; classes: string; dot
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.4.3',
+    date: 'May 15, 2026',
+    codename: 'Avatar Anchored',
+    summary:
+      'Avatar customisation now persists to the shared RES API user profile instead of the failing Zitadel metadata endpoint, so a picked icon survives sign-out and shows up across every SwissNovo app.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Image,
+        text: 'src/lib/avatarStorage.ts now PUTs avatar_icon to https://res.zeroo.ch/res_api/swissnovo_user/profile (users_zitadel.avatar_icon); localStorage fallback retained.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.4.2',
     date: 'May 15, 2026',
     codename: 'Button Lifted',
