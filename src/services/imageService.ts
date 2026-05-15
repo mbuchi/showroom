@@ -1,4 +1,4 @@
-import { userManager } from '../auth/authConfig';
+import { userManager } from '@swissnovo/shared';
 
 const API_BASE = 'https://res.zeroo.ch/image/swissnovo';
 export const APP_SOURCE = 'showroom';

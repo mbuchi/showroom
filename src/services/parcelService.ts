@@ -1,5 +1,5 @@
 import type { Parcel } from '../types/parcel';
-import { userManager } from '../auth/authConfig';
+import { userManager } from '@swissnovo/shared';
 
 const API_BASE = 'https://res.zeroo.ch/res_api/swissnovo_user';
 

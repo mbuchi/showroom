@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Images, Layers, Sparkles, Lock, ArrowRight, ShieldCheck, AlertTriangle, Loader2 } from 'lucide-react';
-import { useAuth } from '../auth/AuthContext';
-import { isAuthConfigured, missingAuthEnvVars } from '../auth/authConfig';
+import { useAuth, isAuthConfigured, missingAuthEnvVars } from '../auth/AuthContext';
 
 export default function SignInGate() {
   const { login, register } = useAuth();
