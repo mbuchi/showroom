@@ -1,6 +1,6 @@
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@swissnovo/shared';
 
@@ -10,6 +10,21 @@ export { KIND_META } from '@swissnovo/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.5.3',
+    date: 'May 15, 2026',
+    codename: 'Top of the Stack',
+    summary:
+      'Reliability fix for the in-app release-notes panel: it now always opens above the navigation bar instead of being clipped behind it, and is easier to dismiss.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Layers,
+        text: "The release-notes panel now always renders above the app's navigation bar and other chrome — on apps with a high z-index header it was previously clipped behind the navbar. Press Esc or click outside the panel to dismiss it; the version pill also toggles it shut.",
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.5.2',
     date: 'May 15, 2026',
