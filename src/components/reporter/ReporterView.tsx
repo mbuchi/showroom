@@ -8,6 +8,7 @@ import ReportCard from './ReportCard';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { generateReport, type ReporterReport } from '../../services/reporterService';
+import { sendAddressSearchSignal } from '../../services/signalService';
 
 interface ReportParams {
   lat: number;
@@ -118,6 +119,11 @@ export default function ReporterView() {
             autoFocus={!params}
             initialValue={params?.address ?? ''}
             onSelect={(r) => {
+              void sendAddressSearchSignal({
+                address: r.label,
+                lat: r.lat,
+                lng: r.lng,
+              });
               const qs = new URLSearchParams({
                 lat: r.lat.toFixed(6),
                 lng: r.lng.toFixed(6),

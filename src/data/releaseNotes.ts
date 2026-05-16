@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.5.6',
+    date: 'May 16, 2026',
+    codename: 'Signal',
+    summary:
+      'Address searches on the Reporter page now emit a lightweight telemetry signal to the shared RES API — the same suite-wide signal every other SwissNovo app sends on address selection.',
+    items: [
+      {
+        kind: 'improved',
+        icon: MapPin,
+        text: 'Selecting an address on /reporter now POSTs an address-search signal to res.zeroo.ch via a new /api/signal-collect Vercel edge-function proxy. Fire-and-forget — signal errors never interrupt the search flow.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.5.5',
     date: 'May 16, 2026',
     codename: 'Shared Auth',
