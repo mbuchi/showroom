@@ -11,7 +11,7 @@ import { userManager } from '@swissnovo/shared';
 
 const REPORTER_BASE = 'https://res.zeroo.ch/reporter';
 const POLL_INTERVAL_MS = 2500;
-const POLL_TIMEOUT_MS = 6 * 60 * 1000; // give up after 6 minutes
+const POLL_TIMEOUT_MS = 10 * 60 * 1000; // give up after 10 min (a cold 8-app capture runs sequentially)
 
 export type CaptureStatus = 'ok' | 'cached' | 'no_map' | 'error';
 
