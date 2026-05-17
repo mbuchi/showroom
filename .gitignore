@@ -24,3 +24,6 @@ dist-ssr
 
 # Local tooling & OS junk
 .claude/
+
+# Superpowers brainstorming companion (local only)
+.superpowers/
