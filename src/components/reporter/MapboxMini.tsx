@@ -66,8 +66,27 @@ export default function MapboxMini({
       map.on('idle', handleIdle);
     });
 
-    return () => map.remove();
+    // Defensive re-measure on the next frame, mirroring LeafletMini — the
+    // container can still be settling inside the aspect-ratio card on first
+    // paint.
+    const raf = requestAnimationFrame(() => map.resize());
+
+    return () => {
+      cancelAnimationFrame(raf);
+      map.remove();
+    };
   }, [lat, lng, zoom, pitch, styleUrl]);
 
-  return <div ref={containerRef} className="absolute inset-0" />;
+  // Two divs on purpose: Mapbox adds the `.mapboxgl-map` class (which forces
+  // `position: relative`) to whatever element it is given. If that element
+  // also carried Tailwind's `absolute inset-0`, Mapbox's rule would override
+  // `position` and `inset-0` would stop sizing it — collapsing the map to
+  // height 0. So the OUTER div owns `absolute inset-0`, and the INNER div —
+  // the actual Mapbox container — is sized by `h-full w-full`, which works
+  // regardless of its `position`.
+  return (
+    <div className="absolute inset-0">
+      <div ref={containerRef} className="h-full w-full" />
+    </div>
+  );
 }

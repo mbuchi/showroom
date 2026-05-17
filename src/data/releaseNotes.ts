@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.6.1',
+    date: 'May 18, 2026',
+    codename: 'Maps Unboxed',
+    summary:
+      'Fixes the Valoo and Roofs report cards rendering as dark, empty boxes. Their Mapbox maps were collapsing to zero height — Mapbox adds a class that forces position:relative onto its container, which cancelled the Tailwind absolute inset-0 that was sizing it. The map container is now wrapped so its sizing no longer depends on position.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Bug,
+        text: 'Valoo and Roofs cards showed a dark box instead of a map (the data and headline stat were correct — only the canvas was blank). The Mapbox container carried both Tailwind\'s `absolute inset-0` and Mapbox\'s own `.mapboxgl-map` class; the latter\'s `position: relative` won the cascade, so `inset-0` no longer sized the element and it collapsed to height 0. MapboxMini now uses an outer positioned wrapper plus an inner `h-full w-full` container, so the map is sized independently of `position`.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.6.0',
     date: 'May 18, 2026',
     codename: 'Live Reporter',
