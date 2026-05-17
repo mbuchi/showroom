@@ -17,6 +17,8 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
   const [showProfile, setShowProfile] = useState(false);
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  // Called unconditionally before the early returns (React #310 / Rules of Hooks).
+  const { avatarUrl } = useAvatar();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -48,7 +50,6 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
   const displayName = fullNameOf(user);
   const email = emailOf(user);
   const initials = initialsOf(user);
-  const { avatarUrl } = useAvatar();
 
   return (
     <>
