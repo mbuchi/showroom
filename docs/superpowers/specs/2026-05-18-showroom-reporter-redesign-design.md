@@ -121,12 +121,17 @@ fix for the old fragility.
   `{ priceM2, heightMax, heightMin, constructionYear, egrid }` for the parcel
   under the pin. A single call feeds the Valoo, Roofs and Roots headline
   stats.
-  - **Fallback:** if GeoServer `GetFeatureInfo` as JSON is not enabled for
-    that layer, fall back to Mapbox `queryRenderedFeatures` after the map's
-    `idle` event (valoo's current method) — done per Mapbox widget. Roots,
-    having no Mapbox map, would then read its year from a WMS `GetFeatureInfo`
-    directly. This fallback must be verified during implementation
-    (see Open verification items).
+  - **Format fallback:** if `INFO_FORMAT=application/json` is rejected,
+    `parcelLookup.ts` requests `GetFeatureInfo` as GML/HTML and parses the
+    attributes out — `GetFeatureInfo` itself is standard GeoServer and is
+    expected to work in some format.
+  - **Last-resort fallback:** if GeoServer `GetFeatureInfo` cannot be made to
+    work at all, the Valoo and Roofs widgets read `priceM2` / `heightMax`
+    from Mapbox `queryRenderedFeatures` after the map's `idle` event (valoo's
+    current method, per Mapbox widget). The Roots widget has no parcel
+    attribute source other than GeoServer, so its construction-year stat
+    would degrade to "no data" in that case. Resolve which path applies
+    during implementation (see Open verification items).
 - **`lib/solarLookup.ts`** — geo.admin `identify` on
   `ch.bfe.solarenergie-eignung-daecher`. Converts WGS84 → Swiss LV95
   (EPSG:2056) for the query, sums `stromertrag` across returned roofs → MWh/yr.
