@@ -11,6 +11,34 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.6.0',
+    date: 'May 18, 2026',
+    codename: 'Live Reporter',
+    summary:
+      'The Reporter is rebuilt. Instead of waiting on a headless browser to screenshot eight apps — slow, and the images often did not work well — /reporter now renders five live, in-browser map widgets recreating the signature view of each app: Valoo valuation, Roofs building height, Roots construction year, Soolar solar potential and Boom noise exposure. Each card loads on its own, so a report appears in seconds with no multi-minute wait.',
+    highlight: true,
+    items: [
+      {
+        kind: 'new',
+        icon: FileBarChart,
+        text: 'The report is now a grid of five live widget cards — Valoo (CHF/m² parcel valuation), Roofs (3D building height), Roots (construction-year map), Soolar (rooftop PV potential) and Boom (road-noise exposure) — each a real mini-map at the searched address, drawn from the same data the apps themselves use.',
+        prs: [],
+      },
+      {
+        kind: 'improved',
+        icon: Zap,
+        text: 'No more headless-browser screenshots and no more polling a background job for up to ten minutes. Each card fetches its own data and renders independently, so a slow or unavailable source degrades just that one card while the rest of the report still appears within seconds.',
+        prs: [],
+      },
+      {
+        kind: 'improved',
+        icon: Layers,
+        text: 'The reporter route is now lazy-loaded — the map libraries (mapbox-gl, leaflet) only download when you open /reporter, keeping the gallery page lean.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.5.7',
     date: 'May 17, 2026',
     codename: 'Stable Login',
