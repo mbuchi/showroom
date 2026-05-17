@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.5.7',
+    date: 'May 17, 2026',
+    codename: 'Stable Login',
+    summary:
+      'Signing in no longer crashes the app — fixed a Rules of Hooks violation in the user menu.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Shield,
+        text: 'Signing in crashed the app with a blank screen (React error #310). The user menu called the useAvatar() hook after its early returns for the loading and signed-out states, so logging in rendered more hooks than the previous render. The hook is now called unconditionally at the top of the component.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.5.6',
     date: 'May 16, 2026',
     codename: 'Signal',
