@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Loader2, MapPin, RefreshCw, AlertTriangle, FileBarChart } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { MapPin, RefreshCw, AlertTriangle, FileBarChart } from 'lucide-react';
 import Navbar from '../Navbar';
 import { ReleaseNotesButton } from '@swissnovo/shared';
 import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import AddressSearch from './AddressSearch';
-import ReportCard from './ReportCard';
+import ReportGrid from './ReportGrid';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
-import { generateReport, type ReporterReport } from '../../services/reporterService';
 import { sendAddressSearchSignal } from '../../services/signalService';
 
 interface ReportParams {
@@ -25,55 +24,16 @@ function parseParams(search: string): ReportParams | null {
   return { lat, lng, address: p.get('q') };
 }
 
-function SkeletonGrid() {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <div key={i} className="surface-raised rounded-xl overflow-hidden">
-          <div className="aspect-[16/10] animate-shimmer" />
-          <div className="px-3.5 py-3">
-            <div className="h-3.5 w-24 rounded animate-shimmer" />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export default function ReporterView() {
   const { search } = useRoute();
   const params = parseParams(search);
 
-  const [report, setReport] = useState<ReporterReport | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Bumped by "Regenerate" — remounts the widget grid for a fresh capture.
+  const [regenKey, setRegenKey] = useState(0);
 
-  const runReport = useCallback((p: ReportParams, refresh: boolean) => {
-    const controller = new AbortController();
-    setLoading(true);
-    setError(null);
-    generateReport({ lat: p.lat, lng: p.lng, address: p.address, refresh, signal: controller.signal })
-      .then((result) => {
-        if (!controller.signal.aborted) setReport(result);
-      })
-      .catch((err) => {
-        if (controller.signal.aborted) return;
-        setError(err instanceof Error ? err.message : 'Failed to generate report');
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
-      });
-    return () => controller.abort();
-  }, []);
-
+  // Reset the regen counter whenever a new location is searched.
   useEffect(() => {
-    if (!params) {
-      setReport(null);
-      return;
-    }
-    setReport(null);
-    return runReport(params, false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setRegenKey(0);
   }, [params?.lat, params?.lng]);
 
   return (
@@ -98,9 +58,10 @@ export default function ReporterView() {
             <h1 className="text-sm uppercase tracking-[0.18em] font-bold">Reporter</h1>
           </div>
           <p className="text-sm text-gray-400 max-w-2xl">
-            Enter an address to generate a standardized showroom report — a
-            side-by-side capture of every map-first SwissNovo app at that
-            location.
+            Enter an address to generate a standardized showroom report — live
+            map widgets recreating five SwissNovo apps at that location:
+            valuation, building height, construction year, solar potential and
+            noise exposure.
           </p>
         </div>
 
@@ -146,48 +107,23 @@ export default function ReporterView() {
                 </div>
                 <p className="mt-0.5 text-xs text-gray-500 font-mono">
                   {params.lat.toFixed(6)}, {params.lng.toFixed(6)}
-                  {report && (
-                    <span className="ml-2 text-gray-600">
-                      · generated {new Date(report.generatedAt).toLocaleString()}
-                    </span>
-                  )}
                 </p>
               </div>
               <button
                 type="button"
-                disabled={loading}
-                onClick={() => runReport(params, true)}
-                className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                onClick={() => setRegenKey((k) => k + 1)}
+                className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
               >
-                <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
+                <RefreshCw size={13} />
                 Regenerate
               </button>
             </div>
 
-            {error && (
-              <div className="mb-6 flex items-start gap-2.5 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                <AlertTriangle size={16} className="mt-0.5 flex-shrink-0" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            {loading && !report && (
-              <>
-                <p className="mb-4 flex items-center gap-2 text-xs text-gray-500">
-                  <Loader2 size={13} className="animate-spin text-cyan-400" />
-                  Capturing 8 apps — first run can take up to a minute…
-                </p>
-                <SkeletonGrid />
-              </>
-            )}
-
-            {report && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {report.captures.map((capture) => (
-                  <ReportCard key={capture.id} capture={capture} />
-                ))}
-              </div>
-            )}
+            <ReportGrid
+              key={`${params.lat},${params.lng},${regenKey}`}
+              lat={params.lat}
+              lng={params.lng}
+            />
           </>
         )}
 
