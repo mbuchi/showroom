@@ -11,7 +11,7 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
-    version: '0.7.0',
+    version: '0.8.0',
     date: 'May 18, 2026',
     codename: 'Headline Stats',
     summary:
@@ -28,6 +28,27 @@ export const RELEASES: Release[] = [
         kind: 'new',
         icon: MapPin,
         text: 'A new parcel-info strip sits below the report grid — a row of chips with the searched parcel’s address, EGRID, building size (m²) and volume (m³), number of flats, zoning and coordinates. The data comes from the RES API’s parcel_data endpoint via a new /api/parcel-data Vercel edge function; if the lookup is unavailable the strip degrades quietly and the cards are unaffected.',
+        prs: [],
+      },
+    ],
+  },
+  {
+    version: '0.7.0',
+    date: 'May 18, 2026',
+    codename: 'One Front Door',
+    summary:
+      'The sign-in screen is now the suite-standard login modal from @swissnovo/shared — the same branded popup every Swissnovo app will use. Showroom no longer ships its own SignInGate; the shared component keeps the SWISSNOVO wordmark and the gallery feature list, and the rest of the suite picks up an identical sign-in experience.',
+    items: [
+      {
+        kind: 'improved',
+        icon: KeyRound,
+        text: 'Showroom’s bespoke SignInGate is replaced by the shared LoginModal. Because showroom is private to your account, it stays a hard gate — the modal is shown, non-dismissible, until you sign in — but the markup, branding and buttons are now the single suite-wide component instead of a one-off.',
+        prs: [],
+      },
+      {
+        kind: 'improved',
+        icon: Package,
+        text: 'Upgraded @swissnovo/shared to v0.10.0, which adds the standard LoginModal plus requireAuth()/promptLogin() helpers so any app can gate a feature behind the same sign-in popup.',
         prs: [],
       },
     ],

@@ -1,19 +1,26 @@
 import type { ReactNode } from 'react';
 import { AuthProvider as SharedAuthProvider, useAuth as useSharedAuth } from '@swissnovo/shared';
 
-// OIDC auth (provider, hook, userManager) now comes from @swissnovo/shared.
-// This file is a thin wrapper that re-exposes the shared auth state under
-// showroom's original public shape, so existing useAuth() callers — and the
-// SignInGate's config-banner — keep working without changes.
-
-// The shared OIDC client carries the suite's Zitadel config baked in, so
-// there are no per-deploy auth env vars to validate any more. These two
-// exports keep SignInGate's config-banner code path inert.
-export const missingAuthEnvVars: string[] = [];
-export const isAuthConfigured = true;
+// OIDC auth (provider, hook, userManager) and the login UI now come from
+// @swissnovo/shared. This file is a thin wrapper that re-exposes the shared
+// auth state under showroom's original public shape, so existing useAuth()
+// callers keep working without changes.
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  return <SharedAuthProvider>{children}</SharedAuthProvider>;
+  return (
+    <SharedAuthProvider
+      appName="showroom"
+      loginBlocking
+      loginDescription="A private gallery for your parcel exports — screenshots, reports, and rendered outputs from across the Swissnovo toolbox."
+      loginFeatures={[
+        { label: 'Smart parcel grouping' },
+        { label: 'Polished gallery & lightbox' },
+        { label: 'Private to your account' },
+      ]}
+    >
+      {children}
+    </SharedAuthProvider>
+  );
 }
 
 /**
