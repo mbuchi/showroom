@@ -84,6 +84,7 @@ export default function ValooWidget({ lat, lng }: { lat: number; lng: number }) 
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
+      metricLabel="Market value"
       stat={priceM2 != null ? `CHF ${priceM2.toLocaleString('de-CH')} /m²` : undefined}
       onRetry={retry}
     >

@@ -90,6 +90,7 @@ export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) 
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
+      metricLabel="Building height"
       stat={heightMax != null ? `${heightMax.toFixed(1)} m` : undefined}
       onRetry={retry}
     >

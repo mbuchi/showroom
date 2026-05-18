@@ -11,6 +11,28 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.0',
+    date: 'May 18, 2026',
+    codename: 'Headline Stats',
+    summary:
+      'The Reporter cards now lead with their number. Each widget’s headline value — valuation, building height, construction year, solar yield, road noise — is rendered large and high-contrast over the foot of its map, under a label naming what it measures, with the status badge moved to the top corner. Below the card grid, a new parcel strip shows the general facts of the searched parcel — address, EGRID, building size and volume, number of flats, zone and coordinates — pulled live from the RES API.',
+    highlight: true,
+    items: [
+      {
+        kind: 'improved',
+        icon: Type,
+        text: 'Each reporter card’s headline value is now large, bold and colour-coded over a gradient scrim at the foot of its map, with an uppercase metric label (“Market value”, “Building height”, “Construction year”, “Solar potential”, “Road noise”) above it. The Live / No data / Failed status badge moved to a top-right map overlay, and the card footer is simplified to the app name and a deep-link.',
+        prs: [],
+      },
+      {
+        kind: 'new',
+        icon: MapPin,
+        text: 'A new parcel-info strip sits below the report grid — a row of chips with the searched parcel’s address, EGRID, building size (m²) and volume (m³), number of flats, zoning and coordinates. The data comes from the RES API’s parcel_data endpoint via a new /api/parcel-data Vercel edge function; if the lookup is unavailable the strip degrades quietly and the cards are unaffected.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.7.0',
     date: 'May 18, 2026',
     codename: 'One Front Door',

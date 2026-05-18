@@ -44,6 +44,7 @@ export default function SoolarWidget({ lat, lng }: { lat: number; lng: number })
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
+      metricLabel="Solar potential"
       stat={yieldKWh != null ? formatKWh(yieldKWh) : undefined}
       error="Solar data unavailable"
       onRetry={retry}

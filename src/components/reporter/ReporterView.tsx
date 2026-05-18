@@ -5,6 +5,7 @@ import { ReleaseNotesButton } from '@swissnovo/shared';
 import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';
+import ParcelInfoStrip from './ParcelInfoStrip';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { sendAddressSearchSignal } from '../../services/signalService';
@@ -124,6 +125,8 @@ export default function ReporterView() {
               lat={params.lat}
               lng={params.lng}
             />
+
+            <ParcelInfoStrip lat={params.lat} lng={params.lng} />
           </>
         )}
 
