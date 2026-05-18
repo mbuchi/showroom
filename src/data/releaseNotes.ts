@@ -11,6 +11,27 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.5',
+    date: 'May 19, 2026',
+    codename: 'Holding Shape',
+    summary:
+      'Two Reporter polish fixes. Opening a /reporter link now shows a skeleton of the page — a faux navbar and five card placeholders — while the map bundle loads, instead of a centred spinner. And every card’s headline value now renders in the same cyan with a soft dark halo, so it stays legible over any basemap.',
+    items: [
+      {
+        kind: 'improved',
+        icon: LayoutGrid,
+        text: 'Opening the Reporter (or a shared /reporter link) now shows a skeleton of the page layout — a faux navbar and five shimmer card placeholders — while the lazy map bundle downloads, instead of a centred loading spinner.',
+        prs: [],
+      },
+      {
+        kind: 'fixed',
+        icon: Eye,
+        text: 'The card headline value is now a single consistent cyan with a soft dark text halo, so it stays readable over any basemap colour. The Boom road-noise value previously took the noise-band colour (a green) and washed out against the noise overlay.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.4',
     date: 'May 19, 2026',
     codename: 'In Plain Sight',

@@ -27,8 +27,6 @@ interface WidgetCardProps {
   metricLabel?: string;
   /** Headline value, e.g. "CHF 8'450 /m²". */
   stat?: ReactNode;
-  /** Optional accent colour for the stat text (e.g. a noise-band hex). */
-  statColor?: string;
   error?: string;
   onRetry?: () => void;
   /** The map — MapboxMini / LeafletMini. */
@@ -42,7 +40,6 @@ export default function WidgetCard({
   status,
   metricLabel,
   stat,
-  statColor,
   error,
   onRetry,
   children,
@@ -92,16 +89,13 @@ export default function WidgetCard({
 
         {/* Headline value — large, over a gradient scrim. Only when live. */}
         {status === 'ok' && stat != null && (
-          <div className="absolute inset-x-0 bottom-0 z-10 pointer-events-none bg-gradient-to-t from-ink-900/95 via-ink-900/60 to-transparent px-3.5 pt-10 pb-3">
+          <div className="reporter-card-stat absolute inset-x-0 bottom-0 z-10 pointer-events-none bg-gradient-to-t from-ink-900/95 via-ink-900/60 to-transparent px-3.5 pt-10 pb-3">
             {metricLabel && (
               <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-300">
                 {metricLabel}
               </p>
             )}
-            <p
-              className="text-2xl sm:text-3xl font-bold tabular-nums leading-none mt-0.5"
-              style={{ color: statColor ?? '#22d3ee' }}
-            >
+            <p className="text-2xl sm:text-3xl font-bold tabular-nums leading-none mt-0.5 text-cyan-400">
               {stat}
             </p>
           </div>
