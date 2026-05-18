@@ -8,11 +8,14 @@ import { ExternalLink, AlertTriangle, MapPinned, RefreshCw } from 'lucide-react'
 
 export type WidgetStatus = 'loading' | 'ok' | 'no_data' | 'error';
 
-const STATUS_META: Record<WidgetStatus, { label: string; classes: string }> = {
-  ok:      { label: 'Live',    classes: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' },
-  loading: { label: 'Loading', classes: 'text-gray-400 bg-white/5 border-white/10' },
-  no_data: { label: 'No data', classes: 'text-amber-300 bg-amber-500/10 border-amber-500/30' },
-  error:   { label: 'Failed',  classes: 'text-red-300 bg-red-500/10 border-red-500/30' },
+// The badge sits over arbitrary basemap imagery (light, dark, colourful), so
+// it carries an opaque dark backing rather than a translucent tint — only the
+// status dot and label text carry the per-status colour.
+const STATUS_META: Record<WidgetStatus, { label: string; text: string; dot: string }> = {
+  ok:      { label: 'Live',    text: 'text-emerald-300', dot: 'bg-emerald-400' },
+  loading: { label: 'Loading', text: 'text-gray-300',    dot: 'bg-gray-400' },
+  no_data: { label: 'No data', text: 'text-amber-300',   dot: 'bg-amber-400' },
+  error:   { label: 'Failed',  text: 'text-red-300',     dot: 'bg-red-400' },
 };
 
 interface WidgetCardProps {
@@ -52,10 +55,9 @@ export default function WidgetCard({
         {children}
 
         {/* Status badge — top-right, every status. */}
-        <span
-          className={`absolute top-2 right-2 z-10 px-1.5 py-0.5 rounded text-[10px] font-semibold border ${meta.classes}`}
-        >
-          {meta.label}
+        <span className="absolute top-2 right-2 z-20 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-900/85 px-2 py-1 text-[10px] font-semibold text-gray-200 backdrop-blur-sm">
+          <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
+          <span className={meta.text}>{meta.label}</span>
         </span>
 
         {status === 'loading' && (
@@ -90,7 +92,7 @@ export default function WidgetCard({
 
         {/* Headline value — large, over a gradient scrim. Only when live. */}
         {status === 'ok' && stat != null && (
-          <div className="absolute inset-x-0 bottom-0 pointer-events-none bg-gradient-to-t from-ink-900/95 via-ink-900/60 to-transparent px-3.5 pt-10 pb-3">
+          <div className="absolute inset-x-0 bottom-0 z-10 pointer-events-none bg-gradient-to-t from-ink-900/95 via-ink-900/60 to-transparent px-3.5 pt-10 pb-3">
             {metricLabel && (
               <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-300">
                 {metricLabel}

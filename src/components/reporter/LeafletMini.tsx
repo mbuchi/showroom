@@ -57,5 +57,9 @@ export default function LeafletMini({ lat, lng, zoom = 18, onReady }: LeafletMin
     };
   }, [lat, lng, zoom]);
 
-  return <div ref={containerRef} className="absolute inset-0" />;
+  // `isolate` gives the map its own stacking context: Leaflet panes carry
+  // z-index up to ~1000, and without isolation that range leaks into the
+  // WidgetCard's stacking context and paints over the status badge and the
+  // headline-value overlay.
+  return <div ref={containerRef} className="absolute inset-0 isolate" />;
 }
