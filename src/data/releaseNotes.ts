@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.1',
+    date: 'May 19, 2026',
+    codename: 'Shimmering Strip',
+    summary:
+      'The parcel-info strip in the Reporter now shows shimmer chip skeletons while it fetches, matching the shape of the real chips, instead of a plain "Loading parcel details…" text line.',
+    items: [
+      {
+        kind: 'improved',
+        icon: Layers,
+        text: 'ParcelInfoStrip loading state replaced with six staggered animate-shimmer chip skeletons (h-7, rounded-lg, varying widths) that mirror the final chip row, eliminating the last plain-text loading message in the reporter view.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.0',
     date: 'May 18, 2026',
     codename: 'Headline Stats',
