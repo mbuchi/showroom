@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.3',
+    date: 'May 19, 2026',
+    codename: 'Easy Pulse',
+    summary:
+      'The skeleton-loader shimmer animation is now calmer — slowed from 1.6 s to 2.5 s so loading states feel less frantic.',
+    items: [
+      {
+        kind: 'improved',
+        icon: Layers,
+        text: 'Slowed the skeleton-loader shimmer to a calmer pace.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.2',
     date: 'May 19, 2026',
     codename: 'Members Only',
