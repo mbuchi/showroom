@@ -11,6 +11,27 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.7.0',
+    date: 'May 18, 2026',
+    codename: 'One Front Door',
+    summary:
+      'The sign-in screen is now the suite-standard login modal from @swissnovo/shared — the same branded popup every Swissnovo app will use. Showroom no longer ships its own SignInGate; the shared component keeps the SWISSNOVO wordmark and the gallery feature list, and the rest of the suite picks up an identical sign-in experience.',
+    items: [
+      {
+        kind: 'changed',
+        icon: KeyRound,
+        text: 'Showroom’s bespoke SignInGate is replaced by the shared LoginModal. Because showroom is private to your account, it stays a hard gate — the modal is shown, non-dismissible, until you sign in — but the markup, branding and buttons are now the single suite-wide component instead of a one-off.',
+        prs: [],
+      },
+      {
+        kind: 'improved',
+        icon: Package,
+        text: 'Upgraded @swissnovo/shared to v0.10.0, which adds the standard LoginModal plus requireAuth()/promptLogin() helpers so any app can gate a feature behind the same sign-in popup.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.6.2',
     date: 'May 18, 2026',
     codename: 'Brand First',
