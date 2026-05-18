@@ -47,8 +47,14 @@ export default function ParcelInfoStrip({ lat, lng }: ParcelInfoStripProps) {
 
   if (state.kind === 'loading') {
     return (
-      <div className="surface rounded-xl px-4 py-3 mt-6 text-xs text-gray-500">
-        Loading parcel details…
+      <div className="surface rounded-xl px-4 py-3 mt-6 flex flex-wrap items-center gap-2">
+        {[72, 88, 64, 80, 56, 76].map((w, i) => (
+          <div
+            key={i}
+            className="h-7 rounded-lg bg-ink-700 animate-shimmer"
+            style={{ width: `${w}px`, animationDelay: `${i * 60}ms` }}
+          />
+        ))}
       </div>
     );
   }
