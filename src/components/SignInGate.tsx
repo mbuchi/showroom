@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Images, Layers, Sparkles, Lock, ArrowRight, ShieldCheck, AlertTriangle, Loader2 } from 'lucide-react';
+import { Layers, Sparkles, Lock, ArrowRight, ShieldCheck, AlertTriangle, Loader2 } from 'lucide-react';
 import { useAuth, isAuthConfigured, missingAuthEnvVars } from '../auth/AuthContext';
 
 export default function SignInGate() {
@@ -37,9 +37,16 @@ export default function SignInGate() {
 
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 via-sky-500 to-indigo-500 shadow-glow-cyan mb-5">
-            <Images size={26} className="text-white" />
-          </div>
+          <p
+            className="font-varela text-3xl sm:text-4xl font-normal leading-none select-none mb-5"
+            style={{ fontFamily: "'Varela Round', sans-serif" }}
+            aria-label="SWISSNOVO"
+          >
+            <span className="text-gray-900 dark:text-white">SWISSN</span>
+            <span className="text-red-600">O</span>
+            <span className="text-gray-900 dark:text-white">V</span>
+            <span className="text-red-600">O</span>
+          </p>
           <h1 className="text-3xl font-bold tracking-tight text-gray-100">
             Welcome to{' '}
             <span className="text-4xl font-normal font-varela align-baseline">
