@@ -84,8 +84,11 @@ export default function MapboxMini({
   // height 0. So the OUTER div owns `absolute inset-0`, and the INNER div —
   // the actual Mapbox container — is sized by `h-full w-full`, which works
   // regardless of its `position`.
+  // `isolate` keeps Mapbox's own controls in their own stacking context;
+  // `reporter-mini-map` is the hook for the CSS that lifts the required
+  // Mapbox logo out of the headline-value scrim (see index.css).
   return (
-    <div className="absolute inset-0">
+    <div className="reporter-mini-map absolute inset-0 isolate">
       <div ref={containerRef} className="h-full w-full" />
     </div>
   );

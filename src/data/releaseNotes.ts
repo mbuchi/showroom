@@ -11,6 +11,34 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.4',
+    date: 'May 19, 2026',
+    codename: 'In Plain Sight',
+    summary:
+      'Fixes the three Reporter cards built on Leaflet — Roots, Soolar and Boom — which showed neither their headline value nor a status badge. Leaflet stacks its map panes at a z-index that leaked past the card chrome and painted over them; the map now sits in its own isolated layer, so the value and badge render on top as intended. The status badge is also restyled for legibility, and the Mapbox logo no longer collides with the value.',
+    highlight: true,
+    items: [
+      {
+        kind: 'fixed',
+        icon: Bug,
+        text: 'The Roots, Soolar and Boom cards now show their headline value (construction year, solar potential, road-noise band) and status badge. Their Leaflet maps render internal panes at a z-index of up to ~1000; because the map container was not an isolated stacking context, that range painted over the card’s value overlay and badge. The Leaflet and Mapbox map containers now use `isolation: isolate`, keeping the map a self-contained layer beneath the card chrome.',
+        prs: [],
+      },
+      {
+        kind: 'improved',
+        icon: Eye,
+        text: 'The Live / Loading / No data / Failed status badge is now an opaque dark pill with a coloured status dot, instead of a translucent tint that washed out over light or busy basemaps.',
+        prs: [],
+      },
+      {
+        kind: 'fixed',
+        icon: ImageIcon,
+        text: 'On the Mapbox cards (Valoo, Roofs) the required Mapbox logo no longer sits underneath the headline value — the logo and attribution move to the top-left corner, clear of the value overlay.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.3',
     date: 'May 19, 2026',
     codename: 'Easy Pulse',

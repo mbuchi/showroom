@@ -135,6 +135,17 @@ body {
   height: 1px;
 }
 
+/* ——— Reporter mini-maps ——— */
+
+/* Mapbox renders its required logo + attribution in the bottom-left corner,
+   exactly where the reporter card's headline-value scrim sits. Lift the
+   control stack to the top-left, clear of both the value overlay and the
+   top-right status badge, so the attribution stays visible. */
+.reporter-mini-map .mapboxgl-ctrl-bottom-left {
+  top: 0;
+  bottom: auto;
+}
+
 /* ——— Scrollbars ——— */
 
 .thin-scrollbar::-webkit-scrollbar {
