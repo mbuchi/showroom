@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './auth/AuthContext';
-import SignInGate from './components/SignInGate';
 import GalleryView from './components/gallery/GalleryView';
 import { useRoute } from './lib/router';
 
@@ -28,8 +27,10 @@ function AppShell() {
     return <RouteSpinner />;
   }
 
+  // Anonymous visitors get the suite-standard blocking login modal, rendered
+  // by the shared AuthProvider; the app sits behind a plain backdrop.
   if (!isAuthenticated) {
-    return <SignInGate />;
+    return <div className="min-h-screen bg-gray-50 dark:bg-gray-950" />;
   }
 
   if (pathname === '/reporter') {
