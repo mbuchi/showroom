@@ -146,6 +146,15 @@ body {
   bottom: auto;
 }
 
+/* The headline value + metric label sit over live map imagery. A soft dark
+   halo (inherited by both) keeps them legible whatever colour the basemap
+   is beneath the scrim. */
+.reporter-card-stat {
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.9),
+    0 0 2px rgba(0, 0, 0, 0.75);
+}
+
 /* ——— Scrollbars ——— */
 
 .thin-scrollbar::-webkit-scrollbar {

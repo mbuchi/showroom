@@ -53,7 +53,6 @@ export default function BoomWidget({ lat, lng }: { lat: number; lng: number }) {
       status={status}
       metricLabel="Road noise"
       stat={stat}
-      statColor={band?.hex ?? (quiet ? '#34d399' : undefined)}
       error="Noise data unavailable"
       onRetry={retry}
     >

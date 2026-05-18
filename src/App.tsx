@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import GalleryView from './components/gallery/GalleryView';
+import ReporterSkeleton from './components/reporter/ReporterSkeleton';
 import { useRoute } from './lib/router';
 
 // The reporter pulls in mapbox-gl + leaflet — lazy-loaded so the gallery page
@@ -22,9 +23,12 @@ function RouteSpinner() {
 function AppShell() {
   const { isAuthenticated, isLoading } = useAuth();
   const { pathname } = useRoute();
+  const isReporter = pathname === '/reporter';
 
   if (isLoading) {
-    return <RouteSpinner />;
+    // On the reporter route, show its skeleton straight away so a shared
+    // /reporter link lands on the page's shape instead of a spinner.
+    return isReporter ? <ReporterSkeleton /> : <RouteSpinner />;
   }
 
   // Anonymous visitors get the suite-standard blocking login modal, rendered
@@ -33,9 +37,9 @@ function AppShell() {
     return <div className="min-h-screen bg-gray-50 dark:bg-gray-950" />;
   }
 
-  if (pathname === '/reporter') {
+  if (isReporter) {
     return (
-      <Suspense fallback={<RouteSpinner />}>
+      <Suspense fallback={<ReporterSkeleton />}>
         <ReporterView />
       </Suspense>
     );
