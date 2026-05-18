@@ -11,12 +11,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <SharedAuthProvider
       appName="showroom"
       loginBlocking
-      loginDescription="A private gallery for your parcel exports — screenshots, reports, and rendered outputs from across the Swissnovo toolbox."
-      loginFeatures={[
-        { label: 'Smart parcel grouping' },
-        { label: 'Polished gallery & lightbox' },
-        { label: 'Private to your account' },
-      ]}
+      loginDescription="Members only. Showroom is a private gallery for your parcel exports — screenshots, reports and rendered outputs from across the Swissnovo toolbox. Sign in with your Swissnovo account to see yours."
     >
       {children}
     </SharedAuthProvider>

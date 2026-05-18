@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.2',
+    date: 'May 19, 2026',
+    codename: 'Members Only',
+    summary:
+      'A cleaner sign-in screen. The login card drops the redundant "Sign in to" line, spells out that Showroom is members-only, and removes the feature chips that did not add much.',
+    items: [
+      {
+        kind: 'improved',
+        icon: KeyRound,
+        text: 'The login card heading is now just the "showroom" wordmark under SWISSNOVO — the "Sign in to" prefix was redundant next to the Create-account / Sign-in buttons. The description now states up front that Showroom is members-only, and the three feature chips ("Smart parcel grouping" etc.) are removed for a tighter, less busy card.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.1',
     date: 'May 19, 2026',
     codename: 'Shimmering Strip',
