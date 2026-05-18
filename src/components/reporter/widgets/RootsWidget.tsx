@@ -49,7 +49,8 @@ export default function RootsWidget({ lat, lng }: { lat: number; lng: number }) 
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
-      stat={year != null ? `built ${year}` : undefined}
+      metricLabel="Construction year"
+      stat={year != null ? String(year) : undefined}
       onRetry={retry}
     >
       <LeafletMini key={reloadKey} lat={lat} lng={lng} zoom={18} onReady={addWms} />

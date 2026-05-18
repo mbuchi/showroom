@@ -51,6 +51,7 @@ export default function BoomWidget({ lat, lng }: { lat: number; lng: number }) {
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
+      metricLabel="Road noise"
       stat={stat}
       statColor={band?.hex ?? (quiet ? '#34d399' : undefined)}
       error="Noise data unavailable"
