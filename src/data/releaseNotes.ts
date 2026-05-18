@@ -18,7 +18,7 @@ export const RELEASES: Release[] = [
       'The sign-in screen is now the suite-standard login modal from @swissnovo/shared — the same branded popup every Swissnovo app will use. Showroom no longer ships its own SignInGate; the shared component keeps the SWISSNOVO wordmark and the gallery feature list, and the rest of the suite picks up an identical sign-in experience.',
     items: [
       {
-        kind: 'changed',
+        kind: 'improved',
         icon: KeyRound,
         text: 'Showroom’s bespoke SignInGate is replaced by the shared LoginModal. Because showroom is private to your account, it stays a hard gate — the modal is shown, non-dismissible, until you sign in — but the markup, branding and buttons are now the single suite-wide component instead of a one-off.',
         prs: [],
