@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.6.2',
+    date: 'May 18, 2026',
+    codename: 'Brand First',
+    summary:
+      'The sign-in page leads with the brand. The blue gradient icon tile above the headline is replaced by the SWISSNOVO wordmark, set in the suite Varela Round face with the two O’s in signature red — the same treatment as the toolbox home page.',
+    items: [
+      {
+        kind: 'improved',
+        icon: Type,
+        text: 'The sign-in gate no longer shows a generic blue gallery-icon tile. In its place sits the SWISSNOVO wordmark in Varela Round with red O’s, matching the toolbox app and tying the login screen to the rest of the suite branding.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.6.1',
     date: 'May 18, 2026',
     codename: 'Maps Unboxed',
