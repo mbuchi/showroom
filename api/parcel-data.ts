@@ -73,6 +73,8 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
+    // `structure: "default"` selects the RES API's flat (non-tree) response
+    // shape — sent explicitly to match the sibling doorway-parcel proxy.
     const upstream = await fetch(PARCEL_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json", token },
