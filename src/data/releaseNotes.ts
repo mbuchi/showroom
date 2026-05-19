@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.8',
+    date: 'May 19, 2026',
+    codename: 'Centred Profile',
+    summary:
+      'Upgraded to @swissnovo/shared v0.13.1, which fixes the shared ProfileModal and LoginModal so they render via a React portal — no longer clipped by the app navbar.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text: 'The View profile panel no longer gets clipped at the top — it now always centres on screen.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.7',
     date: 'May 19, 2026',
     codename: 'One Profile',

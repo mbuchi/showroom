@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
-    "@swissnovo/shared": "github:mbuchi/swissnovo-shared#v0.13.0",
+    "@swissnovo/shared": "github:mbuchi/swissnovo-shared#v0.13.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.344.0",
     "mapbox-gl": "^3.24.0",
