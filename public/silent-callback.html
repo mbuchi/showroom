@@ -5,10 +5,16 @@
     <title>Silent SSO</title>
   </head>
   <body>
-    <script type="module">
-      import { UserManager } from 'https://esm.sh/oidc-client-ts@3.5.0';
+    <script>
+      // Relay the OIDC response URL to the parent window so signinSilent()
+      // can complete. Mirrors oidc-client-ts IFrameWindow._notifyParent — no
+      // library import needed. Importing oidc-client-ts from a CDN here stalled
+      // the silent auth check until its 10s timeout fired.
       try {
-        await new UserManager({ response_mode: 'query' }).signinSilentCallback();
+        window.parent.postMessage(
+          { source: 'oidc-client', url: window.location.href, keepOpen: false },
+          window.location.origin
+        );
       } catch (err) {
         console.warn('silent callback error', err);
       }
