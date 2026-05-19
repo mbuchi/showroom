@@ -1,11 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { LogOut, ChevronDown, CircleUser as UserCircle, Bookmark, Image as ImageIcon, Smile } from 'lucide-react';
+import { LogOut, ChevronDown, CircleUser as UserCircle, Bookmark, Image as ImageIcon } from 'lucide-react';
+import {
+  Skeleton,
+  Avatar,
+  ProfileModal,
+  useUserProfile,
+  firstNameOf,
+  fullNameOf,
+  emailOf,
+  initialsOf,
+} from '@swissnovo/shared';
 import { useAuth } from '../auth/AuthContext';
-import { firstNameOf, fullNameOf, emailOf, initialsOf } from '../lib/profile';
-import { useAvatar } from '../lib/useAvatar';
-import { Avatar } from './Avatar';
-import { AvatarPicker } from './AvatarPicker';
-import { Skeleton } from '@swissnovo/shared';
 
 interface UserMenuProps {
   onOpenParcels?: () => void;
@@ -16,10 +21,8 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
   const { user, isAuthenticated, isLoading, login, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  // Called unconditionally before the early returns (React #310 / Rules of Hooks).
-  const { avatarUrl } = useAvatar();
+  const { avatarUrl } = useUserProfile(user);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -60,7 +63,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
           className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full transition-all hover:ring-2 hover:ring-cyan-500/40 focus-ring"
           aria-label="Open user menu"
         >
-          <Avatar url={avatarUrl} initials={initials} size={28} isDarkMode={true} />
+          <Avatar url={avatarUrl} initials={initials} size={28} />
           <span className="text-sm font-medium hidden sm:block max-w-[100px] truncate text-gray-200">
             {firstName}
           </span>
@@ -74,7 +77,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
           <div className="absolute right-0 top-full mt-2 w-72 surface-raised rounded-xl shadow-2xl overflow-hidden z-50 animate-in">
             <div className="px-4 py-4 border-b border-white/5">
               <div className="flex items-center gap-3">
-                <Avatar url={avatarUrl} initials={initials} size={40} isDarkMode={true} />
+                <Avatar url={avatarUrl} initials={initials} size={40} />
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold text-gray-100 truncate">{displayName || firstName || 'User'}</p>
                   {email && <p className="text-xs text-gray-400 truncate">{email}</p>}
@@ -108,13 +111,6 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
                 </button>
               )}
               <button
-                onClick={() => { setIsOpen(false); setShowAvatarPicker(true); }}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
-              >
-                <Smile size={16} />
-                <span>Change avatar</span>
-              </button>
-              <button
                 onClick={() => { setIsOpen(false); setShowProfile(true); }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
               >
@@ -133,60 +129,9 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
         )}
       </div>
 
-      {showProfile && (
-        <ProfileModal
-          displayName={displayName || firstName}
-          email={email}
-          avatarUrl={avatarUrl}
-          initials={initials}
-          onClose={() => setShowProfile(false)}
-        />
-      )}
-
-      {showAvatarPicker && (
-        <AvatarPicker isDarkMode={true} onClose={() => setShowAvatarPicker(false)} />
+      {showProfile && user && (
+        <ProfileModal user={user} onClose={() => setShowProfile(false)} />
       )}
     </>
-  );
-}
-
-function ProfileModal({
-  displayName, email, avatarUrl, initials, onClose,
-}: {
-  displayName: string; email: string; avatarUrl: string | null; initials: string; onClose: () => void;
-}) {
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', handleEsc);
-    return () => document.removeEventListener('keydown', handleEsc);
-  }, [onClose]);
-
-  return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={onClose} />
-      <div className="relative surface-raised rounded-2xl shadow-2xl w-full max-w-sm mx-4 overflow-hidden animate-scale-in">
-        <div className="h-24 bg-gradient-to-br from-cyan-500 via-sky-500 to-indigo-500" />
-        <div className="px-6 pb-6">
-          <div className="-mt-12 flex flex-col items-center">
-            <Avatar url={avatarUrl} initials={initials} size={96} isDarkMode={true} className="border-4 border-ink-850 shadow-lg" />
-            <h2 className="mt-4 text-lg font-semibold text-gray-100">{displayName || 'User'}</h2>
-            {email && <p className="mt-1 text-sm text-gray-400">{email}</p>}
-            <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="text-xs font-medium text-emerald-300">Active session</span>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="mt-6 w-full py-2.5 text-sm font-medium text-gray-200 bg-ink-700 hover:bg-ink-600 rounded-lg transition-colors"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }

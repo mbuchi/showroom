@@ -1,6 +1,6 @@
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@swissnovo/shared';
 
@@ -10,6 +10,21 @@ export { KIND_META } from '@swissnovo/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.8.7',
+    date: 'May 19, 2026',
+    codename: 'One Profile',
+    summary:
+      '"View profile" is now the suite-standard experience from @swissnovo/shared v0.13.0 — the same identity card, avatar picker and editable details as every other SwissNovo app.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: CircleUser,
+        text: 'The inline profile modal and separate "Change avatar" item in the user menu are replaced by the shared ProfileModal from @swissnovo/shared v0.13.0. Avatar selection now lives inside "View profile", the avatar in the header updates immediately via useUserProfile, and the experience is identical suite-wide.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.8.6',
     date: 'May 19, 2026',
