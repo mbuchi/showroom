@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import {
   MapPin, Fingerprint, Ruler, Box, Building2, Map as MapIcon, Crosshair,
 } from 'lucide-react';
+import { Skeleton } from '@swissnovo/shared';
 import { fetchParcelInfo, type ParcelInfo } from '../../lib/parcelInfo';
 
 // Parcel-context strip rendered below the reporter cards: a wrapping row of
@@ -49,11 +50,7 @@ export default function ParcelInfoStrip({ lat, lng }: ParcelInfoStripProps) {
     return (
       <div className="surface rounded-xl px-4 py-3 mt-6 flex flex-wrap items-center gap-2">
         {[72, 88, 64, 80, 56, 76].map((w, i) => (
-          <div
-            key={i}
-            className="h-7 rounded-lg bg-ink-700 animate-shimmer"
-            style={{ width: `${w}px`, animationDelay: `${i * 60}ms` }}
-          />
+          <Skeleton key={i} width={w} height={28} radius={8} delay={`${i * 60}ms`} />
         ))}
       </div>
     );
