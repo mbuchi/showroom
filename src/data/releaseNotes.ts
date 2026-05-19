@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.9',
+    date: 'May 19, 2026',
+    codename: 'Brisk Welcome',
+    summary:
+      'The sign-in check on first load no longer stalls for ~10 seconds.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Zap,
+        text: 'Fixed a ~10s delay before the app knew you were signed out — the silent SSO check stalled fetching a library from a CDN inside a hidden iframe; it now resolves instantly.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.8',
     date: 'May 19, 2026',
     codename: 'Centred Profile',
