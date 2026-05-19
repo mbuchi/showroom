@@ -8,7 +8,7 @@ import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
-import { sendAddressSearchSignal } from '../../services/signalService';
+import { signal } from '../../lib/signal';
 
 interface ReportParams {
   lat: number;
@@ -81,7 +81,7 @@ export default function ReporterView() {
             autoFocus={!params}
             initialValue={params?.address ?? ''}
             onSelect={(r) => {
-              void sendAddressSearchSignal({
+              void signal.send('Search for Address', {
                 address: r.label,
                 lat: r.lat,
                 lng: r.lng,
