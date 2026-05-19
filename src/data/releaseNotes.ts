@@ -23,6 +23,12 @@ export const RELEASES: Release[] = [
         text: 'The inline profile modal and separate "Change avatar" item in the user menu are replaced by the shared ProfileModal from @swissnovo/shared v0.13.0. Avatar selection now lives inside "View profile", the avatar in the header updates immediately via useUserProfile, and the experience is identical suite-wide.',
         prs: [],
       },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'Upgraded Mapbox GL JS to v3.24.0 for rendering performance improvements.',
+        prs: [],
+      },
     ],
   },
   {
