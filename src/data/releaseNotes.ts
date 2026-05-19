@@ -11,6 +11,20 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.9.0',
+    date: 'May 19, 2026',
+    codename: 'Warm Handshake',
+    summary: 'The sign-in check on first load starts a little sooner.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'The page now opens its connection to the Zitadel sign-in server up front (a preconnect hint), so the silent sign-in check on load no longer waits on a cold DNS lookup and TLS handshake before it can start.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.9',
     date: 'May 19, 2026',
     codename: 'Brisk Welcome',
