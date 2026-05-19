@@ -5,6 +5,7 @@ import { firstNameOf, fullNameOf, emailOf, initialsOf } from '../lib/profile';
 import { useAvatar } from '../lib/useAvatar';
 import { Avatar } from './Avatar';
 import { AvatarPicker } from './AvatarPicker';
+import { Skeleton } from '@swissnovo/shared';
 
 interface UserMenuProps {
   onOpenParcels?: () => void;
@@ -31,7 +32,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
   }, []);
 
   if (isLoading) {
-    return <div className="w-9 h-9 rounded-full bg-ink-700 animate-pulse flex-shrink-0" />;
+    return <Skeleton circle width={36} className="flex-shrink-0" />;
   }
 
   if (!isAuthenticated) {

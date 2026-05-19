@@ -55,11 +55,6 @@ body {
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
 @keyframes fade-in-down {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -79,17 +74,6 @@ body {
 .animate-card-enter    { animation: card-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-fade-in-down  { animation: fade-in-down 0.18s ease-out; }
 .animate-in            { animation: fade-in-down 0.15s ease-out; }
-
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    rgba(255, 255, 255, 0.06) 50%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2.5s infinite;
-}
 
 /* ——— Surfaces ——— */
 

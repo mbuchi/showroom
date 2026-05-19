@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.8.6',
+    date: 'May 19, 2026',
+    codename: 'Calm Loading',
+    summary:
+      'Every loading state in Showroom now uses the shared design-system skeleton — a calm, slow opacity blink — instead of spinners and the old custom shimmer. The app-boot screen, the gallery grid, the saved-parcels panel, the Reporter page and its widget maps, the parcel-info strip and each gallery thumbnail all fade in on a placeholder shaped like the real layout. In-button busy spinners are kept as-is.',
+    items: [
+      {
+        kind: 'improved',
+        icon: Layers,
+        text: 'All content-area loading states were migrated to the shared @swissnovo/shared Skeleton primitive: the app-boot screen now shows a faux navbar plus a thumbnail grid instead of a centred spinner; the gallery and grouped gallery, the saved-parcels panel, the Reporter page skeleton and its widget map placeholders, the parcel-info chip strip, the user-menu avatar, and each gallery card thumbnail all render the calm 1.8 s blink. The old custom animate-shimmer CSS keyframe is removed.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.8.5',
     date: 'May 19, 2026',
     codename: 'Holding Shape',

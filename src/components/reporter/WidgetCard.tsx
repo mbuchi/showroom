@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { ExternalLink, AlertTriangle, MapPinned, RefreshCw } from 'lucide-react';
+import { Skeleton } from '@swissnovo/shared';
 
 // Presentational shell for one reporter widget: a 16:10 live-map slot. The
 // headline stat renders large over a gradient scrim at the bottom of the map;
@@ -58,7 +59,7 @@ export default function WidgetCard({
         </span>
 
         {status === 'loading' && (
-          <div className="absolute inset-0 animate-shimmer pointer-events-none" />
+          <Skeleton className="absolute inset-0 pointer-events-none" radius={0} />
         )}
 
         {status === 'no_data' && (
