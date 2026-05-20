@@ -1,6 +1,6 @@
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@swissnovo/shared';
 
@@ -10,6 +10,27 @@ export { KIND_META } from '@swissnovo/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.9.1',
+    date: 'May 20, 2026',
+    codename: 'Four Tongues',
+    summary:
+      'Language selector in the navbar — pick EN / FR / DE / IT and the choice is remembered. First pass translates the navbar shell; the gallery, reporter and lightbox copy remain English for now.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Globe,
+        text: 'A new language dropdown appears in the navbar (the shared suite primitive used by scoore, toolbox and footprint). Switch between English, French, German, Italian — the search placeholder translates immediately and your choice persists per browser. Deeper screens (gallery filters, reporter widgets, lightbox controls) still display in English; those strings are a follow-up.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Picked up @swissnovo/shared v0.16.0 (LocaleSelector primitive).',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.9.0',
     date: 'May 19, 2026',

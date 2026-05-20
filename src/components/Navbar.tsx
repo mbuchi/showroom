@@ -1,7 +1,9 @@
 import { forwardRef, useEffect, useState } from 'react';
 import { Search, Command } from 'lucide-react';
+import { LocaleSelector } from '@swissnovo/shared';
 import UserMenu from './UserMenu';
 import { navigate, useRoute } from '../lib/router';
+import { useI18n } from '../contexts/I18nContext';
 
 const NAV_LINKS = [
   { path: '/', label: 'Gallery' },
@@ -22,6 +24,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   searchRef
 ) {
   const [scrolled, setScrolled] = useState(false);
+  const { locale, setLocale, t } = useI18n();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -90,7 +93,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
                 type="search"
                 value={searchValue}
                 onChange={(e) => onSearchChange?.(e.target.value)}
-                placeholder="Search exports, addresses, parcel IDs…"
+                placeholder={t('nav.search_placeholder')}
                 className="w-full pl-9 pr-16 py-2 rounded-lg bg-ink-800/70 hover:bg-ink-800 border border-white/5 hover:border-white/10 focus:border-cyan-500/40 focus:bg-ink-800 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
               />
               <kbd className="hidden md:flex items-center gap-1 absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded text-[10px] font-medium text-gray-500 bg-ink-700/70 border border-white/5">
@@ -103,6 +106,11 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
 
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 ml-auto">
           {rightSlot}
+          <LocaleSelector
+            locale={locale}
+            onChange={setLocale}
+            ariaLabel={t('nav.select_language')}
+          />
           <UserMenu onOpenParcels={onOpenParcels} exportCount={exportCount} />
         </div>
       </div>
