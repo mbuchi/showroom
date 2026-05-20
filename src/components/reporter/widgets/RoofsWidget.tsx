@@ -5,6 +5,7 @@ import { extractParcelStats } from '../../../lib/parcelLookup';
 import WidgetCard from '../WidgetCard';
 import MapboxMini, { mapboxConfigured } from '../MapboxMini';
 import { useReporterWidget } from './useReporterWidget';
+import { useI18n } from '../../../contexts/I18nContext';
 
 // Roofs — building height. Recreates roofs' 3D view: the shared
 // `parcel_2025_07` vector tiles extruded by `bldg_height_max`. An invisible
@@ -50,6 +51,7 @@ function addLayers(map: MapboxMap) {
 
 export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) {
   const app = reporterApp('roofs');
+  const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [heightMax, setHeightMax] = useState<number | null>(null);
 
@@ -60,7 +62,7 @@ export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) 
         blurb={app.blurb}
         deepLink={deepLink(app, lat, lng)}
         status="error"
-        error="Mapbox token not configured"
+        error={t('page.reporter.widget.mapbox_missing')}
       >
         <div />
       </WidgetCard>
@@ -90,7 +92,7 @@ export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) 
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
-      metricLabel="Building height"
+      metricLabel={t('page.reporter.widget.metric.building_height')}
       stat={heightMax != null ? `${heightMax.toFixed(1)} m` : undefined}
       onRetry={retry}
     >

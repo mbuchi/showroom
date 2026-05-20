@@ -3,8 +3,9 @@ import { ChevronDown, MapPin, Hash, Layers, Clock } from 'lucide-react';
 import type { ParcelGroupData } from '../../lib/grouping';
 import type { SavedImage } from '../../services/imageService';
 import { APP_LABELS, APP_BADGE_CLASSES } from '../../services/imageService';
-import { formatRelativeTime, formatBytes, pluralize } from '../../lib/format';
+import { formatRelativeTime, formatBytes } from '../../lib/format';
 import ExportCard from './ExportCard';
+import { useI18n } from '../../contexts/I18nContext';
 
 interface ParcelGroupProps {
   group: ParcelGroupData;
@@ -28,8 +29,13 @@ export default function ParcelGroup({
   onDelete,
 }: ParcelGroupProps) {
   const [open, setOpen] = useState(defaultOpen);
+  const { t } = useI18n();
 
-  const title = group.address || (group.parcelId ? `Parcel ${group.parcelId}` : 'Unassigned exports');
+  const title =
+    group.address ||
+    (group.parcelId
+      ? `${t('gallery.group.parcel_prefix')} ${group.parcelId}`
+      : t('gallery.group.unassigned'));
   const previewItems = open ? group.exports : group.exports.slice(0, PREVIEW_COUNT);
   const remaining = Math.max(0, group.exports.length - PREVIEW_COUNT);
 
@@ -59,7 +65,12 @@ export default function ParcelGroup({
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-500">
             <span className="inline-flex items-center gap-1">
               <Layers size={11} />
-              {group.exports.length} {pluralize(group.exports.length, 'export')}
+              {t(
+                group.exports.length === 1
+                  ? 'gallery.group.exports_one'
+                  : 'gallery.group.exports_other',
+                { count: group.exports.length },
+              )}
             </span>
             <span className="inline-flex items-center gap-1">
               <Clock size={11} />
@@ -118,7 +129,7 @@ export default function ParcelGroup({
               className="rounded-xl border border-dashed border-white/10 hover:border-cyan-500/40 hover:bg-cyan-500/5 text-gray-400 hover:text-cyan-300 transition-colors aspect-[4/3] flex flex-col items-center justify-center text-center px-3 focus-ring"
             >
               <span className="text-2xl font-semibold tabular-nums">+{remaining}</span>
-              <span className="mt-1 text-[11px]">show all</span>
+              <span className="mt-1 text-[11px]">{t('gallery.group.show_all')}</span>
             </button>
           )}
         </div>

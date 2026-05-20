@@ -5,6 +5,7 @@ import { SOLAR_WMTS, totalYieldAt, formatKWh } from '../../../lib/solarLookup';
 import WidgetCard from '../WidgetCard';
 import LeafletMini from '../LeafletMini';
 import { useReporterWidget } from './useReporterWidget';
+import { useI18n } from '../../../contexts/I18nContext';
 
 // Soolar — solar PV potential. Recreates soolar's view: the swisstopo/BFE
 // Sonnendach WMTS roof-suitability overlay. The headline is the total PV
@@ -16,6 +17,7 @@ function addOverlay(map: L.Map) {
 
 export default function SoolarWidget({ lat, lng }: { lat: number; lng: number }) {
   const app = reporterApp('soolar');
+  const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [yieldKWh, setYieldKWh] = useState<number | null>(null);
 
@@ -44,9 +46,9 @@ export default function SoolarWidget({ lat, lng }: { lat: number; lng: number })
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
-      metricLabel="Solar potential"
+      metricLabel={t('page.reporter.widget.metric.solar_potential')}
       stat={yieldKWh != null ? formatKWh(yieldKWh) : undefined}
-      error="Solar data unavailable"
+      error={t('page.reporter.widget.solar_unavailable')}
       onRetry={retry}
     >
       <LeafletMini key={reloadKey} lat={lat} lng={lng} zoom={19} onReady={addOverlay} />

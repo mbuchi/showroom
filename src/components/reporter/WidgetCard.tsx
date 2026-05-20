@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { ExternalLink, AlertTriangle, MapPinned, RefreshCw } from 'lucide-react';
 import { Skeleton } from '@swissnovo/shared';
+import { useI18n } from '../../contexts/I18nContext';
 
 // Presentational shell for one reporter widget: a 16:10 live-map slot. The
 // headline stat renders large over a gradient scrim at the bottom of the map;
@@ -12,11 +13,11 @@ export type WidgetStatus = 'loading' | 'ok' | 'no_data' | 'error';
 // The badge sits over arbitrary basemap imagery (light, dark, colourful), so
 // it carries an opaque dark backing rather than a translucent tint — only the
 // status dot and label text carry the per-status colour.
-const STATUS_META: Record<WidgetStatus, { label: string; text: string; dot: string }> = {
-  ok:      { label: 'Live',    text: 'text-emerald-300', dot: 'bg-emerald-400' },
-  loading: { label: 'Loading', text: 'text-gray-300',    dot: 'bg-gray-400' },
-  no_data: { label: 'No data', text: 'text-amber-300',   dot: 'bg-amber-400' },
-  error:   { label: 'Failed',  text: 'text-red-300',     dot: 'bg-red-400' },
+const STATUS_META: Record<WidgetStatus, { labelKey: string; text: string; dot: string }> = {
+  ok:      { labelKey: 'page.reporter.widget.status.live',    text: 'text-emerald-300', dot: 'bg-emerald-400' },
+  loading: { labelKey: 'page.reporter.widget.status.loading', text: 'text-gray-300',    dot: 'bg-gray-400' },
+  no_data: { labelKey: 'page.reporter.widget.status.no_data', text: 'text-amber-300',   dot: 'bg-amber-400' },
+  error:   { labelKey: 'page.reporter.widget.status.failed',  text: 'text-red-300',     dot: 'bg-red-400' },
 };
 
 interface WidgetCardProps {
@@ -45,6 +46,7 @@ export default function WidgetCard({
   onRetry,
   children,
 }: WidgetCardProps) {
+  const { t } = useI18n();
   const meta = STATUS_META[status];
 
   return (
@@ -55,7 +57,7 @@ export default function WidgetCard({
         {/* Status badge — top-right, every status. */}
         <span className="absolute top-2 right-2 z-20 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-900/85 px-2 py-1 text-[10px] font-semibold text-gray-200 backdrop-blur-sm">
           <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
-          <span className={meta.text}>{meta.label}</span>
+          <span className={meta.text}>{t(meta.labelKey)}</span>
         </span>
 
         {status === 'loading' && (
@@ -66,7 +68,7 @@ export default function WidgetCard({
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/70 text-amber-300/90">
             <MapPinned size={22} className="text-amber-500/70" />
             <span className="text-[11px] uppercase tracking-wider font-semibold">
-              No data at this location
+              {t('page.reporter.widget.no_data_at_location')}
             </span>
           </div>
         )}
@@ -74,7 +76,7 @@ export default function WidgetCard({
         {status === 'error' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/80 text-red-300/90 px-4 text-center">
             <AlertTriangle size={22} className="text-red-500/70" />
-            <span className="text-[11px] font-semibold">{error || 'Failed to load'}</span>
+            <span className="text-[11px] font-semibold">{error || t('page.reporter.widget.failed_to_load')}</span>
             {onRetry && (
               <button
                 type="button"
@@ -82,7 +84,7 @@ export default function WidgetCard({
                 className="mt-1 inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg text-[11px] font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
               >
                 <RefreshCw size={12} />
-                Retry
+                {t('page.reporter.widget.retry')}
               </button>
             )}
           </div>
@@ -112,7 +114,7 @@ export default function WidgetCard({
           href={deepLink}
           target="_blank"
           rel="noopener noreferrer"
-          title={`Open ${label} at this location`}
+          title={t('page.reporter.widget.open_at_location', { label })}
           className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors flex-shrink-0"
         >
           <ExternalLink size={14} />

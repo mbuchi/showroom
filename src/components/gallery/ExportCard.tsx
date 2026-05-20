@@ -4,6 +4,7 @@ import { Skeleton } from '@swissnovo/shared';
 import type { SavedImage } from '../../services/imageService';
 import { APP_LABELS, APP_BADGE_CLASSES } from '../../services/imageService';
 import { formatRelativeTime } from '../../lib/format';
+import { useI18n } from '../../contexts/I18nContext';
 
 interface ExportCardProps {
   image: SavedImage;
@@ -25,6 +26,7 @@ export default function ExportCard({
   onDelete,
 }: ExportCardProps) {
   const [loaded, setLoaded] = useState(false);
+  const { t } = useI18n();
   const appLabel = APP_LABELS[image.app_source] || image.app_source;
   const appClass = APP_BADGE_CLASSES[image.app_source] || 'bg-ink-700 text-gray-300 border-white/10';
   const address = image.custom_metadata?.address;
@@ -38,7 +40,7 @@ export default function ExportCard({
       <button
         onClick={onOpen}
         className="block w-full text-left focus-ring"
-        aria-label={`Open ${image.original_filename}`}
+        aria-label={t('card.open', { name: image.original_filename })}
       >
         <div className="relative aspect-[4/3] bg-ink-900 overflow-hidden">
           {!loaded && <Skeleton className="absolute inset-0" radius={0} />}
@@ -83,8 +85,8 @@ export default function ExportCard({
           <button
             onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
             className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-ink-800 text-gray-200 backdrop-blur flex items-center justify-center transition-colors focus-ring"
-            aria-label="Add to favorites"
-            title="Favorite (F)"
+            aria-label={t('card.add_favorite')}
+            title={t('card.favorite_tooltip')}
           >
             <Star size={13} />
           </button>
@@ -93,8 +95,8 @@ export default function ExportCard({
           <button
             onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
             className="w-7 h-7 rounded-md bg-amber-400/90 hover:bg-amber-300 text-ink-900 backdrop-blur flex items-center justify-center transition-colors focus-ring"
-            aria-label="Remove from favorites"
-            title="Unfavorite (F)"
+            aria-label={t('card.remove_favorite')}
+            title={t('card.unfavorite_tooltip')}
           >
             <Star size={13} className="fill-current" />
           </button>
@@ -105,8 +107,8 @@ export default function ExportCard({
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
           className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-ink-800 text-gray-200 backdrop-blur flex items-center justify-center transition-colors focus-ring"
-          aria-label="Open original in new tab"
-          title="Open original"
+          aria-label={t('card.open_original_aria')}
+          title={t('card.open_original')}
         >
           <ExternalLink size={13} />
         </a>
@@ -114,8 +116,8 @@ export default function ExportCard({
           onClick={(e) => { e.stopPropagation(); onDelete(); }}
           disabled={isDeleting}
           className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-red-500/30 text-gray-200 hover:text-red-300 backdrop-blur flex items-center justify-center transition-colors focus-ring disabled:opacity-50"
-          aria-label="Delete export"
-          title="Delete"
+          aria-label={t('card.delete_aria')}
+          title={t('card.delete')}
         >
           {isDeleting ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
         </button>

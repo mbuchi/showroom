@@ -5,6 +5,7 @@ import { extractParcelStats } from '../../../lib/parcelLookup';
 import WidgetCard from '../WidgetCard';
 import MapboxMini, { mapboxConfigured } from '../MapboxMini';
 import { useReporterWidget } from './useReporterWidget';
+import { useI18n } from '../../../contexts/I18nContext';
 
 // Valoo — parcel valuation. Recreates valoo's choropleth: the shared
 // `parcel_2025_07` vector tiles, filled by `estimated_price_m2`. The headline
@@ -44,6 +45,7 @@ function addLayers(map: MapboxMap) {
 
 export default function ValooWidget({ lat, lng }: { lat: number; lng: number }) {
   const app = reporterApp('valoo');
+  const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [priceM2, setPriceM2] = useState<number | null>(null);
 
@@ -54,7 +56,7 @@ export default function ValooWidget({ lat, lng }: { lat: number; lng: number }) 
         blurb={app.blurb}
         deepLink={deepLink(app, lat, lng)}
         status="error"
-        error="Mapbox token not configured"
+        error={t('page.reporter.widget.mapbox_missing')}
       >
         <div />
       </WidgetCard>
@@ -84,7 +86,7 @@ export default function ValooWidget({ lat, lng }: { lat: number; lng: number }) 
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
-      metricLabel="Market value"
+      metricLabel={t('page.reporter.widget.metric.market_value')}
       stat={priceM2 != null ? `CHF ${priceM2.toLocaleString('de-CH')} /m²` : undefined}
       onRetry={retry}
     >

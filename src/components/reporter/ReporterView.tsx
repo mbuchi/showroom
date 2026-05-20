@@ -9,6 +9,7 @@ import ParcelInfoStrip from './ParcelInfoStrip';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { signal } from '../../lib/signal';
+import { useI18n } from '../../contexts/I18nContext';
 
 interface ReportParams {
   lat: number;
@@ -28,6 +29,7 @@ function parseParams(search: string): ReportParams | null {
 export default function ReporterView() {
   const { search } = useRoute();
   const params = parseParams(search);
+  const { t } = useI18n();
 
   // Bumped by "Regenerate" — remounts the widget grid for a fresh capture.
   const [regenKey, setRegenKey] = useState(0);
@@ -56,13 +58,10 @@ export default function ReporterView() {
         <div className="mb-6">
           <div className="flex items-center gap-2 text-cyan-400 mb-1.5">
             <FileBarChart size={16} />
-            <h1 className="text-sm uppercase tracking-[0.18em] font-bold">Reporter</h1>
+            <h1 className="text-sm uppercase tracking-[0.18em] font-bold">{t('page.reporter.kicker')}</h1>
           </div>
           <p className="text-sm text-gray-400 max-w-2xl">
-            Enter an address to generate a standardized showroom report — live
-            map widgets recreating five SwissNovo apps at that location:
-            valuation, building height, construction year, solar potential and
-            noise exposure.
+            {t('page.reporter.intro')}
           </p>
         </div>
 
@@ -70,8 +69,9 @@ export default function ReporterView() {
           <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
             <AlertTriangle size={16} className="mt-0.5 flex-shrink-0" />
             <span>
-              Address search is disabled — the <code className="font-mono">VITE_MAPBOX_TOKEN</code>{' '}
-              environment variable is not set for this deployment.
+              {t('page.reporter.search_disabled_prefix')}{' '}
+              <code className="font-mono">VITE_MAPBOX_TOKEN</code>{' '}
+              {t('page.reporter.search_disabled_suffix')}
             </span>
           </div>
         )}
@@ -103,7 +103,7 @@ export default function ReporterView() {
                 <div className="flex items-center gap-2 text-gray-100">
                   <MapPin size={15} className="text-cyan-400 flex-shrink-0" />
                   <span className="text-sm font-semibold truncate">
-                    {params.address || 'Selected location'}
+                    {params.address || t('page.reporter.selected_location')}
                   </span>
                 </div>
                 <p className="mt-0.5 text-xs text-gray-500 font-mono">
@@ -116,7 +116,7 @@ export default function ReporterView() {
                 className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
               >
                 <RefreshCw size={13} />
-                Regenerate
+                {t('page.reporter.regenerate')}
               </button>
             </div>
 
@@ -134,7 +134,7 @@ export default function ReporterView() {
           <div className="surface rounded-xl px-6 py-12 text-center">
             <FileBarChart size={28} className="mx-auto text-gray-600 mb-3" />
             <p className="text-sm text-gray-400">
-              No report yet — search for an address above to begin.
+              {t('page.reporter.no_report')}
             </p>
           </div>
         )}

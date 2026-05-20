@@ -10,6 +10,7 @@ import {
 import WidgetCard from '../WidgetCard';
 import LeafletMini from '../LeafletMini';
 import { useReporterWidget } from './useReporterWidget';
+import { useI18n } from '../../../contexts/I18nContext';
 
 // Boom — road-noise exposure. Recreates boom's view: the BAFU sonBASE
 // road-traffic-day noise WMTS overlay. The headline is the dB(A) band sampled
@@ -21,6 +22,7 @@ function addOverlay(map: L.Map) {
 
 export default function BoomWidget({ lat, lng }: { lat: number; lng: number }) {
   const app = reporterApp('boom');
+  const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [band, setBand] = useState<NoiseBand | null>(null);
   // `quiet` distinguishes "sampled, below 40 dB" from "not yet sampled".
@@ -51,9 +53,9 @@ export default function BoomWidget({ lat, lng }: { lat: number; lng: number }) {
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
-      metricLabel="Road noise"
+      metricLabel={t('page.reporter.widget.metric.road_noise')}
       stat={stat}
-      error="Noise data unavailable"
+      error={t('page.reporter.widget.noise_unavailable')}
       onRetry={retry}
     >
       <LeafletMini key={reloadKey} lat={lat} lng={lng} zoom={18} onReady={addOverlay} />

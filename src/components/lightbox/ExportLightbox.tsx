@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import type { SavedImage } from '../../services/imageService';
 import MetadataPanel from './MetadataPanel';
+import { useI18n } from '../../contexts/I18nContext';
 
 interface LightboxProps {
   images: SavedImage[];
@@ -36,6 +37,7 @@ export default function ExportLightbox({
 }: LightboxProps) {
   const [showInfo, setShowInfo] = useState(true);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const { t } = useI18n();
 
   const safeIndex = Math.max(0, Math.min(index, images.length - 1));
   const image = images[safeIndex];
@@ -101,7 +103,7 @@ export default function ExportLightbox({
         <div className="flex items-center gap-1.5">
           <IconButton
             onClick={() => onToggleFavorite(image)}
-            label={isFavorite ? 'Unfavorite (F)' : 'Favorite (F)'}
+            label={isFavorite ? t('card.unfavorite_tooltip') : t('card.favorite_tooltip')}
             active={isFavorite}
           >
             <Star size={15} className={isFavorite ? 'fill-current' : ''} />
@@ -110,8 +112,8 @@ export default function ExportLightbox({
             href={image.public_url}
             download={image.original_filename}
             className="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-300 hover:text-gray-100 hover:bg-white/10 transition-colors focus-ring"
-            title="Download"
-            aria-label="Download"
+            title={t('modal.detail.download')}
+            aria-label={t('modal.detail.download')}
           >
             <Download size={15} />
           </a>
@@ -120,14 +122,14 @@ export default function ExportLightbox({
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-300 hover:text-gray-100 hover:bg-white/10 transition-colors focus-ring"
-            title="Open original in new tab"
-            aria-label="Open original"
+            title={t('card.open_original_aria')}
+            aria-label={t('card.open_original')}
           >
             <ExternalLink size={15} />
           </a>
           <IconButton
             onClick={() => onDelete(image)}
-            label="Delete"
+            label={t('card.delete')}
             disabled={isDeleting}
             danger
           >
@@ -136,12 +138,12 @@ export default function ExportLightbox({
           <span className="hidden md:block w-px h-5 bg-white/10 mx-0.5" />
           <IconButton
             onClick={() => setShowInfo((v) => !v)}
-            label={showInfo ? 'Hide info' : 'Show info (I)'}
+            label={showInfo ? t('modal.detail.hide_info') : t('modal.detail.show_info')}
             active={showInfo}
           >
             <Info size={15} />
           </IconButton>
-          <IconButton onClick={onClose} label="Close (Esc)">
+          <IconButton onClick={onClose} label={t('modal.detail.close')}>
             <X size={15} />
           </IconButton>
         </div>
@@ -153,7 +155,7 @@ export default function ExportLightbox({
             <button
               onClick={(e) => { e.stopPropagation(); onIndexChange(safeIndex - 1); }}
               className="absolute left-2 sm:left-4 z-10 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur text-gray-200 hover:text-white flex items-center justify-center transition-colors focus-ring"
-              aria-label="Previous (←)"
+              aria-label={t('modal.detail.previous')}
             >
               <ChevronLeft size={20} />
             </button>
@@ -162,7 +164,7 @@ export default function ExportLightbox({
             <button
               onClick={(e) => { e.stopPropagation(); onIndexChange(safeIndex + 1); }}
               className="absolute right-2 sm:right-4 z-10 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur text-gray-200 hover:text-white flex items-center justify-center transition-colors focus-ring"
-              aria-label="Next (→)"
+              aria-label={t('modal.detail.next')}
             >
               <ChevronRight size={20} />
             </button>

@@ -2,6 +2,7 @@ import { MapPin, Clock } from 'lucide-react';
 import type { Parcel } from '../../types/parcel';
 import { StateBadge, PriorityBadge, TagBadge } from './ParcelBadges';
 import { formatShortDate } from '../../lib/format';
+import { useI18n } from '../../contexts/I18nContext';
 
 interface ParcelCardProps {
   parcel: Parcel;
@@ -9,6 +10,7 @@ interface ParcelCardProps {
 }
 
 export default function ParcelCard({ parcel, index }: ParcelCardProps) {
+  const { t } = useI18n();
   return (
     <div
       className="rounded-xl p-3.5 surface-raised animate-card-enter"
@@ -18,7 +20,7 @@ export default function ParcelCard({ parcel, index }: ParcelCardProps) {
         <MapPin size={13} className="text-cyan-300 flex-shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
           <h4 className="text-sm font-semibold text-gray-100 truncate leading-tight">
-            {parcel.address || 'No address'}
+            {parcel.address || t('parcels.no_address')}
           </h4>
           {parcel.municipality && (
             <p className="text-xs text-gray-400 truncate mt-0.5">

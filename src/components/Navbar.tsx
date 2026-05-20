@@ -5,9 +5,9 @@ import UserMenu from './UserMenu';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';
 
-const NAV_LINKS = [
-  { path: '/', label: 'Gallery' },
-  { path: '/reporter', label: 'Reporter' },
+const NAV_LINKS: { path: string; labelKey: string }[] = [
+  { path: '/', labelKey: 'nav.gallery' },
+  { path: '/reporter', labelKey: 'nav.reporter' },
 ];
 
 interface NavbarProps {
@@ -75,7 +75,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
                     : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
                 }`}
               >
-                {link.label}
+                {t(link.labelKey)}
               </a>
             );
           })}
