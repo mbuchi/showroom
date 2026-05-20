@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Skeleton } from '@swissnovo/shared';
 import { AuthProvider, useAuth } from './auth/AuthContext';
+import { I18nProvider } from './contexts/I18nContext';
 import GalleryView from './components/gallery/GalleryView';
 import ReporterSkeleton from './components/reporter/ReporterSkeleton';
 import { useRoute } from './lib/router';
@@ -62,8 +63,10 @@ function AppShell() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppShell />
-    </AuthProvider>
+    <I18nProvider>
+      <AuthProvider>
+        <AppShell />
+      </AuthProvider>
+    </I18nProvider>
   );
 }
