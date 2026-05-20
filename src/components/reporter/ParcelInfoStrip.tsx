@@ -4,6 +4,7 @@ import {
 } from 'lucide-react';
 import { Skeleton } from '@swissnovo/shared';
 import { fetchParcelInfo, type ParcelInfo } from '../../lib/parcelInfo';
+import { useI18n } from '../../contexts/I18nContext';
 
 // Parcel-context strip rendered below the reporter cards: a wrapping row of
 // chips with the general facts of the parcel at the searched location.
@@ -30,6 +31,7 @@ function Chip({ icon, children }: { icon: ReactNode; children: ReactNode }) {
 }
 
 export default function ParcelInfoStrip({ lat, lng }: ParcelInfoStripProps) {
+  const { t } = useI18n();
   const [state, setState] = useState<State>({ kind: 'loading' });
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function ParcelInfoStrip({ lat, lng }: ParcelInfoStripProps) {
   if (state.kind === 'error') {
     return (
       <div className="surface rounded-xl px-4 py-3 mt-6 text-xs text-gray-500">
-        Parcel details unavailable for this location.
+        {t('page.reporter.parcel_unavailable')}
       </div>
     );
   }
@@ -86,7 +88,7 @@ export default function ParcelInfoStrip({ lat, lng }: ParcelInfoStripProps) {
       )}
       {info.flats != null && (
         <Chip icon={<Building2 size={13} />}>
-          {info.flats} {info.flats === 1 ? 'flat' : 'flats'}
+          {info.flats} {info.flats === 1 ? t('page.reporter.flats_one') : t('page.reporter.flats_other')}
         </Chip>
       )}
       {info.zone && <Chip icon={<MapIcon size={13} />}>{info.zone}</Chip>}

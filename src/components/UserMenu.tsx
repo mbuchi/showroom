@@ -11,6 +11,7 @@ import {
   initialsOf,
 } from '@swissnovo/shared';
 import { useAuth } from '../auth/AuthContext';
+import { useI18n } from '../contexts/I18nContext';
 
 interface UserMenuProps {
   onOpenParcels?: () => void;
@@ -19,6 +20,7 @@ interface UserMenuProps {
 
 export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) {
   const { user, isAuthenticated, isLoading, login, logout } = useAuth();
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -43,7 +45,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
       <button
         onClick={login}
         className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-gray-400 bg-ink-800 hover:bg-ink-700 hover:text-gray-200 transition-colors focus-ring"
-        aria-label="Sign in"
+        aria-label={t('nav.sign_in')}
       >
         <UserCircle size={20} />
       </button>
@@ -61,7 +63,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full transition-all hover:ring-2 hover:ring-cyan-500/40 focus-ring"
-          aria-label="Open user menu"
+          aria-label={t('nav.open_user_menu')}
         >
           <Avatar url={avatarUrl} initials={initials} size={28} />
           <span className="text-sm font-medium hidden sm:block max-w-[100px] truncate text-gray-200">
@@ -79,7 +81,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
               <div className="flex items-center gap-3">
                 <Avatar url={avatarUrl} initials={initials} size={40} />
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-gray-100 truncate">{displayName || firstName || 'User'}</p>
+                  <p className="text-sm font-semibold text-gray-100 truncate">{displayName || firstName || t('menu.user_fallback')}</p>
                   {email && <p className="text-xs text-gray-400 truncate">{email}</p>}
                 </div>
               </div>
@@ -88,14 +90,14 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
                 </span>
-                <span className="text-xs text-gray-400">Active session</span>
+                <span className="text-xs text-gray-400">{t('menu.active_session')}</span>
               </div>
             </div>
 
             {typeof exportCount === 'number' && (
               <div className="px-4 py-3 border-b border-white/5 flex items-center gap-3">
                 <ImageIcon size={14} className="text-cyan-400" />
-                <span className="text-xs text-gray-400">In your gallery</span>
+                <span className="text-xs text-gray-400">{t('menu.in_your_gallery')}</span>
                 <span className="ml-auto text-xs font-semibold text-gray-100 tabular-nums">{exportCount}</span>
               </div>
             )}
@@ -107,7 +109,7 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
                 >
                   <Bookmark size={16} />
-                  <span>Saved parcels</span>
+                  <span>{t('menu.saved_parcels')}</span>
                 </button>
               )}
               <button
@@ -115,14 +117,14 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
               >
                 <UserCircle size={16} />
-                <span>View profile</span>
+                <span>{t('menu.view_profile')}</span>
               </button>
               <button
                 onClick={() => { setIsOpen(false); logout(); }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
               >
                 <LogOut size={16} />
-                <span>Sign out</span>
+                <span>{t('menu.sign_out')}</span>
               </button>
             </div>
           </div>

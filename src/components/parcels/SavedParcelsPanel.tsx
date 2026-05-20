@@ -4,6 +4,7 @@ import type { Parcel, ParcelState, ParcelPriority } from '../../types/parcel';
 import { fetchParcels } from '../../services/parcelService';
 import ParcelCard from './ParcelCard';
 import ParcelSkeleton from './ParcelSkeleton';
+import { useI18n } from '../../contexts/I18nContext';
 
 const ROOFS_URL = 'https://swissnovo-toolbox.vercel.app/';
 
@@ -16,6 +17,7 @@ interface SavedParcelsPanelProps {
 }
 
 export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanelProps) {
+  const { t } = useI18n();
   const [parcels, setParcels] = useState<Parcel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -33,12 +35,12 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
       const data = await fetchParcels();
       setParcels(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load parcels');
+      setError(err instanceof Error ? err.message : t('parcels.failed_load'));
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -80,6 +82,25 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
   const stateOptions: FilterState[] = ['All', 'New', 'Due Diligence', 'Contacted', 'Closed'];
   const priorityOptions: FilterPriority[] = ['All', 'Low', 'Medium', 'High', 'Urgent'];
 
+  const stateLabel = (s: FilterState): string => {
+    switch (s) {
+      case 'All': return t('parcels.state_all');
+      case 'New': return t('parcels.state_new');
+      case 'Due Diligence': return t('parcels.state_due_diligence');
+      case 'Contacted': return t('parcels.state_contacted');
+      case 'Closed': return t('parcels.state_closed');
+    }
+  };
+  const priorityLabel = (p: FilterPriority): string => {
+    switch (p) {
+      case 'All': return t('parcels.priority_all');
+      case 'Low': return t('parcels.priority_low');
+      case 'Medium': return t('parcels.priority_medium');
+      case 'High': return t('parcels.priority_high');
+      case 'Urgent': return t('parcels.priority_urgent');
+    }
+  };
+
   return (
     <>
       <div
@@ -95,7 +116,7 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
           <div className="flex items-center gap-2">
             <Bookmark size={15} className="text-cyan-400" />
-            <h2 className="text-sm font-semibold text-gray-100">Saved parcels</h2>
+            <h2 className="text-sm font-semibold text-gray-100">{t('parcels.title')}</h2>
             {!isLoading && (
               <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-300 tabular-nums">
                 {filtered.length}
@@ -107,14 +128,14 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
               onClick={() => load(true)}
               disabled={isRefreshing}
               className="p-1.5 rounded-lg hover:bg-white/5 text-gray-400 hover:text-gray-200 transition-colors disabled:opacity-50 focus-ring"
-              aria-label="Refresh"
+              aria-label={t('parcels.refresh')}
             >
               <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
             </button>
             <button
               onClick={handleClose}
               className="p-1.5 rounded-lg hover:bg-white/5 text-gray-400 hover:text-gray-200 transition-colors focus-ring"
-              aria-label="Close"
+              aria-label={t('parcels.close')}
             >
               <X size={14} />
             </button>
@@ -128,7 +149,7 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search parcels…"
+              placeholder={t('parcels.search_placeholder')}
               className="w-full pl-8 pr-3 py-1.5 rounded-lg text-xs bg-ink-800/70 border border-white/5 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/40 focus:border-cyan-500/30 transition-colors"
             />
           </div>
@@ -140,7 +161,7 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
             >
               {stateOptions.map((s) => (
                 <option key={s} value={s} className="bg-ink-800">
-                  {s === 'All' ? 'All states' : s}
+                  {stateLabel(s)}
                 </option>
               ))}
             </select>
@@ -151,7 +172,7 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
             >
               {priorityOptions.map((p) => (
                 <option key={p} value={p} className="bg-ink-800">
-                  {p === 'All' ? 'All priorities' : p}
+                  {priorityLabel(p)}
                 </option>
               ))}
             </select>
@@ -168,15 +189,15 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
                 onClick={() => load()}
                 className="text-xs text-cyan-400 hover:text-cyan-300 font-medium"
               >
-                Try again
+                {t('parcels.try_again')}
               </button>
             </div>
           ) : parcels.length === 0 ? (
             <div className="p-8 text-center">
               <Bookmark size={28} className="mx-auto text-gray-600 mb-3" />
-              <p className="text-sm text-gray-300 mb-1">No saved parcels yet</p>
+              <p className="text-sm text-gray-300 mb-1">{t('parcels.empty_title')}</p>
               <p className="text-xs text-gray-500">
-                Save parcels in Roofs to track them across the toolbox.
+                {t('parcels.empty_body')}
               </p>
               <a
                 href={ROOFS_URL}
@@ -184,14 +205,14 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
                 rel="noopener noreferrer"
                 className="mt-5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 transition-colors"
               >
-                Open Roofs
+                {t('parcels.open_roofs')}
                 <ExternalLink size={12} />
               </a>
             </div>
           ) : filtered.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-sm text-gray-300 mb-1">No matches</p>
-              <p className="text-xs text-gray-500">Try a different search or clear filters.</p>
+              <p className="text-sm text-gray-300 mb-1">{t('parcels.no_matches')}</p>
+              <p className="text-xs text-gray-500">{t('parcels.no_matches_body')}</p>
             </div>
           ) : (
             <div className="flex flex-col gap-2.5 p-3">
@@ -214,7 +235,7 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
             ) : (
               <ExternalLink size={12} />
             )}
-            Manage parcels in Roofs
+            {t('parcels.manage_in_roofs')}
           </a>
         </div>
       </aside>

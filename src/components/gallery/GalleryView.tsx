@@ -13,6 +13,7 @@ import ExportLightbox from '../lightbox/ExportLightbox';
 import SavedParcelsPanel from '../parcels/SavedParcelsPanel';
 import { ReleaseNotesButton } from '@swissnovo/shared';
 import { RELEASES, REPO_URL } from '../../data/releaseNotes';
+import { useI18n } from '../../contexts/I18nContext';
 
 const FILTERS_STORAGE_KEY = 'showroom:filters:v1';
 
@@ -39,6 +40,7 @@ function loadPersistedFilters(): PersistedFilters {
 
 export default function GalleryView() {
   const { userId } = useAuth();
+  const { t } = useI18n();
 
   const [images, setImages] = useState<SavedImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,12 +85,12 @@ export default function GalleryView() {
       const data = await listImages();
       setImages(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load exports');
+      setError(err instanceof Error ? err.message : t('gallery.error.fallback_load'));
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     load();
@@ -173,7 +175,7 @@ export default function GalleryView() {
 
   const handleDelete = useCallback(
     async (image: SavedImage) => {
-      if (!window.confirm(`Delete "${image.original_filename}"? This cannot be undone.`)) return;
+      if (!window.confirm(t('gallery.error.delete_confirm', { name: image.original_filename }))) return;
       setDeletingIds((prev) => new Set(prev).add(image.id));
       try {
         await deleteImage(image.id);
@@ -188,7 +190,7 @@ export default function GalleryView() {
           return Math.min(current, remaining - 1);
         });
       } catch (err) {
-        window.alert(err instanceof Error ? err.message : 'Failed to delete export');
+        window.alert(err instanceof Error ? err.message : t('gallery.error.fallback_delete'));
       } finally {
         setDeletingIds((prev) => {
           const next = new Set(prev);
@@ -197,7 +199,7 @@ export default function GalleryView() {
         });
       }
     },
-    [sortedFlat.length, updateFavorites]
+    [sortedFlat.length, updateFavorites, t]
   );
 
   const openExport = useCallback(
@@ -308,11 +310,12 @@ export default function GalleryView() {
         {!isLoading && !error && images.length > 0 && (
           <footer className="mt-12 pt-6 border-t border-white/5 text-center text-[11px] text-gray-600">
             <p>
-              Tips: <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">/</kbd> to search ·{' '}
+              {t('gallery.tips_label')}{' '}
+              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">/</kbd> {t('gallery.tip_search')} ·{' '}
               <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">←</kbd>{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">→</kbd> to navigate ·{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">F</kbd> to favorite ·{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">Esc</kbd> to close
+              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">→</kbd> {t('gallery.tip_navigate')} ·{' '}
+              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">F</kbd> {t('gallery.tip_favorite')} ·{' '}
+              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">Esc</kbd> {t('gallery.tip_close')}
             </p>
           </footer>
         )}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapPin, Loader2, Search } from 'lucide-react';
 import { geocodeAddress, type GeocodeResult } from '../../lib/geocode';
+import { useI18n } from '../../contexts/I18nContext';
 
 interface AddressSearchProps {
   onSelect: (result: GeocodeResult) => void;
@@ -9,6 +10,7 @@ interface AddressSearchProps {
 }
 
 export default function AddressSearch({ onSelect, initialValue = '', autoFocus }: AddressSearchProps) {
+  const { t } = useI18n();
   const [value, setValue] = useState(initialValue);
   const [results, setResults] = useState<GeocodeResult[]>([]);
   const [open, setOpen] = useState(false);
@@ -35,7 +37,7 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
         setActiveIndex(-1);
       } catch (err) {
         if (controller.signal.aborted) return;
-        setError(err instanceof Error ? err.message : 'Geocoding failed');
+        setError(err instanceof Error ? err.message : t('page.reporter.search_error_fallback'));
         setResults([]);
       } finally {
         if (!controller.signal.aborted) setLoading(false);
@@ -91,7 +93,7 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
           onChange={(e) => setValue(e.target.value)}
           onFocus={() => results.length > 0 && setOpen(true)}
           onKeyDown={onKeyDown}
-          placeholder="Search a Swiss address…"
+          placeholder={t('page.reporter.search_placeholder')}
           className="w-full pl-10 pr-10 py-3 rounded-xl bg-ink-800/70 border border-white/10 hover:border-white/20 focus:border-cyan-500/50 focus:bg-ink-800 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
         />
         {loading && (

@@ -1,6 +1,7 @@
 import { Filter, Grid3x3, LayoutGrid, RefreshCw, Star, Loader2, ArrowDownWideNarrow } from 'lucide-react';
 import type { SortMode } from '../../lib/grouping';
 import { APP_LABELS } from '../../services/imageService';
+import { useI18n } from '../../contexts/I18nContext';
 
 export type ViewMode = 'grouped' | 'flat';
 
@@ -21,11 +22,11 @@ interface GalleryToolbarProps {
   onRefresh: () => void;
 }
 
-const SORT_OPTIONS: { value: SortMode; label: string }[] = [
-  { value: 'recent', label: 'Recently added' },
-  { value: 'oldest', label: 'Oldest first' },
-  { value: 'count', label: 'Most exports' },
-  { value: 'address', label: 'A → Z' },
+const SORT_OPTIONS: { value: SortMode; labelKey: string }[] = [
+  { value: 'recent', labelKey: 'gallery.sort.recent' },
+  { value: 'oldest', labelKey: 'gallery.sort.oldest' },
+  { value: 'count', labelKey: 'gallery.sort.count' },
+  { value: 'address', labelKey: 'gallery.sort.address' },
 ];
 
 export default function GalleryToolbar(props: GalleryToolbarProps) {
@@ -45,6 +46,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
     onClearFilters,
     onRefresh,
   } = props;
+  const { t } = useI18n();
 
   const filtered = filteredCount !== totalCount;
   const hasActiveFilter = appFilters.length > 0 || favoritesOnly;
@@ -53,19 +55,11 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
     <div className="space-y-3">
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-100 tracking-tight">Your gallery</h1>
-          <p className="mt-0.5 text-xs text-gray-500">
-            {filtered ? (
-              <>
-                <span className="text-gray-300 tabular-nums">{filteredCount}</span> of{' '}
-                <span className="tabular-nums">{totalCount}</span> exports shown
-              </>
-            ) : (
-              <>
-                <span className="text-gray-300 tabular-nums">{totalCount}</span>{' '}
-                exports across the Swissnovo toolbox
-              </>
-            )}
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-100 tracking-tight">{t('gallery.heading')}</h1>
+          <p className="mt-0.5 text-xs text-gray-500 tabular-nums">
+            {filtered
+              ? t('gallery.count_filtered', { visible: filteredCount, total: totalCount })
+              : t('gallery.count_total', { total: totalCount })}
           </p>
         </div>
 
@@ -80,20 +74,20 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
             }`}
           >
             <Star size={13} className={favoritesOnly ? 'fill-current' : ''} />
-            <span className="hidden sm:inline">Favorites</span>
+            <span className="hidden sm:inline">{t('gallery.filter.favorites')}</span>
           </button>
 
           <div className="hidden sm:flex items-center bg-ink-800/70 border border-white/5 rounded-lg p-0.5">
             <ToolbarToggle
               active={viewMode === 'grouped'}
               icon={<LayoutGrid size={13} />}
-              label="Grouped"
+              label={t('gallery.filter.view_grouped')}
               onClick={() => onViewModeChange('grouped')}
             />
             <ToolbarToggle
               active={viewMode === 'flat'}
               icon={<Grid3x3 size={13} />}
-              label="Flat"
+              label={t('gallery.filter.view_flat')}
               onClick={() => onViewModeChange('flat')}
             />
           </div>
@@ -110,7 +104,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
             >
               {SORT_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value} className="bg-ink-800">
-                  {opt.label}
+                  {t(opt.labelKey)}
                 </option>
               ))}
             </select>
@@ -120,8 +114,8 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
             onClick={onRefresh}
             disabled={isRefreshing}
             className="p-2 rounded-lg bg-ink-800/70 hover:bg-ink-700 border border-white/5 hover:border-white/10 text-gray-400 hover:text-gray-200 transition-colors focus-ring disabled:opacity-50"
-            aria-label="Refresh"
-            title="Refresh"
+            aria-label={t('gallery.filter.refresh')}
+            title={t('gallery.filter.refresh')}
           >
             {isRefreshing ? <Loader2 size={13} className="animate-spin" /> : <RefreshCw size={13} />}
           </button>
@@ -132,7 +126,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
         <div className="flex items-center gap-2 flex-wrap pb-1">
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-gray-500 uppercase tracking-wide">
             <Filter size={11} />
-            From
+            {t('gallery.filter.from')}
           </span>
           {availableApps.map((app) => {
             const active = appFilters.includes(app);
@@ -155,7 +149,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
               onClick={onClearFilters}
               className="ml-1 text-[11px] text-gray-500 hover:text-gray-300 underline-offset-2 hover:underline transition-colors"
             >
-              Clear
+              {t('gallery.filter.clear')}
             </button>
           )}
         </div>

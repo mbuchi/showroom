@@ -7,6 +7,7 @@ import {
   formatCoord,
   formatDeg,
 } from '../../lib/format';
+import { useI18n } from '../../contexts/I18nContext';
 
 const KNOWN_META_KEYS = new Set([
   'url',
@@ -28,6 +29,7 @@ interface MetadataPanelProps {
 }
 
 export default function MetadataPanel({ image }: MetadataPanelProps) {
+  const { t } = useI18n();
   const meta = image.custom_metadata || {};
   const lat = formatCoord(meta.central_lat);
   const lng = formatCoord(meta.central_lng);
@@ -52,49 +54,52 @@ export default function MetadataPanel({ image }: MetadataPanelProps) {
       </div>
 
       {(meta.address || parcelId || (lat && lng)) && (
-        <Section title="Location">
+        <Section title={t('modal.detail.section_location')}>
           {meta.address && (
-            <Row icon={<MapPin size={11} />} label="Address" value={meta.address} />
+            <Row icon={<MapPin size={11} />} label={t('modal.detail.label_address')} value={meta.address} />
           )}
           {parcelId && (
             <Row
               icon={<Hash size={11} />}
-              label="Parcel ID"
+              label={t('modal.detail.label_parcel_id')}
               value={String(parcelId)}
               mono
             />
           )}
           {lat && lng && (
-            <Row icon={<Globe size={11} />} label="Center" value={`${lat}, ${lng}`} mono />
+            <Row icon={<Globe size={11} />} label={t('modal.detail.label_center')} value={`${lat}, ${lng}`} mono />
           )}
         </Section>
       )}
 
-      <Section title="Capture">
-        <Row icon={<Calendar size={11} />} label="Saved" value={formatDate(image.created_at)} />
+      <Section title={t('modal.detail.section_capture')}>
+        <Row icon={<Calendar size={11} />} label={t('modal.detail.label_saved')} value={formatDate(image.created_at)} />
         <Row
           icon={<Maximize2 size={11} />}
-          label="Dimensions"
+          label={t('modal.detail.label_dimensions')}
           value={`${image.width} × ${image.height}`}
           mono
         />
         <Row
           icon={<Layers size={11} />}
-          label="Size"
+          label={t('modal.detail.label_size')}
           value={formatBytes(image.file_size)}
           mono
         />
-        {zoom && <Row label="Zoom" value={zoom} mono />}
-        {tilt && <Row label="Tilt" value={tilt} mono />}
-        {bearing && <Row label="Bearing" value={bearing} mono />}
-        {meta.basemap && <Row label="Basemap" value={String(meta.basemap)} />}
+        {zoom && <Row label={t('modal.detail.label_zoom')} value={zoom} mono />}
+        {tilt && <Row label={t('modal.detail.label_tilt')} value={tilt} mono />}
+        {bearing && <Row label={t('modal.detail.label_bearing')} value={bearing} mono />}
+        {meta.basemap && <Row label={t('modal.detail.label_basemap')} value={String(meta.basemap)} />}
         {typeof meta.is_3d_mode === 'boolean' && (
-          <Row label="3D mode" value={meta.is_3d_mode ? 'On' : 'Off'} />
+          <Row
+            label={t('modal.detail.label_3d_mode')}
+            value={meta.is_3d_mode ? t('modal.detail.value_on') : t('modal.detail.value_off')}
+          />
         )}
       </Section>
 
       {extras.length > 0 && (
-        <Section title="Additional metadata">
+        <Section title={t('modal.detail.section_additional')}>
           {extras.map(([k, v]) => (
             <Row
               key={k}

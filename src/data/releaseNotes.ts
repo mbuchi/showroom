@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.9.2',
+    date: 'May 20, 2026',
+    codename: 'Deep Translation',
+    summary:
+      'The language selector now drives the whole gallery, the lightbox and the Reporter — not just the navbar. Switch EN / FR / DE / IT and the page title, sort dropdown, filter chips, image-detail panel, saved-parcels drawer and every widget label re-render in your language.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Globe,
+        text: 'Deep translation pass across the body of the app. Gallery heading, the "X of Y exports" counter, the favorites / view-mode / refresh controls, the sort dropdown ("Recently added", "Oldest first", "Most exports", "A → Z"), the per-app filter pills and Clear link, every empty / error state, and the keyboard-tips footer all read in EN / FR / DE / IT. The lightbox controls (Download, Open original, Delete, Show info, Close, prev / next) and the side metadata panel (Location, Capture, Address, Parcel ID, Dimensions, Size, Zoom, Tilt, Bearing, Basemap, 3D mode On/Off) are translated. The parcel-group headers ("Parcel …", "Unassigned exports", "{n} exports", "show all"), the saved-parcels drawer (title, search, state and priority filters, badges, empty / no-matches states, "Manage parcels in Roofs"), and the Reporter page (kicker, intro paragraph, "Regenerate", parcel strip "Parcel details unavailable" / "{n} flat(s)", widget status badges Live / Loading / No data / Failed, metric labels Market value / Building height / Construction year / Solar potential / Road noise, Retry, "Open … at this location") are all wired up. Deferred-English: the swissnovo wordmark, per-app brand names (scoore, footprint, valoo, …) and addresses returned by the geocoder. The translation runtime now supports {placeholder} interpolation.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.9.1',
     date: 'May 20, 2026',
     codename: 'Four Tongues',

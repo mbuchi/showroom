@@ -5,6 +5,7 @@ import { fetchConstructionYear } from '../../../lib/parcelLookup';
 import WidgetCard from '../WidgetCard';
 import LeafletMini from '../LeafletMini';
 import { useReporterWidget } from './useReporterWidget';
+import { useI18n } from '../../../contexts/I18nContext';
 
 // Roots — construction year. Recreates roots' view: the GeoServer WMS layer
 // styled by building construction year (year labels are baked into the
@@ -27,6 +28,7 @@ function addWms(map: L.Map) {
 
 export default function RootsWidget({ lat, lng }: { lat: number; lng: number }) {
   const app = reporterApp('roots');
+  const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [year, setYear] = useState<number | null>(null);
 
@@ -49,7 +51,7 @@ export default function RootsWidget({ lat, lng }: { lat: number; lng: number }) 
       blurb={app.blurb}
       deepLink={deepLink(app, lat, lng)}
       status={status}
-      metricLabel="Construction year"
+      metricLabel={t('page.reporter.widget.metric.construction_year')}
       stat={year != null ? String(year) : undefined}
       onRetry={retry}
     >
