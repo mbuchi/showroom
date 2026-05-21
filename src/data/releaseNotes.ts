@@ -11,6 +11,21 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.9.4',
+    date: 'May 21, 2026',
+    codename: 'Card Frame',
+    summary:
+      'OG / social-preview image now matches the live toolbox card hover thumbnail — the same shot users already see when hovering this app on toolbox.swissnovo.com.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text: 'Swapped public/og-image.jpg for the toolbox front-page hover thumbnail and refreshed og:image:width/height meta so link previews on Discord, Slack, WhatsApp etc. now show the same artwork as the toolbox card.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.9.3',
     date: 'May 21, 2026',
     codename: 'Login Actually Unstuck',
