@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Map as MapboxMap } from 'mapbox-gl';
 import { reporterApp, deepLink } from '../../../lib/reporterApps';
 import { extractParcelStats } from '../../../lib/parcelLookup';
@@ -6,16 +6,12 @@ import WidgetCard from '../WidgetCard';
 import MapboxMini, { mapboxConfigured } from '../MapboxMini';
 import { useReporterWidget } from './useReporterWidget';
 import { useI18n } from '../../../contexts/I18nContext';
-
-// Roofs — building height. Recreates roofs' 3D view: the shared
-// `parcel_2025_07` vector tiles extruded by `bldg_height_max`. An invisible
-// flat fill layer is added alongside for an accurate point query.
+import type { WidgetReportRaw } from '../report/types';
 
 const PARCEL_TILES_URL = 'https://res-mbtiles-x.gisjoe.com/parcel_2025_07_z12_16';
 
 const HEIGHT_EXPR: unknown[] = ['coalesce', ['to-number', ['get', 'bldg_height_max']], 0];
 
-// roofs' 11-class blue height ramp (roofs/src/components/ParcelMap.tsx).
 const HEIGHT_RAMP: unknown[] = [
   'step', HEIGHT_EXPR, '#deebf7',
   5, '#c6dbef', 10, '#9ecae1', 15, '#6baed6', 20, '#4292c6', 25, '#2171b5',
@@ -38,8 +34,6 @@ function addLayers(map: MapboxMap) {
       'fill-extrusion-opacity': 0.85,
     },
   });
-  // Invisible flat footprint — queried for the height at the pin (accurate
-  // regardless of the extrusion's apparent screen offset under pitch).
   map.addLayer({
     id: 'parcel-fill-query',
     type: 'fill',
@@ -49,11 +43,32 @@ function addLayers(map: MapboxMap) {
   });
 }
 
-export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) {
+interface RoofsWidgetProps {
+  lat: number;
+  lng: number;
+  selected?: boolean;
+  onToggleSelect?: () => void;
+  onReport?: (raw: WidgetReportRaw) => void;
+}
+
+export default function RoofsWidget({ lat, lng, selected, onToggleSelect, onReport }: RoofsWidgetProps) {
   const app = reporterApp('roofs');
   const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [heightMax, setHeightMax] = useState<number | null>(null);
+  const [heightMin, setHeightMin] = useState<number | null>(null);
+
+  useEffect(() => {
+    const detail: { labelKey: string; value: string }[] = [];
+    if (heightMax != null) detail.push({ labelKey: 'report.widget.roofs.detail.max', value: `${heightMax.toFixed(1)} m` });
+    if (heightMin != null) detail.push({ labelKey: 'report.widget.roofs.detail.min', value: `${heightMin.toFixed(1)} m` });
+    onReport?.({
+      id: 'roofs',
+      status,
+      metricDisplay: heightMax != null ? `${heightMax.toFixed(1)} m` : null,
+      detail: detail.length > 0 ? detail : undefined,
+    });
+  }, [status, heightMax, heightMin, onReport]);
 
   if (!mapboxConfigured) {
     return (
@@ -63,6 +78,10 @@ export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) 
         deepLink={deepLink(app, lat, lng)}
         status="error"
         error={t('page.reporter.widget.mapbox_missing')}
+        captureId="reporter-widget-roofs"
+        selectable
+        selected={selected}
+        onToggleSelect={onToggleSelect}
       >
         <div />
       </WidgetCard>
@@ -77,6 +96,7 @@ export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) 
       const stats = feats[0]?.properties ? extractParcelStats(feats[0].properties) : null;
       if (stats?.heightMax) {
         setHeightMax(stats.heightMax);
+        setHeightMin(stats.heightMin);
         setStatus('ok');
       } else {
         setStatus('no_data');
@@ -95,6 +115,10 @@ export default function RoofsWidget({ lat, lng }: { lat: number; lng: number }) 
       metricLabel={t('page.reporter.widget.metric.building_height')}
       stat={heightMax != null ? `${heightMax.toFixed(1)} m` : undefined}
       onRetry={retry}
+      captureId="reporter-widget-roofs"
+      selectable
+      selected={selected}
+      onToggleSelect={onToggleSelect}
     >
       <MapboxMini
         key={reloadKey}

@@ -11,6 +11,51 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.10.0',
+    date: 'May 21, 2026',
+    codename: 'Property Dossier',
+    summary:
+      'The Reporter now generates a downloadable, multi-page PDF property report. Pick which of the five live cards belong in the dossier with the new "Add to report" checkbox in each card, hit "Generate report" and Showroom assembles a Swiss-format property dossier with a branded cover, executive summary, parcel identification sheet (address, EGRID, footprint, volume, dwellings, zoning), per-widget analyses with map snapshots and methodology bullets, and a sourced disclaimer modelled on Swiss AVM practice. The PDF is fully translated EN / FR / DE / IT.',
+    highlight: true,
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: FileBarChart,
+        text:
+          'Each Reporter card now carries an "Add to report" checkbox at the top-left (mirroring the live status badge on the right). All five cards are pre-selected; un-tick what you don\'t want in the dossier.',
+        prs: [],
+      },
+      {
+        kind: 'new' as ChangeKind,
+        icon: FileBarChart,
+        text:
+          'New "Generate report" action next to the existing Regenerate button. Showroom captures a high-DPI snapshot of every selected card, then renders an A4 multi-page PDF with @react-pdf/renderer — vector text, embedded map images, page numbers, and a fixed footer carrying the report ID.',
+        prs: [],
+      },
+      {
+        kind: 'new' as ChangeKind,
+        icon: FileBarChart,
+        text:
+          'Report structure (industry-aligned Swiss AVM layout): branded cover with hero snapshot, address, EGRID, report ID and timestamp; executive KPI grid; parcel identification sheet (address, locality, EGRID, zone, footprint, volume, dwellings, coordinates); one analysis section per selected widget (headline metric · map snapshot · narrative · methodology bullets · source citation); closing sources page with a Swiss AVM-style disclaimer that explicitly states the report is not a certified Verkehrswertschätzung under Art. 12 BankV / RICS / SVS / SEK-SVIT.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'MapboxMini now initialises with preserveDrawingBuffer so the Valoo / Roofs WebGL canvases can be captured into the PDF without coming out blank.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Globe,
+        text:
+          'Every label in the new flow — checkbox states, the Generate button, the capture/render dialog and the PDF document itself (cover, sections, fact labels, methodology titles, footer, full Swiss disclaimer) — is translated EN / FR / DE / IT and follows the active language selector.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.9.4',
     date: 'May 21, 2026',
     codename: 'Card Frame',

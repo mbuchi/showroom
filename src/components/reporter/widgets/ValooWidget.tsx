@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Map as MapboxMap } from 'mapbox-gl';
 import { reporterApp, deepLink } from '../../../lib/reporterApps';
 import { extractParcelStats } from '../../../lib/parcelLookup';
@@ -6,6 +6,7 @@ import WidgetCard from '../WidgetCard';
 import MapboxMini, { mapboxConfigured } from '../MapboxMini';
 import { useReporterWidget } from './useReporterWidget';
 import { useI18n } from '../../../contexts/I18nContext';
+import type { WidgetReportRaw } from '../report/types';
 
 // Valoo — parcel valuation. Recreates valoo's choropleth: the shared
 // `parcel_2025_07` vector tiles, filled by `estimated_price_m2`. The headline
@@ -13,7 +14,6 @@ import { useI18n } from '../../../contexts/I18nContext';
 
 const PARCEL_TILES_URL = 'https://res-mbtiles-x.gisjoe.com/parcel_2025_07_z12_16';
 
-// valoo's 11-class RdYlGn price ramp (valoo/src/components/ParcelMap.tsx).
 const PRICE_RAMP: unknown[] = [
   'step',
   ['coalesce', ['get', 'estimated_price_m2'], 0],
@@ -43,11 +43,28 @@ function addLayers(map: MapboxMap) {
   });
 }
 
-export default function ValooWidget({ lat, lng }: { lat: number; lng: number }) {
+interface ValooWidgetProps {
+  lat: number;
+  lng: number;
+  selected?: boolean;
+  onToggleSelect?: () => void;
+  onReport?: (raw: WidgetReportRaw) => void;
+}
+
+export default function ValooWidget({ lat, lng, selected, onToggleSelect, onReport }: ValooWidgetProps) {
   const app = reporterApp('valoo');
   const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [priceM2, setPriceM2] = useState<number | null>(null);
+
+  useEffect(() => {
+    onReport?.({
+      id: 'valoo',
+      status,
+      metricDisplay: priceM2 != null ? `CHF ${priceM2.toLocaleString('de-CH')} /m²` : null,
+      detail: priceM2 != null ? [{ labelKey: 'report.widget.valoo.detail.price_m2', value: `${priceM2.toLocaleString('de-CH')} CHF/m²` }] : undefined,
+    });
+  }, [status, priceM2, onReport]);
 
   if (!mapboxConfigured) {
     return (
@@ -57,6 +74,10 @@ export default function ValooWidget({ lat, lng }: { lat: number; lng: number }) 
         deepLink={deepLink(app, lat, lng)}
         status="error"
         error={t('page.reporter.widget.mapbox_missing')}
+        captureId="reporter-widget-valoo"
+        selectable
+        selected={selected}
+        onToggleSelect={onToggleSelect}
       >
         <div />
       </WidgetCard>
@@ -89,6 +110,10 @@ export default function ValooWidget({ lat, lng }: { lat: number; lng: number }) 
       metricLabel={t('page.reporter.widget.metric.market_value')}
       stat={priceM2 != null ? `CHF ${priceM2.toLocaleString('de-CH')} /m²` : undefined}
       onRetry={retry}
+      captureId="reporter-widget-valoo"
+      selectable
+      selected={selected}
+      onToggleSelect={onToggleSelect}
     >
       <MapboxMini
         key={reloadKey}

@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react';
-import { MapPin, RefreshCw, AlertTriangle, FileBarChart } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { MapPin, RefreshCw, AlertTriangle, FileBarChart, FileDown } from 'lucide-react';
 import Navbar from '../Navbar';
 import { ReleaseNotesButton } from '@swissnovo/shared';
 import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
+import ReportDialog from './report/ReportDialog';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { signal } from '../../lib/signal';
 import { useI18n } from '../../contexts/I18nContext';
+import type { ReporterAppId } from '../../lib/reporterApps';
+import { REPORTER_APPS } from '../../lib/reporterApps';
+import type { ParcelInfo } from '../../lib/parcelInfo';
+import type { WidgetReportRaw } from './report/types';
 
 interface ReportParams {
   lat: number;
@@ -26,6 +31,10 @@ function parseParams(search: string): ReportParams | null {
   return { lat, lng, address: p.get('q') };
 }
 
+function allIds(): Set<ReporterAppId> {
+  return new Set<ReporterAppId>(REPORTER_APPS.map((a) => a.id));
+}
+
 export default function ReporterView() {
   const { search } = useRoute();
   const params = parseParams(search);
@@ -34,10 +43,81 @@ export default function ReporterView() {
   // Bumped by "Regenerate" — remounts the widget grid for a fresh capture.
   const [regenKey, setRegenKey] = useState(0);
 
-  // Reset the regen counter whenever a new location is searched.
+  // Selection of widgets to include in the generated PDF report. Defaults to
+  // all five and persists across regenerates; resets when location changes.
+  const [selection, setSelection] = useState<Set<ReporterAppId>>(allIds);
+
+  // Latest telemetry from each widget, fed back via onReport. Cleared whenever
+  // a fresh search starts so we never show stale headline values in the PDF.
+  const [rawByWidget, setRawByWidget] = useState<
+    Partial<Record<ReporterAppId, WidgetReportRaw>>
+  >({});
+
+  // Parcel facts for the report's identification page — lifted from the strip
+  // so the PDF can embed them without a second /api/parcel-data round-trip.
+  const [parcel, setParcel] = useState<ParcelInfo | null>(null);
+
+  const [reportOpen, setReportOpen] = useState(false);
+
+  // Reset everything when the location changes (new search).
   useEffect(() => {
     setRegenKey(0);
+    setSelection(allIds());
+    setRawByWidget({});
+    setParcel(null);
   }, [params?.lat, params?.lng]);
+
+  const toggleSelect = useCallback((id: ReporterAppId) => {
+    setSelection((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleReport = useCallback((raw: WidgetReportRaw) => {
+    setRawByWidget((prev) => {
+      const cur = prev[raw.id];
+      if (
+        cur &&
+        cur.status === raw.status &&
+        cur.metricDisplay === raw.metricDisplay &&
+        JSON.stringify(cur.detail) === JSON.stringify(raw.detail) &&
+        cur.ratingTone === raw.ratingTone
+      ) {
+        return prev;
+      }
+      return { ...prev, [raw.id]: raw };
+    });
+  }, []);
+
+  const handleParcel = useCallback((info: ParcelInfo | null) => {
+    setParcel(info);
+  }, []);
+
+  const regenerate = useCallback(() => {
+    setRegenKey((k) => k + 1);
+    setRawByWidget({});
+  }, []);
+
+  const openReport = useCallback(() => {
+    if (!params) return;
+    void signal.send('Open Report Builder', {
+      lat: params.lat,
+      lng: params.lng,
+      address: params.address ?? undefined,
+      metaData: { widgets: Array.from(selection) },
+    });
+    setReportOpen(true);
+  }, [params, selection]);
+
+  const selectedCount = selection.size;
+  const liveSelectedCount = useMemo(
+    () =>
+      Array.from(selection).filter((id) => rawByWidget[id]?.status === 'ok').length,
+    [selection, rawByWidget],
+  );
 
   return (
     <>
@@ -110,23 +190,71 @@ export default function ReporterView() {
                   {params.lat.toFixed(6)}, {params.lng.toFixed(6)}
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={() => setRegenKey((k) => k + 1)}
-                className="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
-              >
-                <RefreshCw size={13} />
-                {t('page.reporter.regenerate')}
-              </button>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={regenerate}
+                  className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
+                >
+                  <RefreshCw size={13} />
+                  {t('page.reporter.regenerate')}
+                </button>
+                <button
+                  type="button"
+                  onClick={openReport}
+                  disabled={selectedCount === 0}
+                  title={
+                    selectedCount === 0
+                      ? t('page.reporter.report.select_at_least_one')
+                      : t('page.reporter.report.generate_tooltip', { n: selectedCount })
+                  }
+                  className={`inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-xs font-semibold transition-colors ${
+                    selectedCount === 0
+                      ? 'cursor-not-allowed border border-white/5 bg-white/[0.02] text-gray-600'
+                      : 'border border-cyan-400/40 bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 hover:border-cyan-300/60'
+                  }`}
+                >
+                  <FileDown size={13} />
+                  {t('page.reporter.report.generate')}
+                  <span className="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-md bg-cyan-400/20 px-1.5 text-[10px] font-bold tabular-nums">
+                    {selectedCount}
+                  </span>
+                </button>
+              </div>
             </div>
+
+            {liveSelectedCount === 0 && selectedCount > 0 && (
+              <div className="mb-4 -mt-2 text-[11px] text-gray-500">
+                {t('page.reporter.report.waiting_for_data')}
+              </div>
+            )}
 
             <ReportGrid
               key={`${params.lat},${params.lng},${regenKey}`}
               lat={params.lat}
               lng={params.lng}
+              selection={selection}
+              onToggleSelect={toggleSelect}
+              onReport={handleReport}
             />
 
-            <ParcelInfoStrip lat={params.lat} lng={params.lng} />
+            <ParcelInfoStrip
+              lat={params.lat}
+              lng={params.lng}
+              onLoaded={handleParcel}
+            />
+
+            <ReportDialog
+              open={reportOpen}
+              onClose={() => setReportOpen(false)}
+              lat={params.lat}
+              lng={params.lng}
+              address={params.address}
+              parcel={parcel}
+              selection={selection}
+              rawByWidget={rawByWidget}
+            />
           </>
         )}
 

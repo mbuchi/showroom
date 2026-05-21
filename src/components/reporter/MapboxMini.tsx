@@ -51,6 +51,10 @@ export default function MapboxMini({
       pitch,
       interactive: false,
       attributionControl: false,
+      // Needed for `map.getCanvas().toDataURL()` and html-to-image to capture
+      // the WebGL canvas for the PDF report — without this WebGL clears the
+      // back buffer between frames and the snapshot comes out blank.
+      preserveDrawingBuffer: true,
     });
 
     let idleFired = false;

@@ -178,6 +178,136 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.widget.metric.solar_potential': 'Solar potential',
     'page.reporter.widget.metric.road_noise': 'Road noise',
 
+    // Reporter — checkbox selection + report builder
+    'page.reporter.widget.add_to_report': 'Add to report',
+    'page.reporter.widget.in_report': 'In report',
+    'page.reporter.widget.select_for_report': 'Add {label} to the report',
+    'page.reporter.widget.deselect_for_report': 'Remove {label} from the report',
+    'page.reporter.report.generate': 'Generate report',
+    'page.reporter.report.generate_tooltip': 'Generate a PDF report with the {n} selected cards',
+    'page.reporter.report.select_at_least_one': 'Select at least one card to include in the report',
+    'page.reporter.report.waiting_for_data': 'Waiting for cards to finish loading…',
+
+    // Report dialog (the modal that drives capture → render → download)
+    'report.dialog.title': 'Build property report',
+    'report.dialog.close': 'Close',
+    'report.dialog.download': 'Download PDF',
+    'report.dialog.try_again': 'Try again',
+    'report.dialog.included_count': '{n} cards included',
+    'report.dialog.ready_to_build': 'Preparing your report',
+    'report.dialog.preamble':
+      'Showroom is assembling a multi-page property dossier with the selected widgets, parcel facts, methodology and a Swiss-format disclaimer.',
+    'report.dialog.capturing': 'Capturing live map snapshots',
+    'report.dialog.capturing_body':
+      'Each selected widget is being rendered to a high-resolution image so the PDF mirrors what you see on screen.',
+    'report.dialog.rendering': 'Composing the PDF document',
+    'report.dialog.rendering_body':
+      'Laying out the cover, executive summary, parcel sheet, per-widget analyses and sources.',
+    'report.dialog.ready': 'Report ready',
+    'report.dialog.ready_body': 'Your branded, multi-page PDF is ready to download.',
+    'report.dialog.error': 'Could not build the report',
+    'report.dialog.error_body':
+      'Something went wrong while building the PDF. You can retry — the live widgets above are unaffected.',
+
+    // PDF document (rendered out-of-tree, resolved at build time)
+    'report.pdf.tagline': 'PROPERTY INTELLIGENCE · SWITZERLAND',
+    'report.pdf.title': 'Property Report',
+    'report.pdf.subtitle': 'Showroom — multi-source location dossier',
+    'report.pdf.report_id': 'Report ID',
+    'report.pdf.generated_on': 'Generated on',
+    'report.pdf.generated_for': 'Generated for',
+    'report.pdf.executive_title': 'Executive summary',
+    'report.pdf.executive_lead':
+      'The headline figures below summarise the selected analyses for this location. Each section in the dossier explains the underlying method and links back to the live SwissNovo app that produced it.',
+    'report.pdf.parcel_title': 'Parcel identification',
+    'report.pdf.parcel_lead':
+      'Identifiers and dimensions pulled from the Swiss Federal Register of Buildings and Dwellings (GWR / RegBL) for the parcel at the searched coordinates.',
+    'report.pdf.analyses_title': 'Analyses',
+    'report.pdf.methodology_title': 'Methodology',
+    'report.pdf.sources_title': 'Sources & disclaimer',
+    'report.pdf.disclaimer_title': 'Disclaimer',
+    'report.pdf.disclaimer_body':
+      'This report is an automated, indicative analysis produced by SwissNovo Showroom. It is not a certified property appraisal (Verkehrswertschätzung) within the meaning of Swiss banking practice (Art. 12 BankV) or RICS / SVS / SEK-SVIT standards. No physical inspection has been carried out and hidden defects, recent renovations or sub-market dynamics may not be captured. Indicative values should be read with a typical confidence band of ±10–15%.',
+    'report.pdf.disclaimer_notice':
+      'This document is not an investment recommendation nor a binding offer to buy or sell. Data sources are publicly available Swiss federal datasets cited above and remain subject to their respective terms of use. © SwissNovo.',
+    'report.pdf.address': 'Address',
+    'report.pdf.locality': 'Locality',
+    'report.pdf.coordinates': 'Coordinates (WGS84)',
+    'report.pdf.egrid': 'EGRID',
+    'report.pdf.zone': 'Zone',
+    'report.pdf.building_size': 'Building footprint',
+    'report.pdf.building_volume': 'Building volume',
+    'report.pdf.flats': 'Dwellings',
+    'report.pdf.not_available': 'Not available',
+    'report.pdf.metric': 'Headline metric',
+    'report.pdf.assessment': 'Assessment',
+    'report.pdf.method': 'Method',
+    'report.pdf.source': 'Source',
+    'report.pdf.live_app': 'Live app',
+    'report.pdf.no_data': 'No data at this location',
+    'report.pdf.failed': 'Capture failed',
+    'report.pdf.page': 'Page',
+    'report.pdf.of': 'of',
+    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+
+    // Per-widget report copy
+    'report.widget.valoo.blurb': 'Indicative market value derived from parcel-level hedonic modelling.',
+    'report.widget.valoo.narrative':
+      'The headline price expresses the modelled market value per square metre of parcel surface, fitted to the 2025 SwissNovo parcel snapshot. Use it as a fast triage figure — solid for ranking neighbouring parcels, indicative for a single asset.',
+    'report.widget.valoo.method.1':
+      'Hedonic regression over the parcel_2025_07 dataset using location, footprint, age and zoning signals.',
+    'report.widget.valoo.method.2':
+      'Eleven-class quantile ramp shown on the live map; the parcel under the pin is queried for its per-m² price.',
+    'report.widget.valoo.method.3':
+      'No physical inspection — interior fit-out, recent renovations and view premia are not captured.',
+    'report.widget.valoo.detail.price_m2': 'Modelled price per m²',
+
+    'report.widget.roofs.blurb': 'Building height above ground from federal 3D building data.',
+    'report.widget.roofs.narrative':
+      'Maximum and minimum building heights are taken from swissBUILDINGS3D 3.0, the federal 3D vector model derived from airborne LiDAR. The value reflects the highest roof point of the building over its lowest terrain corner.',
+    'report.widget.roofs.method.1':
+      'swissBUILDINGS3D 3.0 mesh joined to the parcel_2025_07 footprint via spatial overlap.',
+    'report.widget.roofs.method.2':
+      'Live mini-map extrudes each parcel by its bldg_height_max for instant visual context.',
+    'report.widget.roofs.method.3':
+      'Eaves and ridge are aggregated to a single per-building maximum; complex roofs may obscure structural detail.',
+    'report.widget.roofs.detail.max': 'Maximum height',
+    'report.widget.roofs.detail.min': 'Minimum height',
+
+    'report.widget.roots.blurb': 'Construction year and parcel age from the federal building register.',
+    'report.widget.roots.narrative':
+      'The construction year is pulled from the Swiss Federal Register of Buildings and Dwellings (GWR / RegBL). It anchors energy expectations, maintenance horizons and likely renovation cycles for the building on this parcel.',
+    'report.widget.roots.method.1':
+      'GeoServer GetFeatureInfo against project_res:parcel_2025_07 returning bldg_constr_year, with cy_max / cy_avg as fallbacks.',
+    'report.widget.roots.method.2':
+      'Years are validated to the range 1200 – current year; impossible values are dropped.',
+    'report.widget.roots.method.3':
+      'Parcels with multiple buildings show the dominant construction year; recent additions may not be reflected.',
+    'report.widget.roots.detail.age': 'Approximate age',
+
+    'report.widget.soolar.blurb': 'Annual photovoltaic yield potential of the building roofs.',
+    'report.widget.soolar.narrative':
+      'Annual electricity yield is the sum of every suitable roof surface at the address as modelled by the federal sonnendach.ch programme (SFOE / swisstopo). It assumes a modern crystalline-silicon PV installation across all suitable surfaces.',
+    'report.widget.soolar.method.1':
+      'Each roof polygon is rated against orientation, tilt and shading via sonnendach.ch; suitable surfaces report a stromertrag (kWh/yr).',
+    'report.widget.soolar.method.2':
+      'The headline value sums stromertrag across every roof returned by the identify call around the search point.',
+    'report.widget.soolar.method.3':
+      'The model assumes a standard PV system; actual yield depends on inverter, soiling, snow cover and roof access.',
+    'report.widget.soolar.detail.roofs': 'Suitable roof segments',
+    'report.widget.soolar.detail.area': 'Total suitable area',
+
+    'report.widget.boom.blurb': 'Day-time road-traffic noise exposure from the federal sonBASE model.',
+    'report.widget.boom.narrative':
+      'The dB(A) band describes the modelled daytime road-traffic noise exposure at the address, sampled from the federal sonBASE raster (FOEN / BAFU). Bands above 60 dB(A) approach the federal planning thresholds for residential zones.',
+    'report.widget.boom.method.1':
+      'The official sonBASE WMTS tile under the point is pixel-sampled and snapped to the legend band by nearest RGB distance.',
+    'report.widget.boom.method.2':
+      'A 5×5 pixel vote rejects anti-aliasing; transparent tiles indicate exposure below the 40 dB(A) mapping floor.',
+    'report.widget.boom.method.3':
+      'Rail and aircraft noise are modelled separately and are not included in this headline figure.',
+    'report.widget.boom.detail.band': 'Sampled band',
+
     // Common
     'common.loading': 'Loading',
   },
@@ -338,6 +468,133 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.widget.metric.construction_year': 'Année de construction',
     'page.reporter.widget.metric.solar_potential': 'Potentiel solaire',
     'page.reporter.widget.metric.road_noise': 'Bruit routier',
+
+    // Reporter — sélection + générateur de rapport
+    'page.reporter.widget.add_to_report': 'Ajouter au rapport',
+    'page.reporter.widget.in_report': 'Dans le rapport',
+    'page.reporter.widget.select_for_report': 'Ajouter {label} au rapport',
+    'page.reporter.widget.deselect_for_report': 'Retirer {label} du rapport',
+    'page.reporter.report.generate': 'Générer le rapport',
+    'page.reporter.report.generate_tooltip': 'Générer un rapport PDF avec les {n} cartes sélectionnées',
+    'page.reporter.report.select_at_least_one': 'Sélectionnez au moins une carte pour le rapport',
+    'page.reporter.report.waiting_for_data': 'Attente du chargement des cartes…',
+
+    'report.dialog.title': 'Créer un rapport immobilier',
+    'report.dialog.close': 'Fermer',
+    'report.dialog.download': 'Télécharger le PDF',
+    'report.dialog.try_again': 'Réessayer',
+    'report.dialog.included_count': '{n} cartes incluses',
+    'report.dialog.ready_to_build': 'Préparation du rapport',
+    'report.dialog.preamble':
+      'Showroom assemble un dossier immobilier multi-pages avec les widgets sélectionnés, les faits de la parcelle, la méthodologie et un avertissement au format suisse.',
+    'report.dialog.capturing': 'Capture des aperçus cartographiques',
+    'report.dialog.capturing_body':
+      'Chaque widget sélectionné est exporté en haute résolution afin que le PDF reflète fidèlement ce que vous voyez à l’écran.',
+    'report.dialog.rendering': 'Composition du document PDF',
+    'report.dialog.rendering_body':
+      'Mise en page de la couverture, du résumé, de la fiche parcelle, des analyses par widget et des sources.',
+    'report.dialog.ready': 'Rapport prêt',
+    'report.dialog.ready_body': 'Votre PDF aux couleurs Showroom est prêt à être téléchargé.',
+    'report.dialog.error': 'Impossible de construire le rapport',
+    'report.dialog.error_body':
+      'Une erreur est survenue lors de la création du PDF. Vous pouvez réessayer — les widgets ci-dessus restent intacts.',
+
+    'report.pdf.tagline': 'INTELLIGENCE IMMOBILIÈRE · SUISSE',
+    'report.pdf.title': 'Rapport immobilier',
+    'report.pdf.subtitle': 'Showroom — dossier multi-sources par localisation',
+    'report.pdf.report_id': 'Identifiant du rapport',
+    'report.pdf.generated_on': 'Généré le',
+    'report.pdf.generated_for': 'Généré pour',
+    'report.pdf.executive_title': 'Résumé exécutif',
+    'report.pdf.executive_lead':
+      'Les indicateurs ci-dessous synthétisent les analyses sélectionnées pour cet emplacement. Chaque section du dossier détaille la méthode et renvoie à l’app SwissNovo correspondante.',
+    'report.pdf.parcel_title': 'Identification de la parcelle',
+    'report.pdf.parcel_lead':
+      'Identifiants et dimensions issus du Registre fédéral des bâtiments et logements (RegBL / GWR) pour la parcelle aux coordonnées indiquées.',
+    'report.pdf.analyses_title': 'Analyses',
+    'report.pdf.methodology_title': 'Méthodologie',
+    'report.pdf.sources_title': 'Sources et avertissement',
+    'report.pdf.disclaimer_title': 'Avertissement',
+    'report.pdf.disclaimer_body':
+      'Ce rapport est une analyse automatisée et indicative produite par SwissNovo Showroom. Il ne constitue pas une expertise certifiée (Verkehrswertschätzung) au sens des pratiques bancaires suisses (art. 12 BankV) ni des standards RICS / SVS / SEK-SVIT. Aucune visite n’a été effectuée ; les défauts cachés, rénovations récentes ou dynamiques de micro-marché peuvent ne pas être reflétés. Les valeurs indicatives s’entendent avec une marge typique de ±10–15 %.',
+    'report.pdf.disclaimer_notice':
+      'Ce document ne constitue ni une recommandation d’investissement, ni une offre ferme d’achat ou de vente. Les sources sont des jeux de données fédéraux publics cités ci-dessus et restent soumises à leurs conditions d’utilisation. © SwissNovo.',
+    'report.pdf.address': 'Adresse',
+    'report.pdf.locality': 'Localité',
+    'report.pdf.coordinates': 'Coordonnées (WGS84)',
+    'report.pdf.egrid': 'EGRID',
+    'report.pdf.zone': 'Zone',
+    'report.pdf.building_size': 'Emprise au sol',
+    'report.pdf.building_volume': 'Volume bâti',
+    'report.pdf.flats': 'Logements',
+    'report.pdf.not_available': 'Non disponible',
+    'report.pdf.metric': 'Indicateur principal',
+    'report.pdf.assessment': 'Évaluation',
+    'report.pdf.method': 'Méthode',
+    'report.pdf.source': 'Source',
+    'report.pdf.live_app': 'App en direct',
+    'report.pdf.no_data': 'Aucune donnée à cet endroit',
+    'report.pdf.failed': 'Capture échouée',
+    'report.pdf.page': 'Page',
+    'report.pdf.of': 'sur',
+    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+
+    'report.widget.valoo.blurb': 'Valeur marchande indicative issue d’un modèle hédonique au niveau de la parcelle.',
+    'report.widget.valoo.narrative':
+      'Le prix exprime la valeur de marché modélisée par mètre carré de surface de parcelle, ajustée à l’instantané SwissNovo des parcelles 2025. À utiliser comme tri rapide — fiable pour classer des parcelles voisines, indicatif pour un actif unique.',
+    'report.widget.valoo.method.1':
+      'Régression hédonique sur le jeu parcel_2025_07 utilisant localisation, emprise, âge et zonage.',
+    'report.widget.valoo.method.2':
+      'Rampe quantile à onze classes affichée sur la carte ; la parcelle sous le pin renvoie son prix au m².',
+    'report.widget.valoo.method.3':
+      'Aucune visite — aménagements intérieurs, rénovations récentes et primes de vue ne sont pas captés.',
+    'report.widget.valoo.detail.price_m2': 'Prix modélisé par m²',
+
+    'report.widget.roofs.blurb': 'Hauteur du bâtiment au-dessus du sol depuis le modèle 3D fédéral.',
+    'report.widget.roofs.narrative':
+      'Les hauteurs minimale et maximale proviennent de swissBUILDINGS3D 3.0, le modèle 3D vectoriel fédéral dérivé du LiDAR aéroporté. La valeur reflète le point de toit le plus haut au-dessus du coin de terrain le plus bas.',
+    'report.widget.roofs.method.1':
+      'Maillage swissBUILDINGS3D 3.0 joint à l’emprise parcel_2025_07 par superposition spatiale.',
+    'report.widget.roofs.method.2':
+      'La mini-carte extrude chaque parcelle par bldg_height_max pour un contexte visuel instantané.',
+    'report.widget.roofs.method.3':
+      'Avant-toit et faîte sont agrégés en un maximum par bâtiment ; les toits complexes peuvent masquer certains détails.',
+    'report.widget.roofs.detail.max': 'Hauteur maximale',
+    'report.widget.roofs.detail.min': 'Hauteur minimale',
+
+    'report.widget.roots.blurb': 'Année de construction et âge de la parcelle, registre fédéral des bâtiments.',
+    'report.widget.roots.narrative':
+      'L’année de construction provient du Registre fédéral des bâtiments et logements (GWR / RegBL). Elle ancre les attentes énergétiques, les horizons d’entretien et les cycles de rénovation probables du bâtiment.',
+    'report.widget.roots.method.1':
+      'GetFeatureInfo GeoServer sur project_res:parcel_2025_07 renvoyant bldg_constr_year, avec cy_max / cy_avg en repli.',
+    'report.widget.roots.method.2':
+      'Les années sont validées entre 1200 et l’année courante ; les valeurs impossibles sont écartées.',
+    'report.widget.roots.method.3':
+      'Les parcelles avec plusieurs bâtiments affichent l’année dominante ; les ajouts récents peuvent ne pas apparaître.',
+    'report.widget.roots.detail.age': 'Âge approximatif',
+
+    'report.widget.soolar.blurb': 'Potentiel annuel photovoltaïque des toitures du bâtiment.',
+    'report.widget.soolar.narrative':
+      'La production annuelle agrège chaque toiture éligible à l’adresse, modélisée par le programme fédéral sonnendach.ch (OFEN / swisstopo). Elle suppose une installation PV cristalline moderne couvrant toutes les surfaces adaptées.',
+    'report.widget.soolar.method.1':
+      'Chaque polygone de toit est noté selon orientation, inclinaison et ombrage via sonnendach.ch ; les surfaces adaptées renvoient un stromertrag (kWh/an).',
+    'report.widget.soolar.method.2':
+      'L’indicateur somme les stromertrag de toutes les toitures retournées autour du point de recherche.',
+    'report.widget.soolar.method.3':
+      'Le modèle suppose une installation PV standard ; la production réelle dépend de l’onduleur, des salissures, de la neige et de l’accès au toit.',
+    'report.widget.soolar.detail.roofs': 'Segments de toit adaptés',
+    'report.widget.soolar.detail.area': 'Surface adaptée totale',
+
+    'report.widget.boom.blurb': 'Exposition au bruit du trafic routier de jour, modèle fédéral sonBASE.',
+    'report.widget.boom.narrative':
+      'La bande dB(A) décrit l’exposition modélisée au bruit du trafic routier de jour à l’adresse, échantillonnée sur le raster fédéral sonBASE (OFEV / BAFU). Les bandes supérieures à 60 dB(A) approchent les seuils fédéraux de planification pour les zones résidentielles.',
+    'report.widget.boom.method.1':
+      'La tuile WMTS sonBASE sous le point est échantillonnée en pixel et alignée à la bande de la légende par distance RGB la plus proche.',
+    'report.widget.boom.method.2':
+      'Un vote sur 5×5 pixels rejette l’anti-aliasing ; les tuiles transparentes correspondent à une exposition sous le plancher cartographié de 40 dB(A).',
+    'report.widget.boom.method.3':
+      'Les bruits ferroviaire et aérien sont modélisés séparément et ne sont pas inclus dans cet indicateur principal.',
+    'report.widget.boom.detail.band': 'Bande échantillonnée',
 
     // Common
     'common.loading': 'Chargement',
@@ -500,6 +757,133 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.widget.metric.solar_potential': 'Solarpotenzial',
     'page.reporter.widget.metric.road_noise': 'Strassenlärm',
 
+    // Reporter — Auswahl + Berichtgenerator
+    'page.reporter.widget.add_to_report': 'In Bericht aufnehmen',
+    'page.reporter.widget.in_report': 'Im Bericht',
+    'page.reporter.widget.select_for_report': '{label} zum Bericht hinzufügen',
+    'page.reporter.widget.deselect_for_report': '{label} aus dem Bericht entfernen',
+    'page.reporter.report.generate': 'Bericht erstellen',
+    'page.reporter.report.generate_tooltip': 'PDF-Bericht mit den {n} ausgewählten Karten erstellen',
+    'page.reporter.report.select_at_least_one': 'Wähle mindestens eine Karte für den Bericht',
+    'page.reporter.report.waiting_for_data': 'Warten auf das Laden der Karten…',
+
+    'report.dialog.title': 'Liegenschaftsbericht erstellen',
+    'report.dialog.close': 'Schliessen',
+    'report.dialog.download': 'PDF herunterladen',
+    'report.dialog.try_again': 'Erneut versuchen',
+    'report.dialog.included_count': '{n} Karten enthalten',
+    'report.dialog.ready_to_build': 'Bericht wird vorbereitet',
+    'report.dialog.preamble':
+      'Showroom stellt ein mehrseitiges Liegenschaftsdossier mit den ausgewählten Widgets, Parzellenfakten, Methodik und einem Schweizer Disclaimer zusammen.',
+    'report.dialog.capturing': 'Kartenaufnahmen werden erstellt',
+    'report.dialog.capturing_body':
+      'Jedes ausgewählte Widget wird in hoher Auflösung exportiert, damit das PDF genau zeigt, was auf dem Bildschirm sichtbar ist.',
+    'report.dialog.rendering': 'PDF wird komponiert',
+    'report.dialog.rendering_body':
+      'Deckblatt, Zusammenfassung, Parzellenblatt, Analysen pro Widget und Quellen werden gesetzt.',
+    'report.dialog.ready': 'Bericht bereit',
+    'report.dialog.ready_body': 'Dein mehrseitiges, gebrandetes PDF steht zum Download bereit.',
+    'report.dialog.error': 'Bericht konnte nicht erstellt werden',
+    'report.dialog.error_body':
+      'Beim Erstellen des PDFs ist etwas schiefgelaufen. Du kannst es erneut versuchen — die Widgets oben sind nicht betroffen.',
+
+    'report.pdf.tagline': 'IMMOBILIEN-INTELLIGENZ · SCHWEIZ',
+    'report.pdf.title': 'Liegenschaftsbericht',
+    'report.pdf.subtitle': 'Showroom — standortbezogenes Multisource-Dossier',
+    'report.pdf.report_id': 'Berichts-ID',
+    'report.pdf.generated_on': 'Erstellt am',
+    'report.pdf.generated_for': 'Erstellt für',
+    'report.pdf.executive_title': 'Zusammenfassung',
+    'report.pdf.executive_lead':
+      'Die nachstehenden Kennzahlen fassen die ausgewählten Analysen für diesen Standort zusammen. Jeder Abschnitt erläutert die Methode und verlinkt auf die zugrunde liegende SwissNovo-App.',
+    'report.pdf.parcel_title': 'Parzellen-Identifikation',
+    'report.pdf.parcel_lead':
+      'Identifikatoren und Masse aus dem Eidgenössischen Gebäude- und Wohnungsregister (GWR / RegBL) für die Parzelle an den gesuchten Koordinaten.',
+    'report.pdf.analyses_title': 'Analysen',
+    'report.pdf.methodology_title': 'Methodik',
+    'report.pdf.sources_title': 'Quellen und Disclaimer',
+    'report.pdf.disclaimer_title': 'Disclaimer',
+    'report.pdf.disclaimer_body':
+      'Dieser Bericht ist eine automatisierte, indikative Analyse von SwissNovo Showroom. Er ist keine zertifizierte Verkehrswertschätzung im Sinne der Schweizer Bankenpraxis (Art. 12 BankV) und kein Gutachten nach RICS / SVS / SEK-SVIT. Es fand keine Besichtigung statt; versteckte Mängel, jüngere Renovationen oder Mikromarkt-Dynamik sind möglicherweise nicht berücksichtigt. Indikative Werte sind mit einer typischen Bandbreite von ±10–15 % zu lesen.',
+    'report.pdf.disclaimer_notice':
+      'Dieses Dokument ist weder eine Anlageempfehlung noch ein verbindliches Kauf- oder Verkaufsangebot. Die Datenquellen sind oben genannte öffentliche eidgenössische Datensätze und unterliegen deren Nutzungsbedingungen. © SwissNovo.',
+    'report.pdf.address': 'Adresse',
+    'report.pdf.locality': 'Ortschaft',
+    'report.pdf.coordinates': 'Koordinaten (WGS84)',
+    'report.pdf.egrid': 'EGRID',
+    'report.pdf.zone': 'Zone',
+    'report.pdf.building_size': 'Gebäudegrundfläche',
+    'report.pdf.building_volume': 'Gebäudevolumen',
+    'report.pdf.flats': 'Wohnungen',
+    'report.pdf.not_available': 'Nicht verfügbar',
+    'report.pdf.metric': 'Leitkennzahl',
+    'report.pdf.assessment': 'Einschätzung',
+    'report.pdf.method': 'Methode',
+    'report.pdf.source': 'Quelle',
+    'report.pdf.live_app': 'Live-App',
+    'report.pdf.no_data': 'Keine Daten an diesem Standort',
+    'report.pdf.failed': 'Aufnahme fehlgeschlagen',
+    'report.pdf.page': 'Seite',
+    'report.pdf.of': 'von',
+    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+
+    'report.widget.valoo.blurb': 'Indikativer Marktwert aus hedonischer Modellierung auf Parzellenebene.',
+    'report.widget.valoo.narrative':
+      'Der Preis drückt den modellierten Marktwert pro Quadratmeter Parzellenfläche aus, abgestimmt auf den SwissNovo-Parzellenstand 2025. Schnelle Vortriage — solide für den Vergleich benachbarter Parzellen, indikativ für ein einzelnes Objekt.',
+    'report.widget.valoo.method.1':
+      'Hedonische Regression auf dem Datensatz parcel_2025_07 mit Lage, Grundfläche, Alter und Zonierung.',
+    'report.widget.valoo.method.2':
+      'Elfklassige Quantilskala auf der Live-Karte; die Parzelle unter dem Pin wird auf ihren CHF/m² abgefragt.',
+    'report.widget.valoo.method.3':
+      'Keine Begehung — Innenausbau, jüngere Renovationen und Aussichtsprämien sind nicht erfasst.',
+    'report.widget.valoo.detail.price_m2': 'Modellierter Preis pro m²',
+
+    'report.widget.roofs.blurb': 'Gebäudehöhe ab Boden aus dem eidgenössischen 3D-Gebäudemodell.',
+    'report.widget.roofs.narrative':
+      'Minimal- und Maximalhöhe stammen aus swissBUILDINGS3D 3.0, dem vom Bund aus LiDAR abgeleiteten 3D-Vektormodell. Der Wert entspricht dem höchsten Dachpunkt über der niedrigsten Geländekante.',
+    'report.widget.roofs.method.1':
+      'swissBUILDINGS3D 3.0-Netz mit der Grundfläche aus parcel_2025_07 räumlich verknüpft.',
+    'report.widget.roofs.method.2':
+      'Die Mini-Karte extrudiert jede Parzelle mit ihrem bldg_height_max für sofortigen visuellen Kontext.',
+    'report.widget.roofs.method.3':
+      'Traufen und Firste werden zu einem Gebäudemaximum aggregiert; komplexe Dächer können Strukturen verbergen.',
+    'report.widget.roofs.detail.max': 'Maximalhöhe',
+    'report.widget.roofs.detail.min': 'Minimalhöhe',
+
+    'report.widget.roots.blurb': 'Baujahr und Parzellenalter aus dem eidgenössischen Gebäuderegister.',
+    'report.widget.roots.narrative':
+      'Das Baujahr stammt aus dem Eidgenössischen Gebäude- und Wohnungsregister (GWR / RegBL). Es verankert Energieerwartungen, Unterhaltshorizonte und wahrscheinliche Renovationszyklen.',
+    'report.widget.roots.method.1':
+      'GeoServer GetFeatureInfo gegen project_res:parcel_2025_07 mit bldg_constr_year sowie cy_max / cy_avg als Fallback.',
+    'report.widget.roots.method.2':
+      'Jahre werden auf den Bereich 1200 bis aktuelles Jahr validiert; unmögliche Werte werden verworfen.',
+    'report.widget.roots.method.3':
+      'Parzellen mit mehreren Gebäuden zeigen das dominante Baujahr; jüngere Anbauten sind ggf. nicht abgebildet.',
+    'report.widget.roots.detail.age': 'Ungefähres Alter',
+
+    'report.widget.soolar.blurb': 'Jährliches PV-Ertragspotenzial der Gebäudedächer.',
+    'report.widget.soolar.narrative':
+      'Der Jahresertrag summiert alle geeigneten Dachflächen der Adresse gemäss eidgenössischem Programm sonnendach.ch (BFE / swisstopo). Er unterstellt eine moderne kristalline PV-Anlage auf allen geeigneten Flächen.',
+    'report.widget.soolar.method.1':
+      'Jedes Dachpolygon wird via sonnendach.ch nach Ausrichtung, Neigung und Verschattung bewertet; geeignete Flächen melden einen stromertrag (kWh/Jahr).',
+    'report.widget.soolar.method.2':
+      'Die Leitkennzahl summiert stromertrag aller Dächer, die der Identify-Aufruf um den Suchpunkt zurückgibt.',
+    'report.widget.soolar.method.3':
+      'Das Modell unterstellt eine Standard-PV-Anlage; reale Erträge hängen von Wechselrichter, Verschmutzung, Schnee und Dachzugang ab.',
+    'report.widget.soolar.detail.roofs': 'Geeignete Dachsegmente',
+    'report.widget.soolar.detail.area': 'Gesamte geeignete Fläche',
+
+    'report.widget.boom.blurb': 'Tagsüber-Strassenlärmexposition aus dem eidgenössischen sonBASE-Modell.',
+    'report.widget.boom.narrative':
+      'Das dB(A)-Band beschreibt die modellierte Strassenlärmexposition tagsüber an der Adresse, abgetastet aus dem eidgenössischen sonBASE-Raster (BAFU / FOEN). Bänder über 60 dB(A) nähern sich den eidgenössischen Planungswerten für Wohnzonen.',
+    'report.widget.boom.method.1':
+      'Die offizielle sonBASE-WMTS-Kachel unter dem Punkt wird pixelweise abgetastet und über die nächste RGB-Distanz dem Legendenband zugeordnet.',
+    'report.widget.boom.method.2':
+      'Eine 5×5-Pixel-Abstimmung unterdrückt Anti-Aliasing; transparente Kacheln entsprechen Expositionen unterhalb der 40-dB(A)-Modellgrenze.',
+    'report.widget.boom.method.3':
+      'Bahn- und Fluglärm sind separat modelliert und in dieser Leitkennzahl nicht enthalten.',
+    'report.widget.boom.detail.band': 'Abgetastetes Band',
+
     // Common
     'common.loading': 'Lädt',
   },
@@ -660,6 +1044,133 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.widget.metric.construction_year': 'Anno di costruzione',
     'page.reporter.widget.metric.solar_potential': 'Potenziale solare',
     'page.reporter.widget.metric.road_noise': 'Rumore stradale',
+
+    // Reporter — selezione + generatore di report
+    'page.reporter.widget.add_to_report': 'Aggiungi al report',
+    'page.reporter.widget.in_report': 'Nel report',
+    'page.reporter.widget.select_for_report': 'Aggiungi {label} al report',
+    'page.reporter.widget.deselect_for_report': 'Rimuovi {label} dal report',
+    'page.reporter.report.generate': 'Genera report',
+    'page.reporter.report.generate_tooltip': 'Genera un report PDF con le {n} schede selezionate',
+    'page.reporter.report.select_at_least_one': 'Seleziona almeno una scheda per il report',
+    'page.reporter.report.waiting_for_data': 'Attesa del caricamento delle schede…',
+
+    'report.dialog.title': 'Crea report immobiliare',
+    'report.dialog.close': 'Chiudi',
+    'report.dialog.download': 'Scarica PDF',
+    'report.dialog.try_again': 'Riprova',
+    'report.dialog.included_count': '{n} schede incluse',
+    'report.dialog.ready_to_build': 'Preparazione del report',
+    'report.dialog.preamble':
+      'Showroom assembla un dossier immobiliare a più pagine con i widget selezionati, i dati della parcella, la metodologia e un disclaimer in formato svizzero.',
+    'report.dialog.capturing': 'Cattura degli snapshot cartografici',
+    'report.dialog.capturing_body':
+      'Ogni widget selezionato viene esportato ad alta risoluzione perché il PDF rispecchi ciò che vedi sullo schermo.',
+    'report.dialog.rendering': 'Composizione del documento PDF',
+    'report.dialog.rendering_body':
+      'Impaginazione di copertina, sintesi, scheda parcella, analisi per widget e fonti.',
+    'report.dialog.ready': 'Report pronto',
+    'report.dialog.ready_body': 'Il tuo PDF a più pagine con branding Showroom è pronto per il download.',
+    'report.dialog.error': 'Impossibile creare il report',
+    'report.dialog.error_body':
+      'Si è verificato un problema durante la creazione del PDF. Puoi riprovare — i widget qui sopra non sono interessati.',
+
+    'report.pdf.tagline': 'INTELLIGENCE IMMOBILIARE · SVIZZERA',
+    'report.pdf.title': 'Report immobiliare',
+    'report.pdf.subtitle': 'Showroom — dossier multi-fonte per localizzazione',
+    'report.pdf.report_id': 'ID report',
+    'report.pdf.generated_on': 'Generato il',
+    'report.pdf.generated_for': 'Generato per',
+    'report.pdf.executive_title': 'Sintesi',
+    'report.pdf.executive_lead':
+      'Gli indicatori seguenti riassumono le analisi selezionate per questa posizione. Ogni sezione del dossier illustra il metodo e rimanda all’app SwissNovo corrispondente.',
+    'report.pdf.parcel_title': 'Identificazione della parcella',
+    'report.pdf.parcel_lead':
+      'Identificatori e dimensioni dal Registro federale degli edifici e delle abitazioni (RegBL / GWR) per la parcella alle coordinate ricercate.',
+    'report.pdf.analyses_title': 'Analisi',
+    'report.pdf.methodology_title': 'Metodologia',
+    'report.pdf.sources_title': 'Fonti e disclaimer',
+    'report.pdf.disclaimer_title': 'Disclaimer',
+    'report.pdf.disclaimer_body':
+      'Il presente report è un’analisi automatizzata e indicativa prodotta da SwissNovo Showroom. Non costituisce una perizia di valore certificata (Verkehrswertschätzung) ai sensi della prassi bancaria svizzera (art. 12 BankV) né uno standard RICS / SVS / SEK-SVIT. Non è stata effettuata alcuna ispezione; difetti nascosti, ristrutturazioni recenti o dinamiche micro-mercato possono non essere riflessi. I valori indicativi si intendono con una banda tipica di ±10–15 %.',
+    'report.pdf.disclaimer_notice':
+      'Questo documento non è una raccomandazione di investimento né un’offerta vincolante di acquisto o vendita. Le fonti dati sono dataset federali pubblici citati sopra e restano soggette ai rispettivi termini di utilizzo. © SwissNovo.',
+    'report.pdf.address': 'Indirizzo',
+    'report.pdf.locality': 'Località',
+    'report.pdf.coordinates': 'Coordinate (WGS84)',
+    'report.pdf.egrid': 'EGRID',
+    'report.pdf.zone': 'Zona',
+    'report.pdf.building_size': 'Superficie edificata',
+    'report.pdf.building_volume': 'Volume edificato',
+    'report.pdf.flats': 'Abitazioni',
+    'report.pdf.not_available': 'Non disponibile',
+    'report.pdf.metric': 'Indicatore principale',
+    'report.pdf.assessment': 'Valutazione',
+    'report.pdf.method': 'Metodo',
+    'report.pdf.source': 'Fonte',
+    'report.pdf.live_app': 'App live',
+    'report.pdf.no_data': 'Nessun dato in questa posizione',
+    'report.pdf.failed': 'Cattura non riuscita',
+    'report.pdf.page': 'Pagina',
+    'report.pdf.of': 'di',
+    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+
+    'report.widget.valoo.blurb': 'Valore di mercato indicativo da modello edonico a livello di parcella.',
+    'report.widget.valoo.narrative':
+      'Il prezzo esprime il valore di mercato modellato per metro quadrato di superficie della parcella, calibrato sullo snapshot parcellare SwissNovo 2025. Da usare come triage rapido — solido per ordinare parcelle vicine, indicativo per un singolo asset.',
+    'report.widget.valoo.method.1':
+      'Regressione edonica sul dataset parcel_2025_07 con segnali di posizione, superficie, età e zonizzazione.',
+    'report.widget.valoo.method.2':
+      'Rampa per quantili a undici classi visibile sulla mappa; la parcella sotto il pin restituisce il suo prezzo al m².',
+    'report.widget.valoo.method.3':
+      'Nessuna ispezione — finiture interne, ristrutturazioni recenti e premi vista non sono catturati.',
+    'report.widget.valoo.detail.price_m2': 'Prezzo modellato al m²',
+
+    'report.widget.roofs.blurb': 'Altezza dell’edificio dal modello 3D federale degli edifici.',
+    'report.widget.roofs.narrative':
+      'Altezze minima e massima derivano da swissBUILDINGS3D 3.0, il modello vettoriale 3D federale ricavato dal LiDAR aereo. Il valore riflette il punto più alto del tetto sopra l’angolo di terreno più basso.',
+    'report.widget.roofs.method.1':
+      'Mesh swissBUILDINGS3D 3.0 incrociata con la superficie di parcel_2025_07 per sovrapposizione spaziale.',
+    'report.widget.roofs.method.2':
+      'La mini-mappa estrude ogni parcella in base al bldg_height_max per un contesto visivo immediato.',
+    'report.widget.roofs.method.3':
+      'Gronde e colmi sono aggregati a un massimo per edificio; tetti complessi possono mascherare dettagli.',
+    'report.widget.roofs.detail.max': 'Altezza massima',
+    'report.widget.roofs.detail.min': 'Altezza minima',
+
+    'report.widget.roots.blurb': 'Anno di costruzione e età della parcella dal registro federale.',
+    'report.widget.roots.narrative':
+      'L’anno di costruzione proviene dal Registro federale degli edifici e delle abitazioni (GWR / RegBL). Ancora le aspettative energetiche, gli orizzonti di manutenzione e i probabili cicli di ristrutturazione.',
+    'report.widget.roots.method.1':
+      'GeoServer GetFeatureInfo su project_res:parcel_2025_07 con bldg_constr_year e cy_max / cy_avg come fallback.',
+    'report.widget.roots.method.2':
+      'Gli anni sono validati nell’intervallo 1200–anno corrente; valori impossibili vengono scartati.',
+    'report.widget.roots.method.3':
+      'Parcelle con più edifici mostrano l’anno dominante; aggiunte recenti possono non essere riflesse.',
+    'report.widget.roots.detail.age': 'Età approssimativa',
+
+    'report.widget.soolar.blurb': 'Potenziale fotovoltaico annuo dei tetti dell’edificio.',
+    'report.widget.soolar.narrative':
+      'L’energia annua somma ogni superficie di tetto idonea dell’indirizzo, modellata dal programma federale sonnendach.ch (UFE / swisstopo). Si presume un impianto FV cristallino moderno su tutte le superfici idonee.',
+    'report.widget.soolar.method.1':
+      'Ogni poligono di tetto viene valutato per orientamento, inclinazione e ombreggiamento via sonnendach.ch; le superfici idonee riportano uno stromertrag (kWh/anno).',
+    'report.widget.soolar.method.2':
+      'L’indicatore somma gli stromertrag di tutti i tetti restituiti dall’identify intorno al punto di ricerca.',
+    'report.widget.soolar.method.3':
+      'Il modello presume un impianto FV standard; la resa reale dipende da inverter, sporcizia, neve e accesso al tetto.',
+    'report.widget.soolar.detail.roofs': 'Segmenti di tetto idonei',
+    'report.widget.soolar.detail.area': 'Superficie idonea totale',
+
+    'report.widget.boom.blurb': 'Esposizione al rumore stradale diurno dal modello federale sonBASE.',
+    'report.widget.boom.narrative':
+      'La banda dB(A) descrive l’esposizione modellata al rumore del traffico stradale diurno all’indirizzo, campionata dal raster federale sonBASE (UFAM / BAFU). Bande superiori a 60 dB(A) si avvicinano alle soglie federali di pianificazione per le zone residenziali.',
+    'report.widget.boom.method.1':
+      'La tile WMTS sonBASE sotto il punto viene campionata pixel per pixel e allineata alla banda della legenda per distanza RGB più vicina.',
+    'report.widget.boom.method.2':
+      'Un voto su 5×5 pixel respinge l’anti-aliasing; le tile trasparenti corrispondono a esposizione sotto la soglia di mappatura di 40 dB(A).',
+    'report.widget.boom.method.3':
+      'I rumori ferroviario e aereo sono modellati separatamente e non sono inclusi in questo indicatore principale.',
+    'report.widget.boom.detail.band': 'Banda campionata',
 
     // Common
     'common.loading': 'Caricamento',

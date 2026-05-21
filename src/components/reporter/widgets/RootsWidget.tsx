@@ -6,11 +6,7 @@ import WidgetCard from '../WidgetCard';
 import LeafletMini from '../LeafletMini';
 import { useReporterWidget } from './useReporterWidget';
 import { useI18n } from '../../../contexts/I18nContext';
-
-// Roots — construction year. Recreates roots' view: the GeoServer WMS layer
-// styled by building construction year (year labels are baked into the
-// tiles). The headline year comes from a GeoServer GetFeatureInfo call; if it
-// returns nothing the map itself still carries the information.
+import type { WidgetReportRaw } from '../report/types';
 
 const GEOSERVER_WMS = 'https://gs-contabo-extra.zeroo.ch/geoserver/project_res/wms';
 
@@ -26,11 +22,33 @@ function addWms(map: L.Map) {
     .addTo(map);
 }
 
-export default function RootsWidget({ lat, lng }: { lat: number; lng: number }) {
+interface RootsWidgetProps {
+  lat: number;
+  lng: number;
+  selected?: boolean;
+  onToggleSelect?: () => void;
+  onReport?: (raw: WidgetReportRaw) => void;
+}
+
+export default function RootsWidget({ lat, lng, selected, onToggleSelect, onReport }: RootsWidgetProps) {
   const app = reporterApp('roots');
   const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    const detail: { labelKey: string; value: string }[] = [];
+    if (year != null) {
+      const age = new Date().getFullYear() - year;
+      detail.push({ labelKey: 'report.widget.roots.detail.age', value: `${age} years` });
+    }
+    onReport?.({
+      id: 'roots',
+      status,
+      metricDisplay: year != null ? String(year) : null,
+      detail: detail.length > 0 ? detail : undefined,
+    });
+  }, [status, year, onReport]);
 
   useEffect(() => {
     const ctrl = new AbortController();
@@ -38,8 +56,6 @@ export default function RootsWidget({ lat, lng }: { lat: number; lng: number }) 
     fetchConstructionYear(lat, lng, ctrl.signal).then((y) => {
       if (ctrl.signal.aborted) return;
       setYear(y);
-      // The WMS map is the deliverable — the card is 'ok' whether or not the
-      // year lookup found a value.
       setStatus('ok');
     });
     return () => ctrl.abort();
@@ -54,6 +70,10 @@ export default function RootsWidget({ lat, lng }: { lat: number; lng: number }) 
       metricLabel={t('page.reporter.widget.metric.construction_year')}
       stat={year != null ? String(year) : undefined}
       onRetry={retry}
+      captureId="reporter-widget-roots"
+      selectable
+      selected={selected}
+      onToggleSelect={onToggleSelect}
     >
       <LeafletMini key={reloadKey} lat={lat} lng={lng} zoom={18} onReady={addWms} />
     </WidgetCard>

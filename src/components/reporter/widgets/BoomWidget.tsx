@@ -11,22 +11,52 @@ import WidgetCard from '../WidgetCard';
 import LeafletMini from '../LeafletMini';
 import { useReporterWidget } from './useReporterWidget';
 import { useI18n } from '../../../contexts/I18nContext';
-
-// Boom — road-noise exposure. Recreates boom's view: the BAFU sonBASE
-// road-traffic-day noise WMTS overlay. The headline is the dB(A) band sampled
-// from the tile pixel under the location.
+import type { WidgetReportRaw } from '../report/types';
 
 function addOverlay(map: L.Map) {
   L.tileLayer(wmtsTemplate(REPORTER_NOISE_WMTS), { opacity: 0.7, maxZoom: 21 }).addTo(map);
 }
 
-export default function BoomWidget({ lat, lng }: { lat: number; lng: number }) {
+interface BoomWidgetProps {
+  lat: number;
+  lng: number;
+  selected?: boolean;
+  onToggleSelect?: () => void;
+  onReport?: (raw: WidgetReportRaw) => void;
+}
+
+function noiseTone(band: NoiseBand | null): 'good' | 'neutral' | 'warn' | 'bad' {
+  if (!band) return 'good'; // < 40 dB — quiet
+  if (band.index <= 1) return 'good';     // < 50 dB
+  if (band.index <= 3) return 'neutral';  // 50–59 dB
+  if (band.index <= 5) return 'warn';     // 60–69 dB
+  return 'bad';                           // ≥ 70 dB
+}
+
+export default function BoomWidget({ lat, lng, selected, onToggleSelect, onReport }: BoomWidgetProps) {
   const app = reporterApp('boom');
   const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [band, setBand] = useState<NoiseBand | null>(null);
-  // `quiet` distinguishes "sampled, below 40 dB" from "not yet sampled".
   const [quiet, setQuiet] = useState(false);
+
+  useEffect(() => {
+    const display = band ? band.label : quiet ? '< 40 dB' : null;
+    const detail: { labelKey: string; value: string }[] = [];
+    if (band) {
+      detail.push({ labelKey: 'report.widget.boom.detail.band', value: band.label });
+    } else if (quiet) {
+      detail.push({ labelKey: 'report.widget.boom.detail.band', value: '< 40 dB' });
+    }
+    onReport?.({
+      id: 'boom',
+      status,
+      metricDisplay: display,
+      detail: detail.length > 0 ? detail : undefined,
+      ratingTone: status === 'ok' ? noiseTone(band) : undefined,
+      rating: band ? { index: band.index, scaleLength: 8 } : quiet ? { index: 0, scaleLength: 8 } : undefined,
+    });
+  }, [status, band, quiet, onReport]);
 
   useEffect(() => {
     const ctrl = new AbortController();
@@ -57,6 +87,10 @@ export default function BoomWidget({ lat, lng }: { lat: number; lng: number }) {
       stat={stat}
       error={t('page.reporter.widget.noise_unavailable')}
       onRetry={retry}
+      captureId="reporter-widget-boom"
+      selectable
+      selected={selected}
+      onToggleSelect={onToggleSelect}
     >
       <LeafletMini key={reloadKey} lat={lat} lng={lng} zoom={18} onReady={addOverlay} />
     </WidgetCard>

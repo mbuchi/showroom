@@ -1,7 +1,7 @@
 {
   "name": "showroom",
   "private": true,
-  "version": "0.9.2",
+  "version": "0.10.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.5.1",
     "@swissnovo/shared": "github:mbuchi/swissnovo-shared#v0.17.2",
+    "html-to-image": "^1.11.13",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.344.0",
     "mapbox-gl": "^3.24.0",
