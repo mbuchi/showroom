@@ -11,6 +11,27 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.9.3',
+    date: 'May 21, 2026',
+    codename: 'Login Actually Unstuck',
+    summary:
+      'Fixed a hang on first load where the page would never settle to the login screen. The hidden sign-in check now always clears within 8 s and the sign-in dialog appears.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Shield,
+        text: 'The hidden silent-SSO iframe was blocked by Zitadel\'s login UI (Content-Security-Policy: frame-ancestors \'none\') and the in-library timeout did not propagate through React 18 strict-mode\'s double-render — so the app stayed on its loading skeleton indefinitely. The shared AuthProvider now runs an 8 s death-switch in its own effect and listens for sign-in events per-mount, guaranteeing the loading state clears even when the silent check itself hangs.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Picked up @swissnovo/shared v0.17.2.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.9.2',
     date: 'May 20, 2026',
     codename: 'Deep Translation',
