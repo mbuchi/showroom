@@ -14,6 +14,10 @@ import { useI18n } from '../../contexts/I18nContext';
 interface ParcelInfoStripProps {
   lat: number;
   lng: number;
+  /** Bubble the fetched parcel up to ReporterView so the PDF report can embed
+   *  it without paying for a second /api/parcel-data request. Fires once per
+   *  load, with `null` on failure. */
+  onLoaded?: (info: ParcelInfo | null) => void;
 }
 
 type State =
@@ -30,7 +34,7 @@ function Chip({ icon, children }: { icon: ReactNode; children: ReactNode }) {
   );
 }
 
-export default function ParcelInfoStrip({ lat, lng }: ParcelInfoStripProps) {
+export default function ParcelInfoStrip({ lat, lng, onLoaded }: ParcelInfoStripProps) {
   const { t } = useI18n();
   const [state, setState] = useState<State>({ kind: 'loading' });
 
@@ -41,12 +45,16 @@ export default function ParcelInfoStrip({ lat, lng }: ParcelInfoStripProps) {
       .then((info) => {
         if (ctrl.signal.aborted) return;
         setState(info ? { kind: 'ok', info } : { kind: 'error' });
+        onLoaded?.(info);
       })
       .catch(() => {
-        if (!ctrl.signal.aborted) setState({ kind: 'error' });
+        if (!ctrl.signal.aborted) {
+          setState({ kind: 'error' });
+          onLoaded?.(null);
+        }
       });
     return () => ctrl.abort();
-  }, [lat, lng]);
+  }, [lat, lng, onLoaded]);
 
   if (state.kind === 'loading') {
     return (

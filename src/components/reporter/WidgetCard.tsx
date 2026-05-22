@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react';
-import { ExternalLink, AlertTriangle, MapPinned, RefreshCw } from 'lucide-react';
+import { ExternalLink, AlertTriangle, MapPinned, RefreshCw, Check } from 'lucide-react';
 import { Skeleton } from '@swissnovo/shared';
 import { useI18n } from '../../contexts/I18nContext';
 
 // Presentational shell for one reporter widget: a 16:10 live-map slot. The
 // headline stat renders large over a gradient scrim at the bottom of the map;
-// a status badge floats top-right. The footer carries the app label, blurb
-// and a deep-link into the live app.
+// a status badge floats top-right; an opt-in selection checkbox floats top-left
+// (used by the report builder to choose which widgets enter the PDF). The
+// footer carries the app label, blurb and a deep-link into the live app.
 
 export type WidgetStatus = 'loading' | 'ok' | 'no_data' | 'error';
 
@@ -33,6 +34,14 @@ interface WidgetCardProps {
   onRetry?: () => void;
   /** The map — MapboxMini / LeafletMini. */
   children: ReactNode;
+  /** True when the widget participates in the report selection UI. */
+  selectable?: boolean;
+  /** Selection state — only meaningful when `selectable` is true. */
+  selected?: boolean;
+  /** Called when the user toggles the selection checkbox. */
+  onToggleSelect?: () => void;
+  /** Stable id used by the PDF capture layer to find this card's map area. */
+  captureId?: string;
 }
 
 export default function WidgetCard({
@@ -45,17 +54,70 @@ export default function WidgetCard({
   error,
   onRetry,
   children,
+  selectable = false,
+  selected = false,
+  onToggleSelect,
+  captureId,
 }: WidgetCardProps) {
   const { t } = useI18n();
   const meta = STATUS_META[status];
+  const canSelect = selectable && status === 'ok';
 
   return (
     <div className="surface-raised surface-hover rounded-xl overflow-hidden flex flex-col">
-      <div className="relative aspect-[16/10] bg-ink-900 overflow-hidden">
+      <div
+        className="reporter-capture relative aspect-[16/10] bg-ink-900 overflow-hidden"
+        data-capture-id={captureId}
+      >
         {children}
 
+        {/* Selection checkbox — top-left. Only rendered when selectable. Hidden
+            from PDF snapshots via data-capture-skip so it never bleeds into
+            the captured map image. */}
+        {selectable && (
+          <button
+            type="button"
+            onClick={onToggleSelect}
+            disabled={!canSelect}
+            data-capture-skip="true"
+            aria-pressed={selected}
+            aria-label={
+              selected
+                ? t('page.reporter.widget.deselect_for_report', { label })
+                : t('page.reporter.widget.select_for_report', { label })
+            }
+            className={`absolute top-2 left-2 z-20 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[10px] font-semibold backdrop-blur-sm transition-colors ${
+              canSelect
+                ? selected
+                  ? 'border-cyan-400/60 bg-cyan-500/20 text-cyan-200 hover:bg-cyan-500/30'
+                  : 'border-white/10 bg-ink-900/85 text-gray-300 hover:border-cyan-400/40 hover:text-cyan-200'
+                : 'cursor-not-allowed border-white/5 bg-ink-900/60 text-gray-600'
+            }`}
+          >
+            <span
+              className={`flex h-3 w-3 items-center justify-center rounded-sm border ${
+                selected
+                  ? 'border-cyan-300 bg-cyan-400 text-ink-900'
+                  : canSelect
+                    ? 'border-white/30 bg-transparent'
+                    : 'border-white/10 bg-transparent'
+              }`}
+            >
+              {selected && <Check size={9} strokeWidth={3} />}
+            </span>
+            <span>
+              {selected
+                ? t('page.reporter.widget.in_report')
+                : t('page.reporter.widget.add_to_report')}
+            </span>
+          </button>
+        )}
+
         {/* Status badge — top-right, every status. */}
-        <span className="absolute top-2 right-2 z-20 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-900/85 px-2 py-1 text-[10px] font-semibold text-gray-200 backdrop-blur-sm">
+        <span
+          data-capture-skip="true"
+          className="absolute top-2 right-2 z-20 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-900/85 px-2 py-1 text-[10px] font-semibold text-gray-200 backdrop-blur-sm"
+        >
           <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
           <span className={meta.text}>{t(meta.labelKey)}</span>
         </span>
@@ -81,6 +143,7 @@ export default function WidgetCard({
               <button
                 type="button"
                 onClick={onRetry}
+                data-capture-skip="true"
                 className="mt-1 inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg text-[11px] font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
               >
                 <RefreshCw size={12} />
