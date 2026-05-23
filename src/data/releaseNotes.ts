@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.10.1',
+    date: 'May 23, 2026',
+    codename: 'Tidy Header',
+    summary:
+      'Header cleanup: the release-notes button moves over to the right side of the header (next to the language selector) and shrinks to a single icon. Unread notes still ping you with the red dot.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'Release-notes button is now an icon next to the language selector (replaces the version pill next to the wordmark).',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.10.0',
     date: 'May 21, 2026',
     codename: 'Property Dossier',
