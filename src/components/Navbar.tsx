@@ -105,12 +105,12 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         )}
 
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 ml-auto">
-          {rightSlot}
           <LocaleSelector
             locale={locale}
             onChange={setLocale}
             ariaLabel={t('nav.select_language')}
           />
+          {rightSlot}
           <UserMenu onOpenParcels={onOpenParcels} exportCount={exportCount} />
         </div>
       </div>
