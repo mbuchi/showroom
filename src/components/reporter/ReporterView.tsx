@@ -242,6 +242,7 @@ export default function ReporterView() {
             <ParcelInfoStrip
               lat={params.lat}
               lng={params.lng}
+              address={params.address}
               onLoaded={handleParcel}
             />
 
