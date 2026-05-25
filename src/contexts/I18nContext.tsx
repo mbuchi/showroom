@@ -31,11 +31,20 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // User menu
     'menu.saved_parcels': 'Saved parcels',
+    'menu.my_saved_parcels': 'My saved parcels',
     'menu.view_profile': 'View profile',
     'menu.sign_out': 'Sign out',
     'menu.active_session': 'Active session',
     'menu.in_your_gallery': 'In your gallery',
     'menu.user_fallback': 'User',
+
+    // PRM — Save-to-PRM button on the parcel strip
+    'prm.save': 'Save to PRM',
+    'prm.saving': 'Saving…',
+    'prm.saved': 'Saved to PRM',
+    'prm.open_in_proom': 'Open in proom',
+    'prm.signin_required': 'Sign in to save parcels',
+    'prm.save_failed': 'Could not save — try again',
 
     // Gallery — heading, counts, footer tips
     'gallery.heading': 'Your gallery',
@@ -322,11 +331,20 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // User menu
     'menu.saved_parcels': 'Parcelles enregistrées',
+    'menu.my_saved_parcels': 'Mes parcelles enregistrées',
     'menu.view_profile': 'Voir le profil',
     'menu.sign_out': 'Se déconnecter',
     'menu.active_session': 'Session active',
     'menu.in_your_gallery': 'Dans votre galerie',
     'menu.user_fallback': 'Utilisateur',
+
+    // PRM — bouton Enregistrer sur la bande parcelle
+    'prm.save': 'Enregistrer dans le PRM',
+    'prm.saving': 'Enregistrement…',
+    'prm.saved': 'Enregistré dans le PRM',
+    'prm.open_in_proom': 'Ouvrir dans proom',
+    'prm.signin_required': 'Connectez-vous pour enregistrer',
+    'prm.save_failed': 'Échec — réessayez',
 
     // Gallery
     'gallery.heading': 'Votre galerie',
@@ -610,11 +628,20 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // User menu
     'menu.saved_parcels': 'Gespeicherte Parzellen',
+    'menu.my_saved_parcels': 'Meine gespeicherten Parzellen',
     'menu.view_profile': 'Profil ansehen',
     'menu.sign_out': 'Abmelden',
     'menu.active_session': 'Aktive Sitzung',
     'menu.in_your_gallery': 'In deiner Galerie',
     'menu.user_fallback': 'Benutzer',
+
+    // PRM — Speichern-Button auf der Parzellen-Leiste
+    'prm.save': 'In PRM speichern',
+    'prm.saving': 'Wird gespeichert…',
+    'prm.saved': 'In PRM gespeichert',
+    'prm.open_in_proom': 'In proom öffnen',
+    'prm.signin_required': 'Zum Speichern anmelden',
+    'prm.save_failed': 'Speichern fehlgeschlagen',
 
     // Gallery
     'gallery.heading': 'Deine Galerie',
@@ -898,11 +925,20 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // User menu
     'menu.saved_parcels': 'Parcelle salvate',
+    'menu.my_saved_parcels': 'Le mie parcelle salvate',
     'menu.view_profile': 'Vedi profilo',
     'menu.sign_out': 'Esci',
     'menu.active_session': 'Sessione attiva',
     'menu.in_your_gallery': 'Nella tua galleria',
     'menu.user_fallback': 'Utente',
+
+    // PRM — pulsante Salva sulla barra parcella
+    'prm.save': 'Salva nel PRM',
+    'prm.saving': 'Salvataggio…',
+    'prm.saved': 'Salvato nel PRM',
+    'prm.open_in_proom': 'Apri in proom',
+    'prm.signin_required': 'Accedi per salvare',
+    'prm.save_failed': 'Salvataggio fallito',
 
     // Gallery
     'gallery.heading': 'La tua galleria',

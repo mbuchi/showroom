@@ -4,11 +4,14 @@ import {
   Skeleton,
   Avatar,
   ProfileModal,
+  SavedParcelsModal,
   useUserProfile,
   firstNameOf,
   fullNameOf,
   emailOf,
   initialsOf,
+  type PrmRecord,
+  type PrmLocale,
 } from '@swissnovo/shared';
 import { useAuth } from '../auth/AuthContext';
 import { useI18n } from '../contexts/I18nContext';
@@ -20,9 +23,10 @@ interface UserMenuProps {
 
 export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) {
   const { user, isAuthenticated, isLoading, login, logout } = useAuth();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showSavedParcels, setShowSavedParcels] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { avatarUrl } = useUserProfile(user);
 
@@ -35,6 +39,18 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // SavedParcelsModal "Open here" → reload the reporter at the parcel's
+  // coordinates so the rest of the page picks up the focus on mount.
+  const openParcelHere = (rec: PrmRecord) => {
+    setShowSavedParcels(false);
+    const params = new URLSearchParams({
+      lat: String(rec.parcel_lat),
+      lng: String(rec.parcel_lng),
+    });
+    if (rec.parcel_label) params.set('q', rec.parcel_label);
+    window.location.href = `/reporter?${params.toString()}`;
+  };
 
   if (isLoading) {
     return <Skeleton circle width={36} className="flex-shrink-0" />;
@@ -113,6 +129,13 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
                 </button>
               )}
               <button
+                onClick={() => { setIsOpen(false); setShowSavedParcels(true); }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
+              >
+                <Bookmark size={16} />
+                <span>{t('menu.my_saved_parcels')}</span>
+              </button>
+              <button
                 onClick={() => { setIsOpen(false); setShowProfile(true); }}
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-white/5 transition-colors"
               >
@@ -133,6 +156,13 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
 
       {showProfile && user && (
         <ProfileModal user={user} onClose={() => setShowProfile(false)} />
+      )}
+      {showSavedParcels && (
+        <SavedParcelsModal
+          locale={locale as PrmLocale}
+          onClose={() => setShowSavedParcels(false)}
+          onOpenHere={openParcelHere}
+        />
       )}
     </>
   );

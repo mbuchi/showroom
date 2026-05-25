@@ -1,6 +1,6 @@
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@swissnovo/shared';
 
@@ -10,6 +10,37 @@ export { KIND_META } from '@swissnovo/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.11.0',
+    date: 'May 25, 2026',
+    codename: 'PRM',
+    summary:
+      'Save parcels to your PRM list and reopen them from the user menu. The Reporter\'s parcel strip now carries a "Save to PRM" button next to the EGRID — one click pins the parcel to your personal register; once saved a small "Open in proom" shortcut appears next to it. The user menu gets a new "My saved parcels" entry that opens the shared saved-parcels modal; picking "Open here" reloads the Reporter at that parcel\'s coordinates.',
+    highlight: true,
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Bookmark,
+        text:
+          'New "Save to PRM" button on the Reporter parcel strip, right next to the EGRID chip. Saves the searched parcel (id, address/coords label, locality, footprint, lat/lng) to your personal register via @swissnovo/shared. Already-saved parcels light up green on load.',
+        prs: [],
+      },
+      {
+        kind: 'new' as ChangeKind,
+        icon: CircleUser,
+        text:
+          'User menu now has a "My saved parcels" entry that opens the shared SavedParcelsModal — list, filter, manage states/priorities/tags, jump to proom, or "Open here" to reload the Reporter at the parcel\'s coordinates.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Globe,
+        text:
+          'New PRM strings (save / saved / saving / save_failed / signin_required / open_in_proom) and the "My saved parcels" menu entry are translated EN / FR / DE / IT.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.10.1',
     date: 'May 23, 2026',
