@@ -1,6 +1,6 @@
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@swissnovo/shared';
 
@@ -10,6 +10,37 @@ export { KIND_META } from '@swissnovo/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.12.0',
+    date: 'May 27, 2026',
+    codename: 'Inter Polish',
+    summary:
+      'Typography refresh aligning showroom with the SwissNovo suite: UI body, headings, and search inputs now ride on Inter (variable, OpenType cv11 + ss01 + tabular figures, antialiased) for a more professional tech-grade dark look. Three tokens now drive every font choice in the app: --hood-font (Inter, UI), --hood-display (Varela Round, wordmark only), --hood-mono (JetBrains Mono, IDs and code).',
+    highlight: true,
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'UI body, headings, and search inputs now ride on Inter (variable, OpenType cv11 + ss01 + tabular figures, antialiased) for a more professional tech-grade dark look.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: BadgeCheck,
+        text:
+          'Brand wordmark untouched: the showroom logo stays in Varela Round with the red `oo`, now routed through the new --hood-display token.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Code2,
+        text:
+          'IDs and code surfaces switch to JetBrains Mono via the new --hood-mono token — parcel IDs, EGRID chips, and metadata panel rows render in the suite mono face.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.11.1',
     date: 'May 26, 2026',
