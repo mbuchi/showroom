@@ -5,9 +5,15 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
-        varela: ['"Varela Round"', 'sans-serif'],
+        // Suite typography tokens — mirror :root --hood-{font,display,mono}.
+        // sans (Inter) is UI body/headings/controls. display (Varela Round) is
+        // reserved for the brand wordmark only. mono (JetBrains Mono) is for
+        // IDs, EGRID, and code surfaces.
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        display: ['"Varela Round"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', '"Cascadia Code"', 'Consolas', 'monospace'],
+        // Back-compat alias — older components still use `font-varela`.
+        varela: ['"Varela Round"', 'system-ui', 'sans-serif'],
       },
       colors: {
         ink: {

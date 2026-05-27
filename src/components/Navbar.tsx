@@ -52,8 +52,8 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
           className="flex items-center gap-2 flex-shrink-0 group"
           aria-label="Showroom home"
         >
-          <span className="text-2xl font-normal font-varela leading-none">
-            <span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">showr</span><span className="text-red-600 text-2xl font-normal font-varela leading-none">oo</span><span className="text-gray-900 dark:text-white text-2xl font-normal font-varela leading-none">m</span>
+          <span className="text-2xl font-normal font-display leading-none tracking-[-0.01em]">
+            <span className="text-gray-900 dark:text-white text-2xl font-normal font-display leading-none">showr</span><span className="text-red-600 text-2xl font-normal font-display leading-none">oo</span><span className="text-gray-900 dark:text-white text-2xl font-normal font-display leading-none">m</span>
           </span>
         </a>
 
