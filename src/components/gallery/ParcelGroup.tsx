@@ -42,11 +42,14 @@ export default function ParcelGroup({
   return (
     <section className="rounded-2xl surface-raised overflow-hidden">
       <button
+        type="button"
         onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-label={`${open ? 'Collapse' : 'Expand'} ${title}`}
         className="w-full px-4 sm:px-5 py-4 flex items-start gap-3 hover:bg-white/[0.02] transition-colors text-left focus-ring"
       >
         <div className="mt-0.5 w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-300 flex items-center justify-center flex-shrink-0">
-          <MapPin size={15} />
+          <MapPin size={15} aria-hidden="true" />
         </div>
 
         <div className="flex-1 min-w-0">
@@ -56,7 +59,7 @@ export default function ParcelGroup({
             </h3>
             {group.parcelId && (
               <span className="inline-flex items-center gap-1 text-[11px] font-mono text-gray-100">
-                <Hash size={10} />
+                <Hash size={10} aria-hidden="true" />
                 {group.parcelId}
               </span>
             )}
@@ -64,7 +67,7 @@ export default function ParcelGroup({
 
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-500">
             <span className="inline-flex items-center gap-1">
-              <Layers size={11} />
+              <Layers size={11} aria-hidden="true" />
               {t(
                 group.exports.length === 1
                   ? 'gallery.group.exports_one'
@@ -73,7 +76,7 @@ export default function ParcelGroup({
               )}
             </span>
             <span className="inline-flex items-center gap-1">
-              <Clock size={11} />
+              <Clock size={11} aria-hidden="true" />
               {formatRelativeTime(group.lastActivity)}
             </span>
             <span className="text-gray-600">·</span>
@@ -104,6 +107,7 @@ export default function ParcelGroup({
           )}
           <ChevronDown
             size={16}
+            aria-hidden="true"
             className={`text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
           />
         </div>
@@ -125,7 +129,9 @@ export default function ParcelGroup({
           ))}
           {!open && remaining > 0 && (
             <button
+              type="button"
               onClick={() => setOpen(true)}
+              aria-label={t('gallery.group.show_all')}
               className="rounded-xl border border-dashed border-white/10 hover:border-cyan-500/40 hover:bg-cyan-500/5 text-gray-400 hover:text-cyan-300 transition-colors aspect-[4/3] flex flex-col items-center justify-center text-center px-3 focus-ring"
             >
               <span className="text-2xl font-semibold tabular-nums">+{remaining}</span>

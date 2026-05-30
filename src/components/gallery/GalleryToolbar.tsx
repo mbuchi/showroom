@@ -65,6 +65,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
 
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={onToggleFavorites}
             aria-pressed={favoritesOnly}
             className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-colors focus-ring ${
@@ -73,20 +74,20 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
                 : 'bg-ink-800/70 border-white/5 text-gray-300 hover:bg-ink-700 hover:border-white/10'
             }`}
           >
-            <Star size={13} className={favoritesOnly ? 'fill-current' : ''} />
+            <Star size={13} aria-hidden="true" className={favoritesOnly ? 'fill-current' : ''} />
             <span className="hidden sm:inline">{t('gallery.filter.favorites')}</span>
           </button>
 
           <div className="hidden sm:flex items-center bg-ink-800/70 border border-white/5 rounded-lg p-0.5">
             <ToolbarToggle
               active={viewMode === 'grouped'}
-              icon={<LayoutGrid size={13} />}
+              icon={<LayoutGrid size={13} aria-hidden="true" />}
               label={t('gallery.filter.view_grouped')}
               onClick={() => onViewModeChange('grouped')}
             />
             <ToolbarToggle
               active={viewMode === 'flat'}
-              icon={<Grid3x3 size={13} />}
+              icon={<Grid3x3 size={13} aria-hidden="true" />}
               label={t('gallery.filter.view_flat')}
               onClick={() => onViewModeChange('flat')}
             />
@@ -95,11 +96,13 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
           <div className="relative">
             <ArrowDownWideNarrow
               size={13}
+              aria-hidden="true"
               className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-500"
             />
             <select
               value={sortMode}
               onChange={(e) => onSortChange(e.target.value as SortMode)}
+              aria-label={t('gallery.sort.label')}
               className="pl-7 pr-7 py-1.5 rounded-lg text-xs font-medium bg-ink-800/70 hover:bg-ink-700 border border-white/5 hover:border-white/10 text-gray-200 focus:outline-none focus:ring-1 focus:ring-cyan-500/40 appearance-none cursor-pointer"
             >
               {SORT_OPTIONS.map((opt) => (
@@ -111,13 +114,14 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
           </div>
 
           <button
+            type="button"
             onClick={onRefresh}
             disabled={isRefreshing}
             className="p-2 rounded-lg bg-ink-800/70 hover:bg-ink-700 border border-white/5 hover:border-white/10 text-gray-400 hover:text-gray-200 transition-colors focus-ring disabled:opacity-50"
             aria-label={t('gallery.filter.refresh')}
             title={t('gallery.filter.refresh')}
           >
-            {isRefreshing ? <Loader2 size={13} className="animate-spin" /> : <RefreshCw size={13} />}
+            {isRefreshing ? <Loader2 size={13} aria-hidden="true" className="animate-spin" /> : <RefreshCw size={13} aria-hidden="true" />}
           </button>
         </div>
       </div>
@@ -125,7 +129,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
       {availableApps.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap pb-1">
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-gray-500 uppercase tracking-wide">
-            <Filter size={11} />
+            <Filter size={11} aria-hidden="true" />
             {t('gallery.filter.from')}
           </span>
           {availableApps.map((app) => {
@@ -133,7 +137,9 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
             return (
               <button
                 key={app}
+                type="button"
                 onClick={() => onToggleApp(app)}
+                aria-pressed={active}
                 className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-colors focus-ring ${
                   active
                     ? 'bg-cyan-500/15 border-cyan-500/30 text-cyan-200'
@@ -146,6 +152,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
           })}
           {hasActiveFilter && (
             <button
+              type="button"
               onClick={onClearFilters}
               className="ml-1 text-[11px] text-gray-500 hover:text-gray-300 underline-offset-2 hover:underline transition-colors"
             >
@@ -171,8 +178,10 @@ function ToolbarToggle({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       aria-pressed={active}
+      aria-label={label}
       className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors ${
         active ? 'bg-ink-700 text-gray-100' : 'text-gray-400 hover:text-gray-200'
       }`}

@@ -85,7 +85,7 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="relative">
-        <Search size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
+        <Search size={16} aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
         <input
           type="search"
           value={value}
@@ -94,14 +94,15 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
           onFocus={() => results.length > 0 && setOpen(true)}
           onKeyDown={onKeyDown}
           placeholder={t('page.reporter.search_placeholder')}
+          aria-label={t('page.reporter.search_placeholder')}
           className="w-full pl-10 pr-10 py-3 rounded-xl bg-ink-800/70 border border-white/10 hover:border-white/20 focus:border-cyan-500/50 focus:bg-ink-800 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
         />
         {loading && (
-          <Loader2 size={15} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-cyan-400 animate-spin" />
+          <Loader2 size={15} aria-hidden="true" className="absolute right-3.5 top-1/2 -translate-y-1/2 text-cyan-400 animate-spin" />
         )}
       </div>
 
-      {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
+      {error && <p className="mt-1.5 text-xs text-red-400" role="alert">{error}</p>}
 
       {open && results.length > 0 && (
         <ul className="absolute z-50 mt-2 w-full surface-raised rounded-xl overflow-hidden py-1 animate-fade-in-down">
@@ -115,7 +116,7 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
                   i === activeIndex ? 'bg-cyan-500/10' : 'hover:bg-white/5'
                 }`}
               >
-                <MapPin size={14} className="mt-0.5 flex-shrink-0 text-cyan-400" />
+                <MapPin size={14} aria-hidden="true" className="mt-0.5 flex-shrink-0 text-cyan-400" />
                 <span className="text-sm text-gray-200 leading-snug">{result.label}</span>
               </button>
             </li>

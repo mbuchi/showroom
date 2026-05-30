@@ -31,6 +31,12 @@ export default function ExportCard({
   const appClass = APP_BADGE_CLASSES[image.app_source] || 'bg-ink-700 text-gray-300 border-white/10';
   const address = image.custom_metadata?.address;
   const parcelId = image.prm_id || image.custom_metadata?.central_parcel_id;
+  // Descriptive alt text: lead with the app the export came from, then the
+  // place it depicts (address or parcel id), falling back to the filename.
+  const place = address || (parcelId ? `parcel ${parcelId}` : null);
+  const altText = place
+    ? `${appLabel} export — ${place}`
+    : `${appLabel} export — ${image.original_filename}`;
 
   return (
     <div
@@ -46,8 +52,11 @@ export default function ExportCard({
           {!loaded && <Skeleton className="absolute inset-0" radius={0} />}
           <img
             src={image.public_url}
-            alt={image.original_filename}
+            alt={altText}
             loading="lazy"
+            decoding="async"
+            width={image.width || undefined}
+            height={image.height || undefined}
             onLoad={() => setLoaded(true)}
             className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04] img-fade-in ${loaded ? 'loaded' : ''}`}
           />
@@ -59,7 +68,7 @@ export default function ExportCard({
 
           {isFavorite && (
             <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-amber-400/90 backdrop-blur flex items-center justify-center shadow">
-              <Star size={12} className="text-ink-900 fill-current" />
+              <Star size={12} aria-hidden="true" className="text-ink-900 fill-current" />
             </span>
           )}
         </div>
@@ -71,7 +80,7 @@ export default function ExportCard({
             <span className="truncate" title={address}>{address}</span>
           ) : parcelId ? (
             <span className="inline-flex items-center gap-1 font-mono text-gray-300/90">
-              <Hash size={10} />
+              <Hash size={10} aria-hidden="true" />
               {parcelId}
             </span>
           ) : (
@@ -88,7 +97,7 @@ export default function ExportCard({
             aria-label={t('card.add_favorite')}
             title={t('card.favorite_tooltip')}
           >
-            <Star size={13} />
+            <Star size={13} aria-hidden="true" />
           </button>
         )}
         {isFavorite && (
@@ -98,7 +107,7 @@ export default function ExportCard({
             aria-label={t('card.remove_favorite')}
             title={t('card.unfavorite_tooltip')}
           >
-            <Star size={13} className="fill-current" />
+            <Star size={13} aria-hidden="true" className="fill-current" />
           </button>
         )}
         <a
@@ -110,7 +119,7 @@ export default function ExportCard({
           aria-label={t('card.open_original_aria')}
           title={t('card.open_original')}
         >
-          <ExternalLink size={13} />
+          <ExternalLink size={13} aria-hidden="true" />
         </a>
         <button
           onClick={(e) => { e.stopPropagation(); onDelete(); }}
@@ -119,7 +128,7 @@ export default function ExportCard({
           aria-label={t('card.delete_aria')}
           title={t('card.delete')}
         >
-          {isDeleting ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
+          {isDeleting ? <Loader2 size={13} aria-hidden="true" className="animate-spin" /> : <Trash2 size={13} aria-hidden="true" />}
         </button>
       </div>
 

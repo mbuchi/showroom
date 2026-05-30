@@ -56,32 +56,32 @@ export default function MetadataPanel({ image }: MetadataPanelProps) {
       {(meta.address || parcelId || (lat && lng)) && (
         <Section title={t('modal.detail.section_location')}>
           {meta.address && (
-            <Row icon={<MapPin size={11} />} label={t('modal.detail.label_address')} value={meta.address} />
+            <Row icon={<MapPin size={11} aria-hidden="true" />} label={t('modal.detail.label_address')} value={meta.address} />
           )}
           {parcelId && (
             <Row
-              icon={<Hash size={11} />}
+              icon={<Hash size={11} aria-hidden="true" />}
               label={t('modal.detail.label_parcel_id')}
               value={String(parcelId)}
               mono
             />
           )}
           {lat && lng && (
-            <Row icon={<Globe size={11} />} label={t('modal.detail.label_center')} value={`${lat}, ${lng}`} mono />
+            <Row icon={<Globe size={11} aria-hidden="true" />} label={t('modal.detail.label_center')} value={`${lat}, ${lng}`} mono />
           )}
         </Section>
       )}
 
       <Section title={t('modal.detail.section_capture')}>
-        <Row icon={<Calendar size={11} />} label={t('modal.detail.label_saved')} value={formatDate(image.created_at)} />
+        <Row icon={<Calendar size={11} aria-hidden="true" />} label={t('modal.detail.label_saved')} value={formatDate(image.created_at)} />
         <Row
-          icon={<Maximize2 size={11} />}
+          icon={<Maximize2 size={11} aria-hidden="true" />}
           label={t('modal.detail.label_dimensions')}
           value={`${image.width} × ${image.height}`}
           mono
         />
         <Row
-          icon={<Layers size={11} />}
+          icon={<Layers size={11} aria-hidden="true" />}
           label={t('modal.detail.label_size')}
           value={formatBytes(image.file_size)}
           mono

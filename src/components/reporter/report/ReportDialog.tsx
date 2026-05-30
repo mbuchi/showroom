@@ -34,10 +34,12 @@ export default function ReportDialog({
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfFilename, setPdfFilename] = useState<string>('showroom-report.pdf');
   const lastUrlRef = useRef<string | null>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
-  // Esc to close.
+  // Esc to close, and move focus into the dialog when it opens.
   useEffect(() => {
     if (!open) return;
+    closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };

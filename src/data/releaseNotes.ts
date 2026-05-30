@@ -11,6 +11,43 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.1',
+    date: 'May 30, 2026',
+    codename: 'Accessible Gallery',
+    summary:
+      'An accessibility and polish pass across the gallery, lightbox and reporter. Every gallery thumbnail now carries descriptive alt text and reserves its space before it loads (no more layout shift); the lightbox, saved-parcels drawer and reporter dialogs are proper modals that trap focus and announce themselves to assistive tech; and every icon-only control gained a label while decorative glyphs are now hidden from screen readers.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Eye,
+        text:
+          'Gallery thumbnails and the lightbox image now use descriptive alt text built from the app name, parcel ID and filename, plus width/height intrinsic sizing and decoding="async" so the grid no longer reflows as images stream in.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: KeyRound,
+        text:
+          'The lightbox is now a labelled dialog with a focus trap: opening it moves focus to the close button, Tab cycles only within the overlay, and closing returns focus to the gallery card you came from. The saved-parcels drawer and reporter dialogs gained the same role="dialog" / aria-modal semantics.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: BadgeCheck,
+        text:
+          'Icon-only buttons across the navbar, toolbar, parcel groups and reporter cards now expose accessible names; decorative icons are marked aria-hidden; and empty / loading / error states announce themselves via role="status" / role="alert".',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Type,
+        text:
+          'Browser-tab title switched to the suite-standard em-dash form ("showroom — gallery for your parcel exports").',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.0',
     date: 'May 27, 2026',
     codename: 'Inter Polish',

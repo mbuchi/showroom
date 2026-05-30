@@ -103,7 +103,7 @@ export default function WidgetCard({
                     : 'border-white/10 bg-transparent'
               }`}
             >
-              {selected && <Check size={9} strokeWidth={3} />}
+              {selected && <Check size={9} strokeWidth={3} aria-hidden="true" />}
             </span>
             <span>
               {selected
@@ -118,7 +118,7 @@ export default function WidgetCard({
           data-capture-skip="true"
           className="absolute top-2 right-2 z-20 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-900/85 px-2 py-1 text-[10px] font-semibold text-gray-200 backdrop-blur-sm"
         >
-          <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
+          <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
           <span className={meta.text}>{t(meta.labelKey)}</span>
         </span>
 
@@ -127,8 +127,8 @@ export default function WidgetCard({
         )}
 
         {status === 'no_data' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/70 text-amber-300/90">
-            <MapPinned size={22} className="text-amber-500/70" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/70 text-amber-300/90" role="status">
+            <MapPinned size={22} aria-hidden="true" className="text-amber-500/70" />
             <span className="text-[11px] uppercase tracking-wider font-semibold">
               {t('page.reporter.widget.no_data_at_location')}
             </span>
@@ -136,8 +136,8 @@ export default function WidgetCard({
         )}
 
         {status === 'error' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/80 text-red-300/90 px-4 text-center">
-            <AlertTriangle size={22} className="text-red-500/70" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-ink-900/80 text-red-300/90 px-4 text-center" role="alert">
+            <AlertTriangle size={22} aria-hidden="true" className="text-red-500/70" />
             <span className="text-[11px] font-semibold">{error || t('page.reporter.widget.failed_to_load')}</span>
             {onRetry && (
               <button
@@ -146,7 +146,7 @@ export default function WidgetCard({
                 data-capture-skip="true"
                 className="mt-1 inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg text-[11px] font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
               >
-                <RefreshCw size={12} />
+                <RefreshCw size={12} aria-hidden="true" />
                 {t('page.reporter.widget.retry')}
               </button>
             )}
@@ -178,9 +178,10 @@ export default function WidgetCard({
           target="_blank"
           rel="noopener noreferrer"
           title={t('page.reporter.widget.open_at_location', { label })}
+          aria-label={t('page.reporter.widget.open_at_location', { label })}
           className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors flex-shrink-0"
         >
-          <ExternalLink size={14} />
+          <ExternalLink size={14} aria-hidden="true" />
         </a>
       </div>
     </div>

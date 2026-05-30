@@ -137,7 +137,7 @@ export default function ReporterView() {
       <main className="mx-auto max-w-[1600px] px-4 sm:px-6 py-6 sm:py-8">
         <div className="mb-6">
           <div className="flex items-center gap-2 text-cyan-400 mb-1.5">
-            <FileBarChart size={16} />
+            <FileBarChart size={16} aria-hidden="true" />
             <h1 className="text-sm uppercase tracking-[0.18em] font-bold">{t('page.reporter.kicker')}</h1>
           </div>
           <p className="text-sm text-gray-400 max-w-2xl">
@@ -146,8 +146,8 @@ export default function ReporterView() {
         </div>
 
         {!isGeocodingConfigured && (
-          <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-            <AlertTriangle size={16} className="mt-0.5 flex-shrink-0" />
+          <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200" role="alert">
+            <AlertTriangle size={16} aria-hidden="true" className="mt-0.5 flex-shrink-0" />
             <span>
               {t('page.reporter.search_disabled_prefix')}{' '}
               <code className="font-mono">VITE_MAPBOX_TOKEN</code>{' '}
@@ -181,7 +181,7 @@ export default function ReporterView() {
             <div className="surface rounded-xl px-4 sm:px-5 py-4 mb-6 flex flex-wrap items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 text-gray-100">
-                  <MapPin size={15} className="text-cyan-400 flex-shrink-0" />
+                  <MapPin size={15} aria-hidden="true" className="text-cyan-400 flex-shrink-0" />
                   <span className="text-sm font-semibold truncate">
                     {params.address || t('page.reporter.selected_location')}
                   </span>
@@ -197,7 +197,7 @@ export default function ReporterView() {
                   onClick={regenerate}
                   className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-xs font-semibold border border-white/10 text-gray-300 hover:text-cyan-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 transition-colors"
                 >
-                  <RefreshCw size={13} />
+                  <RefreshCw size={13} aria-hidden="true" />
                   {t('page.reporter.regenerate')}
                 </button>
                 <button
@@ -215,7 +215,7 @@ export default function ReporterView() {
                       : 'border border-cyan-400/40 bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 hover:border-cyan-300/60'
                   }`}
                 >
-                  <FileDown size={13} />
+                  <FileDown size={13} aria-hidden="true" />
                   {t('page.reporter.report.generate')}
                   <span className="ml-1 inline-flex h-5 min-w-[20px] items-center justify-center rounded-md bg-cyan-400/20 px-1.5 text-[10px] font-bold tabular-nums">
                     {selectedCount}
@@ -225,7 +225,7 @@ export default function ReporterView() {
             </div>
 
             {liveSelectedCount === 0 && selectedCount > 0 && (
-              <div className="mb-4 -mt-2 text-[11px] text-gray-500">
+              <div className="mb-4 -mt-2 text-[11px] text-gray-500" role="status">
                 {t('page.reporter.report.waiting_for_data')}
               </div>
             )}
@@ -260,8 +260,8 @@ export default function ReporterView() {
         )}
 
         {!params && (
-          <div className="surface rounded-xl px-6 py-12 text-center">
-            <FileBarChart size={28} className="mx-auto text-gray-600 mb-3" />
+          <div className="surface rounded-xl px-6 py-12 text-center" role="status">
+            <FileBarChart size={28} aria-hidden="true" className="mx-auto text-gray-600 mb-3" />
             <p className="text-sm text-gray-400">
               {t('page.reporter.no_report')}
             </p>
