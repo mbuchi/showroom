@@ -11,6 +11,36 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.2',
+    date: 'May 31, 2026',
+    codename: 'Accessible Lightbox',
+    summary:
+      'Accessibility polish across the gallery and lightbox: the lightbox is now an announced modal that returns keyboard focus to the export you opened, the search field carries an accessible name, and motion now respects your system preferences.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Eye,
+        text:
+          'The export lightbox is now exposed to assistive tech as a modal dialog and restores keyboard focus to the gallery card you opened when it closes.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Eye,
+        text:
+          'The gallery search field now has an accessible label, the brand link is labelled in lowercase, and decorative icons are hidden from screen readers.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'Animations, the skeleton pulse, and the lightbox spinner now honour the operating system "reduce motion" setting.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.1',
     date: 'May 31, 2026',
     codename: 'Error Capture',

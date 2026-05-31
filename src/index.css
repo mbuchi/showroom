@@ -218,3 +218,18 @@ body {
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
+
+/* ——— Reduced motion ———
+   Honour the OS "reduce motion" preference: neutralise the card-enter,
+   fade/slide/scale entrances, the skeleton pulse, the lightbox spinner, and
+   the image fade-in so the gallery and lightbox settle instantly. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

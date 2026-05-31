@@ -49,8 +49,13 @@ export default function ExportLightbox({
   useEffect(() => {
     const original = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    // Capture the element that had focus (the gallery card that opened the
+    // lightbox) so we can restore focus to it when the lightbox closes —
+    // otherwise keyboard users are dropped back at the top of the document.
+    const previouslyFocused = document.activeElement as HTMLElement | null;
     return () => {
       document.body.style.overflow = original;
+      previouslyFocused?.focus();
     };
   }, []);
 
@@ -86,7 +91,12 @@ export default function ExportLightbox({
   const hasNext = safeIndex < images.length - 1;
 
   return (
-    <div className="fixed inset-0 z-[150] flex flex-col">
+    <div
+      className="fixed inset-0 z-[150] flex flex-col"
+      role="dialog"
+      aria-modal="true"
+      aria-label={image.original_filename}
+    >
       <div className="absolute inset-0 bg-black/90 backdrop-blur-md animate-fade-in" onClick={onClose} />
 
       <div className="relative flex items-center justify-between px-4 sm:px-6 h-14 border-b border-white/5 bg-black/40 backdrop-blur-md text-gray-200">
