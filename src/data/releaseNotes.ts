@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.1',
+    date: 'May 31, 2026',
+    codename: 'Error Capture',
+    summary:
+      'Showroom now automatically captures client-side errors and forwards them to the SwissNovo suite-wide error log via @swissnovo/shared v0.42.0.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Bug,
+        text:
+          'Uncaught client errors are now captured automatically and reported to the central SwissNovo error log, so regressions surface faster across the suite.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.0',
     date: 'May 27, 2026',
     codename: 'Inter Polish',
