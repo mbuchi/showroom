@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.4',
+    date: 'May 31, 2026',
+    codename: 'Shared Preview',
+    summary:
+      'Social-share preview image now points at the centralized toolbox meta URL.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: ImageIcon,
+        text:
+          'Social-share preview image now uses the centralized toolbox URL (https://toolbox.swissnovo.com/meta/showroom.jpg) with correct dimensions.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.3',
     date: 'May 31, 2026',
     codename: 'Vercel Only',
