@@ -198,7 +198,7 @@ export default function ExportLightbox({
               src={image.public_url}
               alt={image.original_filename}
               onLoad={() => setImgLoaded(true)}
-              className={`max-w-full max-h-[calc(100vh-9rem)] object-contain rounded-lg shadow-2xl img-fade-in ${imgLoaded ? 'loaded' : ''}`}
+              className={`max-w-full max-h-[calc(100dvh-9rem)] object-contain rounded-lg shadow-2xl img-fade-in ${imgLoaded ? 'loaded' : ''}`}
             />
           </div>
         </div>
