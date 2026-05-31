@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.2',
+    date: 'May 31, 2026',
+    codename: 'Vercel Only',
+    summary:
+      'Removed dead Netlify config — Vercel-only.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Eraser,
+        text:
+          'Removed dead Netlify config — Vercel-only. Showroom deploys exclusively on Vercel (vercel.json + /api edge functions), so the stale netlify.toml has been deleted.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.1',
     date: 'May 31, 2026',
     codename: 'Error Capture',
