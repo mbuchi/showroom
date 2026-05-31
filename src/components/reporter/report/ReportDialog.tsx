@@ -34,6 +34,8 @@ export default function ReportDialog({
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfFilename, setPdfFilename] = useState<string>('showroom-report.pdf');
   const lastUrlRef = useRef<string | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const prevFocusRef = useRef<HTMLElement | null>(null);
 
   // Esc to close.
   useEffect(() => {
@@ -44,6 +46,18 @@ export default function ReportDialog({
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
+
+  // On open, remember the triggering element and move focus into the dialog
+  // (the close button); on close, restore focus to the trigger so keyboard
+  // users are not dropped at the top of the document.
+  useEffect(() => {
+    if (!open) return;
+    prevFocusRef.current = document.activeElement as HTMLElement | null;
+    closeBtnRef.current?.focus();
+    return () => {
+      prevFocusRef.current?.focus();
+    };
+  }, [open]);
 
   // Revoke the previous blob URL when a new one is generated or when the
   // dialog unmounts — otherwise the browser leaks the PDF blob.
@@ -154,9 +168,10 @@ export default function ReportDialog({
           </div>
           <button
             type="button"
+            ref={closeBtnRef}
             onClick={onClose}
             aria-label={t('report.dialog.close')}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-white/5 hover:text-gray-200"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 hover:bg-white/5 hover:text-gray-200 focus-ring"
           >
             <X size={15} />
           </button>
