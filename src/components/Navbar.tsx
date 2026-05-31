@@ -49,7 +49,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
             e.preventDefault();
             navigate('/');
           }}
-          className="flex items-center gap-2 flex-shrink-0 group"
+          className="flex items-center gap-2 flex-shrink-0 group rounded-md focus-ring"
           aria-label="showroom home"
         >
           <span className="text-2xl font-normal font-display leading-none tracking-[-0.01em]">

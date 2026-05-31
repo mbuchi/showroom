@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   X,
   ChevronLeft,
@@ -37,6 +37,7 @@ export default function ExportLightbox({
 }: LightboxProps) {
   const [showInfo, setShowInfo] = useState(true);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
 
   const safeIndex = Math.max(0, Math.min(index, images.length - 1));
@@ -53,6 +54,9 @@ export default function ExportLightbox({
     // lightbox) so we can restore focus to it when the lightbox closes —
     // otherwise keyboard users are dropped back at the top of the document.
     const previouslyFocused = document.activeElement as HTMLElement | null;
+    // Move focus into the dialog on open so keyboard/screen-reader users land
+    // inside the modal rather than leaving focus on the (now obscured) trigger.
+    dialogRef.current?.focus();
     return () => {
       document.body.style.overflow = original;
       previouslyFocused?.focus();
@@ -92,7 +96,9 @@ export default function ExportLightbox({
 
   return (
     <div
-      className="fixed inset-0 z-[150] flex flex-col"
+      ref={dialogRef}
+      tabIndex={-1}
+      className="fixed inset-0 z-[150] flex flex-col focus:outline-none"
       role="dialog"
       aria-modal="true"
       aria-label={image.original_filename}
