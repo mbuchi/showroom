@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.5.1",
-    "@swissnovo/shared": "github:mbuchi/swissnovo-shared#v0.42.0",
+    "@swissnovo/shared": "github:mbuchi/swissnovo-shared#v0.43.2",
     "html-to-image": "^1.11.13",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.344.0",
