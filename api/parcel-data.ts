@@ -81,9 +81,21 @@ export default async function handler(req: Request): Promise<Response> {
       body: JSON.stringify({ lat, lng, structure: "default" }),
     });
     const text = await upstream.text();
+    // Swiss parcel details are highly static, so let Vercel's edge network
+    // cache successful lookups for an hour (serving stale for up to a day
+    // while it revalidates). This cuts latency and upstream RES API quota on
+    // repeat loads. Only cache 2xx responses — caching upstream errors would
+    // pin a transient failure across the edge for the full TTL.
+    const headers: Record<string, string> = {
+      ...corsHeaders,
+      "Content-Type": "application/json",
+    };
+    if (upstream.ok) {
+      headers["Cache-Control"] = "public, s-maxage=3600, stale-while-revalidate=86400";
+    }
     return new Response(text, {
       status: upstream.status,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers,
     });
   } catch (error) {
     return json({ error: (error as Error).message }, 502);
