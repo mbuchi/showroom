@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.8',
+    date: 'June 2, 2026',
+    codename: 'Suite Standard',
+    summary:
+      'Typography design tokens reverted to the suite-standard --hood-* namespace so fonts stay consistent across every SwissNovo app.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Type,
+        text:
+          'The CSS custom properties for the suite typography system are renamed back to the shared --hood-font / --hood-display / --hood-mono namespace, reverting an app-local fork. The brand wordmark’s red “oo” now uses text-red-500 / dark:text-red-400 to match the rest of the suite. No visual change to the font stacks — still Inter / Varela Round / JetBrains Mono.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.7',
     date: 'June 2, 2026',
     codename: 'Theme Match',
@@ -47,13 +63,13 @@ export const RELEASES: Release[] = [
     date: 'June 2, 2026',
     codename: 'Own Namespace',
     summary:
-      'Typography design tokens renamed from the inherited --hood- prefix to --showroom-, removing copy-paste namespace drift.',
+      'Typography design tokens were briefly re-namespaced to an app-local prefix (later reverted to the suite standard in 0.12.8).',
     items: [
       {
         kind: 'improved' as ChangeKind,
         icon: Type,
         text:
-          'The suite typography CSS custom properties are now namespaced to this app: --hood-font / --hood-display / --hood-mono are renamed to --showroom-font / --showroom-display / --showroom-mono. No visual change — same Inter / Varela Round / JetBrains Mono stacks.',
+          'The suite typography CSS custom properties were temporarily renamed to an app-local namespace. This drifted from the shared suite standard and was reverted in 0.12.8. No visual change — same Inter / Varela Round / JetBrains Mono stacks.',
         prs: [],
       },
     ],

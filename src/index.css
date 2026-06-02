@@ -7,18 +7,20 @@
 
   /* Suite typography tokens — single source of truth.
      --------------------------------------------------------------------
-     Showroom inherits the SwissNovo suite typography system:
-       * --showroom-font     — UI body, headings, controls (Inter, variable;
-                               cv11 single-storey g, ss01 open digits)
-       * --showroom-display  — Varela Round, reserved for the brand wordmark
-                               with the red `oo`
-       * --showroom-mono     — JetBrains Mono, for parcel IDs, EGRID, code
+     Showroom inherits the SwissNovo suite typography system. The `--hood-`
+     prefix is the intentional suite standard: every app forks the same
+     namespace so fonts stay consistent suite-wide.
+       * --hood-font     — UI body, headings, controls (Inter, variable;
+                           cv11 single-storey g, ss01 open digits)
+       * --hood-display  — Varela Round, reserved for the brand wordmark
+                           with the red `oo`
+       * --hood-mono     — JetBrains Mono, for parcel IDs, EGRID, code
      Variable-friendly fallback chain stays system-aware in case Google
      Fonts is blocked. Tailwind's font-{sans,display,mono} families mirror
      these in tailwind.config.js. */
-  --showroom-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --showroom-display: 'Varela Round', system-ui, sans-serif;
-  --showroom-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Cascadia Code', Consolas, monospace;
+  --hood-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --hood-display: 'Varela Round', system-ui, sans-serif;
+  --hood-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Cascadia Code', Consolas, monospace;
 }
 
 html, body, #root {
@@ -29,7 +31,7 @@ html, body, #root {
    open digits (ss01), and grayscale antialiasing for clean rendering on dark
    surfaces. Tabular figures keep numeric columns aligned in metadata panels. */
 html {
-  font-family: var(--showroom-font);
+  font-family: var(--hood-font);
   font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'cv11' 1, 'ss01' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,7 +39,7 @@ html {
 }
 
 body {
-  font-family: var(--showroom-font);
+  font-family: var(--hood-font);
   line-height: 1.5;
   background:
     radial-gradient(1200px 600px at 80% -10%, rgba(34, 211, 238, 0.06), transparent 60%),
