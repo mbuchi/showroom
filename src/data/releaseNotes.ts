@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.6',
+    date: 'June 2, 2026',
+    codename: 'Edge Cached',
+    summary:
+      'Parcel lookups are now cached at the edge for an hour, so repeat reporter loads are faster and lean less on the upstream API.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'The parcel-data proxy now sets edge cache headers (s-maxage=3600, stale-while-revalidate=86400) on successful lookups. Since Swiss parcel details are highly static, Vercel’s edge network can serve repeat requests without round-tripping to the RES API — reducing latency and upstream quota. Error responses are never cached.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.5',
     date: 'June 2, 2026',
     codename: 'Own Namespace',
