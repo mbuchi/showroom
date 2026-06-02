@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        // Suite typography tokens — mirror :root --hood-{font,display,mono}.
+        // Suite typography tokens — mirror :root --showroom-{font,display,mono}.
         // sans (Inter) is UI body/headings/controls. display (Varela Round) is
         // reserved for the brand wordmark only. mono (JetBrains Mono) is for
         // IDs, EGRID, and code surfaces.
