@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.7',
+    date: 'June 2, 2026',
+    codename: 'Theme Match',
+    summary:
+      'The Valoo valuation map in the reporter now follows the app theme instead of always rendering in light mode.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Palette,
+        text:
+          'The Valoo widget’s Mapbox choropleth basemap now branches between the light and dark Mapbox styles based on the active theme, so it no longer renders a bright light-mode map inside the dark reporter. It reacts live if the theme changes.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.6',
     date: 'June 2, 2026',
     codename: 'Edge Cached',

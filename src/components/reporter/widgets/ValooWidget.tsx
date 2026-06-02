@@ -51,11 +51,30 @@ interface ValooWidgetProps {
   onReport?: (raw: WidgetReportRaw) => void;
 }
 
+// Branch the Mapbox basemap between light/dark to match the suite theme,
+// mirroring the rest of showroom's maps. The app drives the theme via the
+// `dark` class on <html>, so we read it there and re-render if it flips.
+function useMapboxStyleUrl() {
+  const read = () =>
+    document.documentElement.classList.contains('dark')
+      ? 'mapbox://styles/mapbox/dark-v11'
+      : 'mapbox://styles/mapbox/light-v11';
+  const [styleUrl, setStyleUrl] = useState(read);
+  useEffect(() => {
+    const obs = new MutationObserver(() => setStyleUrl(read()));
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    setStyleUrl(read());
+    return () => obs.disconnect();
+  }, []);
+  return styleUrl;
+}
+
 export default function ValooWidget({ lat, lng, selected, onToggleSelect, onReport }: ValooWidgetProps) {
   const app = reporterApp('valoo');
   const { t } = useI18n();
   const { reloadKey, status, setStatus, retry } = useReporterWidget();
   const [priceM2, setPriceM2] = useState<number | null>(null);
+  const styleUrl = useMapboxStyleUrl();
 
   useEffect(() => {
     onReport?.({
@@ -120,7 +139,7 @@ export default function ValooWidget({ lat, lng, selected, onToggleSelect, onRepo
         lat={lat}
         lng={lng}
         zoom={17}
-        styleUrl="mapbox://styles/mapbox/light-v11"
+        styleUrl={styleUrl}
         onLoad={addLayers}
         onIdle={readPrice}
       />
