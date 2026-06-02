@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.5',
+    date: 'June 2, 2026',
+    codename: 'Own Namespace',
+    summary:
+      'Typography design tokens renamed from the inherited --hood- prefix to --showroom-, removing copy-paste namespace drift.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'The suite typography CSS custom properties are now namespaced to this app: --hood-font / --hood-display / --hood-mono are renamed to --showroom-font / --showroom-display / --showroom-mono. No visual change — same Inter / Varela Round / JetBrains Mono stacks.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.4',
     date: 'May 31, 2026',
     codename: 'Shared Preview',
