@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.9',
+    date: 'June 4, 2026',
+    codename: 'Compiler On',
+    summary:
+      'The React Compiler 1.0 now optimises the build with automatic compile-time memoization — fewer needless re-renders, no behaviour change.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'Enabled the React Compiler 1.0 (Babel plugin, target React 18) for automatic compile-time memoization — fewer needless re-renders, no behaviour change. Healthcheck: 46/46 components compiled.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.8',
     date: 'June 2, 2026',
     codename: 'Suite Standard',
