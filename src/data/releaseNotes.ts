@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.10',
+    date: 'June 4, 2026',
+    codename: 'Instant Recall',
+    summary:
+      'Repeat lookups are now instant — parcel, construction-year, solar, and address-search results are cached locally in your browser.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'Reporter lookups now read through a local browser cache (IndexedDB), so revisiting a location you have already searched returns its parcel facts, construction year, solar potential, and address matches with zero network latency. The cache sits in front of the backend (which has its own Redis layer) and silently falls back to a normal network fetch if the browser store is unavailable.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.9',
     date: 'June 4, 2026',
     codename: 'Compiler On',

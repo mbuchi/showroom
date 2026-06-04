@@ -4,6 +4,8 @@
 // Ported from soolar/src/lib/solar.ts — api3.geo.admin.ch sends
 // Access-Control-Allow-Origin: *, so no proxy is needed.
 
+import { IndexedDBCache } from '@swissnovo/shared';
+
 export const SOLAR_LAYER = 'ch.bfe.solarenergie-eignung-daecher';
 
 /** WMTS tile template for the Sonnendach overlay. */
@@ -54,6 +56,24 @@ export function wgs84ToLv95(lng: number, lat: number): { east: number; north: nu
   return { east, north };
 }
 
+// Two-layer client cache for the solar identify call. A synchronous in-memory
+// Map fronts an IndexedDBCache so a repeat lookup at the same roof resolves
+// instantly instead of re-hitting api3.geo.admin.ch. This is the per-user hot
+// cache in front of the upstream API (see feedback-redis-backend-cache). Roof
+// suitability data refreshes infrequently, so a 7-day TTL is safe and a small
+// LRU budget keeps the store bounded. Every IDB failure path inside
+// IndexedDBCache is silent, so a broken/blocked IndexedDB degrades gracefully
+// to a plain network fetch.
+const SOLAR_CACHE_TTL_MINUTES = 7 * 24 * 60; // 7 days
+const SOLAR_CACHE_MAX_BYTES = 2 * 1024 * 1024; // 2 MB
+
+const solarMemoryCache = new Map<string, SolarRoofFeature[]>();
+const solarPersistentCache = new IndexedDBCache<SolarRoofFeature[]>(
+  'showroom-solar',
+  'roofs',
+  { ttlMinutes: SOLAR_CACHE_TTL_MINUTES, maxBytes: SOLAR_CACHE_MAX_BYTES },
+);
+
 /** Call the swisstopo identify endpoint for the solar roof layer at a point. */
 export async function identifySolarAt(
   lat: number,
@@ -62,6 +82,23 @@ export async function identifySolarAt(
 ): Promise<SolarRoofFeature[]> {
   const { east, north } = wgs84ToLv95(lng, lat);
   const pad = 25; // metres — tolerance circle around the point
+
+  // Cache key mirrors the request geometry — the rounded LV95 east/north the
+  // identify call is issued at — so repeat clicks on the same point collapse.
+  const key = `${Math.round(east)},${Math.round(north)}`;
+
+  // Layer 1 — synchronous in-memory hit.
+  const memHit = solarMemoryCache.get(key);
+  if (memHit) return memHit;
+
+  // Layer 2 — persistent IndexedDB hit.
+  const idbHit = await solarPersistentCache.get(key);
+  if (idbHit) {
+    solarMemoryCache.set(key, idbHit);
+    return idbHit;
+  }
+  // A cache lookup is async; bail out if the caller aborted while we waited.
+  if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
 
   const url = new URL('https://api3.geo.admin.ch/rest/services/api/MapServer/identify');
   url.searchParams.set('geometry', `${east},${north}`);
@@ -79,7 +116,15 @@ export async function identifySolarAt(
   const res = await fetch(url.toString(), { signal });
   if (!res.ok) throw new Error(`identify failed (${res.status})`);
   const data: IdentifyResponse = await res.json();
-  return data.results ?? [];
+  const features = data.results ?? [];
+
+  // Write through to both layers (including an empty "no roofs" result so a
+  // repeat lookup is also a zero-network resolve). set() never throws, so this
+  // stays out of the caller's error path.
+  solarMemoryCache.set(key, features);
+  void solarPersistentCache.set(key, features);
+
+  return features;
 }
 
 /** Sum PV yield (stromertrag, kWh/yr) across all roof features at a point. */
