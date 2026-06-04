@@ -11,6 +11,22 @@ export { KIND_META } from '@swissnovo/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.11',
+    date: 'June 4, 2026',
+    codename: 'Track Parcel',
+    summary:
+      'The parcel save action is now labelled "Track parcel" — plain wording that replaces the old "Save to PRM" jargon.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'The Reporter parcel strip\'s save button now reads "Track parcel" (and "Tracked" once saved) instead of "Save to PRM" / "Saved to PRM". Relabelled in all four languages — EN "Track parcel" / "Tracked", FR "Suivre la parcelle" / "Suivie", DE "Parzelle verfolgen" / "Verfolgt", IT "Segui la particella" / "Seguita". No change to where parcels are saved.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.10',
     date: 'June 4, 2026',
     codename: 'Instant Recall',
