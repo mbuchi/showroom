@@ -1,4 +1,4 @@
-import { Skeleton } from '@swissnovo/shared';
+import { Skeleton } from '@aireon/shared';
 
 export default function ParcelSkeleton() {
   return (

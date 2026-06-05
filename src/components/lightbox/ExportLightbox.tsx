@@ -13,7 +13,7 @@ import {
 import type { SavedImage } from '../../services/imageService';
 import MetadataPanel from './MetadataPanel';
 import { useI18n } from '../../contexts/I18nContext';
-import { useFocusTrap } from '@swissnovo/shared';
+import { useFocusTrap } from '@aireon/shared';
 
 interface LightboxProps {
   images: SavedImage[];

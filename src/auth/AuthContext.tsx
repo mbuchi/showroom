@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import { AuthProvider as SharedAuthProvider, useAuth as useSharedAuth } from '@swissnovo/shared';
+import { AuthProvider as SharedAuthProvider, useAuth as useSharedAuth } from '@aireon/shared';
 
 // OIDC auth (provider, hook, userManager) and the login UI now come from
-// @swissnovo/shared. This file is a thin wrapper that re-exposes the shared
+// @aireon/shared. This file is a thin wrapper that re-exposes the shared
 // auth state under showroom's original public shape, so existing useAuth()
 // callers keep working without changes.
 

@@ -10,7 +10,7 @@ import {
   PROOM_APP_URL,
   PrmAuthRequiredError as AuthRequiredError,
   type PrmRecord,
-} from '@swissnovo/shared';
+} from '@aireon/shared';
 import { fetchParcelInfo, type ParcelInfo } from '../../lib/parcelInfo';
 import { useI18n } from '../../contexts/I18nContext';
 import { useAuth } from '../../auth/AuthContext';

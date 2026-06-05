@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { ExternalLink, AlertTriangle, MapPinned, RefreshCw, Check } from 'lucide-react';
-import { Skeleton } from '@swissnovo/shared';
+import { Skeleton } from '@aireon/shared';
 import { useI18n } from '../../contexts/I18nContext';
 
 // Presentational shell for one reporter widget: a 16:10 live-map slot. The

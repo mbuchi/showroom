@@ -12,7 +12,7 @@ import {
   initialsOf,
   type PrmRecord,
   type PrmLocale,
-} from '@swissnovo/shared';
+} from '@aireon/shared';
 import { useAuth } from '../auth/AuthContext';
 import { useI18n } from '../contexts/I18nContext';
 

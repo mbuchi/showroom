@@ -4,7 +4,7 @@
 // The RES `parcel_data` endpoint needs a server-side token, so the request is
 // proxied through the /api/parcel-data Vercel edge function.
 
-import { IndexedDBCache } from '@swissnovo/shared';
+import { IndexedDBCache } from '@aireon/shared';
 
 const PARCEL_ENDPOINT = '/api/parcel-data';
 

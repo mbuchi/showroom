@@ -2,10 +2,10 @@ import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
   LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2,
 } from 'lucide-react';
-import type { ChangeKind, ChangeItem, Release } from '@swissnovo/shared';
+import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
 export type { ChangeKind, ChangeItem, Release };
-export { KIND_META } from '@swissnovo/shared';
+export { KIND_META } from '@aireon/shared';
 
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
@@ -189,7 +189,7 @@ export const RELEASES: Release[] = [
     date: 'May 31, 2026',
     codename: 'Error Capture',
     summary:
-      'Showroom now automatically captures client-side errors and forwards them to the SwissNovo suite-wide error log via @swissnovo/shared v0.42.0.',
+      'Showroom now automatically captures client-side errors and forwards them to the SwissNovo suite-wide error log via @aireon/shared v0.42.0.',
     items: [
       {
         kind: 'improved' as ChangeKind,
@@ -241,7 +241,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved' as ChangeKind,
         icon: Package,
-        text: 'Bumped @swissnovo/shared to v0.32.0 — release-notes button icon switched from Tag to CheckCircle.',
+        text: 'Bumped @aireon/shared to v0.32.0 — release-notes button icon switched from Tag to CheckCircle.',
         prs: [],
       },
     ],
@@ -258,7 +258,7 @@ export const RELEASES: Release[] = [
         kind: 'new' as ChangeKind,
         icon: Bookmark,
         text:
-          'New "Save to PRM" button on the Reporter parcel strip, right next to the EGRID chip. Saves the searched parcel (id, address/coords label, locality, footprint, lat/lng) to your personal register via @swissnovo/shared. Already-saved parcels light up green on load.',
+          'New "Save to PRM" button on the Reporter parcel strip, right next to the EGRID chip. Saves the searched parcel (id, address/coords label, locality, footprint, lat/lng) to your personal register via @aireon/shared. Already-saved parcels light up green on load.',
         prs: [],
       },
       {
@@ -369,7 +369,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved' as ChangeKind,
         icon: Package,
-        text: 'Picked up @swissnovo/shared v0.17.2.',
+        text: 'Picked up @aireon/shared v0.17.2.',
         prs: [],
       },
     ],
@@ -405,7 +405,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved' as ChangeKind,
         icon: Package,
-        text: 'Picked up @swissnovo/shared v0.16.0 (LocaleSelector primitive).',
+        text: 'Picked up @aireon/shared v0.16.0 (LocaleSelector primitive).',
         prs: [],
       },
     ],
@@ -444,7 +444,7 @@ export const RELEASES: Release[] = [
     date: 'May 19, 2026',
     codename: 'Centred Profile',
     summary:
-      'Upgraded to @swissnovo/shared v0.13.1, which fixes the shared ProfileModal and LoginModal so they render via a React portal — no longer clipped by the app navbar.',
+      'Upgraded to @aireon/shared v0.13.1, which fixes the shared ProfileModal and LoginModal so they render via a React portal — no longer clipped by the app navbar.',
     items: [
       {
         kind: 'fixed' as ChangeKind,
@@ -459,12 +459,12 @@ export const RELEASES: Release[] = [
     date: 'May 19, 2026',
     codename: 'One Profile',
     summary:
-      '"View profile" is now the suite-standard experience from @swissnovo/shared v0.13.0 — the same identity card, avatar picker and editable details as every other SwissNovo app.',
+      '"View profile" is now the suite-standard experience from @aireon/shared v0.13.0 — the same identity card, avatar picker and editable details as every other SwissNovo app.',
     items: [
       {
         kind: 'improved' as ChangeKind,
         icon: CircleUser,
-        text: 'The inline profile modal and separate "Change avatar" item in the user menu are replaced by the shared ProfileModal from @swissnovo/shared v0.13.0. Avatar selection now lives inside "View profile", the avatar in the header updates immediately via useUserProfile, and the experience is identical suite-wide.',
+        text: 'The inline profile modal and separate "Change avatar" item in the user menu are replaced by the shared ProfileModal from @aireon/shared v0.13.0. Avatar selection now lives inside "View profile", the avatar in the header updates immediately via useUserProfile, and the experience is identical suite-wide.',
         prs: [],
       },
       {
@@ -485,7 +485,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved',
         icon: Layers,
-        text: 'All content-area loading states were migrated to the shared @swissnovo/shared Skeleton primitive: the app-boot screen now shows a faux navbar plus a thumbnail grid instead of a centred spinner; the gallery and grouped gallery, the saved-parcels panel, the Reporter page skeleton and its widget map placeholders, the parcel-info chip strip, the user-menu avatar, and each gallery card thumbnail all render the calm 1.8 s blink. The old custom animate-shimmer CSS keyframe is removed.',
+        text: 'All content-area loading states were migrated to the shared @aireon/shared Skeleton primitive: the app-boot screen now shows a faux navbar plus a thumbnail grid instead of a centred spinner; the gallery and grouped gallery, the saved-parcels panel, the Reporter page skeleton and its widget map placeholders, the parcel-info chip strip, the user-menu avatar, and each gallery card thumbnail all render the calm 1.8 s blink. The old custom animate-shimmer CSS keyframe is removed.',
         prs: [],
       },
     ],
@@ -611,7 +611,7 @@ export const RELEASES: Release[] = [
     date: 'May 18, 2026',
     codename: 'One Front Door',
     summary:
-      'The sign-in screen is now the suite-standard login modal from @swissnovo/shared — the same branded popup every Swissnovo app will use. Showroom no longer ships its own SignInGate; the shared component keeps the SWISSNOVO wordmark and the gallery feature list, and the rest of the suite picks up an identical sign-in experience.',
+      'The sign-in screen is now the suite-standard login modal from @aireon/shared — the same branded popup every Swissnovo app will use. Showroom no longer ships its own SignInGate; the shared component keeps the SWISSNOVO wordmark and the gallery feature list, and the rest of the suite picks up an identical sign-in experience.',
     items: [
       {
         kind: 'improved',
@@ -622,7 +622,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved',
         icon: Package,
-        text: 'Upgraded @swissnovo/shared to v0.10.0, which adds the standard LoginModal plus requireAuth()/promptLogin() helpers so any app can gate a feature behind the same sign-in popup.',
+        text: 'Upgraded @aireon/shared to v0.10.0, which adds the standard LoginModal plus requireAuth()/promptLogin() helpers so any app can gate a feature behind the same sign-in popup.',
         prs: [],
       },
     ],
@@ -720,12 +720,12 @@ export const RELEASES: Release[] = [
     date: 'May 16, 2026',
     codename: 'Shared Auth',
     summary:
-      'Sign-in is now powered by the shared @swissnovo/shared package — the OIDC auth layer is de-duplicated across the SwissNovo suite. The sign-in experience is unchanged.',
+      'Sign-in is now powered by the shared @aireon/shared package — the OIDC auth layer is de-duplicated across the SwissNovo suite. The sign-in experience is unchanged.',
     items: [
       {
         kind: 'improved',
         icon: Package,
-        text: 'OIDC authentication (sign-in, sign-up, single sign-on, token refresh) now comes from the shared @swissnovo/shared package instead of a per-app copy. The UX is identical, but auth fixes and improvements now roll out suite-wide from one source.',
+        text: 'OIDC authentication (sign-in, sign-up, single sign-on, token refresh) now comes from the shared @aireon/shared package instead of a per-app copy. The UX is identical, but auth fixes and improvements now roll out suite-wide from one source.',
         prs: [],
       },
     ],
@@ -786,12 +786,12 @@ export const RELEASES: Release[] = [
     date: 'May 15, 2026',
     codename: 'Shared Foundations',
     summary:
-      'The release-notes panel is now provided by the shared @swissnovo/shared package instead of a copy-pasted component — the first step in de-duplicating common code across the SwissNovo suite.',
+      'The release-notes panel is now provided by the shared @aireon/shared package instead of a copy-pasted component — the first step in de-duplicating common code across the SwissNovo suite.',
     items: [
       {
         kind: 'improved',
         icon: Package,
-        text: 'ReleaseNotesButton and ReleaseNotesPanel now come from the shared @swissnovo/shared package. The UI is unchanged, but changelog bug fixes and improvements now roll out suite-wide from one source instead of being hand-applied per app.',
+        text: 'ReleaseNotesButton and ReleaseNotesPanel now come from the shared @aireon/shared package. The UI is unchanged, but changelog bug fixes and improvements now roll out suite-wide from one source instead of being hand-applied per app.',
         prs: [],
       },
     ],
