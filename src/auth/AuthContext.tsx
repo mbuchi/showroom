@@ -9,7 +9,6 @@ import { AuthProvider as SharedAuthProvider, useAuth as useSharedAuth } from '@a
 export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <SharedAuthProvider
-      silentSso={false}
       appName="showroom"
       loginBlocking
       loginDescription="Members only. Showroom is a private gallery for your parcel exports — screenshots, reports and rendered outputs from across the Swissnovo toolbox. Sign in with your Swissnovo account to see yours."
