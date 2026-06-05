@@ -1,7 +1,7 @@
 {
   "name": "showroom",
   "private": true,
-  "version": "0.12.11",
+  "version": "0.12.12",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
-    "@aireon/shared": "github:mbuchi/aireon-shared#v1.0.0",
+    "@aireon/shared": "github:mbuchi/aireon-shared#v1.1.2",
     "@react-pdf/renderer": "^4.5.1",
     "html-to-image": "^1.11.13",
     "leaflet": "^1.9.4",

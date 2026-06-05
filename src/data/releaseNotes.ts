@@ -11,6 +11,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.12',
+    date: 'June 5, 2026',
+    codename: 'One Sign-In',
+    summary:
+      'Cross-app single sign-on: if you are already signed in to another Aireon app in this browser, showroom signs you in automatically on load.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: KeyRound,
+        text:
+          "Cross-app single sign-on now works: if you're signed in to any Aireon app in this browser, showroom signs you in automatically on load — a brief, UI-less check, no second password. Anonymous visitors are unaffected.",
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.11',
     date: 'June 4, 2026',
     codename: 'Track Parcel',
