@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from 'react';
 import { Search, Command } from 'lucide-react';
-import { LocaleSelector } from '@swissnovo/shared';
+import { LocaleSelector } from '@aireon/shared';
 import UserMenu from './UserMenu';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';

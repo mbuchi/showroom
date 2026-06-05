@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MapPin, RefreshCw, AlertTriangle, FileBarChart, FileDown } from 'lucide-react';
 import Navbar from '../Navbar';
-import { ReleaseNotesButton } from '@swissnovo/shared';
+import { ReleaseNotesButton } from '@aireon/shared';
 import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';

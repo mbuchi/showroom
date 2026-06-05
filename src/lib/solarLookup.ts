@@ -4,7 +4,7 @@
 // Ported from soolar/src/lib/solar.ts — api3.geo.admin.ch sends
 // Access-Control-Allow-Origin: *, so no proxy is needed.
 
-import { IndexedDBCache } from '@swissnovo/shared';
+import { IndexedDBCache } from '@aireon/shared';
 
 export const SOLAR_LAYER = 'ch.bfe.solarenergie-eignung-daecher';
 

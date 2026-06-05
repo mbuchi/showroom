@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Skeleton } from '@swissnovo/shared';
+import { Skeleton } from '@aireon/shared';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { I18nProvider } from './contexts/I18nContext';
 import GalleryView from './components/gallery/GalleryView';

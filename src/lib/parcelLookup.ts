@@ -4,7 +4,7 @@
 // `parcel_2025_07` vector tiles (extractParcelStats). Roots has no Mapbox map,
 // so its construction-year stat comes from a GeoServer GetFeatureInfo call.
 
-import { IndexedDBCache } from '@swissnovo/shared';
+import { IndexedDBCache } from '@aireon/shared';
 
 export interface ParcelStats {
   priceM2: number | null;     // estimated_price_m2, CHF/m²

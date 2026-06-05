@@ -11,7 +11,7 @@ import ParcelGroup from './ParcelGroup';
 import ExportCard from './ExportCard';
 import ExportLightbox from '../lightbox/ExportLightbox';
 import SavedParcelsPanel from '../parcels/SavedParcelsPanel';
-import { ReleaseNotesButton } from '@swissnovo/shared';
+import { ReleaseNotesButton } from '@aireon/shared';
 import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import { useI18n } from '../../contexts/I18nContext';
 

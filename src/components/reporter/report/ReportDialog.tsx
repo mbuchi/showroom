@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { X, Download, FileBarChart, AlertTriangle, Loader2, CheckCircle2 } from 'lucide-react';
-import { Skeleton } from '@swissnovo/shared';
+import { Skeleton } from '@aireon/shared';
 import type { ReporterAppId } from '../../../lib/reporterApps';
 import { REPORTER_APPS, reporterApp } from '../../../lib/reporterApps';
 import type { ParcelInfo } from '../../../lib/parcelInfo';

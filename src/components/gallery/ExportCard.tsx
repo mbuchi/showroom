@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Star, Trash2, ExternalLink, Loader2, Hash } from 'lucide-react';
-import { Skeleton } from '@swissnovo/shared';
+import { Skeleton } from '@aireon/shared';
 import type { SavedImage } from '../../services/imageService';
 import { APP_LABELS, APP_BADGE_CLASSES } from '../../services/imageService';
 import { formatRelativeTime } from '../../lib/format';

@@ -1,7 +1,7 @@
 // Mapbox geocoding — resolves a free-text Swiss address to coordinates so the
 // reporter can deep-link every map-first app at the same point.
 
-import { IndexedDBCache } from '@swissnovo/shared';
+import { IndexedDBCache } from '@aireon/shared';
 
 const TOKEN = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined;
 

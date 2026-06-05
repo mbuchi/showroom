@@ -1,4 +1,4 @@
-import type { Locale } from '@swissnovo/shared';
+import type { Locale } from '@aireon/shared';
 import type { ReporterAppId } from '../../../lib/reporterApps';
 import type { WidgetStatus } from '../WidgetCard';
 import type { ParcelInfo } from '../../../lib/parcelInfo';

@@ -3,7 +3,7 @@
 // gzipped) downloads — so opening a /reporter link lands on the page's shape
 // rather than a bare spinner. Pure layout: no auth, no heavy imports.
 
-import { Skeleton } from '@swissnovo/shared';
+import { Skeleton } from '@aireon/shared';
 
 export default function ReporterSkeleton() {
   return (
