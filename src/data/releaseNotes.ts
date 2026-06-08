@@ -11,6 +11,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.15',
+    date: 'June 9, 2026',
+    codename: 'Bigger Wordmark',
+    summary:
+      'The showroom wordmark in the top bar is now larger, matching the suite-standard brand size across every Aireon app.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'The "showroom" brand wordmark in the top bar is now rendered at the suite-standard size (text-4xl / 36px), matching xploore and the rest of the Aireon apps. Purely a size change — the colours, weight, and the red "oo" accent are unchanged.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.14',
     date: 'June 9, 2026',
     codename: 'Back to Hub',
