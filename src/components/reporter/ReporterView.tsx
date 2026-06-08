@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MapPin, RefreshCw, AlertTriangle, FileBarChart, FileDown } from 'lucide-react';
 import Navbar from '../Navbar';
-import { ReleaseNotesButton } from '@aireon/shared';
-import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
@@ -121,18 +119,7 @@ export default function ReporterView() {
 
   return (
     <>
-      <Navbar
-        showSearch={false}
-        rightSlot={
-          <ReleaseNotesButton
-            releases={RELEASES}
-            repoUrl={REPO_URL}
-            storageKey="showroom:lastSeenReleaseVersion"
-            brandPrefix="showr"
-            brandSuffix="m"
-          />
-        }
-      />
+      <Navbar showSearch={false} />
 
       <main className="mx-auto max-w-[1600px] px-4 sm:px-6 py-6 sm:py-8">
         <div className="mb-6">

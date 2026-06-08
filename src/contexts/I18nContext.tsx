@@ -37,6 +37,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.active_session': 'Active session',
     'menu.in_your_gallery': 'In your gallery',
     'menu.user_fallback': 'User',
+    'menu.more_tools': 'More tools',
+    'menu.release_notes': 'Release notes',
 
     // PRM — Save-to-PRM button on the parcel strip
     'prm.save': 'Track parcel',
@@ -337,6 +339,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.active_session': 'Session active',
     'menu.in_your_gallery': 'Dans votre galerie',
     'menu.user_fallback': 'Utilisateur',
+    'menu.more_tools': 'Plus d’outils',
+    'menu.release_notes': 'Notes de version',
 
     // PRM — bouton Enregistrer sur la bande parcelle
     'prm.save': 'Suivre la parcelle',
@@ -634,6 +638,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.active_session': 'Aktive Sitzung',
     'menu.in_your_gallery': 'In deiner Galerie',
     'menu.user_fallback': 'Benutzer',
+    'menu.more_tools': 'Weitere Tools',
+    'menu.release_notes': 'Versionshinweise',
 
     // PRM — Speichern-Button auf der Parzellen-Leiste
     'prm.save': 'Parzelle verfolgen',
@@ -931,6 +937,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.active_session': 'Sessione attiva',
     'menu.in_your_gallery': 'Nella tua galleria',
     'menu.user_fallback': 'Utente',
+    'menu.more_tools': 'Altri strumenti',
+    'menu.release_notes': 'Note di versione',
 
     // PRM — pulsante Salva sulla barra parcella
     'prm.save': 'Segui la particella',
