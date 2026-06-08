@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from 'react';
 import { Search, Command } from 'lucide-react';
-import { LocaleSelector } from '@aireon/shared';
+import { AireonHubLink, LocaleSelector } from '@aireon/shared';
 import UserMenu from './UserMenu';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';
@@ -43,6 +43,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
       }`}
     >
       <div className="mx-auto max-w-[1600px] px-5 h-14 flex items-center gap-3">
+        <AireonHubLink withDivider className="text-gray-100" logoClassName="h-[18px] w-auto" />
         <a
           href="/"
           onClick={(e) => {

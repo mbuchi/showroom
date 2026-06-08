@@ -11,6 +11,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.14',
+    date: 'June 9, 2026',
+    codename: 'Back to Hub',
+    summary:
+      'An Aireon logo now sits at the left of the top bar — one tap takes you back to the Aireon hub.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Globe,
+        text:
+          'The Aireon wordmark now appears as a small "back-to-hub" badge on the far left of the top bar, just before the showroom logo. Tap it for a one-tap route to the Aireon hub (hub.aireon.ch). It sits muted next to the showroom brand and brightens on hover — matching the suite-wide navbar for consistency across every Aireon app.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.13',
     date: 'June 8, 2026',
     codename: 'Tidy Toolbar',
