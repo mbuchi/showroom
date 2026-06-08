@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { LogOut, ChevronDown, CircleUser as UserCircle, Bookmark, Image as ImageIcon } from 'lucide-react';
+import { LogOut, ChevronDown, CircleUser as UserCircle, Bookmark, Image as ImageIcon, Sparkles } from 'lucide-react';
 import {
   Skeleton,
   Avatar,
   ProfileModal,
   SavedParcelsModal,
+  ReleaseNotesPanel,
+  useReleaseNotes,
   useUserProfile,
   firstNameOf,
   fullNameOf,
@@ -15,6 +17,7 @@ import {
 } from '@aireon/shared';
 import { useAuth } from '../auth/AuthContext';
 import { useI18n } from '../contexts/I18nContext';
+import { RELEASES, REPO_URL } from '../data/releaseNotes';
 
 interface UserMenuProps {
   onOpenParcels?: () => void;
@@ -29,6 +32,10 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
   const [showSavedParcels, setShowSavedParcels] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { avatarUrl } = useUserProfile(user);
+  const rn = useReleaseNotes({
+    currentVersion: RELEASES[0].version,
+    storageKey: 'showroom:lastSeenReleaseVersion',
+  });
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -118,6 +125,22 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
               </div>
             )}
 
+            <div className="px-2 py-1.5 border-b border-white/5">
+              <p className="px-2 pt-1 pb-1 text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+                {t('menu.more_tools')}
+              </p>
+              <button
+                onClick={() => { setIsOpen(false); rn.openPanel(); }}
+                className="w-full flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition-colors"
+              >
+                <Sparkles size={16} />
+                <span className="flex-1 text-left">{t('menu.release_notes')}</span>
+                {rn.hasUnread && (
+                  <span className="w-2 h-2 rounded-full bg-red-500" aria-hidden="true" />
+                )}
+              </button>
+            </div>
+
             <div className="py-1">
               {onOpenParcels && (
                 <button
@@ -162,6 +185,16 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
           locale={locale as PrmLocale}
           onClose={() => setShowSavedParcels(false)}
           onOpenHere={openParcelHere}
+        />
+      )}
+      {rn.isOpen && (
+        <ReleaseNotesPanel
+          onClose={rn.closePanel}
+          locale={locale}
+          releases={RELEASES}
+          repoUrl={REPO_URL}
+          brandPrefix="showr"
+          brandSuffix="m"
         />
       )}
     </>

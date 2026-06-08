@@ -11,8 +11,6 @@ import ParcelGroup from './ParcelGroup';
 import ExportCard from './ExportCard';
 import ExportLightbox from '../lightbox/ExportLightbox';
 import SavedParcelsPanel from '../parcels/SavedParcelsPanel';
-import { ReleaseNotesButton } from '@aireon/shared';
-import { RELEASES, REPO_URL } from '../../data/releaseNotes';
 import { useI18n } from '../../contexts/I18nContext';
 
 const FILTERS_STORAGE_KEY = 'showroom:filters:v1';
@@ -233,15 +231,6 @@ export default function GalleryView() {
         onSearchChange={setSearchValue}
         onOpenParcels={() => setParcelsPanelOpen(true)}
         exportCount={images.length}
-        rightSlot={
-          <ReleaseNotesButton
-            releases={RELEASES}
-            repoUrl={REPO_URL}
-            storageKey="showroom:lastSeenReleaseVersion"
-            brandPrefix="showr"
-            brandSuffix="m"
-          />
-        }
       />
 
       <main className="mx-auto max-w-[1600px] px-4 sm:px-6 py-6 sm:py-8">

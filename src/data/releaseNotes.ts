@@ -11,6 +11,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.13',
+    date: 'June 8, 2026',
+    codename: 'Tidy Toolbar',
+    summary:
+      'A slimmer top bar: release notes now live under "More tools" in your account menu instead of as a separate pill.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: LayoutGrid,
+        text:
+          'The top bar is decluttered. The "What\'s new" / release-notes pill has moved out of the bar and into a new "More tools" section inside your account menu, with a red dot when there are unseen notes. Same release notes, fewer buttons up top — matching the suite-wide variant 2 ("User Dropdown") navbar.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.12',
     date: 'June 5, 2026',
     codename: 'One Sign-In',
