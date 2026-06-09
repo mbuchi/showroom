@@ -10,7 +10,24 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+
   {
+    version: '0.12.17',
+    date: 'June 9, 2026',
+    codename: 'Aligned Meta',
+    summary:
+      'The page metadata now uses the same description shown on the Aireon hub card.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'Updated the HTML meta, Open Graph and Twitter descriptions to match the Aireon hub card copy: "Assemble a property report from all aireon services instantly".',
+        prs: [],
+      },
+    ],
+  },
+{
     version: '0.12.16',
     date: 'June 9, 2026',
     codename: 'Open Renderer',
