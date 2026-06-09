@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { installErrorLogging } from '@aireon/shared';
 import App from './App.tsx';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './index.css';
 
 document.documentElement.classList.add('dark');
