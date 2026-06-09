@@ -11,6 +11,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.16',
+    date: 'June 9, 2026',
+    codename: 'Open Renderer',
+    summary:
+      'The reporter mini-maps now run on the open-source MapLibre GL engine — same basemaps, same look, same features.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Layers,
+        text:
+          'Switched the map engine that powers the reporter\'s Valoo and Roofs mini-maps from Mapbox GL to the open-source MapLibre GL. The basemaps (the same Mapbox-hosted Dark / Light / Streets styles), the look, and every feature are unchanged — this is an internal renderer swap that keeps showroom on a fully open-source map stack.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.12.15',
     date: 'June 9, 2026',
     codename: 'Bigger Wordmark',

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Map as MapboxMap } from 'mapbox-gl';
+import type { Map as MapboxMap } from 'maplibre-gl';
 import { reporterApp, deepLink } from '../../../lib/reporterApps';
 import { extractParcelStats } from '../../../lib/parcelLookup';
 import WidgetCard from '../WidgetCard';
