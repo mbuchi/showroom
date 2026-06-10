@@ -11,7 +11,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <SharedAuthProvider
       appName="showroom"
       loginBlocking
-      loginDescription="Members only. Showroom is a private gallery for your parcel exports — screenshots, reports and rendered outputs from across the Swissnovo toolbox. Sign in with your Swissnovo account to see yours."
+      loginDescription="Members only. Showroom is a private gallery for your parcel exports — screenshots, reports and rendered outputs from across the Aireon suite. Sign in with your Aireon account to see yours."
     >
       {children}
     </SharedAuthProvider>

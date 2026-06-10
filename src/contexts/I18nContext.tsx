@@ -51,7 +51,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Gallery — heading, counts, footer tips
     'gallery.heading': 'Your gallery',
     'gallery.count_filtered': '{visible} of {total} exports shown',
-    'gallery.count_total': '{total} exports across the Swissnovo toolbox',
+    'gallery.count_total': '{total} exports across the Aireon suite',
     'gallery.tip_search': 'to search',
     'gallery.tip_navigate': 'to navigate',
     'gallery.tip_favorite': 'to favorite',
@@ -75,7 +75,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Gallery — empty / error states
     'gallery.empty.no_exports_title': 'Your gallery is waiting',
     'gallery.empty.no_exports_body':
-      'Showroom collects exports you save from across the Swissnovo toolbox. Capture a screenshot or report and it will appear here automatically.',
+      'Showroom collects exports you save from across the Aireon suite. Capture a screenshot or report and it will appear here automatically.',
     'gallery.empty.open_roofs': 'Open Roofs to capture',
     'gallery.empty.no_favorites_title': 'No favorites yet',
     'gallery.empty.no_favorites_body_prefix': 'Hit',
@@ -159,7 +159,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter page
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Enter an address to generate a standardized showroom report — live map widgets recreating five SwissNovo apps at that location: valuation, building height, construction year, solar potential and noise exposure.',
+      'Enter an address to generate a standardized showroom report — live map widgets recreating five Aireon apps at that location: valuation, building height, construction year, solar potential and noise exposure.',
     'page.reporter.search_disabled_prefix': 'Address search is disabled — the',
     'page.reporter.search_disabled_suffix': 'environment variable is not set for this deployment.',
     'page.reporter.search_placeholder': 'Search a Swiss address…',
@@ -229,7 +229,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.generated_for': 'Generated for',
     'report.pdf.executive_title': 'Executive summary',
     'report.pdf.executive_lead':
-      'The headline figures below summarise the selected analyses for this location. Each section in the dossier explains the underlying method and links back to the live SwissNovo app that produced it.',
+      'The headline figures below summarise the selected analyses for this location. Each section in the dossier explains the underlying method and links back to the live Aireon app that produced it.',
     'report.pdf.parcel_title': 'Parcel identification',
     'report.pdf.parcel_lead':
       'Identifiers and dimensions pulled from the Swiss Federal Register of Buildings and Dwellings (GWR / RegBL) for the parcel at the searched coordinates.',
@@ -238,9 +238,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.sources_title': 'Sources & disclaimer',
     'report.pdf.disclaimer_title': 'Disclaimer',
     'report.pdf.disclaimer_body':
-      'This report is an automated, indicative analysis produced by SwissNovo Showroom. It is not a certified property appraisal (Verkehrswertschätzung) within the meaning of Swiss banking practice (Art. 12 BankV) or RICS / SVS / SEK-SVIT standards. No physical inspection has been carried out and hidden defects, recent renovations or sub-market dynamics may not be captured. Indicative values should be read with a typical confidence band of ±10–15%.',
+      'This report is an automated, indicative analysis produced by Aireon Showroom. It is not a certified property appraisal (Verkehrswertschätzung) within the meaning of Swiss banking practice (Art. 12 BankV) or RICS / SVS / SEK-SVIT standards. No physical inspection has been carried out and hidden defects, recent renovations or sub-market dynamics may not be captured. Indicative values should be read with a typical confidence band of ±10–15%.',
     'report.pdf.disclaimer_notice':
-      'This document is not an investment recommendation nor a binding offer to buy or sell. Data sources are publicly available Swiss federal datasets cited above and remain subject to their respective terms of use. © SwissNovo.',
+      'This document is not an investment recommendation nor a binding offer to buy or sell. Data sources are publicly available Swiss federal datasets cited above and remain subject to their respective terms of use. © Aireon.',
     'report.pdf.address': 'Address',
     'report.pdf.locality': 'Locality',
     'report.pdf.coordinates': 'Coordinates (WGS84)',
@@ -259,12 +259,12 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.failed': 'Capture failed',
     'report.pdf.page': 'Page',
     'report.pdf.of': 'of',
-    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+    'report.pdf.footer_brand': 'AIREON · Showroom',
 
     // Per-widget report copy
     'report.widget.valoo.blurb': 'Indicative market value derived from parcel-level hedonic modelling.',
     'report.widget.valoo.narrative':
-      'The headline price expresses the modelled market value per square metre of parcel surface, fitted to the 2025 SwissNovo parcel snapshot. Use it as a fast triage figure — solid for ranking neighbouring parcels, indicative for a single asset.',
+      'The headline price expresses the modelled market value per square metre of parcel surface, fitted to the 2025 Aireon parcel snapshot. Use it as a fast triage figure — solid for ranking neighbouring parcels, indicative for a single asset.',
     'report.widget.valoo.method.1':
       'Hedonic regression over the parcel_2025_07 dataset using location, footprint, age and zoning signals.',
     'report.widget.valoo.method.2':
@@ -353,7 +353,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Gallery
     'gallery.heading': 'Votre galerie',
     'gallery.count_filtered': 'Affichage {visible} sur {total}',
-    'gallery.count_total': '{total} exports dans la suite Swissnovo',
+    'gallery.count_total': '{total} exports dans la suite Aireon',
     'gallery.tip_search': 'pour rechercher',
     'gallery.tip_navigate': 'pour naviguer',
     'gallery.tip_favorite': 'pour favoris',
@@ -377,7 +377,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Empty / error states
     'gallery.empty.no_exports_title': 'Votre galerie vous attend',
     'gallery.empty.no_exports_body':
-      'Showroom rassemble les exports enregistrés dans toute la suite Swissnovo. Capturez une vue ou un rapport et il apparaîtra ici automatiquement.',
+      'Showroom rassemble les exports enregistrés dans toute la suite Aireon. Capturez une vue ou un rapport et il apparaîtra ici automatiquement.',
     'gallery.empty.open_roofs': 'Ouvrir Roofs pour capturer',
     'gallery.empty.no_favorites_title': 'Aucun favori pour l’instant',
     'gallery.empty.no_favorites_body_prefix': 'Appuyez sur',
@@ -461,7 +461,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Saisissez une adresse pour générer un rapport showroom standardisé — cinq widgets cartographiques en direct qui reconstituent les apps SwissNovo à cet endroit : valorisation, hauteur des bâtiments, année de construction, potentiel solaire et exposition au bruit.',
+      'Saisissez une adresse pour générer un rapport showroom standardisé — cinq widgets cartographiques en direct qui reconstituent les apps Aireon à cet endroit : valorisation, hauteur des bâtiments, année de construction, potentiel solaire et exposition au bruit.',
     'page.reporter.search_disabled_prefix': 'La recherche d’adresse est désactivée — la variable d’environnement',
     'page.reporter.search_disabled_suffix': 'n’est pas définie pour ce déploiement.',
     'page.reporter.search_placeholder': 'Rechercher une adresse suisse…',
@@ -529,7 +529,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.generated_for': 'Généré pour',
     'report.pdf.executive_title': 'Résumé exécutif',
     'report.pdf.executive_lead':
-      'Les indicateurs ci-dessous synthétisent les analyses sélectionnées pour cet emplacement. Chaque section du dossier détaille la méthode et renvoie à l’app SwissNovo correspondante.',
+      'Les indicateurs ci-dessous synthétisent les analyses sélectionnées pour cet emplacement. Chaque section du dossier détaille la méthode et renvoie à l’app Aireon correspondante.',
     'report.pdf.parcel_title': 'Identification de la parcelle',
     'report.pdf.parcel_lead':
       'Identifiants et dimensions issus du Registre fédéral des bâtiments et logements (RegBL / GWR) pour la parcelle aux coordonnées indiquées.',
@@ -538,9 +538,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.sources_title': 'Sources et avertissement',
     'report.pdf.disclaimer_title': 'Avertissement',
     'report.pdf.disclaimer_body':
-      'Ce rapport est une analyse automatisée et indicative produite par SwissNovo Showroom. Il ne constitue pas une expertise certifiée (Verkehrswertschätzung) au sens des pratiques bancaires suisses (art. 12 BankV) ni des standards RICS / SVS / SEK-SVIT. Aucune visite n’a été effectuée ; les défauts cachés, rénovations récentes ou dynamiques de micro-marché peuvent ne pas être reflétés. Les valeurs indicatives s’entendent avec une marge typique de ±10–15 %.',
+      'Ce rapport est une analyse automatisée et indicative produite par Aireon Showroom. Il ne constitue pas une expertise certifiée (Verkehrswertschätzung) au sens des pratiques bancaires suisses (art. 12 BankV) ni des standards RICS / SVS / SEK-SVIT. Aucune visite n’a été effectuée ; les défauts cachés, rénovations récentes ou dynamiques de micro-marché peuvent ne pas être reflétés. Les valeurs indicatives s’entendent avec une marge typique de ±10–15 %.',
     'report.pdf.disclaimer_notice':
-      'Ce document ne constitue ni une recommandation d’investissement, ni une offre ferme d’achat ou de vente. Les sources sont des jeux de données fédéraux publics cités ci-dessus et restent soumises à leurs conditions d’utilisation. © SwissNovo.',
+      'Ce document ne constitue ni une recommandation d’investissement, ni une offre ferme d’achat ou de vente. Les sources sont des jeux de données fédéraux publics cités ci-dessus et restent soumises à leurs conditions d’utilisation. © Aireon.',
     'report.pdf.address': 'Adresse',
     'report.pdf.locality': 'Localité',
     'report.pdf.coordinates': 'Coordonnées (WGS84)',
@@ -559,11 +559,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.failed': 'Capture échouée',
     'report.pdf.page': 'Page',
     'report.pdf.of': 'sur',
-    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+    'report.pdf.footer_brand': 'AIREON · Showroom',
 
     'report.widget.valoo.blurb': 'Valeur marchande indicative issue d’un modèle hédonique au niveau de la parcelle.',
     'report.widget.valoo.narrative':
-      'Le prix exprime la valeur de marché modélisée par mètre carré de surface de parcelle, ajustée à l’instantané SwissNovo des parcelles 2025. À utiliser comme tri rapide — fiable pour classer des parcelles voisines, indicatif pour un actif unique.',
+      'Le prix exprime la valeur de marché modélisée par mètre carré de surface de parcelle, ajustée à l’instantané Aireon des parcelles 2025. À utiliser comme tri rapide — fiable pour classer des parcelles voisines, indicatif pour un actif unique.',
     'report.widget.valoo.method.1':
       'Régression hédonique sur le jeu parcel_2025_07 utilisant localisation, emprise, âge et zonage.',
     'report.widget.valoo.method.2':
@@ -652,7 +652,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Gallery
     'gallery.heading': 'Deine Galerie',
     'gallery.count_filtered': '{visible} von {total}',
-    'gallery.count_total': '{total} Exporte aus der Swissnovo-Suite',
+    'gallery.count_total': '{total} Exporte aus der Aireon-Suite',
     'gallery.tip_search': 'zum Suchen',
     'gallery.tip_navigate': 'zum Navigieren',
     'gallery.tip_favorite': 'für Favoriten',
@@ -676,7 +676,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Empty / error
     'gallery.empty.no_exports_title': 'Deine Galerie wartet',
     'gallery.empty.no_exports_body':
-      'Showroom sammelt Exporte, die du in der Swissnovo-Suite speicherst. Erstelle einen Screenshot oder Bericht und er erscheint hier automatisch.',
+      'Showroom sammelt Exporte, die du in der Aireon-Suite speicherst. Erstelle einen Screenshot oder Bericht und er erscheint hier automatisch.',
     'gallery.empty.open_roofs': 'Roofs öffnen zum Aufnehmen',
     'gallery.empty.no_favorites_title': 'Noch keine Favoriten',
     'gallery.empty.no_favorites_body_prefix': 'Drücke',
@@ -760,7 +760,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Adresse eingeben, um einen standardisierten Showroom-Bericht zu erstellen — fünf Live-Karten-Widgets, die SwissNovo-Apps am Standort zeigen: Bewertung, Gebäudehöhe, Baujahr, Solarpotenzial und Lärmexposition.',
+      'Adresse eingeben, um einen standardisierten Showroom-Bericht zu erstellen — fünf Live-Karten-Widgets, die Aireon-Apps am Standort zeigen: Bewertung, Gebäudehöhe, Baujahr, Solarpotenzial und Lärmexposition.',
     'page.reporter.search_disabled_prefix': 'Die Adresssuche ist deaktiviert — die Umgebungsvariable',
     'page.reporter.search_disabled_suffix': 'ist für diese Bereitstellung nicht gesetzt.',
     'page.reporter.search_placeholder': 'Schweizer Adresse suchen…',
@@ -828,7 +828,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.generated_for': 'Erstellt für',
     'report.pdf.executive_title': 'Zusammenfassung',
     'report.pdf.executive_lead':
-      'Die nachstehenden Kennzahlen fassen die ausgewählten Analysen für diesen Standort zusammen. Jeder Abschnitt erläutert die Methode und verlinkt auf die zugrunde liegende SwissNovo-App.',
+      'Die nachstehenden Kennzahlen fassen die ausgewählten Analysen für diesen Standort zusammen. Jeder Abschnitt erläutert die Methode und verlinkt auf die zugrunde liegende Aireon-App.',
     'report.pdf.parcel_title': 'Parzellen-Identifikation',
     'report.pdf.parcel_lead':
       'Identifikatoren und Masse aus dem Eidgenössischen Gebäude- und Wohnungsregister (GWR / RegBL) für die Parzelle an den gesuchten Koordinaten.',
@@ -837,9 +837,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.sources_title': 'Quellen und Disclaimer',
     'report.pdf.disclaimer_title': 'Disclaimer',
     'report.pdf.disclaimer_body':
-      'Dieser Bericht ist eine automatisierte, indikative Analyse von SwissNovo Showroom. Er ist keine zertifizierte Verkehrswertschätzung im Sinne der Schweizer Bankenpraxis (Art. 12 BankV) und kein Gutachten nach RICS / SVS / SEK-SVIT. Es fand keine Besichtigung statt; versteckte Mängel, jüngere Renovationen oder Mikromarkt-Dynamik sind möglicherweise nicht berücksichtigt. Indikative Werte sind mit einer typischen Bandbreite von ±10–15 % zu lesen.',
+      'Dieser Bericht ist eine automatisierte, indikative Analyse von Aireon Showroom. Er ist keine zertifizierte Verkehrswertschätzung im Sinne der Schweizer Bankenpraxis (Art. 12 BankV) und kein Gutachten nach RICS / SVS / SEK-SVIT. Es fand keine Besichtigung statt; versteckte Mängel, jüngere Renovationen oder Mikromarkt-Dynamik sind möglicherweise nicht berücksichtigt. Indikative Werte sind mit einer typischen Bandbreite von ±10–15 % zu lesen.',
     'report.pdf.disclaimer_notice':
-      'Dieses Dokument ist weder eine Anlageempfehlung noch ein verbindliches Kauf- oder Verkaufsangebot. Die Datenquellen sind oben genannte öffentliche eidgenössische Datensätze und unterliegen deren Nutzungsbedingungen. © SwissNovo.',
+      'Dieses Dokument ist weder eine Anlageempfehlung noch ein verbindliches Kauf- oder Verkaufsangebot. Die Datenquellen sind oben genannte öffentliche eidgenössische Datensätze und unterliegen deren Nutzungsbedingungen. © Aireon.',
     'report.pdf.address': 'Adresse',
     'report.pdf.locality': 'Ortschaft',
     'report.pdf.coordinates': 'Koordinaten (WGS84)',
@@ -858,11 +858,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.failed': 'Aufnahme fehlgeschlagen',
     'report.pdf.page': 'Seite',
     'report.pdf.of': 'von',
-    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+    'report.pdf.footer_brand': 'AIREON · Showroom',
 
     'report.widget.valoo.blurb': 'Indikativer Marktwert aus hedonischer Modellierung auf Parzellenebene.',
     'report.widget.valoo.narrative':
-      'Der Preis drückt den modellierten Marktwert pro Quadratmeter Parzellenfläche aus, abgestimmt auf den SwissNovo-Parzellenstand 2025. Schnelle Vortriage — solide für den Vergleich benachbarter Parzellen, indikativ für ein einzelnes Objekt.',
+      'Der Preis drückt den modellierten Marktwert pro Quadratmeter Parzellenfläche aus, abgestimmt auf den Aireon-Parzellenstand 2025. Schnelle Vortriage — solide für den Vergleich benachbarter Parzellen, indikativ für ein einzelnes Objekt.',
     'report.widget.valoo.method.1':
       'Hedonische Regression auf dem Datensatz parcel_2025_07 mit Lage, Grundfläche, Alter und Zonierung.',
     'report.widget.valoo.method.2':
@@ -951,7 +951,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Gallery
     'gallery.heading': 'La tua galleria',
     'gallery.count_filtered': '{visible} di {total}',
-    'gallery.count_total': '{total} export nella suite Swissnovo',
+    'gallery.count_total': '{total} export nella suite Aireon',
     'gallery.tip_search': 'per cercare',
     'gallery.tip_navigate': 'per navigare',
     'gallery.tip_favorite': 'per i preferiti',
@@ -975,7 +975,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Empty / error
     'gallery.empty.no_exports_title': 'La tua galleria ti aspetta',
     'gallery.empty.no_exports_body':
-      'Showroom raccoglie gli export che salvi nella suite Swissnovo. Cattura una schermata o un report e apparirà qui automaticamente.',
+      'Showroom raccoglie gli export che salvi nella suite Aireon. Cattura una schermata o un report e apparirà qui automaticamente.',
     'gallery.empty.open_roofs': 'Apri Roofs per catturare',
     'gallery.empty.no_favorites_title': 'Ancora nessun preferito',
     'gallery.empty.no_favorites_body_prefix': 'Premi',
@@ -1059,7 +1059,7 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Inserisci un indirizzo per generare un report showroom standardizzato — cinque widget cartografici in tempo reale che ricreano le app SwissNovo in quel punto: valutazione, altezza edifici, anno di costruzione, potenziale solare ed esposizione al rumore.',
+      'Inserisci un indirizzo per generare un report showroom standardizzato — cinque widget cartografici in tempo reale che ricreano le app Aireon in quel punto: valutazione, altezza edifici, anno di costruzione, potenziale solare ed esposizione al rumore.',
     'page.reporter.search_disabled_prefix': 'La ricerca indirizzi è disabilitata — la variabile d’ambiente',
     'page.reporter.search_disabled_suffix': 'non è impostata per questo deployment.',
     'page.reporter.search_placeholder': 'Cerca un indirizzo svizzero…',
@@ -1127,7 +1127,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.generated_for': 'Generato per',
     'report.pdf.executive_title': 'Sintesi',
     'report.pdf.executive_lead':
-      'Gli indicatori seguenti riassumono le analisi selezionate per questa posizione. Ogni sezione del dossier illustra il metodo e rimanda all’app SwissNovo corrispondente.',
+      'Gli indicatori seguenti riassumono le analisi selezionate per questa posizione. Ogni sezione del dossier illustra il metodo e rimanda all’app Aireon corrispondente.',
     'report.pdf.parcel_title': 'Identificazione della parcella',
     'report.pdf.parcel_lead':
       'Identificatori e dimensioni dal Registro federale degli edifici e delle abitazioni (RegBL / GWR) per la parcella alle coordinate ricercate.',
@@ -1136,9 +1136,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.sources_title': 'Fonti e disclaimer',
     'report.pdf.disclaimer_title': 'Disclaimer',
     'report.pdf.disclaimer_body':
-      'Il presente report è un’analisi automatizzata e indicativa prodotta da SwissNovo Showroom. Non costituisce una perizia di valore certificata (Verkehrswertschätzung) ai sensi della prassi bancaria svizzera (art. 12 BankV) né uno standard RICS / SVS / SEK-SVIT. Non è stata effettuata alcuna ispezione; difetti nascosti, ristrutturazioni recenti o dinamiche micro-mercato possono non essere riflessi. I valori indicativi si intendono con una banda tipica di ±10–15 %.',
+      'Il presente report è un’analisi automatizzata e indicativa prodotta da Aireon Showroom. Non costituisce una perizia di valore certificata (Verkehrswertschätzung) ai sensi della prassi bancaria svizzera (art. 12 BankV) né uno standard RICS / SVS / SEK-SVIT. Non è stata effettuata alcuna ispezione; difetti nascosti, ristrutturazioni recenti o dinamiche micro-mercato possono non essere riflessi. I valori indicativi si intendono con una banda tipica di ±10–15 %.',
     'report.pdf.disclaimer_notice':
-      'Questo documento non è una raccomandazione di investimento né un’offerta vincolante di acquisto o vendita. Le fonti dati sono dataset federali pubblici citati sopra e restano soggette ai rispettivi termini di utilizzo. © SwissNovo.',
+      'Questo documento non è una raccomandazione di investimento né un’offerta vincolante di acquisto o vendita. Le fonti dati sono dataset federali pubblici citati sopra e restano soggette ai rispettivi termini di utilizzo. © Aireon.',
     'report.pdf.address': 'Indirizzo',
     'report.pdf.locality': 'Località',
     'report.pdf.coordinates': 'Coordinate (WGS84)',
@@ -1157,11 +1157,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.failed': 'Cattura non riuscita',
     'report.pdf.page': 'Pagina',
     'report.pdf.of': 'di',
-    'report.pdf.footer_brand': 'SWISSNOVO · Showroom',
+    'report.pdf.footer_brand': 'AIREON · Showroom',
 
     'report.widget.valoo.blurb': 'Valore di mercato indicativo da modello edonico a livello di parcella.',
     'report.widget.valoo.narrative':
-      'Il prezzo esprime il valore di mercato modellato per metro quadrato di superficie della parcella, calibrato sullo snapshot parcellare SwissNovo 2025. Da usare come triage rapido — solido per ordinare parcelle vicine, indicativo per un singolo asset.',
+      'Il prezzo esprime il valore di mercato modellato per metro quadrato di superficie della parcella, calibrato sullo snapshot parcellare Aireon 2025. Da usare come triage rapido — solido per ordinare parcelle vicine, indicativo per un singolo asset.',
     'report.widget.valoo.method.1':
       'Regressione edonica sul dataset parcel_2025_07 con segnali di posizione, superficie, età e zonizzazione.',
     'report.widget.valoo.method.2':

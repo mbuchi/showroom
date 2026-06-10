@@ -96,7 +96,7 @@ export function buildReportI18n(
   t: (key: string, vars?: Record<string, string | number>) => string,
 ): ReportI18n {
   return {
-    brand: 'SWISSNOVO',
+    brand: 'AIREON',
     tagline: t('report.pdf.tagline'),
     reportTitle: t('report.pdf.title'),
     reportSubtitle: t('report.pdf.subtitle'),

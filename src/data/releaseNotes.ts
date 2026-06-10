@@ -12,6 +12,43 @@ export { KIND_META } from '@aireon/shared';
 export const RELEASES: Release[] = [
 
   {
+    version: '0.12.18',
+    date: 'June 10, 2026',
+    codename: 'Aireon Wordmark',
+    summary:
+      'Rebrand fixes: the exported PDF, the sign-in gate and all in-app copy now read Aireon, and outbound links point at the canonical aireon.ch domains.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: FileBarChart,
+        text:
+          'The exported PDF report no longer carries the retired, misspelled "SWISSNOOVO" wordmark — the cover and per-page footer now read the correct "aireon" brand, and the document metadata (author/creator/producer) is rebranded too.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: KeyRound,
+        text:
+          'The signed-out login gate now welcomes you to the Aireon suite with an Aireon account, replacing the pre-rebrand "Swissnovo toolbox" copy.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Globe,
+        text:
+          'Swept every remaining "SwissNovo" string in the gallery, reporter and report copy (EN/FR/DE/IT) to Aireon, and repointed the reporter deep links, PDF source URLs and "Open Roofs" CTAs at the canonical *.aireon.ch domains.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text:
+          'The Roofs mini-map card now uses the Dark basemap instead of the light Streets style, matching showroom’s dark-only theme and the rest of the report cards.',
+        prs: [],
+      },
+    ],
+  },
+{
     version: '0.12.17',
     date: 'June 9, 2026',
     codename: 'Aligned Meta',

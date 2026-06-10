@@ -6,7 +6,7 @@ import ParcelCard from './ParcelCard';
 import ParcelSkeleton from './ParcelSkeleton';
 import { useI18n } from '../../contexts/I18nContext';
 
-const ROOFS_URL = 'https://swissnovo-toolbox.vercel.app/';
+const ROOFS_URL = 'https://roofs.aireon.ch/';
 
 type FilterState = ParcelState | 'All';
 type FilterPriority = ParcelPriority | 'All';

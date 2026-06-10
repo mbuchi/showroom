@@ -6,7 +6,7 @@ interface EmptyStateProps {
   onClear?: () => void;
 }
 
-const ROOFS_URL = 'https://swissnovo-toolbox.vercel.app/';
+const ROOFS_URL = 'https://roofs.aireon.ch/';
 
 export default function EmptyState({ variant, onClear }: EmptyStateProps) {
   const { t } = useI18n();

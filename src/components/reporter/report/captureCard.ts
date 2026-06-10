@@ -4,7 +4,7 @@ import { toPng } from 'html-to-image';
 // the inner `.reporter-capture` element whose data-capture-id matches; any
 // node tagged `data-capture-skip="true"` (checkbox, status badge, retry
 // button) is filtered out so the snapshot is just the basemap and its
-// SwissNovo overlays/scrim/metric.
+// Aireon overlays/scrim/metric.
 //
 // Requires MapboxMini's `preserveDrawingBuffer: true` to be on, otherwise
 // WebGL canvases come out blank.
