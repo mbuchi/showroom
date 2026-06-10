@@ -1,6 +1,6 @@
 import {
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -10,6 +10,23 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+
+  {
+    version: '0.12.19',
+    date: 'June 10, 2026',
+    codename: 'Mobile Reach',
+    summary:
+      'The Gallery and Reporter nav links are now reachable on phones via a ⋯ "More tools" menu — previously they vanished below the small-screen breakpoint, stranding the Reporter page on mobile. Desktop is unchanged.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Smartphone,
+        text:
+          'On phones the top navigation links (Gallery / Reporter) were hidden with no fallback, making the Reporter page unreachable on mobile. They now collapse into a single ⋯ "More tools" menu so every page stays navigable. The desktop navbar is byte-identical.',
+        prs: [],
+      },
+    ],
+  },
 
   {
     version: '0.12.18',

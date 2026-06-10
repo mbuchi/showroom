@@ -1,13 +1,14 @@
 import { forwardRef, useEffect, useState } from 'react';
-import { Search, Command } from 'lucide-react';
-import { AireonHubLink, LocaleSelector } from '@aireon/shared';
+import { Search, Command, Images, FileText } from 'lucide-react';
+import { AireonHubLink, LocaleSelector, OverflowNav } from '@aireon/shared';
+import type { OverflowNavItem } from '@aireon/shared';
 import UserMenu from './UserMenu';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';
 
-const NAV_LINKS: { path: string; labelKey: string }[] = [
-  { path: '/', labelKey: 'nav.gallery' },
-  { path: '/reporter', labelKey: 'nav.reporter' },
+const NAV_LINKS: { path: string; labelKey: string; icon: React.ReactNode }[] = [
+  { path: '/', labelKey: 'nav.gallery', icon: <Images size={16} aria-hidden="true" /> },
+  { path: '/reporter', labelKey: 'nav.reporter', icon: <FileText size={16} aria-hidden="true" /> },
 ];
 
 interface NavbarProps {
@@ -35,6 +36,18 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
 
   const isMac = typeof navigator !== 'undefined' && /Mac/i.test(navigator.platform);
   const { pathname } = useRoute();
+
+  // Mobile overflow menu: the primary nav links (Gallery / Reporter) are hidden
+  // below `sm` in the desktop <nav>, which left the Reporter page UNREACHABLE on
+  // phones. Surface them in a single ⋯ "More tools" menu so every page stays
+  // navigable. Declared right before return so it can reference handlers above.
+  const mobileNavItems: OverflowNavItem[] = NAV_LINKS.map((link) => ({
+    key: link.path,
+    label: t(link.labelKey),
+    icon: link.icon,
+    active: link.path === '/' ? pathname === '/' : pathname.startsWith(link.path),
+    onSelect: () => navigate(link.path),
+  }));
 
   return (
     <header
@@ -108,6 +121,18 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         )}
 
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 ml-auto">
+          {/* Mobile-only: surface the nav links (hidden in the sm: <nav> above)
+              behind a single ⋯ menu so Reporter/Gallery stay reachable on phones.
+              Desktop is unaffected — this whole block is sm:hidden. */}
+          <div className="flex sm:hidden items-center">
+            <OverflowNav
+              items={mobileNavItems}
+              dark
+              collapseBelow={9999}
+              menuLabel={t('menu.more_tools')}
+              moreLabel={t('menu.more_tools')}
+            />
+          </div>
           <LocaleSelector
             locale={locale}
             onChange={setLocale}
