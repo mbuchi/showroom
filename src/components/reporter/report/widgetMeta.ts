@@ -7,7 +7,7 @@ import type { WidgetMeta } from './types';
 //     EN/FR/DE/IT copy lives entirely in I18nContext and stays translatable)
 //   - data-source citation shown in the report appendix
 //
-// The accent colours echo the live cards: cyan for the SwissNovo headline,
+// The accent colours echo the live cards: cyan for the Aireon headline,
 // neutral steel for parcel facts, and a measured palette of green/amber/red
 // for the rating-tinted sections (solar yield, road noise).
 export const WIDGET_META: Record<ReporterAppId, WidgetMeta> = {
@@ -20,8 +20,8 @@ export const WIDGET_META: Record<ReporterAppId, WidgetMeta> = {
       'report.widget.valoo.method.2',
       'report.widget.valoo.method.3',
     ],
-    sourceLabel: 'SwissNovo Valoo · parcel_2025_07 hedonic model',
-    sourceUrl: 'https://swissnovo-valoo.vercel.app',
+    sourceLabel: 'Aireon Valoo · parcel_2025_07 hedonic model',
+    sourceUrl: 'https://valoo.aireon.ch',
   },
   roofs: {
     id: 'roofs',
@@ -32,7 +32,7 @@ export const WIDGET_META: Record<ReporterAppId, WidgetMeta> = {
       'report.widget.roofs.method.2',
       'report.widget.roofs.method.3',
     ],
-    sourceLabel: 'swissBUILDINGS3D 3.0 (swisstopo) · SwissNovo Roofs',
+    sourceLabel: 'swissBUILDINGS3D 3.0 (swisstopo) · Aireon Roofs',
     sourceUrl: 'https://www.swisstopo.admin.ch/en/landscape-model-swissbuildings3d-3-0',
   },
   roots: {
@@ -44,7 +44,7 @@ export const WIDGET_META: Record<ReporterAppId, WidgetMeta> = {
       'report.widget.roots.method.2',
       'report.widget.roots.method.3',
     ],
-    sourceLabel: 'GWR / RegBL (BFS) · SwissNovo Roots',
+    sourceLabel: 'GWR / RegBL (BFS) · Aireon Roots',
     sourceUrl: 'https://www.bfs.admin.ch/bfs/en/home/registers/federal-buildings-dwellings-register.html',
   },
   soolar: {
@@ -56,7 +56,7 @@ export const WIDGET_META: Record<ReporterAppId, WidgetMeta> = {
       'report.widget.soolar.method.2',
       'report.widget.soolar.method.3',
     ],
-    sourceLabel: 'sonnendach.ch (SFOE / swisstopo) · SwissNovo Soolar',
+    sourceLabel: 'sonnendach.ch (SFOE / swisstopo) · Aireon Soolar',
     sourceUrl: 'https://www.uvek-gis.admin.ch/BFE/sonnendach/',
   },
   boom: {
@@ -68,7 +68,7 @@ export const WIDGET_META: Record<ReporterAppId, WidgetMeta> = {
       'report.widget.boom.method.2',
       'report.widget.boom.method.3',
     ],
-    sourceLabel: 'sonBASE road-traffic noise (FOEN/BAFU) · SwissNovo Boom',
+    sourceLabel: 'sonBASE road-traffic noise (FOEN/BAFU) · Aireon Boom',
     sourceUrl: 'https://www.bafu.admin.ch/bafu/en/home/topics/noise/state/data.html',
   },
 };

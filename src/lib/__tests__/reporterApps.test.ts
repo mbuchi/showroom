@@ -19,7 +19,7 @@ describe('reporterApps', () => {
 
   it('builds a ?lat&lng deep link for an app', () => {
     expect(deepLink(reporterApp('valoo'), 47.3769, 8.5417)).toBe(
-      'https://swissnovo-valoo.vercel.app/?lat=47.376900&lng=8.541700',
+      'https://valoo.aireon.ch/?lat=47.376900&lng=8.541700',
     );
   });
 });

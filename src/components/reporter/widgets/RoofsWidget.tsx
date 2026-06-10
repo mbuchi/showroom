@@ -126,7 +126,7 @@ export default function RoofsWidget({ lat, lng, selected, onToggleSelect, onRepo
         lng={lng}
         zoom={17.5}
         pitch={50}
-        styleUrl="mapbox://styles/mapbox/streets-v12"
+        styleUrl="mapbox://styles/mapbox/dark-v11"
         onLoad={addLayers}
         onIdle={readHeight}
       />

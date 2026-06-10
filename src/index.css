@@ -7,7 +7,7 @@
 
   /* Suite typography tokens — single source of truth.
      --------------------------------------------------------------------
-     Showroom inherits the SwissNovo suite typography system. The `--hood-`
+     Showroom inherits the Aireon suite typography system. The `--hood-`
      prefix is the intentional suite standard: every app forks the same
      namespace so fonts stay consistent suite-wide.
        * --hood-font     — UI body, headings, controls (Inter, variable;

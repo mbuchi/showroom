@@ -6,7 +6,7 @@ import { formatReportDate } from './buildReport';
 // ── Palette ──────────────────────────────────────────────────────────────
 // Mirrors the showroom dark surface system in print-safe tones. The PDF is
 // light-on-paper (legal/finance norm) — the dark "ink" palette from the live
-// app is inverted for white paper, keeping cyan as the SwissNovo accent.
+// app is inverted for white paper, keeping cyan as the Aireon accent.
 
 const COLOR = {
   ink:        '#0b0d10',
@@ -239,11 +239,9 @@ function CoverPage({ payload }: { payload: ReportPayload }) {
       <View style={styles.coverHero}>
         <View style={styles.brandRow}>
           <Text>
-            <Text style={styles.brandLeft}>SWISSN</Text>
-            <Text style={styles.brandRed}>O</Text>
-            <Text style={styles.brandRed}>O</Text>
-            <Text style={styles.brandLeft}>V</Text>
-            <Text style={styles.brandLeft}>O</Text>
+            <Text style={styles.brandLeft}>aire</Text>
+            <Text style={styles.brandRed}>o</Text>
+            <Text style={styles.brandLeft}>n</Text>
           </Text>
           <Text style={styles.brandTagline}>{i18n.tagline}</Text>
         </View>
@@ -525,10 +523,10 @@ export default function ReportPDF({ payload }: { payload: ReportPayload }) {
   return (
     <Document
       title={payload.i18n.reportTitle}
-      author="SwissNovo Showroom"
+      author="Aireon Showroom"
       subject={payload.query.address ?? payload.reportId}
-      creator="SwissNovo Showroom"
-      producer="SwissNovo Showroom · @react-pdf/renderer"
+      creator="Aireon Showroom"
+      producer="Aireon Showroom · @react-pdf/renderer"
     >
       <CoverPage payload={payload} />
       <ParcelPage payload={payload} />
