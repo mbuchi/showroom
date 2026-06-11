@@ -19,6 +19,13 @@ export const RELEASES: Release[] = [
       'The account menu now uses the shared Aireon user menu, including the immediate avatar picker update from @aireon/shared.',
     items: [
       {
+        kind: 'new' as ChangeKind,
+        icon: Bug,
+        text:
+          'Added the shared Aireon bug-report button. It opens a compact Bug/Feedback modal and sends reports through the central Bug Tracker.',
+        prs: [],
+      },
+      {
         kind: 'improved' as ChangeKind,
         icon: CircleUser,
         text:
