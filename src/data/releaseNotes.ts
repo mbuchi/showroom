@@ -25,6 +25,13 @@ export const RELEASES: Release[] = [
           'Added the shared Aireon bug-report button. It opens a compact Bug/Feedback modal and sends reports through the central Bug Tracker.',
         prs: [],
       },
+    {
+      kind: 'fixed' as ChangeKind,
+      icon: Bug,
+      text:
+        'Fixed the bug-report deployment lockfile so the live app uses the current shared errorlog collector.',
+      prs: [],
+    },
       {
         kind: 'improved' as ChangeKind,
         icon: CircleUser,
