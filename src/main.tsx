@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { installErrorLogging } from '@aireon/shared';
 import App from './App.tsx';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import '@aireon/shared/map-ui.css';
 import './index.css';
 
 document.documentElement.classList.add('dark');

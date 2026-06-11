@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 export const RELEASES: Release[] = [
 
   {
+    version: '0.12.20',
+    date: 'June 11, 2026',
+    codename: 'Shared Account Menu',
+    summary:
+      'The account menu now uses the shared Aireon user menu, including the immediate avatar picker update from @aireon/shared.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: CircleUser,
+        text:
+          'Replaced showroom’s custom account dropdown with the suite-canonical MapUserMenu from @aireon/shared. Release notes, saved parcels, gallery count, profile, sign in and sign out remain available, while avatar selection now follows the same three-row picker and instant update behavior as the rest of Aireon.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.19',
     date: 'June 10, 2026',
     codename: 'Mobile Reach',
