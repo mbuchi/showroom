@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { X, RefreshCw, Bookmark, Search, ExternalLink, Loader2 } from 'lucide-react';
+import { PROOM_APP_URL } from '@aireon/shared';
 import type { Parcel, ParcelState, ParcelPriority } from '../../types/parcel';
 import { fetchParcels } from '../../services/parcelService';
 import ParcelCard from './ParcelCard';
@@ -223,12 +224,12 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
           )}
         </div>
 
-        <div className="border-t border-white/5 p-3">
+        <div className="border-t border-white/5 p-3 flex items-center gap-2">
           <a
             href={ROOFS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold bg-ink-800 hover:bg-ink-700 text-gray-200 transition-colors focus-ring"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold bg-ink-800 hover:bg-ink-700 text-gray-200 transition-colors focus-ring"
           >
             {isRefreshing && parcels.length > 0 ? (
               <Loader2 size={12} className="animate-spin" />
@@ -236,6 +237,16 @@ export default function SavedParcelsPanel({ isOpen, onClose }: SavedParcelsPanel
               <ExternalLink size={12} />
             )}
             {t('parcels.manage_in_roofs')}
+          </a>
+          <a
+            href={`${PROOM_APP_URL}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={t('prm.open_in_proom')}
+            aria-label={t('prm.open_in_proom')}
+            className="inline-flex items-center justify-center p-2 rounded-lg bg-ink-800 hover:bg-ink-700 text-gray-200 transition-colors focus-ring"
+          >
+            <ExternalLink size={16} />
           </a>
         </div>
       </aside>

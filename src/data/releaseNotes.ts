@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,30 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.12.22',
+    date: 'June 12, 2026',
+    codename: 'Open in proom',
+    summary:
+      'The saved parcels panel now has a one-tap shortcut to open your portfolio in proom.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: ExternalLink,
+        text:
+          'Added an "Open in proom" action beside "Manage in Roofs" in the saved parcels panel, so you can jump straight to the proom portfolio in a new tab.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'Updated @aireon/shared to v1.16.0, which adds an inline edit button to the account card status line.',
+        prs: [],
+      },
+    ],
+  },
+
   {
     version: '0.12.21',
     date: 'June 12, 2026',
