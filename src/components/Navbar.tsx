@@ -56,7 +56,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
       }`}
     >
       <div className="mx-auto max-w-[1600px] px-5 h-14 flex items-center gap-3">
-        <AireonHubLink withDivider className="text-gray-100" logoClassName="h-[18px] w-auto" />
+        <AireonHubLink withDivider className="text-gray-100" />
         <a
           href="/"
           onClick={(e) => {
