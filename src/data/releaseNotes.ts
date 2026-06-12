@@ -20,6 +20,13 @@ export const RELEASES: Release[] = [
       'The account menu now uses the shared Aireon user menu, including the immediate avatar picker update from @aireon/shared.',
     items: [
       {
+        kind: 'improved',
+        icon: Sparkles,
+        text:
+          'Standardized the navbar hub shortcut on @aireon/shared v1.14.11 so the top-left button uses the canonical Aireon favicon from hub.aireon.ch.',
+        prs: [],
+      },
+      {
         kind: 'improved' as ChangeKind,
         icon: ShieldAlert,
         text:
