@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   ChevronLeft,
@@ -83,7 +84,7 @@ export default function ExportLightbox({
   const hasPrev = safeIndex > 0;
   const hasNext = safeIndex < images.length - 1;
 
-  return (
+  return createPortal(
     <div
       ref={lightboxRef}
       tabIndex={-1}
@@ -201,7 +202,8 @@ export default function ExportLightbox({
           </aside>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

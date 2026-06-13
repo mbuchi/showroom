@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.24',
+    date: 'June 13, 2026',
+    codename: 'Steady Dialogs',
+    summary:
+      'The report and export-preview dialogs now render through a page-body portal so they always center reliably.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: LayoutGrid,
+        text:
+          'Hardened the report dialog and the export lightbox to render via a portal to the page body. This keeps them reliably centered regardless of surrounding layout — matching how the rest of the suite mounts its overlays and pre-empting the containing-block pitfall that can push a fixed overlay under the header.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.23',
     date: 'June 12, 2026',
     codename: 'Report Categories',
