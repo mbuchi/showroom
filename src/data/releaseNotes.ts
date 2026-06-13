@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.25',
+    date: 'June 13, 2026',
+    codename: 'Shared Shell',
+    summary:
+      'The top bar now renders through the suite-shared navbar shell, matching the rest of the suite.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: LayoutGrid,
+        text:
+          'Rebuilt the top bar on the suite-shared AppNavbar shell (from @aireon/shared v1.18.2) so the hub badge, showroom wordmark, and account menu match valoo, taxoo, and the rest of the suite. The gallery search, Gallery / Reporter navigation, language picker, and saved-parcels menu are unchanged — this is a structural alignment, not a redesign.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.24',
     date: 'June 13, 2026',
     codename: 'Steady Dialogs',
