@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Download, FileBarChart, AlertTriangle, Loader2, CheckCircle2 } from 'lucide-react';
 import { Skeleton } from '@aireon/shared';
 import type { ReporterAppId } from '../../../lib/reporterApps';
@@ -143,7 +144,7 @@ export default function ReportDialog({
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
       role="dialog"
@@ -225,7 +226,8 @@ export default function ReportDialog({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
