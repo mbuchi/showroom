@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.27',
+    date: 'June 13, 2026',
+    codename: 'One Saved-Parcels Door',
+    summary:
+      'The account menu now has a single "My saved parcels" entry instead of two parcel bookmarks.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Eraser,
+        text:
+          'Removed the duplicate "Saved parcels" entry from the account menu. There were two bookmark items — a legacy read-only drawer that loaded a deprecated parcel list, and the canonical "My saved parcels" view backed by your real saved parcels (the same records the reporter saves). The legacy drawer and its dead data path have been deleted, leaving one clear "My saved parcels" action.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.26',
     date: 'June 13, 2026',
     codename: 'Shared Shell',

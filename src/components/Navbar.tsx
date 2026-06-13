@@ -14,7 +14,6 @@ const NAV_LINKS: { path: string; labelKey: string; icon: React.ReactNode }[] = [
 interface NavbarProps {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
-  onOpenParcels?: () => void;
   exportCount?: number;
   showSearch?: boolean;
   rightSlot?: React.ReactNode;
@@ -29,7 +28,7 @@ interface NavbarProps {
  * scroll-shadow.
  */
 const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
-  { searchValue = '', onSearchChange, onOpenParcels, exportCount, showSearch = true, rightSlot },
+  { searchValue = '', onSearchChange, exportCount, showSearch = true, rightSlot },
   searchRef
 ) {
   const [scrolled, setScrolled] = useState(false);
@@ -140,7 +139,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
             {rightSlot}
           </>
         }
-        userMenu={<UserMenu onOpenParcels={onOpenParcels} exportCount={exportCount} />}
+        userMenu={<UserMenu exportCount={exportCount} />}
       />
     </div>
   );
