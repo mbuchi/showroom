@@ -12,7 +12,7 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
-    version: '0.12.25',
+    version: '0.12.26',
     date: 'June 13, 2026',
     codename: 'Shared Shell',
     summary:
@@ -23,6 +23,23 @@ export const RELEASES: Release[] = [
         icon: LayoutGrid,
         text:
           'Rebuilt the top bar on the suite-shared AppNavbar shell (from @aireon/shared v1.18.2) so the hub badge, showroom wordmark, and account menu match valoo, taxoo, and the rest of the suite. The gallery search, Gallery / Reporter navigation, language picker, and saved-parcels menu are unchanged — this is a structural alignment, not a redesign.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
+    version: '0.12.25',
+    date: 'June 13, 2026',
+    codename: 'Map Credit',
+    summary:
+      'The reporter mini-maps now show their required basemap attribution again.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text:
+          'Restored the basemap attribution on the reporter widget mini-maps. The MapLibre swap had turned the attribution control off, so the required Mapbox-styles credit was silently missing; it now renders compactly in the corner.',
         prs: [],
       },
     ],
