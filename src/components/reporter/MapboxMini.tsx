@@ -60,7 +60,10 @@ export default function MapboxMini({
           zoom,
           pitch,
           interactive: false,
-          attributionControl: false,
+          // Mapbox basemap styles require their attribution to stay visible.
+          // The MapLibre swap had dropped it (attributionControl: false); render
+          // it compact (the index.css rule lifts it clear of the value scrim).
+          attributionControl: { compact: true },
           // Needed for `map.getCanvas().toDataURL()` and html-to-image to capture
           // the WebGL canvas for the PDF report — without this WebGL clears the
           // back buffer between frames and the snapshot comes out blank. In
