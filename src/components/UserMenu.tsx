@@ -1,4 +1,4 @@
-import { Bookmark, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Image as ImageIcon, Sparkles } from 'lucide-react';
 import {
   MapUserMenu,
   ReleaseNotesPanel,
@@ -11,11 +11,10 @@ import { useI18n } from '../contexts/I18nContext';
 import { RELEASES, REPO_URL } from '../data/releaseNotes';
 
 interface UserMenuProps {
-  onOpenParcels?: () => void;
   exportCount?: number;
 }
 
-export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) {
+export default function UserMenu({ exportCount }: UserMenuProps) {
   const { t, locale } = useI18n();
   const rn = useReleaseNotes({
     currentVersion: RELEASES[0].version,
@@ -42,17 +41,6 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
     },
   ];
 
-  const extraItems: MapUserMenuAction[] = onOpenParcels
-    ? [
-        {
-          key: 'saved-parcels-panel',
-          label: t('menu.saved_parcels'),
-          icon: <Bookmark size={16} aria-hidden="true" />,
-          onClick: onOpenParcels,
-        },
-      ]
-    : [];
-
   const dropdownSummary =
     typeof exportCount === 'number' ? (
       <div className="flex items-center gap-3 text-xs">
@@ -69,7 +57,6 @@ export default function UserMenu({ onOpenParcels, exportCount }: UserMenuProps) 
         locale={locale as PrmLocale}
         showSavedParcels
         onOpenSavedParcel={openParcelHere}
-        extraItems={extraItems}
         toolbarItems={toolbarItems}
         toolbarLabel={t('menu.more_tools')}
         dropdownSummary={dropdownSummary}

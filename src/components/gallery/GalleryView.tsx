@@ -10,7 +10,6 @@ import GalleryToolbar, { type ViewMode } from './GalleryToolbar';
 import ParcelGroup from './ParcelGroup';
 import ExportCard from './ExportCard';
 import ExportLightbox from '../lightbox/ExportLightbox';
-import SavedParcelsPanel from '../parcels/SavedParcelsPanel';
 import { useI18n } from '../../contexts/I18nContext';
 
 const FILTERS_STORAGE_KEY = 'showroom:filters:v1';
@@ -56,7 +55,6 @@ export default function GalleryView() {
   const [favorites, setFavorites] = useState<Set<string>>(() => loadFavorites(userId));
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [parcelsPanelOpen, setParcelsPanelOpen] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -229,7 +227,6 @@ export default function GalleryView() {
         ref={searchInputRef}
         searchValue={searchValue}
         onSearchChange={setSearchValue}
-        onOpenParcels={() => setParcelsPanelOpen(true)}
         exportCount={images.length}
       />
 
@@ -322,11 +319,6 @@ export default function GalleryView() {
           onDelete={handleDelete}
         />
       )}
-
-      <SavedParcelsPanel
-        isOpen={parcelsPanelOpen}
-        onClose={() => setParcelsPanelOpen(false)}
-      />
     </>
   );
 }

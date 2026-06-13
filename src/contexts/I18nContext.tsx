@@ -30,7 +30,6 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.open_user_menu': 'Open user menu',
 
     // User menu
-    'menu.saved_parcels': 'Saved parcels',
     'menu.my_saved_parcels': 'My saved parcels',
     'menu.view_profile': 'View profile',
     'menu.sign_out': 'Sign out',
@@ -132,29 +131,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'modal.detail.value_off': 'Off',
 
     // Saved parcels side panel
-    'parcels.title': 'Saved parcels',
-    'parcels.search_placeholder': 'Search parcels…',
-    'parcels.state_all': 'All states',
-    'parcels.priority_all': 'All priorities',
-    'parcels.state_new': 'New',
-    'parcels.state_due_diligence': 'Due Diligence',
-    'parcels.state_contacted': 'Contacted',
-    'parcels.state_closed': 'Closed',
-    'parcels.priority_low': 'Low',
-    'parcels.priority_medium': 'Medium',
-    'parcels.priority_high': 'High',
-    'parcels.priority_urgent': 'Urgent',
-    'parcels.refresh': 'Refresh',
-    'parcels.close': 'Close',
     'parcels.try_again': 'Try again',
-    'parcels.failed_load': 'Failed to load parcels',
-    'parcels.empty_title': 'No saved parcels yet',
-    'parcels.empty_body': 'Save parcels in Roofs to track them across the toolbox.',
-    'parcels.open_roofs': 'Open Roofs',
-    'parcels.no_matches': 'No matches',
-    'parcels.no_matches_body': 'Try a different search or clear filters.',
-    'parcels.manage_in_roofs': 'Manage parcels in Roofs',
-    'parcels.no_address': 'No address',
 
     // Reporter page
     'page.reporter.kicker': 'Reporter',
@@ -332,7 +309,6 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.open_user_menu': 'Ouvrir le menu utilisateur',
 
     // User menu
-    'menu.saved_parcels': 'Parcelles enregistrées',
     'menu.my_saved_parcels': 'Mes parcelles enregistrées',
     'menu.view_profile': 'Voir le profil',
     'menu.sign_out': 'Se déconnecter',
@@ -434,29 +410,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'modal.detail.value_off': 'Désactivé',
 
     // Saved parcels
-    'parcels.title': 'Parcelles enregistrées',
-    'parcels.search_placeholder': 'Rechercher des parcelles…',
-    'parcels.state_all': 'Tous les états',
-    'parcels.priority_all': 'Toutes priorités',
-    'parcels.state_new': 'Nouvelle',
-    'parcels.state_due_diligence': 'Due diligence',
-    'parcels.state_contacted': 'Contactée',
-    'parcels.state_closed': 'Fermée',
-    'parcels.priority_low': 'Faible',
-    'parcels.priority_medium': 'Moyenne',
-    'parcels.priority_high': 'Haute',
-    'parcels.priority_urgent': 'Urgente',
-    'parcels.refresh': 'Actualiser',
-    'parcels.close': 'Fermer',
     'parcels.try_again': 'Réessayer',
-    'parcels.failed_load': 'Échec du chargement des parcelles',
-    'parcels.empty_title': 'Aucune parcelle enregistrée',
-    'parcels.empty_body': 'Enregistrez des parcelles dans Roofs pour les suivre dans toute la suite.',
-    'parcels.open_roofs': 'Ouvrir Roofs',
-    'parcels.no_matches': 'Aucun résultat',
-    'parcels.no_matches_body': 'Essayez une autre recherche ou effacez les filtres.',
-    'parcels.manage_in_roofs': 'Gérer les parcelles dans Roofs',
-    'parcels.no_address': 'Sans adresse',
 
     // Reporter
     'page.reporter.kicker': 'Reporter',
@@ -631,7 +585,6 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.open_user_menu': 'Benutzermenü öffnen',
 
     // User menu
-    'menu.saved_parcels': 'Gespeicherte Parzellen',
     'menu.my_saved_parcels': 'Meine gespeicherten Parzellen',
     'menu.view_profile': 'Profil ansehen',
     'menu.sign_out': 'Abmelden',
@@ -733,29 +686,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'modal.detail.value_off': 'Aus',
 
     // Saved parcels
-    'parcels.title': 'Gespeicherte Parzellen',
-    'parcels.search_placeholder': 'Parzellen suchen…',
-    'parcels.state_all': 'Alle Status',
-    'parcels.priority_all': 'Alle Prioritäten',
-    'parcels.state_new': 'Neu',
-    'parcels.state_due_diligence': 'Due Diligence',
-    'parcels.state_contacted': 'Kontaktiert',
-    'parcels.state_closed': 'Geschlossen',
-    'parcels.priority_low': 'Niedrig',
-    'parcels.priority_medium': 'Mittel',
-    'parcels.priority_high': 'Hoch',
-    'parcels.priority_urgent': 'Dringend',
-    'parcels.refresh': 'Aktualisieren',
-    'parcels.close': 'Schliessen',
     'parcels.try_again': 'Erneut versuchen',
-    'parcels.failed_load': 'Laden der Parzellen fehlgeschlagen',
-    'parcels.empty_title': 'Noch keine gespeicherten Parzellen',
-    'parcels.empty_body': 'Speichere Parzellen in Roofs, um sie suite-weit zu verfolgen.',
-    'parcels.open_roofs': 'Roofs öffnen',
-    'parcels.no_matches': 'Keine Treffer',
-    'parcels.no_matches_body': 'Versuche eine andere Suche oder leere die Filter.',
-    'parcels.manage_in_roofs': 'Parzellen in Roofs verwalten',
-    'parcels.no_address': 'Keine Adresse',
 
     // Reporter
     'page.reporter.kicker': 'Reporter',
@@ -930,7 +861,6 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.open_user_menu': 'Apri menu utente',
 
     // User menu
-    'menu.saved_parcels': 'Parcelle salvate',
     'menu.my_saved_parcels': 'Le mie parcelle salvate',
     'menu.view_profile': 'Vedi profilo',
     'menu.sign_out': 'Esci',
@@ -1032,29 +962,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'modal.detail.value_off': 'Disattiva',
 
     // Saved parcels
-    'parcels.title': 'Parcelle salvate',
-    'parcels.search_placeholder': 'Cerca parcelle…',
-    'parcels.state_all': 'Tutti gli stati',
-    'parcels.priority_all': 'Tutte le priorità',
-    'parcels.state_new': 'Nuova',
-    'parcels.state_due_diligence': 'Due diligence',
-    'parcels.state_contacted': 'Contattata',
-    'parcels.state_closed': 'Chiusa',
-    'parcels.priority_low': 'Bassa',
-    'parcels.priority_medium': 'Media',
-    'parcels.priority_high': 'Alta',
-    'parcels.priority_urgent': 'Urgente',
-    'parcels.refresh': 'Aggiorna',
-    'parcels.close': 'Chiudi',
     'parcels.try_again': 'Riprova',
-    'parcels.failed_load': 'Caricamento parcelle non riuscito',
-    'parcels.empty_title': 'Nessuna parcella salvata',
-    'parcels.empty_body': 'Salva parcelle in Roofs per seguirle in tutta la suite.',
-    'parcels.open_roofs': 'Apri Roofs',
-    'parcels.no_matches': 'Nessun risultato',
-    'parcels.no_matches_body': 'Prova un’altra ricerca o cancella i filtri.',
-    'parcels.manage_in_roofs': 'Gestisci parcelle in Roofs',
-    'parcels.no_address': 'Nessun indirizzo',
 
     // Reporter
     'page.reporter.kicker': 'Reporter',
