@@ -4,6 +4,7 @@ import { BugReportButton } from '@aireon/shared';
 import App from './App.tsx';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@aireon/shared/map-ui.css';
+import '@aireon/shared/scrollbars.css';
 import './index.css';
 import { errorLogger } from './lib/errorLog';
 
