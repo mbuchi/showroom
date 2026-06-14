@@ -5,6 +5,7 @@ import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
 import ReportDialog from './report/ReportDialog';
+import { searchHistoryStore } from '@aireon/shared';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { signal } from '../../lib/signal';
@@ -152,6 +153,12 @@ export default function ReporterView() {
                 address: r.label,
                 lat: r.lat,
                 lng: r.lng,
+              });
+              searchHistoryStore.record({
+                label: r.label,
+                lat: r.lat,
+                lng: r.lng,
+                appName: 'showroom',
               });
               const qs = new URLSearchParams({
                 lat: r.lat.toFixed(6),
