@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.28',
+    date: 'June 14, 2026',
+    codename: 'Two By Two',
+    summary:
+      'The saved-parcels pipeline counts in the account menu now sit in a balanced 2×2 grid.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Layers,
+        text:
+          'In the “My saved parcels” summary, the four pipeline stages (New, Contacted, Negotiating, Due Diligence) now lay out as a tidy 2×2 grid instead of an uneven 3 + 1.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.27',
     date: 'June 13, 2026',
     codename: 'One Saved-Parcels Door',
