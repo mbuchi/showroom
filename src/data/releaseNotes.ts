@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.29',
+    date: 'June 14, 2026',
+    codename: 'Dark Rails',
+    summary:
+      'Dark mode now uses a slim, refined scrollbar shared across the Aireon suite.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'In dark theme the scrollbars are now a slim, rounded slate “pill” that lightens on hover, instead of the heavy default bar. The design lives in @aireon/shared, so dark-mode scrollbars look identical across every Aireon app.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.28',
     date: 'June 14, 2026',
     codename: 'Two By Two',
