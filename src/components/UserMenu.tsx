@@ -4,17 +4,24 @@ import {
   ReleaseNotesPanel,
   useReleaseNotes,
   type MapUserMenuAction,
+  type MapUserMenuProps,
   type PrmLocale,
   type PrmRecord,
 } from '@aireon/shared';
 import { useI18n } from '../contexts/I18nContext';
 import { RELEASES, REPO_URL } from '../data/releaseNotes';
+import { errorLogger } from '../lib/errorLog';
 
 interface UserMenuProps {
   exportCount?: number;
+  /** Bug-report config — surfaces a "Report a problem" row in the More-tools group. */
+  bugReport?: MapUserMenuProps['bugReport'];
 }
 
-export default function UserMenu({ exportCount }: UserMenuProps) {
+export default function UserMenu({
+  exportCount,
+  bugReport = { logger: errorLogger, metaData: { rollout: 'bug-report-suite' } },
+}: UserMenuProps) {
   const { t, locale } = useI18n();
   const rn = useReleaseNotes({
     currentVersion: RELEASES[0].version,
@@ -59,6 +66,7 @@ export default function UserMenu({ exportCount }: UserMenuProps) {
         onOpenSavedParcel={openParcelHere}
         toolbarItems={toolbarItems}
         toolbarLabel={t('menu.more_tools')}
+        bugReport={bugReport}
         dropdownSummary={dropdownSummary}
         labels={{
           signIn: t('nav.sign_in'),

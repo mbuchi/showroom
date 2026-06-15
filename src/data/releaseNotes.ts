@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.30',
+    date: 'June 16, 2026',
+    codename: 'Report From The Menu',
+    summary:
+      'Reporting a problem now lives in the account menu instead of a floating button.',
+    items: [
+      {
+        kind: 'changed' as ChangeKind,
+        icon: Bug,
+        text:
+          'The “Report a problem” control moved out of the floating shield button and into the account menu’s “More tools” group, right under “Take the tour”. The bug-report dialog itself is unchanged — it is now opened from the menu and owned by the suite-shared MapUserMenu (@aireon/shared v1.25.0).',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.29',
     date: 'June 14, 2026',
     codename: 'Dark Rails',
