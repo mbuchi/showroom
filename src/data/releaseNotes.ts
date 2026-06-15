@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.31',
+    date: 'June 16, 2026',
+    codename: 'History Up Top',
+    summary:
+      'Your search history now sits at the top of the account menu’s “More tools”.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: CircleUser,
+        text:
+          '“My search history” now lives in the account menu’s “More tools” section, right after “Take the tour” — it used to sit lower down, near “Sign out”. The reordering comes from the suite-shared MapUserMenu (@aireon/shared v1.26.0).',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.30',
     date: 'June 16, 2026',
     codename: 'Report From The Menu',
