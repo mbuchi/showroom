@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.32',
+    date: 'June 16, 2026',
+    codename: 'Untrack Toggle',
+    summary:
+      'The “Track parcel” button can now untrack a parcel you previously saved.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bookmark,
+        text:
+          'The “Track parcel” bookmark on the parcel strip is now a toggle: once a parcel is tracked you can click the button again to untrack it and remove it from your saved parcels. Previously the button stayed disabled after saving, so there was no way to undo a track.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.31',
     date: 'June 16, 2026',
     codename: 'History Up Top',
