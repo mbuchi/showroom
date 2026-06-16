@@ -6,6 +6,7 @@ import {
 import {
   Skeleton,
   createPrmRecord,
+  deletePrmRecord,
   fetchPrmByParcel,
   PROOM_APP_URL,
   PrmAuthRequiredError as AuthRequiredError,
@@ -37,7 +38,7 @@ type State =
   | { kind: 'error' }
   | { kind: 'ok'; info: ParcelInfo };
 
-type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
+type SaveStatus = 'idle' | 'saving' | 'saved' | 'unsaving' | 'error';
 
 function Chip({ icon, children }: { icon: ReactNode; children: ReactNode }) {
   return (
@@ -131,6 +132,35 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
     }
   };
 
+  const handleRemove = async () => {
+    if (!savedRecord) return;
+    if (!isAuthenticated || !accessToken) {
+      setSaveStatus('error');
+      return;
+    }
+    setSaveStatus('unsaving');
+    try {
+      await deletePrmRecord(accessToken, savedRecord.id);
+      setSavedRecord(null);
+      setSaveStatus('idle');
+    } catch (err) {
+      if (err instanceof AuthRequiredError) {
+        setSaveStatus('error');
+        return;
+      }
+      console.error('PRM remove failed', err);
+      setSaveStatus('error');
+    }
+  };
+
+  const handleToggle = () => {
+    if (saveStatus === 'saved') {
+      void handleRemove();
+    } else {
+      void handleSave();
+    }
+  };
+
   if (state.kind === 'loading') {
     return (
       <div className="surface rounded-xl px-4 py-3 mt-6 flex flex-wrap items-center gap-2">
@@ -168,7 +198,7 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
           saveStatus={saveStatus}
           savedRecord={savedRecord}
           isAuthenticated={isAuthenticated}
-          onSave={handleSave}
+          onSave={handleToggle}
           t={t}
         />
       )}
@@ -211,7 +241,7 @@ function SavePrmControl({
   const title =
     !isAuthenticated
       ? t('prm.signin_required')
-      : saveStatus === 'saved'
+      : saveStatus === 'saved' || saveStatus === 'unsaving'
         ? t('prm.saved')
         : saveStatus === 'saving'
           ? t('prm.saving')
@@ -224,11 +254,11 @@ function SavePrmControl({
       <button
         type="button"
         onClick={onSave}
-        disabled={saveStatus === 'saving' || saveStatus === 'saved'}
+        disabled={saveStatus === 'saving' || saveStatus === 'unsaving'}
         title={title}
         aria-label={title}
         className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg text-xs font-medium border transition-colors disabled:cursor-default ${
-          saveStatus === 'saved'
+          saveStatus === 'saved' || saveStatus === 'unsaving'
             ? 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30'
             : saveStatus === 'error'
               ? 'bg-red-500/10 text-red-300 border-red-400/30 hover:bg-red-500/20'
@@ -241,6 +271,11 @@ function SavePrmControl({
           <>
             <Loader2 size={13} className="animate-spin" aria-hidden="true" />
             <span>{t('prm.saving')}</span>
+          </>
+        ) : saveStatus === 'unsaving' ? (
+          <>
+            <Loader2 size={13} className="animate-spin" aria-hidden="true" />
+            <span>{t('prm.saved')}</span>
           </>
         ) : saveStatus === 'saved' ? (
           <>
