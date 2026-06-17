@@ -3,6 +3,8 @@ import {
   MapUserMenu,
   ReleaseNotesPanel,
   useReleaseNotes,
+  useGlass,
+  buildGlassMenuItem,
   type MapUserMenuAction,
   type MapUserMenuProps,
   type PrmLocale,
@@ -23,6 +25,8 @@ export default function UserMenu({
   bugReport = { logger: errorLogger, metaData: { rollout: 'bug-report-suite' } },
 }: UserMenuProps) {
   const { t, locale } = useI18n();
+  // Liquid Glass appearance picker (persists suite-wide via the shared cookie).
+  const { level: glassLevel, setLevel: setGlassLevel } = useGlass();
   const rn = useReleaseNotes({
     currentVersion: RELEASES[0].version,
     storageKey: 'showroom:lastSeenReleaseVersion',
@@ -37,6 +41,10 @@ export default function UserMenu({
     window.location.href = `/reporter?${params.toString()}`;
   };
 
+  // showroom has no navbar settings gear (no shared MapToolbar), so the Liquid
+  // Glass picker lives in the account menu's "More tools" group as an inline
+  // expandable Off · Frosted · Liquid disclosure, public so anonymous visitors
+  // can adjust it too.
   const toolbarItems: MapUserMenuAction[] = [
     {
       key: 'release-notes',
@@ -46,6 +54,7 @@ export default function UserMenu({
       dot: rn.hasUnread,
       signedOut: true,
     },
+    { ...buildGlassMenuItem({ level: glassLevel, setLevel: setGlassLevel, locale }), signedOut: true },
   ];
 
   const dropdownSummary =
@@ -87,6 +96,7 @@ export default function UserMenu({
           repoUrl={REPO_URL}
           brandPrefix="showr"
           brandSuffix="m"
+          glassLevel={glassLevel}
         />
       )}
     </>

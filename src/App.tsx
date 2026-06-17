@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { Skeleton } from '@aireon/shared';
+import { lazy, Suspense, useEffect } from 'react';
+import { Skeleton, useGlass } from '@aireon/shared';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { I18nProvider } from './contexts/I18nContext';
 import GalleryView from './components/gallery/GalleryView';
@@ -37,6 +37,15 @@ function AppShell() {
   const { isAuthenticated, isLoading } = useAuth();
   const { pathname } = useRoute();
   const isReporter = pathname === '/reporter';
+
+  // Liquid Glass appearance level (persists suite-wide via the shared cookie).
+  // Stamp it onto <html> — the SAME element that carries `.dark` (set in
+  // main.tsx) — so the compound `.dark[data-glass='N']` glass tokens resolve,
+  // including for the account dropdown and any panels portaled to <body>.
+  const { level: glassLevel } = useGlass();
+  useEffect(() => {
+    document.documentElement.setAttribute('data-glass', String(glassLevel));
+  }, [glassLevel]);
 
   if (isLoading) {
     // On the reporter route, show its skeleton straight away so a shared

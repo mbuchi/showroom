@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.0',
+    date: 'June 18, 2026',
+    codename: 'Liquid Glass',
+    summary:
+      'A new “Glass effect” appearance setting brings the suite-wide Liquid Glass look to showroom.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'New “Glass effect” appearance setting in the account menu’s “More tools” — choose Off, Frosted, or Liquid to give the account menu and panels a translucent, depth-layered Liquid Glass look. Your choice is remembered and shared across the whole Aireon suite. Off keeps the classic solid appearance.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.34',
     date: 'June 17, 2026',
     codename: 'Suite Parity',
