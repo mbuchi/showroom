@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.12.34',
+    date: 'June 17, 2026',
+    codename: 'Suite Parity',
+    summary:
+      'Updated to the latest shared library for exact parity across the Aireon suite.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text:
+          'Updated to the latest shared library (v1.36.2) — opaque navbar background + latest navbar tokens, for exact parity across the Aireon suite.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.12.33',
     date: 'June 16, 2026',
     codename: 'Mission Control',
