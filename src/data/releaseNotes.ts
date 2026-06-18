@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,23 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.13.1',
+    date: 'June 18, 2026',
+    codename: 'Share The View',
+    summary:
+      'A new "Share this view" button in the navbar lets you copy a link to the current page in one click.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Link2,
+        text:
+          'Added a "Share this view" button to the navbar — it copies a link to the current view and confirms with a "Link copied to clipboard" pill.',
+        prs: [],
+      },
+    ],
+  },
+
   {
     version: '0.13.0',
     date: 'June 18, 2026',

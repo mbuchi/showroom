@@ -116,6 +116,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         appName="showroom"
         dark
         position=""
+        share={{ locale }}
         centerSlot={
           <div className="flex items-center gap-3 w-full min-w-0">
             {navLinks}
