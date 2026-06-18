@@ -19,6 +19,13 @@ export const RELEASES: Release[] = [
       'A new “Glass effect” appearance setting brings the suite-wide Liquid Glass look to showroom.',
     items: [
       {
+        kind: 'fixed' as ChangeKind,
+        icon: ShieldAlert,
+        text:
+          'Updated @aireon/shared to v1.36.3 so /api/signal-collect now runs as a Node serverless proxy instead of the stalled Edge handler. Signals respond again with the server-side RES token fallback.',
+        prs: [],
+      },
+      {
         kind: 'added' as ChangeKind,
         icon: Sparkles,
         text:
