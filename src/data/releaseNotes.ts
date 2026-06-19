@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.2',
+    date: 'June 20, 2026',
+    codename: 'Admin Pill',
+    summary:
+      'Suite admins now get a small “admin” pill on their account avatar.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: CircleUser,
+        text:
+          'Suite admins now see a small “admin” pill on their account avatar (via @aireon/shared v1.49.0).',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.13.1',
     date: 'June 18, 2026',
     codename: 'Share The View',
