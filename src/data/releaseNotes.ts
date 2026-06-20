@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.4',
+    date: 'June 20, 2026',
+    codename: 'Settle',
+    summary:
+      'Loading states are calmer — content now settles in with skeleton placeholders instead of spinning icons.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Layers,
+        text:
+          'Loading spinners are now skeleton-style placeholders, matching the rest of the suite.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.13.3',
     date: 'June 20, 2026',
     codename: 'Tidy Top Bar',

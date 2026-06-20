@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Download, FileBarChart, AlertTriangle, Loader2, CheckCircle2 } from 'lucide-react';
+import { X, Download, FileBarChart, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { Skeleton } from '@aireon/shared';
 import type { ReporterAppId } from '../../../lib/reporterApps';
 import { REPORTER_APPS, reporterApp } from '../../../lib/reporterApps';
@@ -245,7 +245,7 @@ function PhaseBlock({
   if (phase === 'capturing') {
     return (
       <Stage
-        icon={<Loader2 size={18} className="animate-spin text-cyan-400" />}
+        icon={<Skeleton width={18} height={18} radius={5} />}
         title={t('report.dialog.capturing')}
         body={t('report.dialog.capturing_body')}
       >
@@ -260,7 +260,7 @@ function PhaseBlock({
   if (phase === 'rendering') {
     return (
       <Stage
-        icon={<Loader2 size={18} className="animate-spin text-cyan-400" />}
+        icon={<Skeleton width={18} height={18} radius={5} />}
         title={t('report.dialog.rendering')}
         body={t('report.dialog.rendering_body')}
       >
