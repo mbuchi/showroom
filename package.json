@@ -1,7 +1,7 @@
 {
   "name": "showroom",
   "private": true,
-  "version": "0.13.6",
+  "version": "0.13.7",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "test:export-fonts": "node scripts/check-export-fonts.mjs"
   },
   "dependencies": {
     "@aireon/shared": "github:mbuchi/aireon-shared#v1.54.0",
