@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,30 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.13.6',
+    date: 'June 21, 2026',
+    codename: 'About This App',
+    summary:
+      'Mobile UX standard adopted — map attribution is now surfaced through a new About modal (Info icon in the account menu) instead of an inline overlay, matching the rest of the Aireon suite.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Info,
+        text:
+          'Added About this app to the account menu: credits swisstopo and MapLibre GL, matching the suite-standard Info modal pattern.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Info,
+        text:
+          'Map attribution control removed from the reporter mini-maps; attribution now lives in the About modal.',
+        prs: [],
+      },
+    ],
+  },
+
   {
     version: '0.13.5',
     date: 'June 20, 2026',

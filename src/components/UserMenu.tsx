@@ -1,4 +1,5 @@
-import { Image as ImageIcon, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { Image as ImageIcon, Info, Sparkles } from 'lucide-react';
 import {
   MapUserMenu,
   ReleaseNotesPanel,
@@ -13,6 +14,7 @@ import {
 import { useI18n } from '../contexts/I18nContext';
 import { RELEASES, REPO_URL } from '../data/releaseNotes';
 import { errorLogger } from '../lib/errorLog';
+import AboutModal from './AboutModal';
 
 interface UserMenuProps {
   exportCount?: number;
@@ -38,6 +40,7 @@ export default function UserMenu({
     currentVersion: RELEASES[0].version,
     storageKey: 'showroom:lastSeenReleaseVersion',
   });
+  const [showAbout, setShowAbout] = useState(false);
 
   const openParcelHere = (rec: PrmRecord) => {
     const params = new URLSearchParams({
@@ -65,6 +68,13 @@ export default function UserMenu({
       signedOut: true,
     },
     { ...buildGlassMenuItem({ level: glassLevel, setLevel: setGlassLevel, locale }), signedOut: true },
+    {
+      key: 'about',
+      label: t('about.menu'),
+      icon: <Info size={16} aria-hidden="true" />,
+      onClick: () => setShowAbout(true),
+      signedOut: true,
+    },
   ];
 
   const dropdownSummary =
@@ -112,6 +122,7 @@ export default function UserMenu({
           glassLevel={glassLevel}
         />
       )}
+      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
     </>
   );
 }

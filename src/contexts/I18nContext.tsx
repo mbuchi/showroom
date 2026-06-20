@@ -296,6 +296,13 @@ const translations: Record<Locale, Record<string, string>> = {
       'Rail and aircraft noise are modelled separately and are not included in this headline figure.',
     'report.widget.boom.detail.band': 'Sampled band',
 
+    // About modal
+    'about.menu': 'About this app',
+    'about.description': 'Showroom collects and presents Aireon property exports — screenshots, reports and map captures — in a single curated gallery.',
+    'about.mapData': 'Map data',
+    'about.renderer': 'Rendering',
+    'about.close': 'Close',
+
     // Common
     'common.loading': 'Loading',
   },
@@ -571,6 +578,13 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.widget.boom.method.3':
       'Les bruits ferroviaire et aérien sont modélisés séparément et ne sont pas inclus dans cet indicateur principal.',
     'report.widget.boom.detail.band': 'Bande échantillonnée',
+
+    // About modal
+    'about.menu': "À propos de l'app",
+    'about.description': "Showroom rassemble et présente les exports immobiliers Aireon — captures d'écran, rapports et captures de carte — dans une galerie centralisée.",
+    'about.mapData': 'Données cartographiques',
+    'about.renderer': 'Rendu',
+    'about.close': 'Fermer',
 
     // Common
     'common.loading': 'Chargement',
@@ -848,6 +862,13 @@ const translations: Record<Locale, Record<string, string>> = {
       'Bahn- und Fluglärm sind separat modelliert und in dieser Leitkennzahl nicht enthalten.',
     'report.widget.boom.detail.band': 'Abgetastetes Band',
 
+    // About modal
+    'about.menu': 'Über diese App',
+    'about.description': 'Showroom sammelt und präsentiert Aireon-Immobilien-Exporte — Screenshots, Berichte und Kartenaufnahmen — in einer einzigen kuratierten Galerie.',
+    'about.mapData': 'Kartendaten',
+    'about.renderer': 'Darstellung',
+    'about.close': 'Schliessen',
+
     // Common
     'common.loading': 'Lädt',
   },
@@ -1123,6 +1144,13 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.widget.boom.method.3':
       'I rumori ferroviario e aereo sono modellati separatamente e non sono inclusi in questo indicatore principale.',
     'report.widget.boom.detail.band': 'Banda campionata',
+
+    // About modal
+    'about.menu': "Informazioni sull'app",
+    'about.description': "Showroom raccoglie e presenta gli export immobiliari Aireon — screenshot, report e acquisizioni di mappa — in un'unica galleria curata.",
+    'about.mapData': 'Dati cartografici',
+    'about.renderer': 'Rendering',
+    'about.close': 'Chiudi',
 
     // Common
     'common.loading': 'Caricamento',
