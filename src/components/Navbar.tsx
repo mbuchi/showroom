@@ -1,10 +1,21 @@
-import { forwardRef, useEffect, useState } from 'react';
-import { Search, Command, Images, FileText } from 'lucide-react';
-import { AppNavbar, LocaleSelector, OverflowNav } from '@aireon/shared';
-import type { OverflowNavItem } from '@aireon/shared';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { Search, Command, Images, FileText, Share2, History } from 'lucide-react';
+import {
+  AppNavbar,
+  LocaleSelector,
+  OverflowNav,
+  NavIconButton,
+  ShareCopiedToast,
+  SearchHistoryModal,
+  getShareStrings,
+  getSearchHistoryStrings,
+} from '@aireon/shared';
+import type { OverflowNavItem, MapUserMenuAction } from '@aireon/shared';
 import UserMenu from './UserMenu';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';
+import { useAuth } from '../auth/AuthContext';
+import { signal } from '../lib/signal';
 
 const NAV_LINKS: { path: string; labelKey: string; icon: React.ReactNode }[] = [
   { path: '/', labelKey: 'nav.gallery', icon: <Images size={16} aria-hidden="true" /> },
@@ -33,6 +44,14 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
 ) {
   const [scrolled, setScrolled] = useState(false);
   const { locale, setLocale, t } = useI18n();
+  const { getAccessToken } = useAuth();
+  // Search history is now opened from a navbar button (moved out of the account
+  // menu). Tracked here so the History icon toggles the shared modal.
+  const [showHistory, setShowHistory] = useState(false);
+  // "Share this view" moved into the account menu; the Navbar still owns its
+  // link-copy state so it can flash the suite-standard "Link copied" pill.
+  const [shareCopied, setShareCopied] = useState(false);
+  const shareTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -40,6 +59,26 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Copy the current view's link and flash the "Link copied" pill — same
+  // behaviour as the old navbar Share button, now driven from the menu row.
+  const handleShare = useCallback(() => {
+    void navigator.clipboard?.writeText(window.location.href).then(() => {
+      setShareCopied(true);
+      if (shareTimerRef.current) clearTimeout(shareTimerRef.current);
+      shareTimerRef.current = setTimeout(() => setShareCopied(false), 1800);
+    }).catch(() => { /* clipboard blocked — no-op */ });
+    void signal.send('Share view', {});
+  }, []);
+
+  const shareStrings = getShareStrings(locale);
+  const shareAction: MapUserMenuAction = {
+    key: 'share',
+    label: shareStrings.share,
+    icon: <Share2 size={16} aria-hidden="true" />,
+    onClick: handleShare,
+    signedOut: true,
+  };
 
   const isMac = typeof navigator !== 'undefined' && /Mac/i.test(navigator.platform);
   const { pathname } = useRoute();
@@ -107,6 +146,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   ) : null;
 
   return (
+    <>
     <div
       className={`sticky top-0 z-[45] transition-shadow ${
         scrolled ? 'shadow-[0_8px_24px_rgba(0,0,0,0.35)]' : ''
@@ -116,7 +156,6 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         appName="showroom"
         dark
         position=""
-        share={{ locale }}
         centerSlot={
           <div className="flex items-center gap-3 w-full min-w-0">
             {navLinks}
@@ -136,13 +175,31 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
                 moreLabel={t('menu.more_tools')}
               />
             </div>
+            {/* Search history is now a one-tap navbar button (moved out of the
+                account menu) — the highest-frequency secondary control. */}
+            <NavIconButton
+              icon={<History size={18} aria-hidden="true" />}
+              label={getSearchHistoryStrings(locale).menuRow}
+              onClick={() => setShowHistory(true)}
+              dark
+            />
             <LocaleSelector locale={locale} onChange={setLocale} ariaLabel={t('nav.select_language')} />
             {rightSlot}
           </>
         }
-        userMenu={<UserMenu exportCount={exportCount} />}
+        userMenu={<UserMenu exportCount={exportCount} shareAction={shareAction} />}
       />
     </div>
+    {showHistory && (
+      <SearchHistoryModal
+        locale={locale}
+        dark
+        authToken={getAccessToken() ?? null}
+        onClose={() => setShowHistory(false)}
+      />
+    )}
+    <ShareCopiedToast show={shareCopied} label={shareStrings.copied} dark />
+    </>
   );
 });
 
