@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,23 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.13.3',
+    date: 'June 20, 2026',
+    codename: 'Tidy Top Bar',
+    summary:
+      'Tidied the top bar — Share this view moved into the account menu, and search history is now a one-tap button in the bar.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: History,
+        text:
+          'Tidied the top bar — Share this view moved into the account menu, and search history is now a one-tap button in the bar.',
+        prs: [],
+      },
+    ],
+  },
+
   {
     version: '0.13.2',
     date: 'June 20, 2026',

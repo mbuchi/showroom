@@ -18,11 +18,18 @@ interface UserMenuProps {
   exportCount?: number;
   /** Bug-report config — surfaces a "Report a problem" row in the More-tools group. */
   bugReport?: MapUserMenuProps['bugReport'];
+  /**
+   * "Share this view" row, owned by the Navbar (it holds the link-copy state +
+   * "Link copied" toast). Prepended to the "More tools" group so it sits at the
+   * very top, ahead of What's new / appearance.
+   */
+  shareAction?: MapUserMenuAction;
 }
 
 export default function UserMenu({
   exportCount,
   bugReport = { logger: errorLogger, metaData: { rollout: 'bug-report-suite' } },
+  shareAction,
 }: UserMenuProps) {
   const { t, locale } = useI18n();
   // Liquid Glass appearance picker (persists suite-wide via the shared cookie).
@@ -46,6 +53,9 @@ export default function UserMenu({
   // expandable Off · Frosted · Liquid disclosure, public so anonymous visitors
   // can adjust it too.
   const toolbarItems: MapUserMenuAction[] = [
+    // "Share this view" sits at the very top of the group (moved out of the
+    // navbar). Owned by the Navbar so it can flash the "Link copied" toast.
+    ...(shareAction ? [shareAction] : []),
     {
       key: 'release-notes',
       label: t('menu.release_notes'),
@@ -72,6 +82,9 @@ export default function UserMenu({
         dark
         locale={locale as PrmLocale}
         showSavedParcels
+        // Search history is now a navbar button (the History icon), so suppress
+        // the menu's built-in "My search history" row to avoid duplicating it.
+        showSearchHistory={false}
         onOpenSavedParcel={openParcelHere}
         toolbarItems={toolbarItems}
         toolbarLabel={t('menu.more_tools')}
