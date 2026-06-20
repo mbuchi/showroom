@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.7',
+    date: 'June 20, 2026',
+    codename: 'Clean Export',
+    summary:
+      'Fixed a console error when saving a report image — the export now reads the web fonts cleanly.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text:
+          'Saving a report image no longer logs a "cssRules" SecurityError: the Google Fonts stylesheet is now loaded with crossorigin so the export can read and embed the fonts directly.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.13.6',
     date: 'June 21, 2026',
     codename: 'About This App',
