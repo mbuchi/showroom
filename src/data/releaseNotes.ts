@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.5',
+    date: 'June 20, 2026',
+    codename: 'Theme Follows You',
+    summary:
+      'Your light/dark choice now carries across every Aireon app — and across your devices when signed in.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Palette,
+        text:
+          'Your light/dark choice now carries across every Aireon app — and across your devices when signed in.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.13.4',
     date: 'June 20, 2026',
     codename: 'Settle',
