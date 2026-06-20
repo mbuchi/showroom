@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import {
   MapPin, Fingerprint, Ruler, Box, Building2, Map as MapIcon, Crosshair,
-  Bookmark, BookmarkCheck, ExternalLink, Loader2,
+  Bookmark, BookmarkCheck, ExternalLink,
 } from 'lucide-react';
 import {
   Skeleton,
@@ -39,6 +39,18 @@ type State =
   | { kind: 'ok'; info: ParcelInfo };
 
 type SaveStatus = 'idle' | 'saving' | 'saved' | 'unsaving' | 'error';
+
+// Non-rotating busy indicator (pulsing dots) shown in place of a spinner
+// while a save/unsave action is in flight; inherits the button's text colour.
+function BusyDots() {
+  return (
+    <span className="inline-flex items-center gap-0.5" aria-hidden="true">
+      <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+      <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:150ms]" />
+      <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:300ms]" />
+    </span>
+  );
+}
 
 function Chip({ icon, children }: { icon: ReactNode; children: ReactNode }) {
   return (
@@ -269,12 +281,12 @@ function SavePrmControl({
       >
         {saveStatus === 'saving' ? (
           <>
-            <Loader2 size={13} className="animate-spin" aria-hidden="true" />
+            <BusyDots />
             <span>{t('prm.saving')}</span>
           </>
         ) : saveStatus === 'unsaving' ? (
           <>
-            <Loader2 size={13} className="animate-spin" aria-hidden="true" />
+            <BusyDots />
             <span>{t('prm.saved')}</span>
           </>
         ) : saveStatus === 'saved' ? (

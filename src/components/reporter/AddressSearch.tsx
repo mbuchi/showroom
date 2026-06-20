@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Loader2, Search } from 'lucide-react';
+import { MapPin, Search } from 'lucide-react';
 import { geocodeAddress, type GeocodeResult } from '../../lib/geocode';
 import { useI18n } from '../../contexts/I18nContext';
 
@@ -97,7 +97,14 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
           className="w-full pl-10 pr-10 py-3 rounded-xl bg-ink-800/70 border border-white/10 hover:border-white/20 focus:border-cyan-500/50 focus:bg-ink-800 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
         />
         {loading && (
-          <Loader2 size={15} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-cyan-400 animate-spin" />
+          <span
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 inline-flex items-center gap-0.5 text-cyan-400"
+            aria-hidden="true"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+            <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:150ms]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:300ms]" />
+          </span>
         )}
       </div>
 

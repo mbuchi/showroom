@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Star, Trash2, ExternalLink, Loader2, Hash } from 'lucide-react';
+import { Star, Trash2, ExternalLink, Hash } from 'lucide-react';
 import { Skeleton } from '@aireon/shared';
 import type { SavedImage } from '../../services/imageService';
 import { APP_LABELS, APP_BADGE_CLASSES } from '../../services/imageService';
@@ -119,7 +119,15 @@ export default function ExportCard({
           aria-label={t('card.delete_aria')}
           title={t('card.delete')}
         >
-          {isDeleting ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
+          {isDeleting ? (
+            <span className="inline-flex items-center gap-0.5" aria-hidden="true">
+              <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+              <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:150ms]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:300ms]" />
+            </span>
+          ) : (
+            <Trash2 size={13} />
+          )}
         </button>
       </div>
 

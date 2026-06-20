@@ -8,13 +8,12 @@ import {
   Trash2,
   ExternalLink,
   Download,
-  Loader2,
   Info,
 } from 'lucide-react';
 import type { SavedImage } from '../../services/imageService';
 import MetadataPanel from './MetadataPanel';
 import { useI18n } from '../../contexts/I18nContext';
-import { useFocusTrap } from '@aireon/shared';
+import { Skeleton, useFocusTrap } from '@aireon/shared';
 
 interface LightboxProps {
   images: SavedImage[];
@@ -139,7 +138,15 @@ export default function ExportLightbox({
             disabled={isDeleting}
             danger
           >
-            {isDeleting ? <Loader2 size={15} className="animate-spin" /> : <Trash2 size={15} />}
+            {isDeleting ? (
+              <span className="inline-flex items-center gap-0.5" aria-hidden="true">
+                <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+                <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:150ms]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:300ms]" />
+              </span>
+            ) : (
+              <Trash2 size={15} />
+            )}
           </IconButton>
           <span className="hidden md:block w-px h-5 bg-white/10 mx-0.5" />
           <IconButton
@@ -181,7 +188,10 @@ export default function ExportLightbox({
             onClick={(e) => e.stopPropagation()}
           >
             {!imgLoaded && (
-              <Loader2 size={28} className="absolute text-gray-400 animate-spin" />
+              <Skeleton
+                className="absolute w-[70vw] max-w-3xl h-[60vh] max-h-[calc(100dvh-9rem)]"
+                radius={8}
+              />
             )}
             <img
               key={image.id}

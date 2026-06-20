@@ -1,4 +1,4 @@
-import { Filter, Grid3x3, LayoutGrid, RefreshCw, Star, Loader2, ArrowDownWideNarrow } from 'lucide-react';
+import { Filter, Grid3x3, LayoutGrid, RefreshCw, Star, ArrowDownWideNarrow } from 'lucide-react';
 import type { SortMode } from '../../lib/grouping';
 import { APP_LABELS } from '../../services/imageService';
 import { useI18n } from '../../contexts/I18nContext';
@@ -117,7 +117,15 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
             aria-label={t('gallery.filter.refresh')}
             title={t('gallery.filter.refresh')}
           >
-            {isRefreshing ? <Loader2 size={13} className="animate-spin" /> : <RefreshCw size={13} />}
+            {isRefreshing ? (
+              <span className="inline-flex items-center gap-0.5" aria-hidden="true">
+                <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+                <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:150ms]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse [animation-delay:300ms]" />
+              </span>
+            ) : (
+              <RefreshCw size={13} />
+            )}
           </button>
         </div>
       </div>
