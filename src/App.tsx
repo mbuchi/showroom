@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { Skeleton, useGlass } from '@aireon/shared';
+import { AppAccessGate, Skeleton, useGlass } from '@aireon/shared';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { I18nProvider } from './contexts/I18nContext';
 import GalleryView from './components/gallery/GalleryView';
@@ -74,7 +74,9 @@ export default function App() {
   return (
     <I18nProvider>
       <AuthProvider>
-        <AppShell />
+        <AppAccessGate appId="showroom" defaultAccess="public">
+          <AppShell />
+        </AppAccessGate>
       </AuthProvider>
     </I18nProvider>
   );

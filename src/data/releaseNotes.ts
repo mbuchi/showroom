@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.10',
+    date: 'June 21, 2026',
+    codename: 'Access Aware',
+    summary:
+      'Showroom now respects the access level and launch status set for it in the hub’s App Manager.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Shield,
+        text:
+          "showroom now respects the access level and launch status set for it in the hub's App Manager: member-only asks you to sign in, admin-only or under construction shows a short notice. Public apps — the default — are unaffected.",
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.13.9',
     date: 'June 21, 2026',
     codename: 'About Up Top',
