@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Search, Command, Images, FileText, Share2, History } from 'lucide-react';
+import { Search, Command, Images, FileText, Share2, History, Info } from 'lucide-react';
 import {
   AppNavbar,
   LocaleSelector,
@@ -12,6 +12,7 @@ import {
 } from '@aireon/shared';
 import type { OverflowNavItem, MapUserMenuAction } from '@aireon/shared';
 import UserMenu from './UserMenu';
+import AboutModal from './AboutModal';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';
 import { useAuth } from '../auth/AuthContext';
@@ -48,6 +49,10 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   // Search history is now opened from a navbar button (moved out of the account
   // menu). Tracked here so the History icon toggles the shared modal.
   const [showHistory, setShowHistory] = useState(false);
+  // "About this app" is also reachable from the account menu, but the suite
+  // navbar standard (valoo) surfaces it as a one-tap Info icon too. State lives
+  // here so the navbar button can open the shared modal directly.
+  const [showAbout, setShowAbout] = useState(false);
   // "Share this view" moved into the account menu; the Navbar still owns its
   // link-copy state so it can flash the suite-standard "Link copied" pill.
   const [shareCopied, setShareCopied] = useState(false);
@@ -183,6 +188,14 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
               onClick={() => setShowHistory(true)}
               dark
             />
+            {/* About (info) — suite navbar standard (valoo): one-tap app details,
+                in addition to the account-menu "About this app" row. */}
+            <NavIconButton
+              icon={<Info size={18} aria-hidden="true" />}
+              label={t('about.menu')}
+              onClick={() => setShowAbout(true)}
+              dark
+            />
             <LocaleSelector locale={locale} onChange={setLocale} ariaLabel={t('nav.select_language')} />
             {rightSlot}
           </>
@@ -198,6 +211,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         onClose={() => setShowHistory(false)}
       />
     )}
+    {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
     <ShareCopiedToast show={shareCopied} label={shareStrings.copied} dark />
     </>
   );

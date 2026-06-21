@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.9',
+    date: 'June 21, 2026',
+    codename: 'About Up Top',
+    summary:
+      'The top bar now has an About (info) icon, opening the app details directly instead of only from the account menu.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Info,
+        text:
+          'The top bar now has an About (info) icon, opening the app details directly instead of only from the account menu — matching valoo and the other Aireon apps.',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.13.8',
     date: 'June 21, 2026',
     codename: 'Shorter Track',
