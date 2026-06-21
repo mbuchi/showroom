@@ -40,7 +40,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.release_notes': 'Release notes',
 
     // PRM — Save-to-PRM button on the parcel strip
-    'prm.save': 'Track parcel',
+    'prm.save': 'Track',
     'prm.saving': 'Saving…',
     'prm.saved': 'Tracked',
     'prm.open_in_proom': 'Open in proom',
@@ -326,7 +326,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.release_notes': 'Notes de version',
 
     // PRM — bouton Enregistrer sur la bande parcelle
-    'prm.save': 'Suivre la parcelle',
+    'prm.save': 'Suivre',
     'prm.saving': 'Enregistrement…',
     'prm.saved': 'Suivie',
     'prm.open_in_proom': 'Ouvrir dans proom',
@@ -609,7 +609,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.release_notes': 'Versionshinweise',
 
     // PRM — Speichern-Button auf der Parzellen-Leiste
-    'prm.save': 'Parzelle verfolgen',
+    'prm.save': 'Verfolgen',
     'prm.saving': 'Wird gespeichert…',
     'prm.saved': 'Verfolgt',
     'prm.open_in_proom': 'In proom öffnen',
@@ -892,7 +892,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'menu.release_notes': 'Note di versione',
 
     // PRM — pulsante Salva sulla barra parcella
-    'prm.save': 'Segui la particella',
+    'prm.save': 'Segui',
     'prm.saving': 'Salvataggio…',
     'prm.saved': 'Seguita',
     'prm.open_in_proom': 'Apri in proom',

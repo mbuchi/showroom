@@ -12,6 +12,23 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.8',
+    date: 'June 21, 2026',
+    codename: 'Shorter Track',
+    summary:
+      'Shortened the “Track parcel” button to just “Track” in all four languages.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'Shortened the “Track parcel” button to just “Track” (all four languages).',
+        prs: [],
+      },
+    ],
+  },
+
+  {
     version: '0.13.7',
     date: 'June 20, 2026',
     codename: 'Clean Export',
