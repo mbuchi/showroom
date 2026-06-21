@@ -3,6 +3,7 @@ import { Search, Command, Images, FileText, Share2, History, Info } from 'lucide
 import {
   AppNavbar,
   LocaleSelector,
+  OpenWithMenu,
   OverflowNav,
   NavIconButton,
   ShareCopiedToast,
@@ -29,6 +30,7 @@ interface NavbarProps {
   exportCount?: number;
   showSearch?: boolean;
   rightSlot?: React.ReactNode;
+  openWithLocation?: { lat: number; lng: number } | null;
 }
 
 /**
@@ -40,7 +42,7 @@ interface NavbarProps {
  * scroll-shadow.
  */
 const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
-  { searchValue = '', onSearchChange, exportCount, showSearch = true, rightSlot },
+  { searchValue = '', onSearchChange, exportCount, showSearch = true, rightSlot, openWithLocation },
   searchRef
 ) {
   const [scrolled, setScrolled] = useState(false);
@@ -169,6 +171,23 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         }
         actionsExtra={
           <>
+            {/* "Open with" — cross-app deep-link menu; only shown on the reporter
+                route when a location (lat/lng) is active in the URL. */}
+            {openWithLocation && (
+              <OpenWithMenu
+                location={openWithLocation}
+                currentAppId="showroom"
+                dark
+                label={t('nav.open_with')}
+                onOpen={(appId) =>
+                  void signal.send('Open address in app', {
+                    lat: openWithLocation.lat,
+                    lng: openWithLocation.lng,
+                    metaData: { app: appId },
+                  })
+                }
+              />
+            )}
             {/* Mobile-only: surface the nav links (hidden in the sm: <nav> above)
                 behind a single ⋯ menu so Reporter/Gallery stay reachable on phones. */}
             <div className="flex sm:hidden items-center">

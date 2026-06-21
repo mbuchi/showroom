@@ -28,6 +28,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.reporter': 'Reporter',
     'nav.sign_in': 'Sign in',
     'nav.open_user_menu': 'Open user menu',
+    'nav.open_with': 'Open with',
 
     // User menu
     'menu.my_saved_parcels': 'My saved parcels',
@@ -314,6 +315,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.reporter': 'Reporter',
     'nav.sign_in': 'Se connecter',
     'nav.open_user_menu': 'Ouvrir le menu utilisateur',
+    'nav.open_with': 'Ouvrir avec',
 
     // User menu
     'menu.my_saved_parcels': 'Mes parcelles enregistrées',
@@ -597,6 +599,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.reporter': 'Reporter',
     'nav.sign_in': 'Anmelden',
     'nav.open_user_menu': 'Benutzermenü öffnen',
+    'nav.open_with': 'Öffnen mit',
 
     // User menu
     'menu.my_saved_parcels': 'Meine gespeicherten Parzellen',
@@ -880,6 +883,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'nav.reporter': 'Reporter',
     'nav.sign_in': 'Accedi',
     'nav.open_user_menu': 'Apri menu utente',
+    'nav.open_with': 'Apri con',
 
     // User menu
     'menu.my_saved_parcels': 'Le mie parcelle salvate',
