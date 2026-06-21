@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.11',
+    date: 'June 22, 2026',
+    codename: 'Open With',
+    summary:
+      'Added an "Open with" menu in the Reporter navbar — open the current location in another Aireon app with one click.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: ExternalLink,
+        text:
+          'Added an "Open with" menu in the Reporter top bar: when a location is active (after an address search), a new button lets you open that exact spot in any other Aireon map app in one click.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.13.10',
     date: 'June 21, 2026',
     codename: 'Access Aware',
