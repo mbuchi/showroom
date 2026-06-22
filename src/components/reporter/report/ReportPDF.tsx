@@ -343,7 +343,7 @@ function Fact({ label, value, mono = false }: { label: string; value: string | n
         {value ? (
           <Text style={mono ? [styles.factValue, { fontFamily: 'Courier-Bold' }] : styles.factValue}>{value}</Text>
         ) : (
-          <Text style={styles.factValueMute}>—</Text>
+          <Text style={styles.factValueMute}>-</Text>
         )}
       </View>
     </View>
@@ -411,7 +411,7 @@ function WidgetSection({ w, i18n }: { w: ReportWidgetSection; i18n: ReportI18n }
           {w.status === 'ok' ? (
             <Text style={[styles.metricChipValue, { color: w.accentHex }]}>{w.metricValue}</Text>
           ) : (
-            <Text style={[styles.metricChipValue, { color: toneColor('neutral') }]}>—</Text>
+            <Text style={[styles.metricChipValue, { color: toneColor('neutral') }]}>-</Text>
           )}
         </View>
       </View>

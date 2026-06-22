@@ -64,7 +64,7 @@ function buildSection(
     blurb: t(`report.widget.${id}.blurb`),
     status: raw?.status ?? 'loading',
     metricLabel: t(`page.reporter.widget.metric.${metricKey(id)}`),
-    metricValue: raw?.metricDisplay ?? '—',
+    metricValue: raw?.metricDisplay ?? '-',
     narrative: t(meta.narrativeKey),
     methodology: meta.methodologyKeys.map((k) => t(k)),
     sourceLabel: meta.sourceLabel,
