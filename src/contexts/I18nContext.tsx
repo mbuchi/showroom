@@ -46,7 +46,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'prm.saved': 'Tracked',
     'prm.open_in_proom': 'Open in proom',
     'prm.signin_required': 'Sign in to save parcels',
-    'prm.save_failed': 'Could not save — try again',
+    'prm.save_failed': 'Could not save - try again',
 
     // Gallery — heading, counts, footer tips
     'gallery.heading': 'Your gallery',
@@ -137,14 +137,14 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter page
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Enter an address to generate a standardized showroom report — live map widgets recreating five Aireon apps at that location: valuation, building height, construction year, solar potential and noise exposure.',
-    'page.reporter.search_disabled_prefix': 'Address search is disabled — the',
+      'Enter an address to generate a standardized showroom report - live map widgets recreating five Aireon apps at that location: valuation, building height, construction year, solar potential and noise exposure.',
+    'page.reporter.search_disabled_prefix': 'Address search is disabled - the',
     'page.reporter.search_disabled_suffix': 'environment variable is not set for this deployment.',
     'page.reporter.search_placeholder': 'Search a Swiss address…',
     'page.reporter.search_error_fallback': 'Geocoding failed',
     'page.reporter.selected_location': 'Selected location',
     'page.reporter.regenerate': 'Regenerate',
-    'page.reporter.no_report': 'No report yet — search for an address above to begin.',
+    'page.reporter.no_report': 'No report yet - search for an address above to begin.',
     'page.reporter.parcel_unavailable': 'Parcel details unavailable for this location.',
     'page.reporter.flats_one': 'flat',
     'page.reporter.flats_other': 'flats',
@@ -196,12 +196,12 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.dialog.ready_body': 'Your branded, multi-page PDF is ready to download.',
     'report.dialog.error': 'Could not build the report',
     'report.dialog.error_body':
-      'Something went wrong while building the PDF. You can retry — the live widgets above are unaffected.',
+      'Something went wrong while building the PDF. You can retry - the live widgets above are unaffected.',
 
     // PDF document (rendered out-of-tree, resolved at build time)
     'report.pdf.tagline': 'PROPERTY INTELLIGENCE · SWITZERLAND',
     'report.pdf.title': 'Property Report',
-    'report.pdf.subtitle': 'Showroom — multi-source location dossier',
+    'report.pdf.subtitle': 'Showroom - multi-source location dossier',
     'report.pdf.report_id': 'Report ID',
     'report.pdf.generated_on': 'Generated on',
     'report.pdf.generated_for': 'Generated for',
@@ -242,13 +242,13 @@ const translations: Record<Locale, Record<string, string>> = {
     // Per-widget report copy
     'report.widget.valoo.blurb': 'Indicative market value derived from parcel-level hedonic modelling.',
     'report.widget.valoo.narrative':
-      'The headline price expresses the modelled market value per square metre of parcel surface, fitted to the 2025 Aireon parcel snapshot. Use it as a fast triage figure — solid for ranking neighbouring parcels, indicative for a single asset.',
+      'The headline price expresses the modelled market value per square metre of parcel surface, fitted to the 2025 Aireon parcel snapshot. Use it as a fast triage figure - solid for ranking neighbouring parcels, indicative for a single asset.',
     'report.widget.valoo.method.1':
       'Hedonic regression over the parcel_2025_07 dataset using location, footprint, age and zoning signals.',
     'report.widget.valoo.method.2':
       'Eleven-class quantile ramp shown on the live map; the parcel under the pin is queried for its per-m² price.',
     'report.widget.valoo.method.3':
-      'No physical inspection — interior fit-out, recent renovations and view premia are not captured.',
+      'No physical inspection - interior fit-out, recent renovations and view premia are not captured.',
     'report.widget.valoo.detail.price_m2': 'Modelled price per m²',
 
     'report.widget.roofs.blurb': 'Building height above ground from federal 3D building data.',
@@ -299,7 +299,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // About modal
     'about.menu': 'About this app',
-    'about.description': 'Showroom collects and presents Aireon property exports — screenshots, reports and map captures — in a single curated gallery.',
+    'about.description': 'Showroom collects and presents Aireon property exports - screenshots, reports and map captures - in a single curated gallery.',
     'about.mapData': 'Map data',
     'about.renderer': 'Rendering',
     'about.close': 'Close',
@@ -333,7 +333,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'prm.saved': 'Suivie',
     'prm.open_in_proom': 'Ouvrir dans proom',
     'prm.signin_required': 'Connectez-vous pour enregistrer',
-    'prm.save_failed': 'Échec — réessayez',
+    'prm.save_failed': 'Échec - réessayez',
 
     // Gallery
     'gallery.heading': 'Votre galerie',
@@ -424,14 +424,14 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Saisissez une adresse pour générer un rapport showroom standardisé — cinq widgets cartographiques en direct qui reconstituent les apps Aireon à cet endroit : valorisation, hauteur des bâtiments, année de construction, potentiel solaire et exposition au bruit.',
-    'page.reporter.search_disabled_prefix': 'La recherche d’adresse est désactivée — la variable d’environnement',
+      'Saisissez une adresse pour générer un rapport showroom standardisé - cinq widgets cartographiques en direct qui reconstituent les apps Aireon à cet endroit : valorisation, hauteur des bâtiments, année de construction, potentiel solaire et exposition au bruit.',
+    'page.reporter.search_disabled_prefix': 'La recherche d’adresse est désactivée - la variable d’environnement',
     'page.reporter.search_disabled_suffix': 'n’est pas définie pour ce déploiement.',
     'page.reporter.search_placeholder': 'Rechercher une adresse suisse…',
     'page.reporter.search_error_fallback': 'Échec du géocodage',
     'page.reporter.selected_location': 'Emplacement sélectionné',
     'page.reporter.regenerate': 'Régénérer',
-    'page.reporter.no_report': 'Aucun rapport — recherchez une adresse ci-dessus pour commencer.',
+    'page.reporter.no_report': 'Aucun rapport - recherchez une adresse ci-dessus pour commencer.',
     'page.reporter.parcel_unavailable': 'Détails de la parcelle indisponibles à cet endroit.',
     'page.reporter.flats_one': 'logement',
     'page.reporter.flats_other': 'logements',
@@ -482,11 +482,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.dialog.ready_body': 'Votre PDF aux couleurs Showroom est prêt à être téléchargé.',
     'report.dialog.error': 'Impossible de construire le rapport',
     'report.dialog.error_body':
-      'Une erreur est survenue lors de la création du PDF. Vous pouvez réessayer — les widgets ci-dessus restent intacts.',
+      'Une erreur est survenue lors de la création du PDF. Vous pouvez réessayer - les widgets ci-dessus restent intacts.',
 
     'report.pdf.tagline': 'INTELLIGENCE IMMOBILIÈRE · SUISSE',
     'report.pdf.title': 'Rapport immobilier',
-    'report.pdf.subtitle': 'Showroom — dossier multi-sources par localisation',
+    'report.pdf.subtitle': 'Showroom - dossier multi-sources par localisation',
     'report.pdf.report_id': 'Identifiant du rapport',
     'report.pdf.generated_on': 'Généré le',
     'report.pdf.generated_for': 'Généré pour',
@@ -526,13 +526,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     'report.widget.valoo.blurb': 'Valeur marchande indicative issue d’un modèle hédonique au niveau de la parcelle.',
     'report.widget.valoo.narrative':
-      'Le prix exprime la valeur de marché modélisée par mètre carré de surface de parcelle, ajustée à l’instantané Aireon des parcelles 2025. À utiliser comme tri rapide — fiable pour classer des parcelles voisines, indicatif pour un actif unique.',
+      'Le prix exprime la valeur de marché modélisée par mètre carré de surface de parcelle, ajustée à l’instantané Aireon des parcelles 2025. À utiliser comme tri rapide - fiable pour classer des parcelles voisines, indicatif pour un actif unique.',
     'report.widget.valoo.method.1':
       'Régression hédonique sur le jeu parcel_2025_07 utilisant localisation, emprise, âge et zonage.',
     'report.widget.valoo.method.2':
       'Rampe quantile à onze classes affichée sur la carte ; la parcelle sous le pin renvoie son prix au m².',
     'report.widget.valoo.method.3':
-      'Aucune visite — aménagements intérieurs, rénovations récentes et primes de vue ne sont pas captés.',
+      'Aucune visite - aménagements intérieurs, rénovations récentes et primes de vue ne sont pas captés.',
     'report.widget.valoo.detail.price_m2': 'Prix modélisé par m²',
 
     'report.widget.roofs.blurb': 'Hauteur du bâtiment au-dessus du sol depuis le modèle 3D fédéral.',
@@ -583,7 +583,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // About modal
     'about.menu': "À propos de l'app",
-    'about.description': "Showroom rassemble et présente les exports immobiliers Aireon — captures d'écran, rapports et captures de carte — dans une galerie centralisée.",
+    'about.description': "Showroom rassemble et présente les exports immobiliers Aireon - captures d'écran, rapports et captures de carte - dans une galerie centralisée.",
     'about.mapData': 'Données cartographiques',
     'about.renderer': 'Rendu',
     'about.close': 'Fermer',
@@ -708,14 +708,14 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Adresse eingeben, um einen standardisierten Showroom-Bericht zu erstellen — fünf Live-Karten-Widgets, die Aireon-Apps am Standort zeigen: Bewertung, Gebäudehöhe, Baujahr, Solarpotenzial und Lärmexposition.',
-    'page.reporter.search_disabled_prefix': 'Die Adresssuche ist deaktiviert — die Umgebungsvariable',
+      'Adresse eingeben, um einen standardisierten Showroom-Bericht zu erstellen - fünf Live-Karten-Widgets, die Aireon-Apps am Standort zeigen: Bewertung, Gebäudehöhe, Baujahr, Solarpotenzial und Lärmexposition.',
+    'page.reporter.search_disabled_prefix': 'Die Adresssuche ist deaktiviert - die Umgebungsvariable',
     'page.reporter.search_disabled_suffix': 'ist für diese Bereitstellung nicht gesetzt.',
     'page.reporter.search_placeholder': 'Schweizer Adresse suchen…',
     'page.reporter.search_error_fallback': 'Geokodierung fehlgeschlagen',
     'page.reporter.selected_location': 'Ausgewählter Standort',
     'page.reporter.regenerate': 'Neu erstellen',
-    'page.reporter.no_report': 'Noch kein Bericht — suche oben eine Adresse, um zu beginnen.',
+    'page.reporter.no_report': 'Noch kein Bericht - suche oben eine Adresse, um zu beginnen.',
     'page.reporter.parcel_unavailable': 'Parzellendetails für diesen Standort nicht verfügbar.',
     'page.reporter.flats_one': 'Wohnung',
     'page.reporter.flats_other': 'Wohnungen',
@@ -766,11 +766,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.dialog.ready_body': 'Dein mehrseitiges, gebrandetes PDF steht zum Download bereit.',
     'report.dialog.error': 'Bericht konnte nicht erstellt werden',
     'report.dialog.error_body':
-      'Beim Erstellen des PDFs ist etwas schiefgelaufen. Du kannst es erneut versuchen — die Widgets oben sind nicht betroffen.',
+      'Beim Erstellen des PDFs ist etwas schiefgelaufen. Du kannst es erneut versuchen - die Widgets oben sind nicht betroffen.',
 
     'report.pdf.tagline': 'IMMOBILIEN-INTELLIGENZ · SCHWEIZ',
     'report.pdf.title': 'Liegenschaftsbericht',
-    'report.pdf.subtitle': 'Showroom — standortbezogenes Multisource-Dossier',
+    'report.pdf.subtitle': 'Showroom - standortbezogenes Multisource-Dossier',
     'report.pdf.report_id': 'Berichts-ID',
     'report.pdf.generated_on': 'Erstellt am',
     'report.pdf.generated_for': 'Erstellt für',
@@ -810,13 +810,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     'report.widget.valoo.blurb': 'Indikativer Marktwert aus hedonischer Modellierung auf Parzellenebene.',
     'report.widget.valoo.narrative':
-      'Der Preis drückt den modellierten Marktwert pro Quadratmeter Parzellenfläche aus, abgestimmt auf den Aireon-Parzellenstand 2025. Schnelle Vortriage — solide für den Vergleich benachbarter Parzellen, indikativ für ein einzelnes Objekt.',
+      'Der Preis drückt den modellierten Marktwert pro Quadratmeter Parzellenfläche aus, abgestimmt auf den Aireon-Parzellenstand 2025. Schnelle Vortriage - solide für den Vergleich benachbarter Parzellen, indikativ für ein einzelnes Objekt.',
     'report.widget.valoo.method.1':
       'Hedonische Regression auf dem Datensatz parcel_2025_07 mit Lage, Grundfläche, Alter und Zonierung.',
     'report.widget.valoo.method.2':
       'Elfklassige Quantilskala auf der Live-Karte; die Parzelle unter dem Pin wird auf ihren CHF/m² abgefragt.',
     'report.widget.valoo.method.3':
-      'Keine Begehung — Innenausbau, jüngere Renovationen und Aussichtsprämien sind nicht erfasst.',
+      'Keine Begehung - Innenausbau, jüngere Renovationen und Aussichtsprämien sind nicht erfasst.',
     'report.widget.valoo.detail.price_m2': 'Modellierter Preis pro m²',
 
     'report.widget.roofs.blurb': 'Gebäudehöhe ab Boden aus dem eidgenössischen 3D-Gebäudemodell.',
@@ -867,7 +867,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // About modal
     'about.menu': 'Über diese App',
-    'about.description': 'Showroom sammelt und präsentiert Aireon-Immobilien-Exporte — Screenshots, Berichte und Kartenaufnahmen — in einer einzigen kuratierten Galerie.',
+    'about.description': 'Showroom sammelt und präsentiert Aireon-Immobilien-Exporte - Screenshots, Berichte und Kartenaufnahmen - in einer einzigen kuratierten Galerie.',
     'about.mapData': 'Kartendaten',
     'about.renderer': 'Darstellung',
     'about.close': 'Schliessen',
@@ -992,14 +992,14 @@ const translations: Record<Locale, Record<string, string>> = {
     // Reporter
     'page.reporter.kicker': 'Reporter',
     'page.reporter.intro':
-      'Inserisci un indirizzo per generare un report showroom standardizzato — cinque widget cartografici in tempo reale che ricreano le app Aireon in quel punto: valutazione, altezza edifici, anno di costruzione, potenziale solare ed esposizione al rumore.',
-    'page.reporter.search_disabled_prefix': 'La ricerca indirizzi è disabilitata — la variabile d’ambiente',
+      'Inserisci un indirizzo per generare un report showroom standardizzato - cinque widget cartografici in tempo reale che ricreano le app Aireon in quel punto: valutazione, altezza edifici, anno di costruzione, potenziale solare ed esposizione al rumore.',
+    'page.reporter.search_disabled_prefix': 'La ricerca indirizzi è disabilitata - la variabile d’ambiente',
     'page.reporter.search_disabled_suffix': 'non è impostata per questo deployment.',
     'page.reporter.search_placeholder': 'Cerca un indirizzo svizzero…',
     'page.reporter.search_error_fallback': 'Geocodifica non riuscita',
     'page.reporter.selected_location': 'Posizione selezionata',
     'page.reporter.regenerate': 'Rigenera',
-    'page.reporter.no_report': 'Nessun report — cerca un indirizzo sopra per iniziare.',
+    'page.reporter.no_report': 'Nessun report - cerca un indirizzo sopra per iniziare.',
     'page.reporter.parcel_unavailable': 'Dettagli parcella non disponibili per questa posizione.',
     'page.reporter.flats_one': 'appartamento',
     'page.reporter.flats_other': 'appartamenti',
@@ -1050,11 +1050,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.dialog.ready_body': 'Il tuo PDF a più pagine con branding Showroom è pronto per il download.',
     'report.dialog.error': 'Impossibile creare il report',
     'report.dialog.error_body':
-      'Si è verificato un problema durante la creazione del PDF. Puoi riprovare — i widget qui sopra non sono interessati.',
+      'Si è verificato un problema durante la creazione del PDF. Puoi riprovare - i widget qui sopra non sono interessati.',
 
     'report.pdf.tagline': 'INTELLIGENCE IMMOBILIARE · SVIZZERA',
     'report.pdf.title': 'Report immobiliare',
-    'report.pdf.subtitle': 'Showroom — dossier multi-fonte per localizzazione',
+    'report.pdf.subtitle': 'Showroom - dossier multi-fonte per localizzazione',
     'report.pdf.report_id': 'ID report',
     'report.pdf.generated_on': 'Generato il',
     'report.pdf.generated_for': 'Generato per',
@@ -1094,13 +1094,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     'report.widget.valoo.blurb': 'Valore di mercato indicativo da modello edonico a livello di parcella.',
     'report.widget.valoo.narrative':
-      'Il prezzo esprime il valore di mercato modellato per metro quadrato di superficie della parcella, calibrato sullo snapshot parcellare Aireon 2025. Da usare come triage rapido — solido per ordinare parcelle vicine, indicativo per un singolo asset.',
+      'Il prezzo esprime il valore di mercato modellato per metro quadrato di superficie della parcella, calibrato sullo snapshot parcellare Aireon 2025. Da usare come triage rapido - solido per ordinare parcelle vicine, indicativo per un singolo asset.',
     'report.widget.valoo.method.1':
       'Regressione edonica sul dataset parcel_2025_07 con segnali di posizione, superficie, età e zonizzazione.',
     'report.widget.valoo.method.2':
       'Rampa per quantili a undici classi visibile sulla mappa; la parcella sotto il pin restituisce il suo prezzo al m².',
     'report.widget.valoo.method.3':
-      'Nessuna ispezione — finiture interne, ristrutturazioni recenti e premi vista non sono catturati.',
+      'Nessuna ispezione - finiture interne, ristrutturazioni recenti e premi vista non sono catturati.',
     'report.widget.valoo.detail.price_m2': 'Prezzo modellato al m²',
 
     'report.widget.roofs.blurb': 'Altezza dell’edificio dal modello 3D federale degli edifici.',
@@ -1151,7 +1151,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     // About modal
     'about.menu': "Informazioni sull'app",
-    'about.description': "Showroom raccoglie e presenta gli export immobiliari Aireon — screenshot, report e acquisizioni di mappa — in un'unica galleria curata.",
+    'about.description': "Showroom raccoglie e presenta gli export immobiliari Aireon - screenshot, report e acquisizioni di mappa - in un'unica galleria curata.",
     'about.mapData': 'Dati cartografici',
     'about.renderer': 'Rendering',
     'about.close': 'Chiudi',

@@ -60,10 +60,10 @@ describe('buildReportPayload', () => {
     expect(valoo.snapshotDataUrl).toBe('data:image/png;base64,AAA');
   });
 
-  it('renders an em-dash for widgets without a metric display', () => {
+  it('renders a placeholder dash for widgets without a metric display', () => {
     const payload = buildReportPayload(baseArgs);
     const roofs = payload.widgets.find((w) => w.id === 'roofs')!;
-    expect(roofs.metricValue).toBe('—');
+    expect(roofs.metricValue).toBe('-');
     expect(roofs.status).toBe('no_data');
     expect(roofs.snapshotDataUrl).toBeNull();
   });
