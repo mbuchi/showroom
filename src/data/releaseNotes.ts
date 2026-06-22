@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.14',
+    date: 'June 22, 2026',
+    codename: 'Skeleton on open',
+    summary:
+      'The app now opens with a skeleton placeholder of its layout instead of a loading spinner.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'When showroom opens, it now shows a skeleton of its layout while it loads — instead of a spinner — so the page is visible right away and the wait feels shorter. The skeleton follows your theme.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.13.13',
     date: 'June 22, 2026',
     codename: 'Shared v1.64.0',
