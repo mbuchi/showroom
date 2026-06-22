@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.13',
+    date: 'June 22, 2026',
+    codename: 'Shared v1.64.0',
+    summary:
+      'Updated the shared Aireon component library to v1.64.0, which removes em-dashes from shared UI strings.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'Updated @aireon/shared to v1.64.0, which removes em-dashes from shared UI strings (Claire labels, What\'s New button, saved-parcels / bug-report dialogs).',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.13.12',
     date: 'June 22, 2026',
     codename: 'Hyphens, not em-dashes',
