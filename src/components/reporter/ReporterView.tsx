@@ -5,6 +5,7 @@ import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
 import ReportDialog from './report/ReportDialog';
+import ReporterClaire from './ReporterClaire';
 import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { signal } from '../../lib/signal';
@@ -243,6 +244,19 @@ export default function ReporterView() {
               selection={selection}
               rawByWidget={rawByWidget}
             />
+
+            {/* Claire grounds on the resolved parcel + the live report metrics,
+                so users can ask her to explain the report. Gated on a resolved
+                parcel so she always has real context to work from. */}
+            {parcel && (
+              <ReporterClaire
+                lat={params.lat}
+                lng={params.lng}
+                address={params.address}
+                parcel={parcel}
+                rawByWidget={rawByWidget}
+              />
+            )}
           </>
         )}
 
