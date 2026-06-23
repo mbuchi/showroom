@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.15',
+    date: 'June 23, 2026',
+    codename: 'Ask Claire',
+    summary:
+      'Claire, the Aireon AI assistant, now lives in the Reporter. Once you search a location she can explain the report, grounded on that exact parcel and its live numbers.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'Added the Claire AI assistant to the Reporter. After you search a location, a Claire launcher appears: ask her to explain the report and she answers grounded on that parcel - its address, EGRID, zone, size and dwellings - plus the live headline numbers from each card (valuation, building height, construction year, solar potential, road noise). Voice calls are supported too. Chat runs server-side through the Aireon backend, so no AI key is shipped to your browser, and the Claire launcher is excluded from saved report images.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.13.14',
     date: 'June 22, 2026',
     codename: 'Skeleton on open',
