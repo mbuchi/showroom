@@ -32,6 +32,13 @@ export const RELEASES: Release[] = [
           'The About dialog now uses the suite-standard shared modal from @aireon/shared while keeping showroom\'s swisstopo and MapLibre credits.',
         prs: [],
       },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Shield,
+        text:
+          'Deployment checks now load the private shared Aireon package through a read-only deploy key, so preview and production builds no longer depend on a developer machine\'s Git credentials.',
+        prs: [],
+      },
     ],
   },
   {
