@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Image as ImageIcon, Info, Sparkles } from 'lucide-react';
 import {
+  AboutModal,
   MapUserMenu,
   ReleaseNotesPanel,
   useReleaseNotes,
@@ -14,7 +15,7 @@ import {
 import { useI18n } from '../contexts/I18nContext';
 import { RELEASES, REPO_URL } from '../data/releaseNotes';
 import { errorLogger } from '../lib/errorLog';
-import AboutModal from './AboutModal';
+import { createShowroomAboutModalProps } from './aboutModalContent';
 
 interface UserMenuProps {
   exportCount?: number;
@@ -122,7 +123,14 @@ export default function UserMenu({
           glassLevel={glassLevel}
         />
       )}
-      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
+      {showAbout && (
+        <AboutModal
+          {...createShowroomAboutModalProps(t)}
+          glassLevel={glassLevel}
+          dark
+          onClose={() => setShowAbout(false)}
+        />
+      )}
     </>
   );
 }
