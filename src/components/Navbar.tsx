@@ -1,6 +1,7 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Search, Command, Images, FileText, Share2, History, Info } from 'lucide-react';
 import {
+  AboutModal,
   AppNavbar,
   LocaleSelector,
   OpenWithMenu,
@@ -10,10 +11,11 @@ import {
   SearchHistoryModal,
   getShareStrings,
   getSearchHistoryStrings,
+  useGlassLevel,
 } from '@aireon/shared';
 import type { OverflowNavItem, MapUserMenuAction } from '@aireon/shared';
 import UserMenu from './UserMenu';
-import AboutModal from './AboutModal';
+import { createShowroomAboutModalProps } from './aboutModalContent';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';
 import { useAuth } from '../auth/AuthContext';
@@ -48,6 +50,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   const [scrolled, setScrolled] = useState(false);
   const { locale, setLocale, t } = useI18n();
   const { getAccessToken } = useAuth();
+  const glassLevel = useGlassLevel();
   // Search history is now opened from a navbar button (moved out of the account
   // menu). Tracked here so the History icon toggles the shared modal.
   const [showHistory, setShowHistory] = useState(false);
@@ -230,7 +233,14 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         onClose={() => setShowHistory(false)}
       />
     )}
-    {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
+    {showAbout && (
+      <AboutModal
+        {...createShowroomAboutModalProps(t)}
+        glassLevel={glassLevel}
+        dark
+        onClose={() => setShowAbout(false)}
+      />
+    )}
     <ShareCopiedToast show={shareCopied} label={shareStrings.copied} dark />
     </>
   );

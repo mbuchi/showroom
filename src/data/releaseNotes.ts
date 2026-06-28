@@ -16,13 +16,27 @@ export const RELEASES: Release[] = [
     date: 'June 23, 2026',
     codename: 'Ask Claire',
     summary:
-      'Claire, the Aireon AI assistant, now lives in the Reporter. Once you search a location she can explain the report, grounded on that exact parcel and its live numbers.',
+      'Claire now lives in the Reporter, and the About dialog uses the suite-standard shared modal.',
     items: [
       {
         kind: 'added' as ChangeKind,
         icon: Sparkles,
         text:
           'Added the Claire AI assistant to the Reporter. After you search a location, a Claire launcher appears: ask her to explain the report and she answers grounded on that parcel - its address, EGRID, zone, size and dwellings - plus the live headline numbers from each card (valuation, building height, construction year, solar potential, road noise). Voice calls are supported too. Chat runs server-side through the Aireon backend, so no AI key is shipped to your browser, and the Claire launcher is excluded from saved report images.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Info,
+        text:
+          'The About dialog now uses the suite-standard shared modal from @aireon/shared while keeping showroom\'s swisstopo and MapLibre credits.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Shield,
+        text:
+          'Deployment checks now load the private shared Aireon package through a read-only deploy key, so preview and production builds no longer depend on a developer machine\'s Git credentials.',
         prs: [],
       },
     ],
