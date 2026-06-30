@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.13.16',
+    date: 'July 1, 2026',
+    codename: 'Spelling sweep',
+    summary:
+      'US English spelling across the UI.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text:
+          'User-facing copy now uses US English spelling throughout the interface, the PDF report text and the release notes (color, modeled, optimize, and similar) for consistency across the Aireon suite. Wording and meaning are unchanged.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.13.15',
     date: 'June 30, 2026',
     codename: 'Claire clears 3D controls',
@@ -100,7 +116,7 @@ export const RELEASES: Release[] = [
         kind: 'improved' as ChangeKind,
         icon: Type,
         text:
-          'All user-facing text now uses a plain hyphen instead of an em-dash. Labels, the reporter, the PDF report copy and release notes read more consistently and match the rest of the Aireon suite. No behaviour change.',
+          'All user-facing text now uses a plain hyphen instead of an em-dash. Labels, the reporter, the PDF report copy and release notes read more consistently and match the rest of the Aireon suite. No behavior change.',
         prs: [],
       },
     ],
@@ -710,7 +726,7 @@ export const RELEASES: Release[] = [
         kind: 'improved' as ChangeKind,
         icon: Type,
         text:
-          'The "showroom" brand wordmark in the top bar is now rendered at the suite-standard size (text-4xl / 36px), matching xploore and the rest of the Aireon apps. Purely a size change - the colours, weight, and the red "oo" accent are unchanged.',
+          'The "showroom" brand wordmark in the top bar is now rendered at the suite-standard size (text-4xl / 36px), matching xploore and the rest of the Aireon apps. Purely a size change - the colors, weight, and the red "oo" accent are unchanged.',
         prs: [],
       },
     ],
@@ -768,7 +784,7 @@ export const RELEASES: Release[] = [
     date: 'June 4, 2026',
     codename: 'Track Parcel',
     summary:
-      'The parcel save action is now labelled "Track parcel" - plain wording that replaces the old "Save to PRM" jargon.',
+      'The parcel save action is now labeled "Track parcel" - plain wording that replaces the old "Save to PRM" jargon.',
     items: [
       {
         kind: 'improved' as ChangeKind,
@@ -800,13 +816,13 @@ export const RELEASES: Release[] = [
     date: 'June 4, 2026',
     codename: 'Compiler On',
     summary:
-      'The React Compiler 1.0 now optimises the build with automatic compile-time memoization - fewer needless re-renders, no behaviour change.',
+      'The React Compiler 1.0 now optimizes the build with automatic compile-time memoization - fewer needless re-renders, no behavior change.',
     items: [
       {
         kind: 'improved' as ChangeKind,
         icon: Zap,
         text:
-          'Enabled the React Compiler 1.0 (Babel plugin, target React 18) for automatic compile-time memoization - fewer needless re-renders, no behaviour change. Healthcheck: 46/46 components compiled.',
+          'Enabled the React Compiler 1.0 (Babel plugin, target React 18) for automatic compile-time memoization - fewer needless re-renders, no behavior change. Healthcheck: 46/46 components compiled.',
         prs: [],
       },
     ],
@@ -925,7 +941,7 @@ export const RELEASES: Release[] = [
         kind: 'improved' as ChangeKind,
         icon: Eye,
         text:
-          'The gallery search field now has an accessible label, the brand link is labelled in lowercase, and decorative icons are hidden from screen readers.',
+          'The gallery search field now has an accessible label, the brand link is labeled in lowercase, and decorative icons are hidden from screen readers.',
         prs: [],
       },
       {
@@ -1051,7 +1067,7 @@ export const RELEASES: Release[] = [
     date: 'May 21, 2026',
     codename: 'Property Dossier',
     summary:
-      'The Reporter now generates a downloadable, multi-page PDF property report. Pick which of the five live cards belong in the dossier with the new "Add to report" checkbox in each card, hit "Generate report" and Showroom assembles a Swiss-format property dossier with a branded cover, executive summary, parcel identification sheet (address, EGRID, footprint, volume, dwellings, zoning), per-widget analyses with map snapshots and methodology bullets, and a sourced disclaimer modelled on Swiss AVM practice. The PDF is fully translated EN / FR / DE / IT.',
+      'The Reporter now generates a downloadable, multi-page PDF property report. Pick which of the five live cards belong in the dossier with the new "Add to report" checkbox in each card, hit "Generate report" and Showroom assembles a Swiss-format property dossier with a branded cover, executive summary, parcel identification sheet (address, EGRID, footprint, volume, dwellings, zoning), per-widget analyses with map snapshots and methodology bullets, and a sourced disclaimer modeled on Swiss AVM practice. The PDF is fully translated EN / FR / DE / IT.',
     highlight: true,
     items: [
       {
@@ -1259,7 +1275,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'fixed',
         icon: Eye,
-        text: 'The card headline value is now a single consistent cyan with a soft dark text halo, so it stays readable over any basemap colour. The Boom road-noise value previously took the noise-band colour (a green) and washed out against the noise overlay.',
+        text: 'The card headline value is now a single consistent cyan with a soft dark text halo, so it stays readable over any basemap color. The Boom road-noise value previously took the noise-band color (a green) and washed out against the noise overlay.',
         prs: [],
       },
     ],
@@ -1281,7 +1297,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved',
         icon: Eye,
-        text: 'The Live / Loading / No data / Failed status badge is now an opaque dark pill with a coloured status dot, instead of a translucent tint that washed out over light or busy basemaps.',
+        text: 'The Live / Loading / No data / Failed status badge is now an opaque dark pill with a colored status dot, instead of a translucent tint that washed out over light or busy basemaps.',
         prs: [],
       },
       {
@@ -1348,7 +1364,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved',
         icon: Type,
-        text: 'Each reporter card’s headline value is now large, bold and colour-coded over a gradient scrim at the foot of its map, with an uppercase metric label (“Market value”, “Building height”, “Construction year”, “Solar potential”, “Road noise”) above it. The Live / No data / Failed status badge moved to a top-right map overlay, and the card footer is simplified to the app name and a deep-link.',
+        text: 'Each reporter card’s headline value is now large, bold and color-coded over a gradient scrim at the foot of its map, with an uppercase metric label (“Market value”, “Building height”, “Construction year”, “Solar potential”, “Road noise”) above it. The Live / No data / Failed status badge moved to a top-right map overlay, and the card footer is simplified to the app name and a deep-link.',
         prs: [],
       },
       {
@@ -1400,7 +1416,7 @@ export const RELEASES: Release[] = [
     date: 'May 18, 2026',
     codename: 'Maps Unboxed',
     summary:
-      'Fixes the Valoo and Roofs report cards rendering as dark, empty boxes. Their Mapbox maps were collapsing to zero height - Mapbox adds a class that forces position:relative onto its container, which cancelled the Tailwind absolute inset-0 that was sizing it. The map container is now wrapped so its sizing no longer depends on position.',
+      'Fixes the Valoo and Roofs report cards rendering as dark, empty boxes. Their Mapbox maps were collapsing to zero height - Mapbox adds a class that forces position:relative onto its container, which canceled the Tailwind absolute inset-0 that was sizing it. The map container is now wrapped so its sizing no longer depends on position.',
     items: [
       {
         kind: 'fixed',
@@ -1603,7 +1619,7 @@ export const RELEASES: Release[] = [
     date: 'May 15, 2026',
     codename: 'Avatar Anchored',
     summary:
-      'Avatar customisation now persists to the shared RES API user profile instead of the failing Zitadel metadata endpoint, so a picked icon survives sign-out and shows up across every SwissNovo app.',
+      'Avatar customization now persists to the shared RES API user profile instead of the failing Zitadel metadata endpoint, so a picked icon survives sign-out and shows up across every SwissNovo app.',
     items: [
       {
         kind: 'fixed',
