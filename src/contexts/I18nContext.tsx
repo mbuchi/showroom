@@ -207,7 +207,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.generated_for': 'Generated for',
     'report.pdf.executive_title': 'Executive summary',
     'report.pdf.executive_lead':
-      'The headline figures below summarise the selected analyses for this location. Each section in the dossier explains the underlying method and links back to the live Aireon app that produced it.',
+      'The headline figures below summarize the selected analyses for this location. Each section in the dossier explains the underlying method and links back to the live Aireon app that produced it.',
     'report.pdf.parcel_title': 'Parcel identification',
     'report.pdf.parcel_lead':
       'Identifiers and dimensions pulled from the Swiss Federal Register of Buildings and Dwellings (GWR / RegBL) for the parcel at the searched coordinates.',
@@ -240,16 +240,16 @@ const translations: Record<Locale, Record<string, string>> = {
     'report.pdf.footer_brand': 'AIREON · Showroom',
 
     // Per-widget report copy
-    'report.widget.valoo.blurb': 'Indicative market value derived from parcel-level hedonic modelling.',
+    'report.widget.valoo.blurb': 'Indicative market value derived from parcel-level hedonic modeling.',
     'report.widget.valoo.narrative':
-      'The headline price expresses the modelled market value per square metre of parcel surface, fitted to the 2025 Aireon parcel snapshot. Use it as a fast triage figure - solid for ranking neighbouring parcels, indicative for a single asset.',
+      'The headline price expresses the modeled market value per square meter of parcel surface, fitted to the 2025 Aireon parcel snapshot. Use it as a fast triage figure - solid for ranking neighboring parcels, indicative for a single asset.',
     'report.widget.valoo.method.1':
       'Hedonic regression over the parcel_2025_07 dataset using location, footprint, age and zoning signals.',
     'report.widget.valoo.method.2':
       'Eleven-class quantile ramp shown on the live map; the parcel under the pin is queried for its per-m² price.',
     'report.widget.valoo.method.3':
       'No physical inspection - interior fit-out, recent renovations and view premia are not captured.',
-    'report.widget.valoo.detail.price_m2': 'Modelled price per m²',
+    'report.widget.valoo.detail.price_m2': 'Modeled price per m²',
 
     'report.widget.roofs.blurb': 'Building height above ground from federal 3D building data.',
     'report.widget.roofs.narrative':
@@ -276,7 +276,7 @@ const translations: Record<Locale, Record<string, string>> = {
 
     'report.widget.soolar.blurb': 'Annual photovoltaic yield potential of the building roofs.',
     'report.widget.soolar.narrative':
-      'Annual electricity yield is the sum of every suitable roof surface at the address as modelled by the federal sonnendach.ch programme (SFOE / swisstopo). It assumes a modern crystalline-silicon PV installation across all suitable surfaces.',
+      'Annual electricity yield is the sum of every suitable roof surface at the address as modeled by the federal sonnendach.ch program (SFOE / swisstopo). It assumes a modern crystalline-silicon PV installation across all suitable surfaces.',
     'report.widget.soolar.method.1':
       'Each roof polygon is rated against orientation, tilt and shading via sonnendach.ch; suitable surfaces report a stromertrag (kWh/yr).',
     'report.widget.soolar.method.2':
@@ -288,13 +288,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     'report.widget.boom.blurb': 'Day-time road-traffic noise exposure from the federal sonBASE model.',
     'report.widget.boom.narrative':
-      'The dB(A) band describes the modelled daytime road-traffic noise exposure at the address, sampled from the federal sonBASE raster (FOEN / BAFU). Bands above 60 dB(A) approach the federal planning thresholds for residential zones.',
+      'The dB(A) band describes the modeled daytime road-traffic noise exposure at the address, sampled from the federal sonBASE raster (FOEN / BAFU). Bands above 60 dB(A) approach the federal planning thresholds for residential zones.',
     'report.widget.boom.method.1':
       'The official sonBASE WMTS tile under the point is pixel-sampled and snapped to the legend band by nearest RGB distance.',
     'report.widget.boom.method.2':
       'A 5×5 pixel vote rejects anti-aliasing; transparent tiles indicate exposure below the 40 dB(A) mapping floor.',
     'report.widget.boom.method.3':
-      'Rail and aircraft noise are modelled separately and are not included in this headline figure.',
+      'Rail and aircraft noise are modeled separately and are not included in this headline figure.',
     'report.widget.boom.detail.band': 'Sampled band',
 
     // About modal
