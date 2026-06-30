@@ -13,7 +13,7 @@
     "test:export-fonts": "node scripts/check-export-fonts.mjs"
   },
   "dependencies": {
-    "@aireon/shared": "github:mbuchi/aireon-shared#v1.64.0",
+    "@aireon/shared": "github:mbuchi/aireon-shared#d27bc3120bb0f6aa85cff1694de366f01e32049f",
     "@react-pdf/renderer": "^4.5.1",
     "html-to-image": "^1.11.13",
     "leaflet": "^1.9.4",
