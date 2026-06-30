@@ -790,7 +790,7 @@ export const RELEASES: Release[] = [
         kind: 'improved' as ChangeKind,
         icon: Type,
         text:
-          'The Reporter parcel strip\'s save button now reads "Track parcel" (and "Tracked" once saved) instead of "Save to PRM" / "Saved to PRM". Relabelled in all four languages - EN "Track parcel" / "Tracked", FR "Suivre la parcelle" / "Suivie", DE "Parzelle verfolgen" / "Verfolgt", IT "Segui la particella" / "Seguita". No change to where parcels are saved.',
+          'The Reporter parcel strip\'s save button now reads "Track parcel" (and "Tracked" once saved) instead of "Save to PRM" / "Saved to PRM". Relabeled in all four languages - EN "Track parcel" / "Tracked", FR "Suivre la parcelle" / "Suivie", DE "Parzelle verfolgen" / "Verfolgt", IT "Segui la particella" / "Seguita". No change to where parcels are saved.',
         prs: [],
       },
     ],
@@ -948,7 +948,7 @@ export const RELEASES: Release[] = [
         kind: 'improved' as ChangeKind,
         icon: Zap,
         text:
-          'Animations, the skeleton pulse, and the lightbox spinner now honour the operating system "reduce motion" setting.',
+          'Animations, the skeleton pulse, and the lightbox spinner now honor the operating system "reduce motion" setting.',
         prs: [],
       },
     ],
@@ -1211,14 +1211,14 @@ export const RELEASES: Release[] = [
   {
     version: '0.8.8',
     date: 'May 19, 2026',
-    codename: 'Centred Profile',
+    codename: 'Centered Profile',
     summary:
       'Upgraded to @aireon/shared v0.13.1, which fixes the shared ProfileModal and LoginModal so they render via a React portal - no longer clipped by the app navbar.',
     items: [
       {
         kind: 'fixed' as ChangeKind,
         icon: Bug,
-        text: 'The View profile panel no longer gets clipped at the top - it now always centres on screen.',
+        text: 'The View profile panel no longer gets clipped at the top - it now always centers on screen.',
         prs: [],
       },
     ],
@@ -1254,7 +1254,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved',
         icon: Layers,
-        text: 'All content-area loading states were migrated to the shared @aireon/shared Skeleton primitive: the app-boot screen now shows a faux navbar plus a thumbnail grid instead of a centred spinner; the gallery and grouped gallery, the saved-parcels panel, the Reporter page skeleton and its widget map placeholders, the parcel-info chip strip, the user-menu avatar, and each gallery card thumbnail all render the calm 1.8 s blink. The old custom animate-shimmer CSS keyframe is removed.',
+        text: 'All content-area loading states were migrated to the shared @aireon/shared Skeleton primitive: the app-boot screen now shows a faux navbar plus a thumbnail grid instead of a centered spinner; the gallery and grouped gallery, the saved-parcels panel, the Reporter page skeleton and its widget map placeholders, the parcel-info chip strip, the user-menu avatar, and each gallery card thumbnail all render the calm 1.8 s blink. The old custom animate-shimmer CSS keyframe is removed.',
         prs: [],
       },
     ],
@@ -1264,12 +1264,12 @@ export const RELEASES: Release[] = [
     date: 'May 19, 2026',
     codename: 'Holding Shape',
     summary:
-      'Two Reporter polish fixes. Opening a /reporter link now shows a skeleton of the page - a faux navbar and five card placeholders - while the map bundle loads, instead of a centred spinner. And every card’s headline value now renders in the same cyan with a soft dark halo, so it stays legible over any basemap.',
+      'Two Reporter polish fixes. Opening a /reporter link now shows a skeleton of the page - a faux navbar and five card placeholders - while the map bundle loads, instead of a centered spinner. And every card’s headline value now renders in the same cyan with a soft dark halo, so it stays legible over any basemap.',
     items: [
       {
         kind: 'improved',
         icon: LayoutGrid,
-        text: 'Opening the Reporter (or a shared /reporter link) now shows a skeleton of the page layout - a faux navbar and five shimmer card placeholders - while the lazy map bundle downloads, instead of a centred loading spinner.',
+        text: 'Opening the Reporter (or a shared /reporter link) now shows a skeleton of the page layout - a faux navbar and five shimmer card placeholders - while the lazy map bundle downloads, instead of a centered loading spinner.',
         prs: [],
       },
       {
