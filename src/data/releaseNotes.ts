@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,36 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.14.0',
+    date: 'July 4, 2026',
+    codename: 'Search by EGRID',
+    summary:
+      'The Reporter address search now understands EGRIDs, and the parcel strip leads with a copyable parcel identity.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Fingerprint,
+        text:
+          'The Reporter search box now understands EGRIDs. Type a Swiss parcel identifier (for example CH8075...) and matching parcels appear at the top of the suggestions, above the usual address results. Pick one to generate the report at that parcel, just like an address.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: MapPin,
+        text:
+          'The parcel strip under the report now leads with a suite-standard identity header: the address as the title, a zip, city and canton subtitle, and the EGRID as a monospace chip you can copy to the clipboard in one click. The Track button and the size, volume, dwellings, zone and coordinate chips are unchanged.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text:
+          'Updated @aireon/shared to v1.73.1 for the EGRID-aware search and the shared parcel identity header.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.13.16',
     date: 'July 1, 2026',

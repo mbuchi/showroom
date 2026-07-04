@@ -13,12 +13,16 @@ export const isGeocodingConfigured = true;
 
 // Result shape consumed by AddressSearch / ReporterView. Matches the shared
 // geo.admin result contract exactly ({ id, label, lat, lng } with numeric
-// lat/lng), so selections flow through unchanged.
+// lat/lng), so selections flow through unchanged. `kind`/`egrid` are set on
+// RES parcel (EGRID) hits merged in by the address box; address results leave
+// them undefined so the existing address flow is untouched.
 export interface GeocodeResult {
   id: string;
   label: string;
   lat: number;
   lng: number;
+  kind?: 'address' | 'parcel';
+  egrid?: string;
 }
 
 export async function geocodeAddress(

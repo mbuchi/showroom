@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, Search } from 'lucide-react';
+import { Fingerprint, MapPin, Search } from 'lucide-react';
+import { isEgridQuery, searchParcelsByEgrid } from '@aireon/shared';
 import { geocodeAddress, type GeocodeResult } from '../../lib/geocode';
 import { useI18n } from '../../contexts/I18nContext';
 
@@ -31,8 +32,27 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
     setError(null);
     const timer = window.setTimeout(async () => {
       try {
-        const found = await geocodeAddress(trimmed, controller.signal);
-        setResults(found);
+        // When the query looks like an EGRID ("CH" + digits), also hit the
+        // public RES parcel index in parallel with the geo.admin geocoder and
+        // merge the matches in, parcels first. A parcel-lookup failure degrades
+        // silently to address-only results.
+        const wantsParcels = isEgridQuery(trimmed);
+        const [addresses, parcels] = await Promise.all([
+          geocodeAddress(trimmed, controller.signal),
+          wantsParcels
+            ? searchParcelsByEgrid(trimmed, { signal: controller.signal }).catch(() => [])
+            : Promise.resolve([]),
+        ]);
+        if (controller.signal.aborted) return;
+        const parcelResults: GeocodeResult[] = parcels.map((p) => ({
+          id: p.id,
+          label: p.label,
+          lat: p.lat,
+          lng: p.lng,
+          kind: 'parcel' as const,
+          egrid: p.egrid,
+        }));
+        setResults([...parcelResults, ...addresses]);
         setOpen(true);
         setActiveIndex(-1);
       } catch (err) {
@@ -122,7 +142,11 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
                   i === activeIndex ? 'bg-cyan-500/10' : 'hover:bg-white/5'
                 }`}
               >
-                <MapPin size={14} className="mt-0.5 flex-shrink-0 text-cyan-400" />
+                {result.kind === 'parcel' ? (
+                  <Fingerprint size={14} className="mt-0.5 flex-shrink-0 text-cyan-400" />
+                ) : (
+                  <MapPin size={14} className="mt-0.5 flex-shrink-0 text-cyan-400" />
+                )}
                 <span className="text-sm text-gray-200 leading-snug">{result.label}</span>
               </button>
             </li>

@@ -1,9 +1,10 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import {
-  MapPin, Fingerprint, Ruler, Box, Building2, Map as MapIcon, Crosshair,
+  Ruler, Box, Building2, Map as MapIcon, Crosshair,
   Bookmark, BookmarkCheck, ExternalLink,
 } from 'lucide-react';
 import {
+  ParcelIdentityHeader,
   Skeleton,
   createPrmRecord,
   deletePrmRecord,
@@ -195,40 +196,49 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
   const fmt = (n: number) => n.toLocaleString('de-CH');
 
   return (
-    <div className="surface rounded-xl px-4 py-3 mt-6 flex flex-wrap items-center gap-2">
-      {info.address && (
-        <Chip icon={<MapPin size={13} />}>
-          {[info.address, info.locality].filter(Boolean).join(', ')}
+    <div className="surface rounded-xl px-4 py-3 mt-6">
+      {/* Suite-standard parcel identity: address title, zip · city · canton
+          subtitle, and a copyable monospace EGRID chip. Replaces the old
+          address + parcel-id chips so the strip leads with "which parcel". */}
+      <ParcelIdentityHeader
+        address={info.address ?? info.locality}
+        subtitle={info.address ? info.locality : null}
+        egrid={info.egrid}
+        dark
+        labels={{
+          fallbackTitle: t('page.reporter.identity.fallback_title'),
+          copy: t('page.reporter.identity.copy_egrid'),
+          copied: t('page.reporter.identity.copied'),
+        }}
+      >
+        {info.egrid && (
+          <SavePrmControl
+            saveStatus={saveStatus}
+            savedRecord={savedRecord}
+            isAuthenticated={isAuthenticated}
+            onSave={handleToggle}
+            t={t}
+          />
+        )}
+      </ParcelIdentityHeader>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        {info.buildingSizeM2 != null && (
+          <Chip icon={<Ruler size={13} />}>{fmt(info.buildingSizeM2)} m²</Chip>
+        )}
+        {info.buildingVolumeM3 != null && (
+          <Chip icon={<Box size={13} />}>{fmt(info.buildingVolumeM3)} m³</Chip>
+        )}
+        {info.flats != null && (
+          <Chip icon={<Building2 size={13} />}>
+            {info.flats} {info.flats === 1 ? t('page.reporter.flats_one') : t('page.reporter.flats_other')}
+          </Chip>
+        )}
+        {info.zone && <Chip icon={<MapIcon size={13} />}>{info.zone}</Chip>}
+        <Chip icon={<Crosshair size={13} />}>
+          {info.lat.toFixed(6)}, {info.lng.toFixed(6)}
         </Chip>
-      )}
-      {!info.address && info.locality && (
-        <Chip icon={<MapPin size={13} />}>{info.locality}</Chip>
-      )}
-      {info.egrid && <Chip icon={<Fingerprint size={13} />}>{info.egrid}</Chip>}
-      {info.egrid && (
-        <SavePrmControl
-          saveStatus={saveStatus}
-          savedRecord={savedRecord}
-          isAuthenticated={isAuthenticated}
-          onSave={handleToggle}
-          t={t}
-        />
-      )}
-      {info.buildingSizeM2 != null && (
-        <Chip icon={<Ruler size={13} />}>{fmt(info.buildingSizeM2)} m²</Chip>
-      )}
-      {info.buildingVolumeM3 != null && (
-        <Chip icon={<Box size={13} />}>{fmt(info.buildingVolumeM3)} m³</Chip>
-      )}
-      {info.flats != null && (
-        <Chip icon={<Building2 size={13} />}>
-          {info.flats} {info.flats === 1 ? t('page.reporter.flats_one') : t('page.reporter.flats_other')}
-        </Chip>
-      )}
-      {info.zone && <Chip icon={<MapIcon size={13} />}>{info.zone}</Chip>}
-      <Chip icon={<Crosshair size={13} />}>
-        {info.lat.toFixed(6)}, {info.lng.toFixed(6)}
-      </Chip>
+      </div>
     </div>
   );
 }
