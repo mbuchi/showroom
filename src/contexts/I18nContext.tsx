@@ -148,6 +148,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.parcel_unavailable': 'Parcel details unavailable for this location.',
     'page.reporter.flats_one': 'flat',
     'page.reporter.flats_other': 'flats',
+    'page.reporter.identity.fallback_title': 'Selected parcel',
+    'page.reporter.identity.copy_egrid': 'Copy EGRID',
+    'page.reporter.identity.copied': 'Copied',
 
     // Reporter — widget cards
     'page.reporter.widget.status.live': 'Live',
@@ -435,6 +438,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.parcel_unavailable': 'Détails de la parcelle indisponibles à cet endroit.',
     'page.reporter.flats_one': 'logement',
     'page.reporter.flats_other': 'logements',
+    'page.reporter.identity.fallback_title': 'Parcelle sélectionnée',
+    'page.reporter.identity.copy_egrid': 'Copier l\'EGRID',
+    'page.reporter.identity.copied': 'Copié',
 
     // Widget cards
     'page.reporter.widget.status.live': 'En direct',
@@ -719,6 +725,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.parcel_unavailable': 'Parzellendetails für diesen Standort nicht verfügbar.',
     'page.reporter.flats_one': 'Wohnung',
     'page.reporter.flats_other': 'Wohnungen',
+    'page.reporter.identity.fallback_title': 'Ausgewählte Parzelle',
+    'page.reporter.identity.copy_egrid': 'EGRID kopieren',
+    'page.reporter.identity.copied': 'Kopiert',
 
     // Widget cards
     'page.reporter.widget.status.live': 'Live',
@@ -1003,6 +1012,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.parcel_unavailable': 'Dettagli parcella non disponibili per questa posizione.',
     'page.reporter.flats_one': 'appartamento',
     'page.reporter.flats_other': 'appartamenti',
+    'page.reporter.identity.fallback_title': 'Parcella selezionata',
+    'page.reporter.identity.copy_egrid': 'Copia EGRID',
+    'page.reporter.identity.copied': 'Copiato',
 
     // Widget cards
     'page.reporter.widget.status.live': 'Live',
