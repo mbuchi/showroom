@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.14.1',
+    date: 'July 5, 2026',
+    codename: 'Identity first',
+    summary:
+      'Parcel address and EGRID now lead the report view.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Fingerprint,
+        text:
+          'The parcel identity strip (address title, zip, city and canton subtitle, and the copyable EGRID chip, along with the Track button and fact chips) moved from the bottom of the report to the top, above the widget cards. Reports now open with which parcel you are looking at, matching the rest of the Aireon suite.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.14.0',
     date: 'July 4, 2026',
     codename: 'Search by EGRID',

@@ -218,6 +218,13 @@ export default function ReporterView() {
               </div>
             )}
 
+            <ParcelInfoStrip
+              lat={params.lat}
+              lng={params.lng}
+              address={params.address}
+              onLoaded={handleParcel}
+            />
+
             <ReportGrid
               key={`${params.lat},${params.lng},${regenKey}`}
               lat={params.lat}
@@ -225,13 +232,6 @@ export default function ReporterView() {
               selection={selection}
               onToggleSelect={toggleSelect}
               onReport={handleReport}
-            />
-
-            <ParcelInfoStrip
-              lat={params.lat}
-              lng={params.lng}
-              address={params.address}
-              onLoaded={handleParcel}
             />
 
             <ReportDialog

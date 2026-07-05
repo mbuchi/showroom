@@ -17,10 +17,11 @@ import { fetchParcelInfo, type ParcelInfo } from '../../lib/parcelInfo';
 import { useI18n } from '../../contexts/I18nContext';
 import { useAuth } from '../../auth/AuthContext';
 
-// Parcel-context strip rendered below the reporter cards: a wrapping row of
-// chips with the general facts of the parcel at the searched location.
-// Self-fetching; degrades quietly to a one-line notice if the RES API is
-// unavailable so it never blocks the report above it.
+// Parcel-context strip rendered above the reporter cards, so the suite-standard
+// parcel identity (address + EGRID) leads the report view, followed by a
+// wrapping row of chips with the general facts of the parcel at the searched
+// location. Self-fetching; degrades quietly to a one-line notice if the RES
+// API is unavailable so it never blocks the report below it.
 
 interface ParcelInfoStripProps {
   lat: number;
@@ -176,7 +177,7 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
 
   if (state.kind === 'loading') {
     return (
-      <div className="surface rounded-xl px-4 py-3 mt-6 flex flex-wrap items-center gap-2">
+      <div className="surface rounded-xl px-4 py-3 mb-6 flex flex-wrap items-center gap-2">
         {[72, 88, 64, 80, 56, 76].map((w, i) => (
           <Skeleton key={i} width={w} height={28} radius={8} delay={`${i * 60}ms`} />
         ))}
@@ -186,7 +187,7 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
 
   if (state.kind === 'error') {
     return (
-      <div className="surface rounded-xl px-4 py-3 mt-6 text-xs text-gray-500">
+      <div className="surface rounded-xl px-4 py-3 mb-6 text-xs text-gray-500">
         {t('page.reporter.parcel_unavailable')}
       </div>
     );
@@ -196,7 +197,7 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
   const fmt = (n: number) => n.toLocaleString('de-CH');
 
   return (
-    <div className="surface rounded-xl px-4 py-3 mt-6">
+    <div className="surface rounded-xl px-4 py-3 mb-6">
       {/* Suite-standard parcel identity: address title, zip · city · canton
           subtitle, and a copyable monospace EGRID chip. Replaces the old
           address + parcel-id chips so the strip leads with "which parcel". */}
