@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.14.2',
+    date: 'July 6, 2026',
+    codename: 'Wider net',
+    summary:
+      'Broader automatic error capture so more issues surface without a repro.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Bug,
+        text:
+          'Broader automatic error capture (failed requests, resource and CSP errors) via @aireon/shared v1.75.0. Session replay is now wired in and stays inert until a project key is configured.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.14.1',
     date: 'July 5, 2026',
     codename: 'Identity first',
