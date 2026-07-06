@@ -15,7 +15,7 @@ initTheme('dark');
 
 errorLogger.install({ captureConsoleErrors: true });
 
-initOpenReplay({ projectKey: import.meta.env.VITE_OPENREPLAY_PROJECT_KEY as string | undefined });
+initOpenReplay({ projectKey: import.meta.env.VITE_OPENREPLAY_PROJECT_KEY as string | undefined, trackerOptions: { canvas: { disableCanvas: true } } });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
