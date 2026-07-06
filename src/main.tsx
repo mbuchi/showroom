@@ -13,7 +13,7 @@ import { errorLogger } from './lib/errorLog';
 // showroom is dark-first; initTheme preserves that default and applies the `.dark` class.
 initTheme('dark');
 
-errorLogger.install();
+errorLogger.install({ captureConsoleErrors: true });
 
 initOpenReplay({ projectKey: import.meta.env.VITE_OPENREPLAY_PROJECT_KEY as string | undefined });
 
