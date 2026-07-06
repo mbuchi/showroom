@@ -12,6 +12,29 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.15.0',
+    date: 'July 6, 2026',
+    codename: 'Cards on the table',
+    summary:
+      'Claire now answers with rich inline cards: charts, scores, comparisons, and mini-maps.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'Claire can now answer with rich inline cards instead of plain text. Ask about a parcel and she can respond with KPI figures, charts, comparison tables, property summaries, score gauges, and mini-maps rendered right in the conversation.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text:
+          'Updated @aireon/shared to v1.78.0 for the generative UI cards in the Claire assistant.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.14.2',
     date: 'July 6, 2026',
     codename: 'Wider net',
