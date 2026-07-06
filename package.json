@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@aireon/shared": "github:mbuchi/aireon-shared#v1.75.0",
+    "@openreplay/tracker": "^18.1.0",
     "@react-pdf/renderer": "^4.5.1",
     "html-to-image": "^1.11.13",
     "leaflet": "^1.9.4",
