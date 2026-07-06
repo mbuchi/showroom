@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.15.1',
+    date: 'July 7, 2026',
+    codename: 'Quiet idle',
+    summary:
+      'Idle animations calm down: the Claire launcher rests when closed and the online dot in the account menu no longer pulses forever.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'The Claire launcher now sits still while the assistant is closed, and the green online dot in the account menu pings briefly instead of pulsing forever. Less visual noise, and lower idle CPU and battery use.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.15.0',
     date: 'July 6, 2026',
     codename: 'Cards on the table',
