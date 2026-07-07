@@ -12,6 +12,36 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.16.0',
+    date: 'July 7, 2026',
+    codename: 'Real numbers',
+    summary:
+      'Claire answers with real market data for the parcel\'s municipality, and her inline charts are now interactive.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Sparkles,
+        text:
+          'Claire now grounds her answers in real RealAdvisor market data for the parcel\'s municipality: live price levels, 1, 5, 10, and 20 year trends, and monthly price series instead of model estimates.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: FileBarChart,
+        text:
+          'Claire\'s inline charts were redesigned: hover for tooltips and a crosshair, navigate with the keyboard, flip any chart to a table view, and read accurate axes with refined dark-mode styling.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text:
+          'Updated @aireon/shared to v1.81.0 for the market data integration and interactive charts in the Claire assistant.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.15.1',
     date: 'July 7, 2026',
     codename: 'Quiet idle',
