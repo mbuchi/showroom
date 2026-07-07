@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint, Maximize2, Bot,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,29 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.16.1',
+    date: 'July 7, 2026',
+    codename: 'A roomier Claire',
+    summary:
+      'Claire gets a desktop enlarge button for a full-size chat window, and cites market figures without naming outside data providers.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Maximize2,
+        text:
+          "On desktop, Claire's window now has an enlarge button in the header. It expands the compact corner dock into a wide, full-height panel so reading answers and typing longer questions feel like a real chat window; tap it again to shrink back (via @aireon/shared v1.82.0).",
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Bot,
+        text:
+          'Claire now cites market figures generically and no longer names third-party data providers in her answers or chart titles.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.16.0',
     date: 'July 7, 2026',
@@ -22,7 +45,7 @@ export const RELEASES: Release[] = [
         kind: 'added' as ChangeKind,
         icon: Sparkles,
         text:
-          'Claire now grounds her answers in real RealAdvisor market data for the parcel\'s municipality: live price levels, 1, 5, 10, and 20 year trends, and monthly price series instead of model estimates.',
+          'Claire now grounds her answers in real market data for the parcel\'s municipality: live price levels, 1, 5, 10, and 20 year trends, and monthly price series instead of model estimates.',
         prs: [],
       },
       {
