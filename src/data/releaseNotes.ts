@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.17.0',
+    date: 'July 8, 2026',
+    codename: 'Claire builds in 3D',
+    summary:
+      'Ask Claire what you could build on a parcel and she answers with an interactive 3D massing model you can tune on the spot.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Layers,
+        text:
+          'Ask Claire what you could build on a parcel and she answers with an interactive 3D massing model: real parcel footprint, floors slider, Tower/Mid-rise/Low-rise presets, and a GFA used-vs-allowed bar. One click opens the full bloom simulator.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.16.1',
     date: 'July 7, 2026',
     codename: 'A roomier Claire',
