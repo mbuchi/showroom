@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.17.2',
+    date: 'July 11, 2026',
+    codename: 'Ten times the type-checks',
+    summary:
+      'Type-checking now runs on the TypeScript 7 native compiler (~10x faster).',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'Type-checking now runs on the TypeScript 7 native compiler (~10x faster). A developer-workflow upgrade with no visible change in the app itself, but it keeps showroom releases quick and safe.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.17.1',
     date: 'July 9, 2026',
     codename: 'A sharper account menu',
