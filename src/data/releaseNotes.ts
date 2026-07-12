@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.17.3',
+    date: 'July 12, 2026',
+    codename: 'Lighter on load',
+    summary:
+      'The initial page load is lighter — the What’s-new changelog now loads on demand instead of shipping with every visit.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text:
+          'Trimmed the initial download: the full release-notes history (and its icons) is now fetched only when you open the What’s-new panel, so the gallery paints sooner. Also a small mobile fix so the top bar never overflows on narrow phones.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.17.2',
     date: 'July 11, 2026',
     codename: 'Ten times the type-checks',
@@ -1978,5 +1994,7 @@ export const RELEASES: Release[] = [
   },
 ];
 
-export const CURRENT_VERSION = RELEASES[0].version;
-export const REPO_URL = 'https://github.com/mbuchi/showroom';
+// CURRENT_VERSION / REPO_URL live in the tiny ./releaseMeta module (imported
+// eagerly by the account menu) and are re-exported here for existing callers.
+// A vitest guarantees CURRENT_VERSION stays equal to RELEASES[0].version.
+export { CURRENT_VERSION, REPO_URL } from './releaseMeta';

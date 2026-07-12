@@ -131,7 +131,13 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   );
 
   const searchBox = showSearch ? (
-    <div className="flex-1 flex items-center justify-center min-w-0">
+    // Hidden below `sm`, mirroring the nav links (which collapse into the ⋯
+    // menu on phones). At ~390px the shared bar's fixed brand + five action
+    // controls already fill the row, leaving zero room for the search: it
+    // would collapse to a 0-width field whose magnifier overflows on top of
+    // the ⋯ button. Showing it only from `sm` up keeps the mobile bar clean
+    // and its account button fully on-screen; desktop (>=640px) is unchanged.
+    <div className="hidden sm:flex flex-1 items-center justify-center min-w-0">
       <div className="relative w-full max-w-[520px]">
         <Search
           size={14}

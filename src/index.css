@@ -235,3 +235,21 @@ input[type="search"]::-webkit-search-cancel-button {
     scroll-behavior: auto !important;
   }
 }
+
+/* ——— Mobile navbar overflow guard ———
+   showroom's top bar carries the shared hub badge + wordmark, the mobile ⋯ nav
+   menu, and four action controls (search history, about, language, account).
+   With the search hidden below `sm` (see Navbar.tsx) the fixed brand + action
+   clusters still overflow a ~390px row on their own, pushing the account button
+   off-screen and forcing a horizontal page scroll. Mobile-only: trim the shared
+   navbar's section, brand and action gaps plus its edge padding through the
+   design tokens it exposes for exactly this. Desktop (>=481px) keeps the default
+   -wide spacing and is byte-identical. Matches the suite pattern (roofs #210). */
+@media (max-width: 480px) {
+  .aireon-appnav-inner {
+    --aireon-navbar-section-gap: 0.25rem;
+    --aireon-navbar-brand-gap: 0.5rem;
+    --aireon-navbar-actions-gap: 0.25rem;
+    --aireon-navbar-padding-x: 0.5rem;
+  }
+}
