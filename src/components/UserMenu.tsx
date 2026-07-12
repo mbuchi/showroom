@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Image as ImageIcon, Info, Sparkles } from 'lucide-react';
 import {
   AboutModal,
@@ -11,9 +11,10 @@ import {
   type MapUserMenuProps,
   type PrmLocale,
   type PrmRecord,
+  type Release,
 } from '@aireon/shared';
 import { useI18n } from '../contexts/I18nContext';
-import { RELEASES, REPO_URL } from '../data/releaseNotes';
+import { CURRENT_VERSION, REPO_URL } from '../data/releaseMeta';
 import { errorLogger } from '../lib/errorLog';
 import { createShowroomAboutModalProps } from './aboutModalContent';
 
@@ -38,10 +39,19 @@ export default function UserMenu({
   // Liquid Glass appearance picker (persists suite-wide via the shared cookie).
   const { level: glassLevel, setLevel: setGlassLevel } = useGlass();
   const rn = useReleaseNotes({
-    currentVersion: RELEASES[0].version,
+    currentVersion: CURRENT_VERSION,
     storageKey: 'showroom:lastSeenReleaseVersion',
   });
   const [showAbout, setShowAbout] = useState(false);
+
+  // The full changelog (~2k lines + its icons) is fetched only when the What's-new
+  // panel is opened, keeping it out of the eager initial bundle. The dynamic
+  // import is cached after the first open, so re-opening resolves instantly.
+  const [releases, setReleases] = useState<Release[] | null>(null);
+  const openReleaseNotes = useCallback(() => {
+    void import('../data/releaseNotes').then((m) => setReleases(m.RELEASES));
+    rn.openPanel();
+  }, [rn]);
 
   const openParcelHere = (rec: PrmRecord) => {
     const params = new URLSearchParams({
@@ -64,7 +74,7 @@ export default function UserMenu({
       key: 'release-notes',
       label: t('menu.release_notes'),
       icon: <Sparkles size={16} aria-hidden="true" />,
-      onClick: rn.openPanel,
+      onClick: openReleaseNotes,
       dot: rn.hasUnread,
       signedOut: true,
     },
@@ -112,11 +122,11 @@ export default function UserMenu({
           fallbackUser: t('menu.user_fallback'),
         }}
       />
-      {rn.isOpen && (
+      {rn.isOpen && releases && (
         <ReleaseNotesPanel
           onClose={rn.closePanel}
           locale={locale}
-          releases={RELEASES}
+          releases={releases}
           repoUrl={REPO_URL}
           brandPrefix="showr"
           brandSuffix="m"
