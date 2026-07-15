@@ -178,6 +178,7 @@ export default function WidgetCard({
           target="_blank"
           rel="noopener noreferrer"
           title={t('page.reporter.widget.open_at_location', { label })}
+          aria-label={t('page.reporter.widget.open_at_location', { label })}
           className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors flex-shrink-0"
         >
           <ExternalLink size={14} />
