@@ -1,7 +1,7 @@
 {
   "name": "showroom",
   "private": true,
-  "version": "0.17.5",
+  "version": "0.17.6",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,7 @@
     "test:export-fonts": "node scripts/check-export-fonts.mjs"
   },
   "dependencies": {
-    "@aireon/shared": "github:mbuchi/aireon-shared#v1.96.0",
+    "@aireon/shared": "github:mbuchi/aireon-shared#v1.99.0",
     "@openreplay/tracker": "^18.1.0",
     "@react-pdf/renderer": "^4.5.1",
     "html-to-image": "^1.11.13",

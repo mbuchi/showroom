@@ -4,7 +4,7 @@ type Translator = (key: string) => string;
 
 export function createShowroomAboutModalProps(
   t: Translator,
-): Pick<AboutModalProps, 'wordmark' | 'description' | 'credits' | 'closeLabel'> {
+): Pick<AboutModalProps, 'wordmark' | 'description' | 'credits' | 'closeLabel' | 'aboutLabel' | 'creditsLabel' | 'hubLabel'> {
   return {
     wordmark: (
       <>
@@ -13,6 +13,9 @@ export function createShowroomAboutModalProps(
     ),
     description: t('about.description'),
     closeLabel: t('about.close'),
+    aboutLabel: t('about.label'),
+    creditsLabel: t('about.credits'),
+    hubLabel: t('about.hub'),
     credits: [
       {
         label: t('about.mapData'),
