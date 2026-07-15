@@ -12,6 +12,22 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.17.5',
+    date: 'July 15, 2026',
+    codename: 'Read out loud',
+    summary:
+      'The open-at-location button on each reporter widget card now announces itself to screen readers.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Eye,
+        text:
+          'The icon-only "open at this location" link on every reporter widget card carried only a tooltip, which screen readers do not reliably announce. It now has a matching accessible label, bringing it in line with every other icon button in the app.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.17.4',
     date: 'July 14, 2026',
     codename: 'Light means light',
