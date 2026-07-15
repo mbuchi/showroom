@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.17.6',
+    date: 'July 15, 2026',
+    codename: 'A clearer About',
+    summary: 'About showroom is now easier to read and links directly to the full Aireon application catalog.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Info,
+        text: 'Both About entry points now open the redesigned mobile-safe dialog with reliable contrast, accessible focus handling, clearer credits, and a localized “See all Aireon applications” Hub button.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.17.5',
     date: 'July 15, 2026',
     codename: 'Read out loud',
