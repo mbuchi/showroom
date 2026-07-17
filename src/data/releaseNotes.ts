@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.19.1',
+    date: 'July 17, 2026',
+    codename: 'Gentler deletes',
+    summary: 'Deleting an export now confirms in a themed dialog, and failures explain themselves inline.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Bug,
+        text: 'Removing an export no longer relies on the browser\'s native confirm and alert popups. A themed confirmation dialog (Escape or the backdrop cancels) matches the gallery\'s dark design, works when deleting from the fullscreen viewer, and a failed delete shows a dismissible message above the gallery instead of a blocking popup.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.19.0',
     date: 'July 17, 2026',
     codename: 'A warmer welcome',
