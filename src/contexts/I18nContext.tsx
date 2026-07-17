@@ -145,13 +145,24 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.search_error_fallback': 'Geocoding failed',
     'page.reporter.selected_location': 'Selected location',
     'page.reporter.regenerate': 'Regenerate',
-    'page.reporter.no_report': 'No report yet - search for an address above to begin.',
     'page.reporter.parcel_unavailable': 'Parcel details unavailable for this location.',
     'page.reporter.flats_one': 'flat',
     'page.reporter.flats_other': 'flats',
     'page.reporter.identity.fallback_title': 'Selected parcel',
     'page.reporter.identity.copy_egrid': 'Copy EGRID',
     'page.reporter.identity.copied': 'Copied',
+
+    // Reporter — welcome card (entry surface shown before a report is loaded)
+    'page.reporter.welcome.title': 'Start your property report',
+    'page.reporter.welcome.description':
+      'Search a Swiss address or EGRID to load five live analyses for that location.',
+    'page.reporter.welcome.search_loading': 'Searching…',
+    'page.reporter.welcome.search_no_results': 'No results found',
+    'page.reporter.welcome.search_clear': 'Clear',
+    'page.reporter.welcome.search_recent': 'Recent searches',
+    'page.reporter.welcome.search_remove_recent': 'Remove from recent searches',
+    'page.reporter.welcome.search_results_count': '{n} results',
+    'page.reporter.welcome.sign_in_hint': 'Sign in to use your saved searches in every Aireon app.',
 
     // Reporter — widget cards
     'page.reporter.widget.status.live': 'Live',
@@ -455,13 +466,25 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.search_error_fallback': 'Échec du géocodage',
     'page.reporter.selected_location': 'Emplacement sélectionné',
     'page.reporter.regenerate': 'Régénérer',
-    'page.reporter.no_report': 'Aucun rapport - recherchez une adresse ci-dessus pour commencer.',
     'page.reporter.parcel_unavailable': 'Détails de la parcelle indisponibles à cet endroit.',
     'page.reporter.flats_one': 'logement',
     'page.reporter.flats_other': 'logements',
     'page.reporter.identity.fallback_title': 'Parcelle sélectionnée',
     'page.reporter.identity.copy_egrid': 'Copier l\'EGRID',
     'page.reporter.identity.copied': 'Copié',
+
+    // Reporter — carte de bienvenue (surface d'entrée avant le chargement d'un rapport)
+    'page.reporter.welcome.title': 'Démarrez votre rapport immobilier',
+    'page.reporter.welcome.description':
+      'Recherchez une adresse suisse ou un EGRID pour charger cinq analyses en direct pour cet emplacement.',
+    'page.reporter.welcome.search_loading': 'Recherche…',
+    'page.reporter.welcome.search_no_results': 'Aucun résultat',
+    'page.reporter.welcome.search_clear': 'Effacer',
+    'page.reporter.welcome.search_recent': 'Recherches récentes',
+    'page.reporter.welcome.search_remove_recent': 'Retirer des recherches récentes',
+    'page.reporter.welcome.search_results_count': '{n} résultats',
+    'page.reporter.welcome.sign_in_hint':
+      'Connectez-vous pour utiliser vos recherches enregistrées dans toutes les applications Aireon.',
 
     // Widget cards
     'page.reporter.widget.status.live': 'En direct',
@@ -762,13 +785,25 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.search_error_fallback': 'Geokodierung fehlgeschlagen',
     'page.reporter.selected_location': 'Ausgewählter Standort',
     'page.reporter.regenerate': 'Neu erstellen',
-    'page.reporter.no_report': 'Noch kein Bericht - suche oben eine Adresse, um zu beginnen.',
     'page.reporter.parcel_unavailable': 'Parzellendetails für diesen Standort nicht verfügbar.',
     'page.reporter.flats_one': 'Wohnung',
     'page.reporter.flats_other': 'Wohnungen',
     'page.reporter.identity.fallback_title': 'Ausgewählte Parzelle',
     'page.reporter.identity.copy_egrid': 'EGRID kopieren',
     'page.reporter.identity.copied': 'Kopiert',
+
+    // Reporter — Willkommenskarte (Einstiegsfläche vor dem Laden eines Berichts)
+    'page.reporter.welcome.title': 'Starte deinen Liegenschaftsbericht',
+    'page.reporter.welcome.description':
+      'Suche eine Schweizer Adresse oder ein EGRID, um fünf Live-Analysen für diesen Standort zu laden.',
+    'page.reporter.welcome.search_loading': 'Suche läuft…',
+    'page.reporter.welcome.search_no_results': 'Keine Ergebnisse',
+    'page.reporter.welcome.search_clear': 'Leeren',
+    'page.reporter.welcome.search_recent': 'Letzte Suchen',
+    'page.reporter.welcome.search_remove_recent': 'Aus letzten Suchen entfernen',
+    'page.reporter.welcome.search_results_count': '{n} Ergebnisse',
+    'page.reporter.welcome.sign_in_hint':
+      'Melde dich an, um deine gespeicherten Suchen in jeder Aireon-App zu nutzen.',
 
     // Widget cards
     'page.reporter.widget.status.live': 'Live',
@@ -1069,13 +1104,24 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.reporter.search_error_fallback': 'Geocodifica non riuscita',
     'page.reporter.selected_location': 'Posizione selezionata',
     'page.reporter.regenerate': 'Rigenera',
-    'page.reporter.no_report': 'Nessun report - cerca un indirizzo sopra per iniziare.',
     'page.reporter.parcel_unavailable': 'Dettagli parcella non disponibili per questa posizione.',
     'page.reporter.flats_one': 'appartamento',
     'page.reporter.flats_other': 'appartamenti',
     'page.reporter.identity.fallback_title': 'Parcella selezionata',
     'page.reporter.identity.copy_egrid': 'Copia EGRID',
     'page.reporter.identity.copied': 'Copiato',
+
+    // Reporter — scheda di benvenuto (superficie di ingresso prima del caricamento di un report)
+    'page.reporter.welcome.title': 'Avvia il tuo report immobiliare',
+    'page.reporter.welcome.description':
+      'Cerca un indirizzo svizzero o un EGRID per caricare cinque analisi in tempo reale per questa posizione.',
+    'page.reporter.welcome.search_loading': 'Ricerca in corso…',
+    'page.reporter.welcome.search_no_results': 'Nessun risultato',
+    'page.reporter.welcome.search_clear': 'Cancella',
+    'page.reporter.welcome.search_recent': 'Ricerche recenti',
+    'page.reporter.welcome.search_remove_recent': 'Rimuovi dalle ricerche recenti',
+    'page.reporter.welcome.search_results_count': '{n} risultati',
+    'page.reporter.welcome.sign_in_hint': 'Accedi per usare le tue ricerche salvate in tutte le app Aireon.',
 
     // Widget cards
     'page.reporter.widget.status.live': 'Live',

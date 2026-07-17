@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MapPin, RefreshCw, AlertTriangle, FileBarChart, FileDown } from 'lucide-react';
+import { WelcomeAddressCard, useGlass, type AddressSearchResult } from '@aireon/shared';
 import Navbar from '../Navbar';
 import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';
@@ -10,6 +11,7 @@ import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { signal } from '../../lib/signal';
 import { useI18n } from '../../contexts/I18nContext';
+import { useAuth } from '../../auth/AuthContext';
 import type { ReporterAppId } from '../../lib/reporterApps';
 import { REPORTER_APPS } from '../../lib/reporterApps';
 import type { ParcelInfo } from '../../lib/parcelInfo';
@@ -37,7 +39,9 @@ function allIds(): Set<ReporterAppId> {
 export default function ReporterView() {
   const { search } = useRoute();
   const params = parseParams(search);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const { status, login } = useAuth();
+  const { level: glassLevel } = useGlass();
 
   // Bumped by "Regenerate" — remounts the widget grid for a fresh capture.
   const [regenKey, setRegenKey] = useState(0);
@@ -65,6 +69,37 @@ export default function ReporterView() {
     setRawByWidget({});
     setParcel(null);
   }, [params?.lat, params?.lng]);
+
+  // Shared by the welcome card (no report yet) and the returning in-page
+  // AddressSearch (re-search once a report is loaded) — both drive the same
+  // params/URL update, so a fresh search always lands the user on the report
+  // immediately with no confirm step.
+  const handleSelectAddress = useCallback((r: AddressSearchResult) => {
+    void signal.send('Search for Address', {
+      address: r.label,
+      lat: r.lat,
+      lng: r.lng,
+    });
+    const qs = new URLSearchParams({
+      lat: r.lat.toFixed(6),
+      lng: r.lng.toFixed(6),
+      q: r.label,
+    });
+    navigate(`/reporter?${qs.toString()}`);
+  }, []);
+
+  const welcomeSearchLabels = useMemo(
+    () => ({
+      placeholder: t('page.reporter.search_placeholder'),
+      loading: t('page.reporter.welcome.search_loading'),
+      noResults: t('page.reporter.welcome.search_no_results'),
+      clear: t('page.reporter.welcome.search_clear'),
+      recent: t('page.reporter.welcome.search_recent'),
+      removeRecent: t('page.reporter.welcome.search_remove_recent'),
+      resultsCount: (n: number) => t('page.reporter.welcome.search_results_count', { n }),
+    }),
+    [t],
+  );
 
   const toggleSelect = useCallback((id: ReporterAppId) => {
     setSelection((prev) => {
@@ -144,25 +179,34 @@ export default function ReporterView() {
           </div>
         )}
 
-        <div data-tour="reporter-search" className="max-w-xl mb-8">
-          <AddressSearch
-            autoFocus={!params}
-            initialValue={params?.address ?? ''}
-            onSelect={(r) => {
-              void signal.send('Search for Address', {
-                address: r.label,
-                lat: r.lat,
-                lng: r.lng,
-              });
-              const qs = new URLSearchParams({
-                lat: r.lat.toFixed(6),
-                lng: r.lng.toFixed(6),
-                q: r.label,
-              });
-              navigate(`/reporter?${qs.toString()}`);
-            }}
-          />
-        </div>
+        {params ? (
+          <div data-tour="reporter-search" className="max-w-xl mb-8">
+            <AddressSearch initialValue={params.address ?? ''} onSelect={handleSelectAddress} />
+          </div>
+        ) : (
+          <div data-tour="reporter-search" className="mx-auto mb-8 w-full max-w-md">
+            <WelcomeAddressCard
+              appName="showroom"
+              appId="showroom"
+              title={t('page.reporter.welcome.title')}
+              description={t('page.reporter.welcome.description')}
+              dark
+              glassLevel={glassLevel}
+              locale={locale}
+              searchLabels={welcomeSearchLabels}
+              onSelect={handleSelectAddress}
+              signIn={
+                status === 'anonymous'
+                  ? {
+                      label: t('nav.sign_in'),
+                      hint: t('page.reporter.welcome.sign_in_hint'),
+                      onClick: () => void login(),
+                    }
+                  : undefined
+              }
+            />
+          </div>
+        )}
 
         {params && (
           <>
@@ -262,15 +306,6 @@ export default function ReporterView() {
               />
             )}
           </>
-        )}
-
-        {!params && (
-          <div className="surface rounded-xl px-6 py-12 text-center">
-            <FileBarChart size={28} className="mx-auto text-gray-600 mb-3" />
-            <p className="text-sm text-gray-400">
-              {t('page.reporter.no_report')}
-            </p>
-          </div>
         )}
       </main>
     </>

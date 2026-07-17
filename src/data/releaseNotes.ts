@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint, Maximize2, Bot, Compass,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint, Maximize2, Bot, Compass, LogIn,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,22 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.19.0',
+    date: 'July 17, 2026',
+    codename: 'A warmer welcome',
+    summary:
+      'The Reporter now opens on the suite-standard welcome card, with a one-tap sign-in prompt for visitors who are not yet signed in.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: LogIn,
+        text:
+          'Before you search, the Reporter now shows the same branded welcome card used across Aireon: the address and EGRID box, your recent searches, and - if you are signed out - a sign-in prompt so your saved searches follow you into every Aireon app. The old placeholder text is gone, and the address bar above the report now only appears once a report is loaded, ready for a re-search.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.18.0',
     date: 'July 17, 2026',
