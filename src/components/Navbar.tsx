@@ -106,7 +106,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   }));
 
   const navLinks = (
-    <nav className="hidden sm:flex items-center gap-1 flex-shrink-0">
+    <nav data-tour="nav-links" className="hidden sm:flex items-center gap-1 flex-shrink-0">
       {NAV_LINKS.map((link) => {
         const active = link.path === '/' ? pathname === '/' : pathname.startsWith(link.path);
         return (
@@ -138,7 +138,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
     // the ⋯ button. Showing it only from `sm` up keeps the mobile bar clean
     // and its account button fully on-screen; desktop (>=640px) is unchanged.
     <div className="hidden sm:flex flex-1 items-center justify-center min-w-0">
-      <div className="relative w-full max-w-[520px]">
+      <div data-tour="gallery-search" className="relative w-full max-w-[520px]">
         <Search
           size={14}
           aria-hidden="true"
@@ -172,6 +172,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         appName="showroom"
         dark
         position=""
+        userMenuTourId="account-menu"
         centerSlot={
           <div className="flex items-center gap-3 w-full min-w-0">
             {navLinks}

@@ -144,7 +144,7 @@ export default function ReporterView() {
           </div>
         )}
 
-        <div className="max-w-xl mb-8">
+        <div data-tour="reporter-search" className="max-w-xl mb-8">
           <AddressSearch
             autoFocus={!params}
             initialValue={params?.address ?? ''}
@@ -179,7 +179,7 @@ export default function ReporterView() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 flex-wrap">
+              <div data-tour="report-actions" className="flex items-center gap-2 flex-wrap">
                 <button
                   type="button"
                   onClick={regenerate}
@@ -225,14 +225,18 @@ export default function ReporterView() {
               onLoaded={handleParcel}
             />
 
-            <ReportGrid
-              key={`${params.lat},${params.lng},${regenKey}`}
-              lat={params.lat}
-              lng={params.lng}
-              selection={selection}
-              onToggleSelect={toggleSelect}
-              onReport={handleReport}
-            />
+            {/* Plain block wrapper so the guided tour has a stable anchor for
+                the whole widget grid without reaching into ReportGrid. */}
+            <div data-tour="report-grid">
+              <ReportGrid
+                key={`${params.lat},${params.lng},${regenKey}`}
+                lat={params.lat}
+                lng={params.lng}
+                selection={selection}
+                onToggleSelect={toggleSelect}
+                onReport={handleReport}
+              />
+            </div>
 
             <ReportDialog
               open={reportOpen}

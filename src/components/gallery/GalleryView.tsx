@@ -248,7 +248,7 @@ export default function GalleryView() {
           onRefresh={() => load(true)}
         />
 
-        <div className="mt-6">
+        <div data-tour="gallery-content" className="mt-6">
           {isLoading ? (
             viewMode === 'grouped' ? <GroupedSkeleton /> : <ExportSkeleton />
           ) : error ? (
