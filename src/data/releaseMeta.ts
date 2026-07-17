@@ -5,5 +5,5 @@
 // initial bundle. The full RELEASES array is lazy-loaded only when the
 // What's-new panel opens. A vitest asserts CURRENT_VERSION === RELEASES[0].version
 // so this literal can never drift from the changelog.
-export const CURRENT_VERSION = '0.18.0';
+export const CURRENT_VERSION = '0.19.0';
 export const REPO_URL = 'https://github.com/mbuchi/showroom';
