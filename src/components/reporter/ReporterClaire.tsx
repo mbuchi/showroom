@@ -79,7 +79,9 @@ export default function ReporterClaire({
   const headerAddress = parcel.address ?? address ?? undefined;
 
   return (
-    <div data-screenshot-ignore="true">
+    // data-tour scopes the guided tour's Claire step to this subtree; the step
+    // targets the launcher button inside (the wrapper itself has no box).
+    <div data-screenshot-ignore="true" data-tour="claire">
       <ClaireAssistant
         appName="showroom"
         voiceCallEnabled

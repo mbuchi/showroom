@@ -52,7 +52,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
   const hasActiveFilter = appFilters.length > 0 || favoritesOnly;
 
   return (
-    <div className="space-y-3">
+    <div data-tour="gallery-toolbar" className="space-y-3">
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-100 tracking-tight">{t('gallery.heading')}</h1>

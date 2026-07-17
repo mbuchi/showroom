@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Image as ImageIcon, Info, Sparkles } from 'lucide-react';
+import { Compass, Image as ImageIcon, Info, Sparkles } from 'lucide-react';
 import {
   AboutModal,
   MapUserMenu,
@@ -16,6 +16,7 @@ import {
 import { useI18n } from '../contexts/I18nContext';
 import { CURRENT_VERSION, REPO_URL } from '../data/releaseMeta';
 import { errorLogger } from '../lib/errorLog';
+import { requestTour } from '../lib/tour';
 import { createShowroomAboutModalProps } from './aboutModalContent';
 
 interface UserMenuProps {
@@ -76,6 +77,15 @@ export default function UserMenu({
       icon: <Sparkles size={16} aria-hidden="true" />,
       onClick: openReleaseNotes,
       dot: rn.hasUnread,
+      signedOut: true,
+    },
+    // Replay the guided onboarding tour (suite standard: Compass row, visible
+    // signed out too). The app shell listens for the event and mounts the tour.
+    {
+      key: 'tour',
+      label: t('tour.menu'),
+      icon: <Compass size={16} aria-hidden="true" />,
+      onClick: requestTour,
       signedOut: true,
     },
     { ...buildGlassMenuItem({ level: glassLevel, setLevel: setGlassLevel, locale }), signedOut: true },

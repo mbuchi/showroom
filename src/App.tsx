@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { Skeleton, useGlass } from '@aireon/shared';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { I18nProvider } from './contexts/I18nContext';
@@ -6,10 +6,16 @@ import { ShowroomAccessGate } from './components/ShowroomAccessGate';
 import GalleryView from './components/gallery/GalleryView';
 import ReporterSkeleton from './components/reporter/ReporterSkeleton';
 import { useRoute } from './lib/router';
+import { hasCompletedTour, markTourCompleted, TOUR_REQUEST_EVENT } from './lib/tour';
 
 // The reporter pulls in mapbox-gl + leaflet — lazy-loaded so the gallery page
 // never downloads the map bundles.
 const ReporterView = lazy(() => import('./components/reporter/ReporterView'));
+
+// The guided tour (react-joyride) is lazy too, and only mounts while a tour is
+// wanted — first-run visitors, or a "Take the tour" replay from the account
+// menu — so returning visitors never download the joyride chunk at all.
+const Tour = lazy(() => import('./components/Tour').then((m) => ({ default: m.Tour })));
 
 // App-boot skeleton: a faux navbar and a coarse content shell, shown while
 // auth resolves on non-reporter routes (the reporter route has its own).
@@ -48,6 +54,21 @@ function AppShell() {
     document.documentElement.setAttribute('data-glass', String(glassLevel));
   }, [glassLevel]);
 
+  // Guided tour: auto-runs once per visitor (localStorage-gated) and can be
+  // replayed any time from the account menu's "Take the tour" row, which
+  // fires TOUR_REQUEST_EVENT. The Tour component probes the live DOM for its
+  // step targets itself; unmounting it is the teardown.
+  const [tourActive, setTourActive] = useState(() => !hasCompletedTour());
+  useEffect(() => {
+    const onRequest = () => setTourActive(true);
+    window.addEventListener(TOUR_REQUEST_EVENT, onRequest);
+    return () => window.removeEventListener(TOUR_REQUEST_EVENT, onRequest);
+  }, []);
+  const handleTourClose = useCallback((completed: boolean) => {
+    if (completed) markTourCompleted();
+    setTourActive(false);
+  }, []);
+
   if (isLoading) {
     // On the reporter route, show its skeleton straight away so a shared
     // /reporter link lands on the page's shape instead of a spinner.
@@ -60,15 +81,31 @@ function AppShell() {
     return <div className="min-h-screen bg-gray-50 dark:bg-gray-950" />;
   }
 
+  // Rendered only on the authenticated branch so the tour never probes the
+  // bare signed-out backdrop (zero targets there would eat the first run).
+  const tour = tourActive ? (
+    <Suspense fallback={null}>
+      <Tour onClose={handleTourClose} />
+    </Suspense>
+  ) : null;
+
   if (isReporter) {
     return (
-      <Suspense fallback={<ReporterSkeleton />}>
-        <ReporterView />
-      </Suspense>
+      <>
+        <Suspense fallback={<ReporterSkeleton />}>
+          <ReporterView />
+        </Suspense>
+        {tour}
+      </>
     );
   }
 
-  return <GalleryView />;
+  return (
+    <>
+      <GalleryView />
+      {tour}
+    </>
+  );
 }
 
 export default function App() {

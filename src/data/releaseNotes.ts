@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint, Maximize2, Bot,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint, Maximize2, Bot, Compass,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,22 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.18.0',
+    date: 'July 17, 2026',
+    codename: 'Show me around',
+    summary:
+      'A guided tour now introduces the gallery and the Reporter on your first visit, and can be replayed any time from the account menu.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Compass,
+        text:
+          'First visit? A short guided tour walks you through your gallery, search, filters, the Reporter workflow, and the account menu. It adapts to the page you are on and to what is on screen, runs once per browser, and stays available under "Take the tour" in the account menu, in all four languages.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.17.6',
     date: 'July 15, 2026',

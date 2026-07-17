@@ -17,6 +17,7 @@ import type { Locale } from '@aireon/shared';
  *   parcels.*         — saved-parcels side panel (header, search, filters, footer)
  *   page.reporter.*   — reporter page header, banners, address bar, regenerate
  *   page.reporter.widget.* — widget card status badges and metric labels
+ *   tour.*            — guided tour (step copy, chrome labels, replay menu row)
  *   common.*          — buttons & labels reused across components
  */
 const translations: Record<Locale, Record<string, string>> = {
@@ -310,6 +311,23 @@ const translations: Record<Locale, Record<string, string>> = {
     'about.credits': 'Data & technology',
     'about.hub': 'See all Aireon applications',
 
+    // Guided tour
+    'tour.menu': 'Take the tour',
+    'tour.next': 'Next',
+    'tour.back': 'Back',
+    'tour.skip': 'Skip',
+    'tour.done': 'Done',
+    'tour.close': 'Close',
+    'tour.gallery': 'Screenshots and reports you save anywhere in the Aireon suite land here automatically, grouped by parcel.',
+    'tour.toolbar': 'Filter by favorites or source app, change the sort order, and switch between grouped and flat views.',
+    'tour.search': 'Search your exports by filename, address, or parcel ID. Press / to jump here from anywhere.',
+    'tour.nav': 'Switch between the Gallery of saved exports and the Reporter, which builds standardized property reports for any Swiss address.',
+    'tour.account': 'Saved parcels, release notes, appearance settings, and a replay of this tour all live in the account menu.',
+    'tour.reporter_search': 'Search any Swiss address to load five live widgets for that spot: value, building height, construction year, solar potential, and road noise.',
+    'tour.report_grid': 'Each card recreates one Aireon app at this location. Use the checkbox on a card to include it in or drop it from the PDF.',
+    'tour.report_actions': 'Regenerate refreshes all widgets. Generate report assembles the selected cards into a multi-page PDF dossier.',
+    'tour.claire': 'Questions about the numbers? Ask Claire, the AI assistant. She knows this parcel and the live report values.',
+
     // Common
     'common.loading': 'Loading',
   },
@@ -599,6 +617,23 @@ const translations: Record<Locale, Record<string, string>> = {
     'about.label': 'À propos',
     'about.credits': 'Données et technologie',
     'about.hub': 'Voir toutes les applications Aireon',
+
+    // Guided tour
+    'tour.menu': 'Visite guidée',
+    'tour.next': 'Suivant',
+    'tour.back': 'Retour',
+    'tour.skip': 'Passer',
+    'tour.done': 'Terminer',
+    'tour.close': 'Fermer',
+    'tour.gallery': 'Les captures et rapports que vous enregistrez dans la suite Aireon arrivent ici automatiquement, groupés par parcelle.',
+    'tour.toolbar': 'Filtrez par favoris ou par app source, changez le tri et basculez entre vue groupée et vue liste.',
+    'tour.search': 'Recherchez vos exports par nom de fichier, adresse ou ID de parcelle. Appuyez sur / pour y accéder depuis n’importe où.',
+    'tour.nav': 'Passez de la Galerie de vos exports au Reporter, qui génère des rapports immobiliers standardisés pour toute adresse suisse.',
+    'tour.account': 'Parcelles enregistrées, notes de version, apparence et relance de cette visite se trouvent dans le menu du compte.',
+    'tour.reporter_search': 'Recherchez une adresse suisse pour charger cinq widgets en direct : valeur, hauteur du bâtiment, année de construction, potentiel solaire et bruit routier.',
+    'tour.report_grid': 'Chaque carte reconstitue une app Aireon à cet endroit. Cochez une carte pour l’inclure dans le PDF ou l’en retirer.',
+    'tour.report_actions': '« Régénérer » actualise les widgets. « Générer le rapport » assemble les cartes sélectionnées en un dossier PDF multi-pages.',
+    'tour.claire': 'Des questions sur les chiffres ? Demandez à Claire, l’assistante IA : elle connaît cette parcelle et les valeurs du rapport.',
 
     // Common
     'common.loading': 'Chargement',
@@ -890,6 +925,23 @@ const translations: Record<Locale, Record<string, string>> = {
     'about.credits': 'Daten & Technologie',
     'about.hub': 'Alle Aireon-Anwendungen ansehen',
 
+    // Guided tour
+    'tour.menu': 'Tour starten',
+    'tour.next': 'Weiter',
+    'tour.back': 'Zurück',
+    'tour.skip': 'Überspringen',
+    'tour.done': 'Fertig',
+    'tour.close': 'Schliessen',
+    'tour.gallery': 'Screenshots und Berichte, die du irgendwo in der Aireon-Suite speicherst, landen automatisch hier, gruppiert nach Parzelle.',
+    'tour.toolbar': 'Filtere nach Favoriten oder Quell-App, ändere die Sortierung und wechsle zwischen gruppierter und flacher Ansicht.',
+    'tour.search': 'Durchsuche deine Exporte nach Dateiname, Adresse oder Parzellen-ID. Mit / springst du von überall hierher.',
+    'tour.nav': 'Wechsle zwischen der Galerie deiner Exporte und dem Reporter, der standardisierte Liegenschaftsberichte für jede Schweizer Adresse erstellt.',
+    'tour.account': 'Gespeicherte Parzellen, Versionshinweise, Darstellung und den Neustart dieser Tour findest du im Konto-Menü.',
+    'tour.reporter_search': 'Suche eine Schweizer Adresse, um fünf Live-Widgets für diesen Ort zu laden: Wert, Gebäudehöhe, Baujahr, Solarpotenzial und Strassenlärm.',
+    'tour.report_grid': 'Jede Karte bildet eine Aireon-App an diesem Standort ab. Über die Checkbox nimmst du eine Karte ins PDF auf oder entfernst sie.',
+    'tour.report_actions': '«Neu erstellen» aktualisiert alle Widgets. «Bericht erstellen» setzt die ausgewählten Karten zu einem mehrseitigen PDF zusammen.',
+    'tour.claire': 'Fragen zu den Zahlen? Frag Claire, die KI-Assistentin. Sie kennt diese Parzelle und die Live-Werte des Berichts.',
+
     // Common
     'common.loading': 'Lädt',
   },
@@ -1179,6 +1231,23 @@ const translations: Record<Locale, Record<string, string>> = {
     'about.label': 'Informazioni',
     'about.credits': 'Dati e tecnologia',
     'about.hub': 'Vedi tutte le applicazioni Aireon',
+
+    // Guided tour
+    'tour.menu': 'Fai il tour',
+    'tour.next': 'Avanti',
+    'tour.back': 'Indietro',
+    'tour.skip': 'Salta',
+    'tour.done': 'Fine',
+    'tour.close': 'Chiudi',
+    'tour.gallery': 'Le schermate e i report che salvi nella suite Aireon arrivano qui automaticamente, raggruppati per parcella.',
+    'tour.toolbar': 'Filtra per preferiti o app di origine, cambia l’ordinamento e passa dalla vista raggruppata all’elenco.',
+    'tour.search': 'Cerca i tuoi export per nome file, indirizzo o ID parcella. Premi / per arrivare subito qui.',
+    'tour.nav': 'Passa dalla Galleria dei tuoi export al Reporter, che genera report immobiliari standardizzati per qualsiasi indirizzo svizzero.',
+    'tour.account': 'Parcelle salvate, note di versione, aspetto e la ripetizione di questo tour sono nel menu account.',
+    'tour.reporter_search': 'Cerca un indirizzo svizzero per caricare cinque widget in tempo reale: valore, altezza dell’edificio, anno di costruzione, potenziale solare e rumore stradale.',
+    'tour.report_grid': 'Ogni scheda ricrea un’app Aireon in questa posizione. Usa la casella su una scheda per includerla nel PDF o escluderla.',
+    'tour.report_actions': '«Rigenera» aggiorna tutti i widget. «Genera report» assembla le schede selezionate in un dossier PDF di più pagine.',
+    'tour.claire': 'Domande sui numeri? Chiedi a Claire, l’assistente IA: conosce questa parcella e i valori del report.',
 
     // Common
     'common.loading': 'Caricamento',
