@@ -89,6 +89,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'gallery.error.fallback_load': 'Failed to load exports',
     'gallery.error.fallback_delete': 'Failed to delete export',
     'gallery.error.delete_confirm': 'Delete "{name}"? This cannot be undone.',
+    'gallery.delete.cancel': 'Cancel',
 
     // ParcelGroup
     'gallery.group.unassigned': 'Unassigned exports',
@@ -410,6 +411,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'gallery.error.fallback_load': 'Échec du chargement des exports',
     'gallery.error.fallback_delete': 'Échec de la suppression',
     'gallery.error.delete_confirm': 'Supprimer « {name} » ? Cette action est irréversible.',
+    'gallery.delete.cancel': 'Annuler',
 
     // ParcelGroup
     'gallery.group.unassigned': 'Exports non rattachés',
@@ -729,6 +731,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'gallery.error.fallback_load': 'Laden der Exporte fehlgeschlagen',
     'gallery.error.fallback_delete': 'Löschen des Exports fehlgeschlagen',
     'gallery.error.delete_confirm': '"{name}" löschen? Das kann nicht rückgängig gemacht werden.',
+    'gallery.delete.cancel': 'Abbrechen',
 
     // ParcelGroup
     'gallery.group.unassigned': 'Nicht zugeordnete Exporte',
@@ -1048,6 +1051,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'gallery.error.fallback_load': 'Caricamento export non riuscito',
     'gallery.error.fallback_delete': 'Eliminazione export non riuscita',
     'gallery.error.delete_confirm': 'Eliminare «{name}»? L’operazione non è reversibile.',
+    'gallery.delete.cancel': 'Annulla',
 
     // ParcelGroup
     'gallery.group.unassigned': 'Export non assegnati',

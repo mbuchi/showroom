@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { listImages, deleteImage, type SavedImage } from '../../services/imageService';
 import { groupExportsByParcel, sortGroups, sortFlat, matchesQuery, type SortMode } from '../../lib/grouping';
@@ -169,9 +170,22 @@ export default function GalleryView() {
     [updateFavorites]
   );
 
-  const handleDelete = useCallback(
+  // Delete flow (suite standard: no native confirm()/alert()) — the card's
+  // Delete button opens a themed confirm dialog; a failure surfaces as a
+  // dismissible inline banner above the gallery instead of a browser alert.
+  const [pendingDelete, setPendingDelete] = useState<SavedImage | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const handleDelete = useCallback((image: SavedImage) => {
+    setDeleteError(null);
+    setPendingDelete(image);
+  }, []);
+
+  const cancelDelete = useCallback(() => setPendingDelete(null), []);
+
+  const performDelete = useCallback(
     async (image: SavedImage) => {
-      if (!window.confirm(t('gallery.error.delete_confirm', { name: image.original_filename }))) return;
+      setPendingDelete(null);
       setDeletingIds((prev) => new Set(prev).add(image.id));
       try {
         await deleteImage(image.id);
@@ -186,7 +200,7 @@ export default function GalleryView() {
           return Math.min(current, remaining - 1);
         });
       } catch (err) {
-        window.alert(err instanceof Error ? err.message : t('gallery.error.fallback_delete'));
+        setDeleteError(err instanceof Error ? err.message : t('gallery.error.fallback_delete'));
       } finally {
         setDeletingIds((prev) => {
           const next = new Set(prev);
@@ -231,6 +245,21 @@ export default function GalleryView() {
       />
 
       <main className="mx-auto max-w-[1600px] px-4 sm:px-6 py-6 sm:py-8">
+        {deleteError && (
+          <div
+            role="alert"
+            className="mb-4 flex items-start justify-between gap-3 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300"
+          >
+            <span>{deleteError}</span>
+            <button
+              onClick={() => setDeleteError(null)}
+              aria-label={t('gallery.tip_close')}
+              className="shrink-0 rounded px-1 text-red-300/70 hover:text-red-200 transition-colors focus-ring"
+            >
+              ×
+            </button>
+          </div>
+        )}
         <GalleryToolbar
           totalCount={images.length}
           filteredCount={filteredImages.length}
@@ -319,6 +348,46 @@ export default function GalleryView() {
           onDelete={handleDelete}
         />
       )}
+
+      {/* Themed delete confirm — portalled above the lightbox (z-[150]) so
+          deleting from the lightbox works; Esc or the backdrop cancels. */}
+      {pendingDelete &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+            onClick={cancelDelete}
+            onKeyDown={(e) => { if (e.key === 'Escape') cancelDelete(); }}
+          >
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            <div
+              role="alertdialog"
+              aria-modal="true"
+              aria-label={t('gallery.error.delete_confirm', { name: pendingDelete.original_filename })}
+              className="relative w-full max-w-sm rounded-xl border border-white/10 bg-ink-900 p-5 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p className="text-sm text-gray-200">
+                {t('gallery.error.delete_confirm', { name: pendingDelete.original_filename })}
+              </p>
+              <div className="mt-4 flex justify-end gap-2">
+                <button
+                  autoFocus
+                  onClick={cancelDelete}
+                  className="rounded-lg border border-white/10 bg-ink-800 px-3 py-1.5 text-sm text-gray-200 hover:bg-ink-700 transition-colors focus-ring"
+                >
+                  {t('gallery.delete.cancel')}
+                </button>
+                <button
+                  onClick={() => performDelete(pendingDelete)}
+                  className="rounded-lg bg-red-500/90 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-500 transition-colors focus-ring"
+                >
+                  {t('card.delete')}
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 }
