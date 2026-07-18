@@ -48,7 +48,7 @@ export default function MetadataPanel({ image }: MetadataPanelProps) {
         <h3 className="text-sm font-semibold text-gray-100 break-all leading-snug">
           {image.original_filename}
         </h3>
-        <p className="mt-1 text-[11px] text-gray-500">
+        <p className="mt-1 text-[11px] text-gray-400">
           {APP_LABELS[image.app_source] || image.app_source}
         </p>
       </div>
@@ -116,7 +116,7 @@ export default function MetadataPanel({ image }: MetadataPanelProps) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="px-4 py-3 border-b border-white/5 last:border-b-0">
-      <p className="text-[10px] uppercase tracking-[0.16em] font-semibold text-gray-500 mb-2">
+      <p className="text-[10px] uppercase tracking-[0.16em] font-semibold text-gray-400 mb-2">
         {title}
       </p>
       <div className="space-y-1.5">{children}</div>
@@ -137,7 +137,7 @@ function Row({
 }) {
   return (
     <div className="flex gap-3 items-baseline">
-      <span className="w-24 flex-shrink-0 text-gray-500 inline-flex items-center gap-1.5">
+      <span className="w-24 flex-shrink-0 text-gray-400 inline-flex items-center gap-1.5">
         {icon}
         <span className="capitalize">{label}</span>
       </span>
