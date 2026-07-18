@@ -187,7 +187,7 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
 
   if (state.kind === 'error') {
     return (
-      <div className="surface rounded-xl px-4 py-3 mb-6 text-xs text-gray-500">
+      <div className="surface rounded-xl px-4 py-3 mb-6 text-xs text-gray-400">
         {t('page.reporter.parcel_unavailable')}
       </div>
     );

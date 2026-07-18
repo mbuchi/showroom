@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.19.3',
+    date: 'July 18, 2026',
+    codename: 'Legible on glass',
+    summary: 'Field labels in the fullscreen viewer\'s info panel and the reporter\'s parcel message are no longer washed out by the frosted background behind them.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Eye,
+        text: 'The info panel beside a fullscreen export is a frosted, semi-transparent surface, and its labels were set in a grey too dark to survive it. Every field name (Address, Parcel ID, Center, Saved, Dimensions, Size, Zoom, Tilt, Bearing, Basemap, 3D mode), the section headings above them, and the small app name under the filename now use the same readable grey as the rest of the viewer.',
+        prs: [],
+      },
+      {
+        kind: 'fixed',
+        icon: Eye,
+        text: 'In the reporter, the notice explaining that parcel details could not be loaded was printed in a faint grey on a translucent card, making the one message that tells you what went wrong the hardest thing to read. It now matches the readable grey used elsewhere on the page.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.19.2',
     date: 'July 18, 2026',
     codename: 'Easier on the eyes',
