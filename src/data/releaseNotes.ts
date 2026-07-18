@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.19.2',
+    date: 'July 18, 2026',
+    codename: 'Easier on the eyes',
+    summary: 'Card buttons now appear when you reach them with the keyboard, and the shortcut hints under the gallery are readable again.',
+    items: [
+      {
+        kind: 'fixed',
+        icon: Bug,
+        text: 'Tabbing through the gallery used to land you on invisible controls: each card\'s favourite, open-original and delete buttons only appeared on mouse hover, so keyboard users could hit Delete without ever seeing the button. Those buttons now fade in as soon as any of them receives keyboard focus, exactly as they do on hover.',
+        prs: [],
+      },
+      {
+        kind: 'fixed',
+        icon: Eye,
+        text: 'The keyboard-shortcut hints at the bottom of the gallery (search, navigate, favourite, close) were rendered in a grey so dark it nearly vanished against the background, and the key chips were worse. They now use the same readable grey as the rest of the gallery\'s secondary text.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.19.1',
     date: 'July 17, 2026',
     codename: 'Gentler deletes',

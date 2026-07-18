@@ -323,7 +323,7 @@ export default function GalleryView() {
         </div>
 
         {!isLoading && !error && images.length > 0 && (
-          <footer className="mt-12 pt-6 border-t border-white/5 text-center text-[11px] text-gray-600">
+          <footer className="mt-12 pt-6 border-t border-white/5 text-center text-[11px] text-gray-400">
             <p>
               {t('gallery.tips_label')}{' '}
               <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">/</kbd> {t('gallery.tip_search')} ·{' '}

@@ -80,7 +80,7 @@ export default function ExportCard({
         </div>
       </div>
 
-      <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200">
         {!isFavorite && (
           <button
             onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
