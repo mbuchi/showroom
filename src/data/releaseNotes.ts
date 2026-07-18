@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.20.0',
+    date: 'July 18, 2026',
+    codename: 'Claire knows the room',
+    summary: 'Claire now opens with starter questions written for the reporter instead of the same generic set used across every app.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Bot,
+        text: 'Claire used to greet you with the same seven generic suggestions in every Aireon app, none of which mentioned what this one actually does. She now opens with starter questions built for the report: Executive summary, Explain the figures, Analyses to include, Noise exposure, Solar potential and What to verify. She also knows she is helping you assemble a client-facing dossier, so her answers speak to the five headline figures on the parcel strip and are phrased for a document someone will read.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.19.3',
     date: 'July 18, 2026',
     codename: 'Legible on glass',
