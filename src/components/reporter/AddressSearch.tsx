@@ -114,7 +114,9 @@ export default function AddressSearch({ onSelect, initialValue = '', autoFocus }
           onFocus={() => results.length > 0 && setOpen(true)}
           onKeyDown={onKeyDown}
           placeholder={t('page.reporter.search_placeholder')}
-          className="w-full pl-10 pr-10 py-3 rounded-xl bg-ink-800/70 border border-white/10 hover:border-white/20 focus:border-cyan-500/50 focus:bg-ink-800 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
+          // max-lg:text-base (16px) stops iOS Safari from auto-zooming the page
+          // when this search is focused on phones (it zooms any input < 16px).
+          className="w-full pl-10 pr-10 py-3 rounded-xl bg-ink-800/70 border border-white/10 hover:border-white/20 focus:border-cyan-500/50 focus:bg-ink-800 text-sm max-lg:text-base text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
         />
         {loading && (
           <span
