@@ -151,7 +151,9 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
           onChange={(e) => onSearchChange?.(e.target.value)}
           placeholder={t('nav.search_placeholder')}
           aria-label={t('nav.search_placeholder')}
-          className="w-full pl-9 pr-16 py-2 rounded-lg bg-ink-800/70 hover:bg-ink-800 border border-white/5 hover:border-white/10 focus:border-cyan-500/40 focus:bg-ink-800 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
+          // Visible only from `sm` up, but landscape phones reach 640-932px:
+          // max-lg:text-base (16px) stops iOS Safari's focus auto-zoom there.
+          className="w-full pl-9 pr-16 py-2 rounded-lg bg-ink-800/70 hover:bg-ink-800 border border-white/5 hover:border-white/10 focus:border-cyan-500/40 focus:bg-ink-800 text-sm max-lg:text-base text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/30 transition-colors"
         />
         <kbd className="hidden md:flex items-center gap-1 absolute right-2 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded text-[10px] font-medium text-gray-500 bg-ink-700/70 border border-white/5">
           {isMac ? <Command size={10} /> : 'Ctrl'}
