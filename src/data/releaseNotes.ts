@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.20.2',
+    date: 'July 22, 2026',
+    codename: 'Sharper Claire',
+    summary: "Claire's AI assistant now runs on Gemini 3.6 Flash for faster, sharper answers.",
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text: "Claire's AI assistant now runs on Gemini 3.6 Flash, our latest model, for faster and sharper answers about your parcel.",
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.20.1',
     date: 'July 19, 2026',
     codename: 'No more surprise zoom',
