@@ -12,6 +12,10 @@ import { hasCompletedTour, markTourCompleted, TOUR_REQUEST_EVENT } from './lib/t
 // never downloads the map bundles.
 const ReporterView = lazy(() => import('./components/reporter/ReporterView'));
 
+// The portal publisher (IDX 3.01 package export) is its own route and pulls in
+// the zip/image-encoding engine — lazy so gallery visitors never download it.
+const PublishView = lazy(() => import('./components/publish/PublishView'));
+
 // The guided tour (react-joyride) is lazy too, and only mounts while a tour is
 // wanted — first-run visitors, or a "Take the tour" replay from the account
 // menu — so returning visitors never download the joyride chunk at all.
@@ -44,6 +48,7 @@ function AppShell() {
   const { isAuthenticated, isLoading } = useAuth();
   const { pathname } = useRoute();
   const isReporter = pathname === '/reporter';
+  const isPublish = pathname === '/publish';
 
   // Liquid Glass appearance level (persists suite-wide via the shared cookie).
   // Stamp it onto <html> — the SAME element that carries `.dark` (set in
@@ -94,6 +99,17 @@ function AppShell() {
       <>
         <Suspense fallback={<ReporterSkeleton />}>
           <ReporterView />
+        </Suspense>
+        {tour}
+      </>
+    );
+  }
+
+  if (isPublish) {
+    return (
+      <>
+        <Suspense fallback={<RouteSkeleton />}>
+          <PublishView />
         </Suspense>
         {tour}
       </>

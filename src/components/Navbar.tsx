@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Search, Command, Images, FileText, Share2, History, Info } from 'lucide-react';
+import { Search, Command, Images, FileText, Send, Share2, History, Info } from 'lucide-react';
 import {
   AboutModal,
   AppNavbar,
@@ -24,6 +24,7 @@ import { signal } from '../lib/signal';
 const NAV_LINKS: { path: string; labelKey: string; icon: React.ReactNode }[] = [
   { path: '/', labelKey: 'nav.gallery', icon: <Images size={16} aria-hidden="true" /> },
   { path: '/reporter', labelKey: 'nav.reporter', icon: <FileText size={16} aria-hidden="true" /> },
+  { path: '/publish', labelKey: 'nav.publish', icon: <Send size={16} aria-hidden="true" /> },
 ];
 
 interface NavbarProps {
