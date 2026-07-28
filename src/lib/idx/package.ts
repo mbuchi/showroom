@@ -1,12 +1,14 @@
 // ZIP packaging of the IDX export (data/unload.txt + images/ + README.txt).
-// STUB: the engine task replaces the bodies.
+import { strToU8, zipSync } from 'fflate';
 import type { ListingDraft, PreparedImage } from './types';
 import type { BuildRecordOptions } from './record';
+import { buildIdxFields, serializeUnload } from './record';
+import { encodeLatin1 } from './latin1';
 
 export function buildUnloadBytes(draft: ListingDraft, opts: BuildRecordOptions): Uint8Array {
-  void draft;
-  void opts;
-  return new Uint8Array(0);
+  const fields = buildIdxFields(draft, opts);
+  const text = serializeUnload([fields]);
+  return encodeLatin1(text);
 }
 
 export function buildIdxPackage(args: {
@@ -14,6 +16,13 @@ export function buildIdxPackage(args: {
   images: PreparedImage[];
   readme: string;
 }): Blob {
-  void args;
-  return new Blob([]);
+  const files: Record<string, Uint8Array> = {
+    'data/unload.txt': args.unload,
+    'README.txt': strToU8(args.readme),
+  };
+  for (const image of args.images) {
+    files[`images/${image.filename}`] = image.data;
+  }
+  const zipped = zipSync(files);
+  return new Blob([zipped], { type: 'application/zip' });
 }
