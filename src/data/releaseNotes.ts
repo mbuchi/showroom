@@ -1,7 +1,7 @@
 import {
   ShieldAlert,
   Sparkles, Palette, Shield, Bug, Zap, Type, Image as ImageIcon,
-  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint, Maximize2, Bot, Compass, LogIn,
+  LayoutGrid, KeyRound, Eraser, Eye, FileBarChart, MapPin, Camera, Package, Layers, CircleUser, Globe, Bookmark, BadgeCheck, Code2, Smartphone, ExternalLink, Link2, History, Info, Fingerprint, Maximize2, Bot, Compass, LogIn, Send,
 } from 'lucide-react';
 import type { ChangeKind, ChangeItem, Release } from '@aireon/shared';
 
@@ -11,6 +11,20 @@ export { KIND_META } from '@aireon/shared';
 // Newest first. Versioning follows SemVer. Showroom is pre-1.0 while
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
+  {
+    version: '0.21.0',
+    date: 'July 29, 2026',
+    codename: 'Straight to the portals',
+    summary: 'A new Publish page turns a parcel, your gallery images, and a short form into a portal-ready IDX 3.01 package for ImmoScout24, Homegate, newhome, and Flatfox.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Send,
+        text: 'Publish page: describe a listing (with address search prefilling parcel data), pick up to 13 gallery images, and download a validated IDX 3.01 upload package (unload.txt plus converted JPEG images) that Swiss portals accept through their standard import interfaces. Live validation flags anything a portal would reject, and a guide explains how ImmoScout24/Homegate (SMG), newhome, and Flatfox each receive the package.',
+        prs: [],
+      },
+    ],
+  },
   {
     version: '0.20.3',
     date: 'July 22, 2026',
