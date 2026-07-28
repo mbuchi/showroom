@@ -43,7 +43,7 @@ describe('buildIdxFields', () => {
   });
   it('maps up to 13 picture filenames to slots 46-50, 87-90, 142-145', () => {
     const d = draft();
-    d.images = Array.from({ length: 13 }, (_, i) => ({ savedImageId: i, publicUrl: '', filename: `p${i + 1}.jpg`, title: `T${i + 1}` }));
+    d.images = Array.from({ length: 13 }, (_, i) => ({ savedImageId: `img-${i}`, publicUrl: '', filename: `p${i + 1}.jpg`, title: `T${i + 1}` }));
     const f = buildIdxFields(d, OPTS);
     expect(f[46]).toBe('p1.jpg'); expect(f[50]).toBe('p5.jpg');
     expect(f[87]).toBe('p6.jpg'); expect(f[90]).toBe('p9.jpg');

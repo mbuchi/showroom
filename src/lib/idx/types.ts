@@ -22,7 +22,9 @@ export type PriceUnit = 'SELL' | 'SELLM2' | 'YEARLY' | 'M2YEARLY' | 'MONTHLY' | 
 export type YesNo = '' | 'Y' | 'N';
 
 export interface ListingImageRef {
-  savedImageId: number;
+  /** Gallery id of the source export. Opaque string (RES hands out UUIDs), so
+   *  never coerce it to a number. */
+  savedImageId: string;
   publicUrl: string;
   /** Sanitized unique filename ending in .jpg (set by the image picker). */
   filename: string;

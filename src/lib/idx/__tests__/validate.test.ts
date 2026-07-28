@@ -18,7 +18,7 @@ function validDraft(): ListingDraft {
   d.sellingPrice = '1000000';
   d.priceUnit = 'SELL';
   d.agencyId = 'AG1';
-  d.images = [{ savedImageId: 1, publicUrl: '', filename: 'p1.jpg', title: 'Living room' }];
+  d.images = [{ savedImageId: 'img-1', publicUrl: '', filename: 'p1.jpg', title: 'Living room' }];
   return d;
 }
 

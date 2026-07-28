@@ -455,7 +455,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'tour.gallery': 'Screenshots and reports you save anywhere in the Aireon suite land here automatically, grouped by parcel.',
     'tour.toolbar': 'Filter by favorites or source app, change the sort order, and switch between grouped and flat views.',
     'tour.search': 'Search your exports by filename, address, or parcel ID. Press / to jump here from anywhere.',
-    'tour.nav': 'Switch between the Gallery of saved exports and the Reporter, which builds standardized property reports for any Swiss address.',
+    'tour.nav': 'Switch between the Gallery of saved exports, the Reporter, which builds standardized property reports for any Swiss address, and Publish, which packages a listing for the Swiss portals.',
     'tour.account': 'Saved parcels, release notes, appearance settings, and a replay of this tour all live in the account menu.',
     'tour.reporter_search': 'Search any Swiss address to load five live widgets for that spot: value, building height, construction year, solar potential, and road noise.',
     'tour.report_grid': 'Each card recreates one Aireon app at this location. Use the checkbox on a card to include it in or drop it from the PDF.',
@@ -910,7 +910,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'tour.gallery': 'Les captures et rapports que vous enregistrez dans la suite Aireon arrivent ici automatiquement, groupés par parcelle.',
     'tour.toolbar': 'Filtrez par favoris ou par app source, changez le tri et basculez entre vue groupée et vue liste.',
     'tour.search': 'Recherchez vos exports par nom de fichier, adresse ou ID de parcelle. Appuyez sur / pour y accéder depuis n’importe où.',
-    'tour.nav': 'Passez de la Galerie de vos exports au Reporter, qui génère des rapports immobiliers standardisés pour toute adresse suisse.',
+    'tour.nav': 'Naviguez entre la Galerie de vos exports, le Reporter, qui génère des rapports immobiliers standardisés pour toute adresse suisse, et Publier, qui prépare une annonce pour les portails suisses.',
     'tour.account': 'Parcelles enregistrées, notes de version, apparence et relance de cette visite se trouvent dans le menu du compte.',
     'tour.reporter_search': 'Recherchez une adresse suisse pour charger cinq widgets en direct : valeur, hauteur du bâtiment, année de construction, potentiel solaire et bruit routier.',
     'tour.report_grid': 'Chaque carte reconstitue une app Aireon à cet endroit. Cochez une carte pour l’inclure dans le PDF ou l’en retirer.',
@@ -1107,10 +1107,10 @@ const translations: Record<Locale, Record<string, string>> = {
     // Publizieren-Seite - IDX-3.01-Portalpaket
     'page.publish.kicker': 'Portal-Publisher',
     'page.publish.intro':
-      'Bereiten Sie ein Immobilieninserat als portalfertiges IDX-3.01-Paket für ImmoScout24, Homegate, newhome und Flatfox auf. Inserat ausfüllen, Bilder aus der Galerie wählen und das Upload-Paket herunterladen.',
+      'Bereite ein Immobilieninserat als portalfertiges IDX-3.01-Paket für ImmoScout24, Homegate, newhome und Flatfox auf. Inserat ausfüllen, Bilder aus der Galerie wählen und das Upload-Paket herunterladen.',
     'page.publish.prefill.title': 'Mit einer Adresse starten',
     'page.publish.prefill.hint':
-      'Suchen Sie eine Schweizer Adresse, um Lage und Grundstücksdaten vorauszufüllen. Bereits erfasste Angaben bleiben erhalten.',
+      'Suche eine Schweizer Adresse, um Lage und Grundstücksdaten vorauszufüllen. Bereits erfasste Angaben bleiben erhalten.',
     'page.publish.section.offer': 'Angebot',
     'page.publish.section.location': 'Lage',
     'page.publish.section.content': 'Inseratsinhalt',
@@ -1150,7 +1150,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.field.numberOfFloors': 'Etagen im Gebäude',
     'page.publish.field.agencyId': 'Agentur-ID',
     'page.publish.agencyIdHint':
-      'Wird vom Portal mit Ihrem Publikationsvertrag vergeben. Leer lassen, wenn Ihre Software sie einträgt.',
+      'Wird vom Portal mit deinem Publikationsvertrag vergeben. Leer lassen, wenn deine Software sie einträgt.',
     'page.publish.field.agencyName': 'Agenturname',
     'page.publish.field.agencyReference': 'Kontaktperson',
     'page.publish.field.agencyPhone': 'Telefon',
@@ -1175,9 +1175,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.feature.minergieCertified': 'Minergie-zertifiziert',
     'page.publish.images.title': 'Inseratsbilder',
     'page.publish.images.hint':
-      'Wählen Sie bis zu 13 Bilder aus Ihrer Galerie. Sie werden in JPEG umgewandelt und für das Portal verpackt.',
+      'Wähle bis zu 13 Bilder aus deiner Galerie. Sie werden in JPEG umgewandelt und für das Portal verpackt.',
     'page.publish.images.empty':
-      'Noch keine Bilder in der Galerie. Erstellen Sie zuerst Exporte im Reporter oder speichern Sie Screenshots aus den Karten-Apps.',
+      'Noch keine Bilder in der Galerie. Erstelle zuerst Exporte im Reporter oder speichere Screenshots aus den Karten-Apps.',
     'page.publish.images.count': '{n}/13 ausgewählt',
     'page.publish.images.titlePlaceholder': 'Bildtitel (optional)',
     'page.publish.images.failed': 'Einige Bilder konnten nicht aufbereitet werden: {names}',
@@ -1192,9 +1192,9 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.issue.countryInvalid': 'Das Land muss ein zweistelliger Code sein.',
     'page.publish.issue.titleRequired': 'Ein Inseratstitel ist erforderlich.',
     'page.publish.issue.descriptionRequired': 'Eine Beschreibung ist erforderlich.',
-    'page.publish.issue.typeRequired': 'Wählen Sie einen Objekttyp.',
+    'page.publish.issue.typeRequired': 'Wähle einen Objekttyp.',
     'page.publish.issue.priceUnitMismatch': 'Die Preiseinheit passt nicht zur Angebotsart.',
-    'page.publish.issue.dateInvalid': 'Verwenden Sie das Format TT.MM.JJJJ.',
+    'page.publish.issue.dateInvalid': 'Verwende das Format TT.MM.JJJJ.',
     'page.publish.issue.yearInvalid': 'Jahreszahlen haben 4 Stellen.',
     'page.publish.issue.agencyIdMissing':
       'Noch keine Agentur-ID. Portale weisen Uploads ohne ID zurück.',
@@ -1213,13 +1213,13 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.export.copy': 'IDX-Datensatz kopieren',
     'page.publish.export.copied': 'Kopiert',
     'page.publish.export.preparing': '{total} Bilder werden aufbereitet',
-    'page.publish.export.blocked': 'Beheben Sie die Fehler oben, um den Export freizuschalten.',
+    'page.publish.export.blocked': 'Behebe die Fehler oben, um den Export freizuschalten.',
     'page.publish.reset': 'Entwurf zurücksetzen',
     'page.publish.reset.confirm': 'Zum Bestätigen erneut klicken',
     'page.publish.guide.title': 'Auf den Portalen publizieren',
     'page.publish.guide.smg.title': 'ImmoScout24 und Homegate (SMG)',
     'page.publish.guide.smg.body':
-      'Inserate gelangen über den SMG-Feed auf beide Portale. Mit einem Publikationsvertrag erhalten Sie eine Agentur-ID und FTP-Zugangsdaten. Laden Sie die Ordner data und images auf ftp.homegate.ch. Die Datei ersetzt alle Ihre publizierten Inserate, und die Läufe werden rund dreimal täglich verarbeitet.',
+      'Inserate gelangen über den SMG-Feed auf beide Portale. Mit einem Publikationsvertrag erhältst du eine Agentur-ID und FTP-Zugangsdaten. Lade die Ordner data und images auf ftp.homegate.ch. Die Datei ersetzt alle deine publizierten Inserate, und die Läufe werden rund dreimal täglich verarbeitet.',
     'page.publish.guide.newhome.title': 'newhome',
     'page.publish.guide.newhome.body':
       'Geschäftskonten (FLEX) können die Importschnittstelle unter My newhome, Services, Importschnittstellen aktivieren und dieses Paket mit den erzeugten Zugangsdaten hochladen.',
@@ -1227,7 +1227,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.guide.flatfox.body':
       'Flatfox nimmt IDX-Pakete aus Immobiliensoftware entgegen und bietet für Organisationskonten eine REST-API. Private Inserate werden direkt im Flatfox-Webportal erfasst.',
     'page.publish.guide.disclaimer':
-      'Diese Seite bereitet ein portalfertiges Paket auf. Die Publikation erfolgt mit Ihrem eigenen Portalvertrag und Ihren Zugangsdaten.',
+      'Diese Seite bereitet ein portalfertiges Paket auf. Die Publikation erfolgt mit deinem eigenen Portalvertrag und deinen Zugangsdaten.',
 
     'report.dialog.title': 'Liegenschaftsbericht erstellen',
     'report.dialog.close': 'Schliessen',
@@ -1366,7 +1366,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'tour.gallery': 'Screenshots und Berichte, die du irgendwo in der Aireon-Suite speicherst, landen automatisch hier, gruppiert nach Parzelle.',
     'tour.toolbar': 'Filtere nach Favoriten oder Quell-App, ändere die Sortierung und wechsle zwischen gruppierter und flacher Ansicht.',
     'tour.search': 'Durchsuche deine Exporte nach Dateiname, Adresse oder Parzellen-ID. Mit / springst du von überall hierher.',
-    'tour.nav': 'Wechsle zwischen der Galerie deiner Exporte und dem Reporter, der standardisierte Liegenschaftsberichte für jede Schweizer Adresse erstellt.',
+    'tour.nav': 'Wechsle zwischen der Galerie deiner Exporte, dem Reporter, der standardisierte Liegenschaftsberichte für jede Schweizer Adresse erstellt, und Publizieren, das ein Inserat für die Schweizer Portale aufbereitet.',
     'tour.account': 'Gespeicherte Parzellen, Versionshinweise, Darstellung und den Neustart dieser Tour findest du im Konto-Menü.',
     'tour.reporter_search': 'Suche eine Schweizer Adresse, um fünf Live-Widgets für diesen Ort zu laden: Wert, Gebäudehöhe, Baujahr, Solarpotenzial und Strassenlärm.',
     'tour.report_grid': 'Jede Karte bildet eine Aireon-App an diesem Standort ab. Über die Checkbox nimmst du eine Karte ins PDF auf oder entfernst sie.',
@@ -1375,13 +1375,13 @@ const translations: Record<Locale, Record<string, string>> = {
 
     'tour.publish_form_title': 'Objekt beschreiben',
     'tour.publish_form_body':
-      'Suchen Sie eine Adresse, um Grundstücksdaten vorauszufüllen, und vervollständigen Sie danach die Inseratsangaben.',
+      'Suche eine Adresse, um Grundstücksdaten vorauszufüllen, und vervollständige danach die Inseratsangaben.',
     'tour.publish_images_title': 'Bilder wählen',
     'tour.publish_images_body':
-      'Wählen Sie bis zu 13 Galerie-Exporte. Sie werden automatisch umgewandelt und verpackt.',
+      'Wähle bis zu 13 Galerie-Exporte. Sie werden automatisch umgewandelt und verpackt.',
     'tour.publish_export_title': 'Paket exportieren',
     'tour.publish_export_body':
-      'Die Validierung läuft laufend mit. Laden Sie das ZIP herunter und spielen Sie es in Ihrem Portalkonto ein.',
+      'Die Validierung läuft laufend mit. Lade das ZIP herunter und spiele es in deinem Portalkonto ein.',
 
     // Common
     'common.loading': 'Lädt',
@@ -1821,7 +1821,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'tour.gallery': 'Le schermate e i report che salvi nella suite Aireon arrivano qui automaticamente, raggruppati per parcella.',
     'tour.toolbar': 'Filtra per preferiti o app di origine, cambia l’ordinamento e passa dalla vista raggruppata all’elenco.',
     'tour.search': 'Cerca i tuoi export per nome file, indirizzo o ID parcella. Premi / per arrivare subito qui.',
-    'tour.nav': 'Passa dalla Galleria dei tuoi export al Reporter, che genera report immobiliari standardizzati per qualsiasi indirizzo svizzero.',
+    'tour.nav': 'Naviga tra la Galleria dei tuoi export, il Reporter, che genera report immobiliari standardizzati per qualsiasi indirizzo svizzero, e Pubblica, che prepara un annuncio per i portali svizzeri.',
     'tour.account': 'Parcelle salvate, note di versione, aspetto e la ripetizione di questo tour sono nel menu account.',
     'tour.reporter_search': 'Cerca un indirizzo svizzero per caricare cinque widget in tempo reale: valore, altezza dell’edificio, anno di costruzione, potenziale solare e rumore stradale.',
     'tour.report_grid': 'Ogni scheda ricrea un’app Aireon in questa posizione. Usa la casella su una scheda per includerla nel PDF o escluderla.',

@@ -30,8 +30,8 @@ interface ImagePickerProps {
 /**
  * Picks up to 13 gallery exports for the listing (the IDX 3.01 picture cap),
  * in the order they should appear on the portal. Selection is keyed on the
- * public URL — the gallery id is an opaque string while the IDX ref carries a
- * numeric id, so the URL is the stable join.
+ * public URL, which is unique per export and is also what the image prep step
+ * fetches, so the picker and the engine always agree on what a row refers to.
  */
 export default function ImagePicker({ images, onChange }: ImagePickerProps) {
   const { t } = useI18n();
@@ -67,13 +67,12 @@ export default function ImagePicker({ images, onChange }: ImagePickerProps) {
         return;
       }
       if (images.length >= IDX_MAX_PICTURES) return;
-      const numericId = Number(image.id);
       const base = sanitizeIdxFilename(image.original_filename || `image-${image.id}`);
       const filename = uniqueFilename(base, new Set(images.map((ref) => ref.filename)));
       onChange([
         ...images,
         {
-          savedImageId: Number.isFinite(numericId) ? numericId : 0,
+          savedImageId: image.id,
           publicUrl: image.public_url,
           filename,
           title: '',
