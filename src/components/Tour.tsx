@@ -35,6 +35,15 @@ function buildSteps(t: TranslateFn, pathname: string): Step[] {
           { target: '[data-tour="report-actions"]', content: t('tour.report_actions'), disableBeacon: true, placement: 'bottom' },
           { target: '[data-tour="claire"] button', content: t('tour.claire'), disableBeacon: true, placement: 'left' },
         ]
+      : pathname === '/publish'
+      ? [
+          // Publish: the form, the image picker and the export rail are all
+          // rendered unconditionally, so all three steps normally survive the
+          // laidOut probe (the rail un-sticks below `lg`, never disappears).
+          { target: '[data-tour="publish-form"]', title: t('tour.publish_form_title'), content: t('tour.publish_form_body'), disableBeacon: true, placement: 'top' },
+          { target: '[data-tour="publish-images"]', title: t('tour.publish_images_title'), content: t('tour.publish_images_body'), disableBeacon: true, placement: 'top' },
+          { target: '[data-tour="publish-export"]', title: t('tour.publish_export_title'), content: t('tour.publish_export_body'), disableBeacon: true, placement: 'left' },
+        ]
       : [
           // Gallery (the entry view): toolbar + content shell are always
           // rendered, even while loading (skeletons) or empty.
