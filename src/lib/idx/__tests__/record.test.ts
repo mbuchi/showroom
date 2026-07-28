@@ -50,6 +50,18 @@ describe('buildIdxFields', () => {
     expect(f[142]).toBe('p10.jpg'); expect(f[145]).toBe('p13.jpg');
     expect(f[51]).toBe('T1'); expect(f[146]).toBe('T10');
   });
+  it('strips a stray # from fields whose formula bypasses sanitizeIdxText', () => {
+    const d = draft();
+    d.canton = 'Z#H';
+    d.currency = 'C#HF';
+    const f = buildIdxFields(d, OPTS);
+    expect(f).toHaveLength(IDX_FIELD_COUNT);
+    expect(f[11]).toBe('ZH');
+    expect(f[22]).toBe('CHF');
+    expect(f.some((value) => value.includes('#'))).toBe(false);
+    const serialized = serializeUnload([f]);
+    expect(serialized.split('#').length - 1).toBe(IDX_FIELD_COUNT);
+  });
 });
 
 describe('serializeUnload', () => {

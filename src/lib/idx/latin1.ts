@@ -27,12 +27,13 @@ const TRANSLITERATION_MAP: Record<string, string> = {
 export function transliterate(text: string): string {
   let out = '';
   for (const ch of text) {
-    const code = ch.codePointAt(0) ?? 0;
-    if (code <= 0xff) {
-      out += ch;
+    const mapped = TRANSLITERATION_MAP[ch];
+    if (mapped !== undefined) {
+      out += mapped;
       continue;
     }
-    out += TRANSLITERATION_MAP[ch] ?? '?';
+    const code = ch.codePointAt(0) ?? 0;
+    out += code <= 0xff ? ch : '?';
   }
   return out;
 }

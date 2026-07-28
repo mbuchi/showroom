@@ -174,5 +174,9 @@ export function buildIdxFields(draft: ListingDraft, opts: BuildRecordOptions): s
   f[177] = formatIdxDateTime(opts.lastModified);
   // 178-182: unused
 
-  return f;
+  // Defensive final pass: a few raw formulas above (canton, availableFrom,
+  // priceUnit, currency, floor, rooms) bypass sanitizeIdxText and could
+  // still carry a stray '#', which would silently break the 183-field
+  // delimiter invariant. Strip it here rather than re-running sanitizeIdxText.
+  return f.map((value) => value.replace(/#/g, ''));
 }
