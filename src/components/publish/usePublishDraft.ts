@@ -95,6 +95,15 @@ export function usePublishDraft(): PublishDraftApi {
     draftRef.current = draft;
   }, [draft]);
 
+  // Only the newest address may write. Parcel lookups resolve out of order
+  // (a cached hit returns in milliseconds, a cold RES round-trip in seconds),
+  // and a late loser would otherwise overwrite the coordinates and the summary
+  // of the address the user actually picked — while the text fields still hold
+  // the newer one. That mismatch is exportable into an IDX package, so it has
+  // to be impossible rather than unlikely.
+  const prefillSeq = useRef(0);
+  const prefillAbort = useRef<AbortController | null>(null);
+
   useEffect(() => {
     if (persistTimer.current) clearTimeout(persistTimer.current);
     persistTimer.current = setTimeout(() => {
@@ -130,17 +139,33 @@ export function usePublishDraft(): PublishDraftApi {
     } catch {
       // Ignore — the state reset below is what the user actually sees.
     }
+    // Supersede any in-flight lookup too, so a late response cannot refill the
+    // draft the user just cleared.
+    prefillSeq.current += 1;
+    prefillAbort.current?.abort();
     setDraft(emptyListingDraft());
     setPrefillState('idle');
     setPrefillResult(null);
   }, []);
 
   const prefillFromLocation = useCallback(async (lat: number, lng: number, label: string) => {
+    const seq = ++prefillSeq.current;
+    // Drop the previous lookup off the wire. The seq check below is what
+    // actually guarantees correctness (an abort can land too late, and a
+    // cached hit never touches the network at all); this just stops paying
+    // for a response nobody will read.
+    prefillAbort.current?.abort();
+    const ctrl = new AbortController();
+    prefillAbort.current = ctrl;
+
     setPrefillState('loading');
     setPrefillResult(null);
     // fetchParcelInfo swallows its own failures, but a prefill must never be
     // the thing that breaks the page.
-    const info = await fetchParcelInfo(lat, lng).catch(() => null);
+    const info = await fetchParcelInfo(lat, lng, ctrl.signal).catch(() => null);
+
+    // Superseded while in flight: a newer address already owns the form.
+    if (seq !== prefillSeq.current) return;
 
     if (!info) {
       // No parcel facts here — still record the picked point and the typed

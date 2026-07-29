@@ -234,7 +234,7 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.field.priceUnit': 'Price unit',
     'page.publish.field.currency': 'Currency',
     'page.publish.pricing.m2Hint':
-      'Area estimate: CHF {price} per m2 living space (from Aireon market data)',
+      'Estimate: CHF {price} per m2 of living space (from Aireon market data)',
     'page.publish.field.floor': 'Floor',
     'page.publish.field.rooms': 'Rooms',
     'page.publish.field.apartments': 'Apartments',

@@ -23,9 +23,19 @@ const memoryCache = new Map<string, ParcelInfo>();
 // Store name carries a shape version: entries live for 14 days, so widening
 // ParcelInfo would otherwise serve half-empty records from a previous build.
 // Renaming the store cold-starts the cache instead.
+//
+// The `version` bump is NOT optional. IndexedDB only creates object stores in
+// `onupgradeneeded`, which fires on a version increase — an already-installed
+// client holds `showroom-parcel` at version 1, so without this the 'info-v2'
+// store is never created and every read/write throws (silently, inside
+// IndexedDBCache) for the rest of that browser's life. That would not
+// cold-start the L2 cache, it would disable it.
+const PARCEL_CACHE_DB_VERSION = 2;
+
 const persistentCache = new IndexedDBCache<ParcelInfo>('showroom-parcel', 'info-v2', {
   ttlMinutes: PARCEL_CACHE_TTL_MINUTES,
   maxBytes: PARCEL_CACHE_MAX_BYTES,
+  version: PARCEL_CACHE_DB_VERSION,
 });
 
 /** Quantised coordinate key — ~0.1 m precision, enough to collapse repeat
