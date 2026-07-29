@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.22.0',
+    date: 'July 29, 2026',
+    codename: 'The form fills itself',
+    summary: 'Confirming an address on the Publish page now pulls everything Aireon already knows about the parcel into the listing, with a summary of what was prefilled and a price-per-m2 estimate.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Sparkles,
+        text: 'Publish page auto-prefill: picking an address now fetches the full parcel record from the Aireon backend and fills every empty listing field it can - reference (EGRID), street, ZIP, city, canton, plot area, construction year, building floors, rooms, apartments, and volume - plus old and new building flags derived from the construction year. A summary shows exactly which fields were prefilled, the zoning designation, and a market price estimate per m2 of living space next to the price inputs. Your own entries are never overwritten.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text: 'The zoning designation and canton were silently missing from parcel data across the app (the reader looked for fields the backend does not send). The reporter parcel strip now shows the zone again, neatly truncated, and addresses carry their canton.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.21.0',
     date: 'July 29, 2026',
     codename: 'Straight to the portals',
