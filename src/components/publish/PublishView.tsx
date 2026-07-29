@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { RotateCcw, Send } from 'lucide-react';
-import { Skeleton } from '@aireon/shared';
 import Navbar from '../Navbar';
 import AddressSearch from '../reporter/AddressSearch';
 import ListingForm from './ListingForm';
+import PrefillSummary from './PrefillSummary';
 import ImagePicker from './ImagePicker';
 import ValidationPanel from './ValidationPanel';
 import ExportPanel from './ExportPanel';
@@ -40,8 +40,16 @@ function parseParams(search: string): DeepLink | null {
 export default function PublishView() {
   const { t } = useI18n();
   const { search } = useRoute();
-  const { draft, patch, patchFeature, setImages, reset, prefillFromLocation, prefilling } =
-    usePublishDraft();
+  const {
+    draft,
+    patch,
+    patchFeature,
+    setImages,
+    reset,
+    prefillFromLocation,
+    prefillState,
+    prefillResult,
+  } = usePublishDraft();
 
   const issues = useMemo(() => validateDraft(draft), [draft]);
   const errorFields = useMemo(
@@ -132,12 +140,12 @@ export default function PublishView() {
                 {t('page.publish.prefill.title')}
               </h2>
               <AddressSearch onSelect={handleSelectAddress} />
-              {prefilling ? (
-                <Skeleton height={11} radius={4} className="mt-2.5 w-56" />
-              ) : (
+              {prefillState === 'idle' ? (
                 <p className="mt-2.5 text-xs leading-snug text-gray-500">
                   {t('page.publish.prefill.hint')}
                 </p>
+              ) : (
+                <PrefillSummary state={prefillState} result={prefillResult} />
               )}
             </section>
 
@@ -147,6 +155,7 @@ export default function PublishView() {
                 patch={patch}
                 patchFeature={patchFeature}
                 errorFields={errorFields}
+                pricePerM2Living={prefillResult?.pricePerM2Living ?? null}
               />
             </div>
 
