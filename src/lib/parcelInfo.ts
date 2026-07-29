@@ -20,9 +20,22 @@ const PARCEL_CACHE_TTL_MINUTES = 14 * 24 * 60; // 14 days
 const PARCEL_CACHE_MAX_BYTES = 8 * 1024 * 1024; // 8 MB
 
 const memoryCache = new Map<string, ParcelInfo>();
-const persistentCache = new IndexedDBCache<ParcelInfo>('showroom-parcel', 'info', {
+// Store name carries a shape version: entries live for 14 days, so widening
+// ParcelInfo would otherwise serve half-empty records from a previous build.
+// Renaming the store cold-starts the cache instead.
+//
+// The `version` bump is NOT optional. IndexedDB only creates object stores in
+// `onupgradeneeded`, which fires on a version increase — an already-installed
+// client holds `showroom-parcel` at version 1, so without this the 'info-v2'
+// store is never created and every read/write throws (silently, inside
+// IndexedDBCache) for the rest of that browser's life. That would not
+// cold-start the L2 cache, it would disable it.
+const PARCEL_CACHE_DB_VERSION = 2;
+
+const persistentCache = new IndexedDBCache<ParcelInfo>('showroom-parcel', 'info-v2', {
   ttlMinutes: PARCEL_CACHE_TTL_MINUTES,
   maxBytes: PARCEL_CACHE_MAX_BYTES,
+  version: PARCEL_CACHE_DB_VERSION,
 });
 
 /** Quantised coordinate key — ~0.1 m precision, enough to collapse repeat
@@ -38,9 +51,24 @@ export interface ParcelInfo {
   buildingSizeM2: number | null;   // bldg_size
   buildingVolumeM3: number | null; // bldg_vol_sb3dgdb
   flats: number | null;            // bldg_flats
-  zone: string | null;             // cz_abbrev
+  zone: string | null;             // cz_local, falling back to cz_abbrev
   lat: number;
   lng: number;
+  // Components of `locality`, kept separate so the publish page can map them
+  // onto the individual IDX address fields without re-parsing the joined
+  // string.
+  zip: string | null;              // zip
+  city: string | null;             // cityname
+  canton: string | null;           // cz_canton_name, 2-letter code, uppercased
+  parcelAreaM2: number | null;     // parcel_area
+  constructionYear: number | null; // bldg_constr_year
+  buildingFloors: number | null;   // bldg_floors
+  buildingRooms: number | null;    // bldg_rooms
+  buildingCount: number | null;    // bldg_count
+  /** estimated_price_m2 — CHF per m2 of LIVING SPACE, an estimate from the RES
+   *  market model. Never multiply it by parcel_area or any other area: the two
+   *  bases are unrelated and the product is meaningless. */
+  pricePerM2Living: number | null;
 }
 
 /** Coerce to a positive finite number, else null. */
@@ -57,6 +85,26 @@ function txt(v: unknown): string | null {
   return t.length > 0 ? t : null;
 }
 
+/** First value that is a 2-letter canton code, uppercased, else null. RES sends
+ *  the code as `cz_canton_name`; `canton` is an older payload spelling kept as
+ *  a fallback. Anything else (a full canton name, a number) is dropped so it
+ *  never reaches the IDX canton field, which only accepts the code. */
+function cantonCode(...candidates: unknown[]): string | null {
+  for (const candidate of candidates) {
+    const raw = txt(candidate);
+    if (raw !== null && /^[A-Za-z]{2}$/.test(raw)) return raw.toUpperCase();
+  }
+  return null;
+}
+
+/** Plausible calendar year, else null — RES carries sentinels (0, 9999) and the
+ *  odd fractional value in `bldg_constr_year`. */
+function year(v: unknown): number | null {
+  const n = num(v);
+  if (n === null || !Number.isInteger(n)) return null;
+  return n >= 1000 && n <= 2100 ? n : null;
+}
+
 /**
  * Map a `parcel_data` feature's `properties` object into typed ParcelInfo.
  * Pure — no network — so it can be unit-tested directly.
@@ -66,10 +114,10 @@ export function normalizeParcelProps(
   lat: number,
   lng: number,
 ): ParcelInfo {
-  const locality = [props.zip, props.cityname, props.canton]
-    .map(txt)
-    .filter((s): s is string => s !== null)
-    .join(' ');
+  const zip = txt(props.zip);
+  const city = txt(props.cityname);
+  const canton = cantonCode(props.cz_canton_name, props.canton);
+  const locality = [zip, city, canton].filter((s): s is string => s !== null).join(' ');
   return {
     address: txt(props.address),
     locality: locality.length > 0 ? locality : null,
@@ -77,9 +125,18 @@ export function normalizeParcelProps(
     buildingSizeM2: num(props.bldg_size),
     buildingVolumeM3: num(props.bldg_vol_sb3dgdb),
     flats: num(props.bldg_flats),
-    zone: txt(props.cz_abbrev),
+    zone: txt(props.cz_local) ?? txt(props.cz_abbrev),
     lat,
     lng,
+    zip,
+    city,
+    canton,
+    parcelAreaM2: num(props.parcel_area),
+    constructionYear: year(props.bldg_constr_year),
+    buildingFloors: num(props.bldg_floors),
+    buildingRooms: num(props.bldg_rooms),
+    buildingCount: num(props.bldg_count),
+    pricePerM2Living: num(props.estimated_price_m2),
   };
 }
 

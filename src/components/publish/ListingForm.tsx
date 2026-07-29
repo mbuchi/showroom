@@ -19,6 +19,9 @@ const DESCRIPTION_MAX = 4000;
 
 const CATEGORIES = Object.keys(OBJECT_CATEGORY_LABELS) as ObjectCategory[];
 
+/** Swiss thousands grouping for the informational per-m2 price estimate. */
+const PRICE_FORMAT = new Intl.NumberFormat('de-CH', { maximumFractionDigits: 0 });
+
 /** Price units the spec allows per offer type. */
 const SALE_UNITS: PriceUnit[] = ['SELL', 'SELLM2'];
 const RENT_UNITS: PriceUnit[] = ['MONTHLY', 'WEEKLY', 'DAILY', 'YEARLY', 'M2YEARLY'];
@@ -54,6 +57,10 @@ interface ListingFormProps {
   patchFeature: (key: keyof ListingFeatures, value: YesNo) => void;
   /** Fields carrying an error-severity validation issue, for red borders. */
   errorFields: Set<string>;
+  /** RES estimate in CHF per m2 of LIVING SPACE, shown as a hint under the
+   *  price inputs. Purely informational: it is never multiplied by a plot or
+   *  building area, because the two bases are unrelated. */
+  pricePerM2Living: number | null;
 }
 
 /**
@@ -62,7 +69,13 @@ interface ListingFormProps {
  * the engine digit-cleans them at serialization time, so typing never fights
  * the UI.
  */
-export default function ListingForm({ draft, patch, patchFeature, errorFields }: ListingFormProps) {
+export default function ListingForm({
+  draft,
+  patch,
+  patchFeature,
+  errorFields,
+  pricePerM2Living,
+}: ListingFormProps) {
   const { t, locale } = useI18n();
 
   const section = (title: string, children: ReactNode, cols = 'sm:grid-cols-2') => (
@@ -286,6 +299,11 @@ export default function ListingForm({ draft, patch, patchFeature, errorFields }:
             value={draft.currency}
             onChange={(v) => patch({ currency: v.toUpperCase() })}
           />
+          {pricePerM2Living != null && (
+            <p className="text-xs leading-snug text-gray-500 sm:col-span-2">
+              {t('page.publish.pricing.m2Hint', { price: PRICE_FORMAT.format(pricePerM2Living) })}
+            </p>
+          )}
         </>,
       )}
 

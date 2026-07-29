@@ -201,6 +201,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.prefill.title': 'Start from an address',
     'page.publish.prefill.hint':
       'Search a Swiss address to prefill location and parcel details. Existing entries are kept.',
+    'page.publish.prefill.loading': 'Fetching parcel data',
+    'page.publish.prefill.done': 'Prefilled {n} fields from your Aireon data',
+    'page.publish.prefill.nodata': 'No parcel data found here. Fill in the listing manually.',
+    'page.publish.prefill.zone': 'Zone',
+    'page.publish.prefill.buildings': '{n} buildings on the parcel',
     'page.publish.section.offer': 'Offer',
     'page.publish.section.location': 'Location',
     'page.publish.section.content': 'Listing content',
@@ -228,6 +233,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.field.rentExtra': 'Extra costs',
     'page.publish.field.priceUnit': 'Price unit',
     'page.publish.field.currency': 'Currency',
+    'page.publish.pricing.m2Hint':
+      'Estimate: CHF {price} per m2 of living space (from Aireon market data)',
     'page.publish.field.floor': 'Floor',
     'page.publish.field.rooms': 'Rooms',
     'page.publish.field.apartments': 'Apartments',
@@ -656,6 +663,12 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.prefill.title': 'Partir d’une adresse',
     'page.publish.prefill.hint':
       'Recherchez une adresse suisse pour préremplir la localisation et les données de la parcelle. Les champs déjà saisis sont conservés.',
+    'page.publish.prefill.loading': 'Chargement des données de la parcelle',
+    'page.publish.prefill.done': '{n} champs préremplis à partir de vos données Aireon',
+    'page.publish.prefill.nodata':
+      'Aucune donnée de parcelle trouvée ici. Complétez l’annonce manuellement.',
+    'page.publish.prefill.zone': 'Zone',
+    'page.publish.prefill.buildings': '{n} bâtiments sur la parcelle',
     'page.publish.section.offer': 'Offre',
     'page.publish.section.location': 'Localisation',
     'page.publish.section.content': 'Contenu de l’annonce',
@@ -683,6 +696,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.field.rentExtra': 'Charges',
     'page.publish.field.priceUnit': 'Unité de prix',
     'page.publish.field.currency': 'Monnaie',
+    'page.publish.pricing.m2Hint':
+      'Estimation : CHF {price} par m2 de surface habitable (données de marché Aireon)',
     'page.publish.field.floor': 'Étage',
     'page.publish.field.rooms': 'Pièces',
     'page.publish.field.apartments': 'Logements',
@@ -1111,6 +1126,12 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.prefill.title': 'Mit einer Adresse starten',
     'page.publish.prefill.hint':
       'Suche eine Schweizer Adresse, um Lage und Grundstücksdaten vorauszufüllen. Bereits erfasste Angaben bleiben erhalten.',
+    'page.publish.prefill.loading': 'Grundstücksdaten werden geladen',
+    'page.publish.prefill.done': '{n} Felder aus deinen Aireon-Daten vorausgefüllt',
+    'page.publish.prefill.nodata':
+      'Hier wurden keine Grundstücksdaten gefunden. Fülle das Inserat manuell aus.',
+    'page.publish.prefill.zone': 'Zone',
+    'page.publish.prefill.buildings': '{n} Gebäude auf dem Grundstück',
     'page.publish.section.offer': 'Angebot',
     'page.publish.section.location': 'Lage',
     'page.publish.section.content': 'Inseratsinhalt',
@@ -1138,6 +1159,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.field.rentExtra': 'Nebenkosten',
     'page.publish.field.priceUnit': 'Preiseinheit',
     'page.publish.field.currency': 'Währung',
+    'page.publish.pricing.m2Hint':
+      'Schätzung: CHF {price} pro m2 Wohnfläche (aus Aireon-Marktdaten)',
     'page.publish.field.floor': 'Etage',
     'page.publish.field.rooms': 'Zimmer',
     'page.publish.field.apartments': 'Wohnungen',
@@ -1566,6 +1589,12 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.prefill.title': 'Partire da un indirizzo',
     'page.publish.prefill.hint':
       'Cerca un indirizzo svizzero per precompilare ubicazione e dati della particella. I campi già compilati restano invariati.',
+    'page.publish.prefill.loading': 'Caricamento dei dati della particella',
+    'page.publish.prefill.done': '{n} campi precompilati dai tuoi dati Aireon',
+    'page.publish.prefill.nodata':
+      'Nessun dato della particella trovato qui. Compila l’annuncio manualmente.',
+    'page.publish.prefill.zone': 'Zona',
+    'page.publish.prefill.buildings': '{n} edifici sulla particella',
     'page.publish.section.offer': 'Offerta',
     'page.publish.section.location': 'Ubicazione',
     'page.publish.section.content': 'Contenuto dell’annuncio',
@@ -1593,6 +1622,8 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.field.rentExtra': 'Spese accessorie',
     'page.publish.field.priceUnit': 'Unità di prezzo',
     'page.publish.field.currency': 'Valuta',
+    'page.publish.pricing.m2Hint':
+      'Stima: CHF {price} per m2 di superficie abitabile (dati di mercato Aireon)',
     'page.publish.field.floor': 'Piano',
     'page.publish.field.rooms': 'Locali',
     'page.publish.field.apartments': 'Appartamenti',

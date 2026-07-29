@@ -54,11 +54,26 @@ function BusyDots() {
   );
 }
 
-function Chip({ icon, children }: { icon: ReactNode; children: ReactNode }) {
+function Chip({
+  icon,
+  children,
+  className = '',
+  title,
+}: {
+  icon: ReactNode;
+  children: ReactNode;
+  /** Extra classes on the chip box — used to cap the width of free-text
+   *  content so it ellipsizes instead of wrapping out of the h-7 box. */
+  className?: string;
+  title?: string;
+}) {
   return (
-    <span className="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg border border-white/10 bg-white/5 text-xs text-gray-200">
+    <span
+      title={title}
+      className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg border border-white/10 bg-white/5 text-xs text-gray-200 ${className}`}
+    >
       <span className="text-cyan-400 flex-shrink-0">{icon}</span>
-      <span className="tabular-nums">{children}</span>
+      <span className="min-w-0 truncate tabular-nums">{children}</span>
     </span>
   );
 }
@@ -235,7 +250,19 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
             {info.flats} {info.flats === 1 ? t('page.reporter.flats_one') : t('page.reporter.flats_other')}
           </Chip>
         )}
-        {info.zone && <Chip icon={<MapIcon size={13} />}>{info.zone}</Chip>}
+        {/* `zone` is now the free-text `cz_local` and runs to a full sentence
+            on some parcels ("Zone für öffentliche Bauten: max. 4
+            Vollgeschosse, ..."), so this chip is width-capped and ellipsized;
+            the title attribute keeps the whole value reachable. */}
+        {info.zone && (
+          <Chip
+            icon={<MapIcon size={13} />}
+            title={info.zone}
+            className="max-w-[200px] sm:max-w-[360px]"
+          >
+            {info.zone}
+          </Chip>
+        )}
         <Chip icon={<Crosshair size={13} />}>
           {info.lat.toFixed(6)}, {info.lng.toFixed(6)}
         </Chip>
