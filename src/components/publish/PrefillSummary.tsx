@@ -89,6 +89,12 @@ export default function PrefillSummary({ state, result }: PrefillSummaryProps) {
           {t('page.publish.prefill.buildings', { n: buildings })}
         </p>
       )}
+
+      {/* Provenance: some of the chips above came from the federal register
+          rather than from Aireon's own parcel data. */}
+      {result?.gwrFilled && (
+        <p className="text-xs text-gray-500">{t('page.publish.gwr.filled')}</p>
+      )}
     </div>
   );
 }

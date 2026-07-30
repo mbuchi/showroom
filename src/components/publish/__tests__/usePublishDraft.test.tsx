@@ -3,14 +3,24 @@ import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ParcelInfo } from '../../../lib/parcelInfo';
 import { normalizedPriceUnit } from '../../../lib/publishPriceUnit';
+import type { GwrBuilding, GwrDwelling } from '../../../lib/gwrLookup';
 import { DRAFT_KEY, usePublishDraft, type PublishDraftApi } from '../usePublishDraft';
 
 // The hook is driven through a real React root (React 18.3 ships `act`), so no
-// component-testing dependency is added just for this. Only the two impure
-// edges are mocked: the parcel lookup and telemetry.
+// component-testing dependency is added just for this. Only the impure edges
+// are mocked: the parcel lookup, the register lookup and telemetry.
 const fetchParcelInfo = vi.hoisted(() => vi.fn());
 vi.mock('../../../lib/parcelInfo', () => ({ fetchParcelInfo }));
 vi.mock('../../../lib/signal', () => ({ signal: { send: vi.fn(() => Promise.resolve()) } }));
+
+// Only the transport is replaced — `pickPrimaryBuilding` stays real so these
+// tests exercise the heuristic the hook actually runs.
+const fetchGwrBuildings = vi.hoisted(() => vi.fn());
+vi.mock('../../../lib/gwrLookup', async () => {
+  const actual =
+    await vi.importActual<typeof import('../../../lib/gwrLookup')>('../../../lib/gwrLookup');
+  return { ...actual, fetchGwrBuildings };
+});
 
 /** React's act() opt-in. Set locally rather than via a `declare global`, which
  *  would leak the flag into the whole project's type space. */
@@ -50,6 +60,21 @@ function parcel(overrides: Partial<ParcelInfo> = {}): ParcelInfo {
   };
 }
 
+function gwrDwelling(overrides: Partial<GwrDwelling> = {}): GwrDwelling {
+  return { ewid: '1', floorCode: 3100, floorLabel: '0', rooms: 3.5, areaM2: 88, ...overrides };
+}
+
+function gwrBuilding(overrides: Partial<GwrBuilding> = {}): GwrBuilding {
+  return {
+    egid: '302013',
+    yearBuilt: 1974,
+    floors: 6,
+    dwellingCount: 3,
+    dwellings: [],
+    ...overrides,
+  };
+}
+
 const sink: { api: PublishDraftApi | null } = { api: null };
 
 function Probe() {
@@ -73,6 +98,9 @@ let root: Root;
 beforeEach(() => {
   enableActEnvironment();
   localStorage.clear();
+  // Default: the register has nothing. Tests that care opt in explicitly, and
+  // no test ever reaches the real api3.geo.admin.ch.
+  fetchGwrBuildings.mockResolvedValue(null);
   sink.api = null;
   container = document.createElement('div');
   document.body.appendChild(container);
@@ -273,5 +301,127 @@ describe('usePublishDraft legacy priceUnit normalization', () => {
     // RENT tab while "Rent per year" is selected does not silently fall back
     // to the MONTHLY default underneath a real, already-typed rent amount.
     expect(normalizedPriceUnit('YEARLY', 'RENT')).toBe('YEARLY');
+  });
+});
+
+describe('usePublishDraft register (GWR) enrichment', () => {
+  /** Run a prefill against a parcel whose EGRID the register answers for. */
+  async function prefill(buildings: GwrBuilding[] | null) {
+    fetchParcelInfo.mockResolvedValueOnce(
+      // The parcel record carries none of the fields the register fills, so the
+      // blank-only invariant does not mask the register's contribution.
+      parcel({ constructionYear: null, buildingFloors: null, flats: null, buildingRooms: null }),
+    );
+    fetchGwrBuildings.mockResolvedValueOnce(buildings);
+    await act(async () => {
+      await api().prefillFromLocation(47.3568, 8.5551, 'Hainerweg 6');
+    });
+  }
+
+  it('fills the dwelling fields when the building holds exactly one unit', async () => {
+    await prefill([
+      gwrBuilding({
+        dwellingCount: 1,
+        dwellings: [gwrDwelling({ floorCode: 3102, floorLabel: '2', rooms: 4.5, areaM2: 122 })],
+      }),
+    ]);
+
+    expect(api().draft.surfaceLiving).toBe('122');
+    expect(api().draft.rooms).toBe('4.5');
+    expect(api().draft.floor).toBe('2');
+    expect(api().draft.numberOfFloors).toBe('6');
+    expect(api().gwrDwellings).toEqual([]);
+    expect(api().prefillResult?.gwrFilled).toBe(true);
+    expect(api().prefillResult?.filled).toContain('surfaceLiving');
+  });
+
+  it('offers a picker and fills nothing unit-specific when the building has several', async () => {
+    await prefill([
+      gwrBuilding({
+        dwellings: [
+          gwrDwelling({ ewid: '1' }),
+          gwrDwelling({ ewid: '2', floorCode: 3101, floorLabel: '1', rooms: 4.5, areaM2: 104 }),
+        ],
+      }),
+    ]);
+
+    expect(api().gwrDwellings).toHaveLength(2);
+    expect(api().selectedDwellingEwid).toBeNull();
+    expect(api().draft.surfaceLiving).toBe('');
+    expect(api().draft.rooms).toBe('');
+    expect(api().draft.floor).toBe('');
+    // Building-level facts still land.
+    expect(api().draft.yearBuilt).toBe('1974');
+    expect(api().draft.apartments).toBe('3');
+  });
+
+  it('applies a picked unit, then replaces it when a different unit is picked', async () => {
+    await prefill([
+      gwrBuilding({
+        dwellings: [
+          gwrDwelling({ ewid: '1' }),
+          gwrDwelling({ ewid: '2', floorCode: 3101, floorLabel: '1', rooms: 4.5, areaM2: 104 }),
+        ],
+      }),
+    ]);
+
+    act(() => {
+      api().selectDwelling('1');
+    });
+    expect(api().selectedDwellingEwid).toBe('1');
+    expect(api().draft.surfaceLiving).toBe('88');
+    expect(api().draft.floor).toBe('0');
+
+    // An explicit second pick overwrites the first — the user changed their
+    // mind about which unit the listing is.
+    act(() => {
+      api().selectDwelling('2');
+    });
+    expect(api().selectedDwellingEwid).toBe('2');
+    expect(api().draft.surfaceLiving).toBe('104');
+    expect(api().draft.rooms).toBe('4.5');
+    expect(api().draft.floor).toBe('1');
+  });
+
+  it('leaves the parcel prefill intact when the register lookup fails', async () => {
+    await prefill(null);
+
+    expect(api().prefillState).toBe('done');
+    expect(api().draft.street).toBe('Hainerweg 6');
+    expect(api().gwrDwellings).toEqual([]);
+    expect(api().prefillResult?.gwrFilled).toBe(false);
+  });
+
+  it('skips the register entirely when the parcel has no EGRID', async () => {
+    fetchParcelInfo.mockResolvedValueOnce(parcel({ egrid: null }));
+    await act(async () => {
+      await api().prefillFromLocation(47.3568, 8.5551, 'Hainerweg 6');
+    });
+
+    expect(fetchGwrBuildings).not.toHaveBeenCalled();
+    expect(api().prefillState).toBe('done');
+  });
+
+  it('ignores a register response for an address the user already moved off', async () => {
+    const pending = deferred<GwrBuilding[] | null>();
+    fetchParcelInfo.mockResolvedValueOnce(parcel());
+    fetchGwrBuildings.mockReturnValueOnce(pending.promise);
+
+    await act(async () => {
+      await api().prefillFromLocation(47.3568, 8.5551, 'Hainerweg 6');
+    });
+
+    // A second address supersedes the first while its register call is open.
+    fetchParcelInfo.mockResolvedValueOnce(parcel({ address: 'Zweite Strasse 2' }));
+    await act(async () => {
+      await api().prefillFromLocation(46.948, 7.4474, 'Zweite Strasse 2');
+    });
+
+    await act(async () => {
+      pending.resolve([gwrBuilding({ dwellings: [gwrDwelling(), gwrDwelling({ ewid: '2' })] })]);
+      await pending.promise;
+    });
+
+    expect(api().gwrDwellings).toEqual([]);
   });
 });

@@ -8,7 +8,13 @@ import {
 } from '../../lib/idx/types';
 import { fetchParcelInfo } from '../../lib/parcelInfo';
 import { normalizedPriceUnit } from '../../lib/publishPriceUnit';
-import { applyParcelPrefill } from '../../lib/publishPrefill';
+import {
+  fetchGwrBuildings,
+  pickPrimaryBuilding,
+  type GwrBuilding,
+  type GwrDwelling,
+} from '../../lib/gwrLookup';
+import { applyGwrPrefill, applyParcelPrefill } from '../../lib/publishPrefill';
 import { signal } from '../../lib/signal';
 
 /** localStorage slot for the in-progress listing. Versioned so a future shape
@@ -59,6 +65,9 @@ export interface PrefillResult {
   zone: string | null;
   pricePerM2Living: number | null;
   buildingCount: number | null;
+  /** True once the federal building and dwelling register (GWR) contributed at
+   *  least one field, so the summary can name where those numbers came from. */
+  gwrFilled: boolean;
 }
 
 export interface PublishDraftApi {
@@ -74,6 +83,15 @@ export interface PublishDraftApi {
   prefillState: PrefillState;
   /** Outcome of the last successful prefill, or null before/without one. */
   prefillResult: PrefillResult | null;
+  /** Units the register lists in the primary building, populated ONLY when
+   *  there are several — one unit is auto-filled instead, and zero means the
+   *  register has no dwelling rows here. Drives the picker. */
+  gwrDwellings: GwrDwelling[];
+  /** EWID of the unit the user picked, or null while none is picked. */
+  selectedDwellingEwid: string | null;
+  /** Apply one register dwelling to the draft. Unlike every other prefill this
+   *  OVERWRITES the three dwelling fields — see `applyGwrPrefill`. */
+  selectDwelling: (ewid: string) => void;
 }
 
 /** Geocoder fallback for the street line: the picked address label seeds it
@@ -95,7 +113,15 @@ export function usePublishDraft(): PublishDraftApi {
   const [draft, setDraft] = useState<ListingDraft>(loadDraft);
   const [prefillState, setPrefillState] = useState<PrefillState>('idle');
   const [prefillResult, setPrefillResult] = useState<PrefillResult | null>(null);
+  const [gwrDwellings, setGwrDwellings] = useState<GwrDwelling[]>([]);
+  const [selectedDwellingEwid, setSelectedDwellingEwid] = useState<string | null>(null);
   const persistTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  // What the last register lookup found, kept in a ref so `selectDwelling`
+  // stays a stable callback the picker can hold across renders.
+  const gwrRef = useRef<{ building: GwrBuilding; dwellings: GwrDwelling[]; buildings: number } | null>(
+    null,
+  );
 
   // Latest draft, readable from the async prefill without making the callback
   // depend on (and be recreated by) every keystroke.
@@ -152,49 +178,168 @@ export function usePublishDraft(): PublishDraftApi {
     // draft the user just cleared.
     prefillSeq.current += 1;
     prefillAbort.current?.abort();
-    setDraft(normalizeDraft(emptyListingDraft()));
+    const empty = normalizeDraft(emptyListingDraft());
+    setDraft(empty);
+    draftRef.current = empty;
     setPrefillState('idle');
     setPrefillResult(null);
+    gwrRef.current = null;
+    setGwrDwellings([]);
+    setSelectedDwellingEwid(null);
   }, []);
 
-  const prefillFromLocation = useCallback(async (lat: number, lng: number, label: string) => {
-    const seq = ++prefillSeq.current;
-    // Drop the previous lookup off the wire. The seq check below is what
-    // actually guarantees correctness (an abort can land too late, and a
-    // cached hit never touches the network at all); this just stops paying
-    // for a response nobody will read.
-    prefillAbort.current?.abort();
-    const ctrl = new AbortController();
-    prefillAbort.current = ctrl;
+  /**
+   * Write a register fill into the draft and fold what it wrote into the
+   * prefill summary.
+   *
+   * `draftRef` is updated synchronously alongside `setDraft` because the two
+   * register writes (auto pass, then a pick) can land before React has flushed
+   * the effect that mirrors state into the ref — reading a stale ref would
+   * silently drop the earlier fill.
+   */
+  const commitGwrFill = useCallback(
+    (building: GwrBuilding, dwelling: GwrDwelling | null, overwriteDwellingFields: boolean) => {
+      const { draft: next, filled } = applyGwrPrefill(draftRef.current, building, dwelling, {
+        overwriteDwellingFields,
+      });
+      draftRef.current = next;
+      setDraft(next);
+      if (filled.length === 0) return;
+      // The parcel prefill may already have claimed a field name; the chips are
+      // keyed by name, so a duplicate would collide rather than inform.
+      setPrefillResult((prev) =>
+        prev === null
+          ? prev
+          : {
+              ...prev,
+              filled: [...prev.filled, ...filled.filter((name) => !prev.filled.includes(name))],
+              gwrFilled: true,
+            },
+      );
+    },
+    [],
+  );
 
-    setPrefillState('loading');
-    setPrefillResult(null);
-    // fetchParcelInfo swallows its own failures, but a prefill must never be
-    // the thing that breaks the page.
-    const info = await fetchParcelInfo(lat, lng, ctrl.signal).catch(() => null);
+  const selectDwelling = useCallback(
+    (ewid: string) => {
+      const found = gwrRef.current;
+      if (!found) return;
+      const dwelling = found.dwellings.find((d) => d.ewid === ewid);
+      if (!dwelling) return;
 
-    // Superseded while in flight: a newer address already owns the form.
-    if (seq !== prefillSeq.current) return;
+      // Explicit pick: the user just named the unit this listing is, so the
+      // dwelling fields overwrite. Building-level fields stay blank-only, and
+      // re-applying them here is a no-op after the automatic pass.
+      commitGwrFill(found.building, dwelling, true);
+      setSelectedDwellingEwid(ewid);
+      void signal.send('Publish GWR Prefill', {
+        metaData: {
+          buildings: found.buildings,
+          dwellings: found.dwellings.length,
+          picked: true,
+        },
+      });
+    },
+    [commitGwrFill],
+  );
 
-    if (!info) {
-      // No parcel facts here — still record the picked point and the typed
-      // address so the listing keeps its map pin.
-      setDraft((prev) => seedStreetFromLabel({ ...prev, lat, lng }, label));
-      setPrefillState('nodata');
-      return;
-    }
+  /**
+   * Second, optional leg of the prefill: dwelling-level facts from the federal
+   * building and dwelling register. Fire-and-forget behind the parcel fill, so
+   * a register outage, a parcel without an EGRID or a malformed response leaves
+   * the parcel prefill exactly as it landed. Guarded by the same sequence
+   * number, because it resolves later than the parcel lookup it follows.
+   */
+  const enrichFromGwr = useCallback(
+    async (egrid: string, seq: number, abortSignal: AbortSignal) => {
+      const buildings = await fetchGwrBuildings(egrid, abortSignal).catch(() => null);
+      if (seq !== prefillSeq.current) return;
+      if (!buildings || buildings.length === 0) return;
 
-    const { draft: next, filled } = applyParcelPrefill(draftRef.current, info, new Date());
-    setDraft(seedStreetFromLabel(next, label));
-    setPrefillResult({
-      filled,
-      zone: info.zone,
-      pricePerM2Living: info.pricePerM2Living,
-      buildingCount: info.buildingCount,
-    });
-    setPrefillState('done');
-    void signal.send('Publish Prefill', { lat, lng, metaData: { filled: filled.length } });
-  }, []);
+      const building = pickPrimaryBuilding(buildings);
+      if (!building) return;
+
+      const dwellings = building.dwellings;
+      gwrRef.current = { building, dwellings, buildings: buildings.length };
+
+      // One unit means there is nothing to choose, so fill it. Several units
+      // means the register cannot tell us which one is for sale — offer the
+      // picker instead of guessing.
+      const soleDwelling = dwellings.length === 1 ? dwellings[0] : null;
+      commitGwrFill(building, soleDwelling, false);
+      setGwrDwellings(dwellings.length > 1 ? dwellings : []);
+      setSelectedDwellingEwid(null);
+
+      void signal.send('Publish GWR Prefill', {
+        metaData: {
+          buildings: buildings.length,
+          dwellings: dwellings.length,
+          picked: false,
+        },
+      });
+    },
+    [commitGwrFill],
+  );
+
+  const prefillFromLocation = useCallback(
+    async (lat: number, lng: number, label: string) => {
+      const seq = ++prefillSeq.current;
+      // Drop the previous lookup off the wire. The seq check below is what
+      // actually guarantees correctness (an abort can land too late, and a
+      // cached hit never touches the network at all); this just stops paying
+      // for a response nobody will read.
+      prefillAbort.current?.abort();
+      const ctrl = new AbortController();
+      prefillAbort.current = ctrl;
+
+      setPrefillState('loading');
+      setPrefillResult(null);
+      // A new address invalidates the previous building's unit list — leaving
+      // it on screen would offer units from the address the user just left.
+      gwrRef.current = null;
+      setGwrDwellings([]);
+      setSelectedDwellingEwid(null);
+      // fetchParcelInfo swallows its own failures, but a prefill must never be
+      // the thing that breaks the page.
+      const info = await fetchParcelInfo(lat, lng, ctrl.signal).catch(() => null);
+
+      // Superseded while in flight: a newer address already owns the form.
+      if (seq !== prefillSeq.current) return;
+
+      if (!info) {
+        // No parcel facts here — still record the picked point and the typed
+        // address so the listing keeps its map pin.
+        setDraft((prev) => seedStreetFromLabel({ ...prev, lat, lng }, label));
+        setPrefillState('nodata');
+        return;
+      }
+
+      const { draft: next, filled } = applyParcelPrefill(draftRef.current, info, new Date());
+      const seeded = seedStreetFromLabel(next, label);
+      // Sync the ref too: the register leg below reads it before React has
+      // flushed this render.
+      draftRef.current = seeded;
+      setDraft(seeded);
+      setPrefillResult({
+        filled,
+        zone: info.zone,
+        pricePerM2Living: info.pricePerM2Living,
+        buildingCount: info.buildingCount,
+        gwrFilled: false,
+      });
+      setPrefillState('done');
+      void signal.send('Publish Prefill', { lat, lng, metaData: { filled: filled.length } });
+
+      // Dwelling-level enrichment, keyed on the parcel's EGRID. Without one
+      // there is nothing to query, so the parcel prefill above is the whole
+      // result. (A coordinate-based identify fallback for parcels RES has no
+      // EGRID for is deliberately out of scope here.)
+      if (info.egrid) {
+        void enrichFromGwr(info.egrid, seq, ctrl.signal);
+      }
+    },
+    [enrichFromGwr],
+  );
 
   return {
     draft,
@@ -205,5 +350,8 @@ export function usePublishDraft(): PublishDraftApi {
     prefillFromLocation,
     prefillState,
     prefillResult,
+    gwrDwellings,
+    selectedDwellingEwid,
+    selectDwelling,
   };
 }

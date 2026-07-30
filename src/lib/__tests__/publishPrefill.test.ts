@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { applyParcelPrefill } from '../publishPrefill';
+import { applyGwrPrefill, applyParcelPrefill } from '../publishPrefill';
 import { emptyListingDraft } from '../idx/types';
 import type { ParcelInfo } from '../parcelInfo';
+import type { GwrBuilding, GwrDwelling } from '../gwrLookup';
 
 const NOW = new Date('2026-07-29T10:00:00Z');
 
@@ -184,5 +185,168 @@ describe('applyParcelPrefill', () => {
     const { draft, filled } = applyParcelPrefill(spaced, parcel(), NOW);
     expect(draft.city).toBe('Zürich');
     expect(filled).toContain('city');
+  });
+});
+
+/** Register building; individual tests null out what they care about. */
+function building(overrides: Partial<GwrBuilding> = {}): GwrBuilding {
+  return {
+    egid: '302013',
+    yearBuilt: 1974,
+    floors: 6,
+    dwellingCount: 18,
+    dwellings: [],
+    ...overrides,
+  };
+}
+
+/** Register dwelling — the 2nd upper floor, 4.5 rooms, 122 m2. */
+function dwelling(overrides: Partial<GwrDwelling> = {}): GwrDwelling {
+  return {
+    ewid: '3',
+    floorCode: 3102,
+    floorLabel: '2',
+    rooms: 4.5,
+    areaM2: 122.4,
+    ...overrides,
+  };
+}
+
+describe('applyGwrPrefill', () => {
+  it('fills the building-level fields into an empty draft', () => {
+    const { draft, filled } = applyGwrPrefill(emptyListingDraft(), building(), null);
+
+    expect(filled).toEqual(['numberOfFloors', 'apartments', 'yearBuilt']);
+    expect(draft.numberOfFloors).toBe('6');
+    expect(draft.apartments).toBe('18');
+    expect(draft.yearBuilt).toBe('1974');
+  });
+
+  it('fills the dwelling fields when the building holds a single unit', () => {
+    const { draft, filled } = applyGwrPrefill(emptyListingDraft(), building(), dwelling());
+
+    expect(filled).toEqual([
+      'numberOfFloors',
+      'apartments',
+      'yearBuilt',
+      'surfaceLiving',
+      'rooms',
+      'floor',
+    ]);
+    expect(draft.surfaceLiving).toBe('122');
+    expect(draft.rooms).toBe('4.5');
+    expect(draft.floor).toBe('2');
+  });
+
+  it('writes nothing unit-specific when no dwelling is passed (the multi-unit case)', () => {
+    const { draft, filled } = applyGwrPrefill(emptyListingDraft(), building(), null);
+
+    expect(filled).not.toContain('surfaceLiving');
+    expect(filled).not.toContain('rooms');
+    expect(filled).not.toContain('floor');
+    expect(draft.surfaceLiving).toBe('');
+    expect(draft.rooms).toBe('');
+    expect(draft.floor).toBe('');
+  });
+
+  it('never overwrites typed values in the default (automatic) mode', () => {
+    const typed = {
+      ...emptyListingDraft(),
+      numberOfFloors: '2',
+      apartments: '1',
+      yearBuilt: '1990',
+      surfaceLiving: '95',
+      rooms: '3.5',
+      floor: '1',
+    };
+    const { draft, filled } = applyGwrPrefill(typed, building(), dwelling());
+
+    expect(filled).toEqual([]);
+    expect(draft.numberOfFloors).toBe('2');
+    expect(draft.apartments).toBe('1');
+    expect(draft.yearBuilt).toBe('1990');
+    expect(draft.surfaceLiving).toBe('95');
+    expect(draft.rooms).toBe('3.5');
+    expect(draft.floor).toBe('1');
+  });
+
+  it('overwrites the dwelling fields on an explicit pick, but not the building ones', () => {
+    const typed = {
+      ...emptyListingDraft(),
+      numberOfFloors: '2',
+      apartments: '1',
+      yearBuilt: '1990',
+      surfaceLiving: '95',
+      rooms: '3.5',
+      floor: '1',
+    };
+    const { draft, filled } = applyGwrPrefill(typed, building(), dwelling(), {
+      overwriteDwellingFields: true,
+    });
+
+    expect(filled).toEqual(['surfaceLiving', 'rooms', 'floor']);
+    // Picking a unit says nothing about the building itself.
+    expect(draft.numberOfFloors).toBe('2');
+    expect(draft.apartments).toBe('1');
+    expect(draft.yearBuilt).toBe('1990');
+    expect(draft.surfaceLiving).toBe('122');
+    expect(draft.rooms).toBe('4.5');
+    expect(draft.floor).toBe('2');
+  });
+
+  it('re-applies cleanly when the user picks a different unit', () => {
+    const first = applyGwrPrefill(emptyListingDraft(), building(), dwelling(), {
+      overwriteDwellingFields: true,
+    });
+    const second = applyGwrPrefill(
+      first.draft,
+      building(),
+      dwelling({ ewid: '9', floorCode: 3401, floorLabel: '-1', rooms: 1.5, areaM2: 41 }),
+      { overwriteDwellingFields: true },
+    );
+
+    expect(second.draft.surfaceLiving).toBe('41');
+    expect(second.draft.rooms).toBe('1.5');
+    expect(second.draft.floor).toBe('-1');
+  });
+
+  it('writes the ground floor as "0" rather than treating it as blank', () => {
+    const { draft, filled } = applyGwrPrefill(
+      emptyListingDraft(),
+      building(),
+      dwelling({ floorCode: 3100, floorLabel: '0' }),
+    );
+    expect(draft.floor).toBe('0');
+    expect(filled).toContain('floor');
+  });
+
+  it('skips facts the register does not carry', () => {
+    const { draft, filled } = applyGwrPrefill(
+      emptyListingDraft(),
+      building({ yearBuilt: null, floors: null, dwellingCount: null }),
+      dwelling({ floorCode: null, floorLabel: null, rooms: null, areaM2: null }),
+    );
+
+    expect(filled).toEqual([]);
+    expect(draft.numberOfFloors).toBe('');
+    expect(draft.floor).toBe('');
+  });
+
+  it('tolerates a null building (register hit without a usable building)', () => {
+    const { draft, filled } = applyGwrPrefill(emptyListingDraft(), null, dwelling());
+    expect(filled).toEqual(['surfaceLiving', 'rooms', 'floor']);
+    expect(draft.numberOfFloors).toBe('');
+  });
+
+  it('returns a new draft, never mutates the input, and leaves coordinates alone', () => {
+    const input = { ...emptyListingDraft(), lat: 47.1, lng: 8.2 };
+    const inputFeatures = input.features;
+    const { draft } = applyGwrPrefill(input, building(), dwelling());
+
+    expect(draft).not.toBe(input);
+    expect(draft.features).not.toBe(inputFeatures);
+    expect(input.numberOfFloors).toBe('');
+    expect(draft.lat).toBe(47.1);
+    expect(draft.lng).toBe(8.2);
   });
 });
