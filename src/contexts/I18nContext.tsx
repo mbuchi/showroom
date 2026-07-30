@@ -307,6 +307,10 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.export.copied': 'Copied',
     'page.publish.export.preparing': 'Preparing {total} images',
     'page.publish.export.blocked': 'Fix the errors above to enable the export.',
+    'page.publish.export.swissrets': 'Download SwissRETS (.json)',
+    'page.publish.export.swissretsHint':
+      'SwissRETS is the modern successor to IDX. The portal package now also contains swissrets/export.json (v3.6) and export.xml (v2.7) for newhome, CASAGATEWAY, and the SMG gateway.',
+    'page.publish.export.swissretsInvalid': 'SwissRETS validation reported issues: {errors}',
     'page.publish.reset': 'Reset draft',
     'page.publish.reset.confirm': 'Click again to confirm',
     'page.publish.guide.title': 'Publishing to the portals',
@@ -773,6 +777,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.export.copied': 'Copié',
     'page.publish.export.preparing': 'Préparation de {total} images',
     'page.publish.export.blocked': 'Corrigez les erreurs ci-dessus pour activer l’export.',
+    'page.publish.export.swissrets': 'Télécharger SwissRETS (.json)',
+    'page.publish.export.swissretsHint':
+      'SwissRETS est le successeur moderne d’IDX. Le paquet portail contient désormais aussi swissrets/export.json (v3.6) et export.xml (v2.7) pour newhome, CASAGATEWAY et la passerelle SMG.',
+    'page.publish.export.swissretsInvalid':
+      'La validation SwissRETS a signalé des problèmes : {errors}',
     'page.publish.reset': 'Réinitialiser le brouillon',
     'page.publish.reset.confirm': 'Cliquez à nouveau pour confirmer',
     'page.publish.guide.title': 'Publier sur les portails',
@@ -1237,6 +1246,10 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.export.copied': 'Kopiert',
     'page.publish.export.preparing': '{total} Bilder werden aufbereitet',
     'page.publish.export.blocked': 'Behebe die Fehler oben, um den Export freizuschalten.',
+    'page.publish.export.swissrets': 'SwissRETS herunterladen (.json)',
+    'page.publish.export.swissretsHint':
+      'SwissRETS ist der moderne Nachfolger von IDX. Das Portalpaket enthält neu auch swissrets/export.json (v3.6) und export.xml (v2.7) für newhome, CASAGATEWAY und das SMG-Gateway.',
+    'page.publish.export.swissretsInvalid': 'Die SwissRETS-Validierung meldet Probleme: {errors}',
     'page.publish.reset': 'Entwurf zurücksetzen',
     'page.publish.reset.confirm': 'Zum Bestätigen erneut klicken',
     'page.publish.guide.title': 'Auf den Portalen publizieren',
@@ -1700,6 +1713,11 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.export.copied': 'Copiato',
     'page.publish.export.preparing': 'Preparazione di {total} immagini',
     'page.publish.export.blocked': 'Correggi gli errori qui sopra per abilitare l’export.',
+    'page.publish.export.swissrets': 'Scarica SwissRETS (.json)',
+    'page.publish.export.swissretsHint':
+      'SwissRETS è il moderno successore di IDX. Il pacchetto per il portale ora contiene anche swissrets/export.json (v3.6) ed export.xml (v2.7) per newhome, CASAGATEWAY e il gateway SMG.',
+    'page.publish.export.swissretsInvalid':
+      'La validazione SwissRETS ha segnalato problemi: {errors}',
     'page.publish.reset': 'Reimposta la bozza',
     'page.publish.reset.confirm': 'Clicca di nuovo per confermare',
     'page.publish.guide.title': 'Pubblicare sui portali',
