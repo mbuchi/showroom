@@ -2,7 +2,7 @@ import { act, useEffect } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ParcelInfo } from '../../../lib/parcelInfo';
-import { usePublishDraft, type PublishDraftApi } from '../usePublishDraft';
+import { DRAFT_KEY, usePublishDraft, type PublishDraftApi } from '../usePublishDraft';
 
 // The hook is driven through a real React root (React 18.3 ships `act`), so no
 // component-testing dependency is added just for this. Only the two impure
@@ -88,6 +88,23 @@ afterEach(() => {
   container.remove();
   vi.clearAllMocks();
 });
+
+/** Remounts the probe so `usePublishDraft`'s lazy `useState(loadDraft)`
+ *  reruns against whatever is in localStorage right now — the initial
+ *  `beforeEach` mount already happened against an empty store. */
+function mountFresh() {
+  act(() => {
+    root.unmount();
+  });
+  container.remove();
+  sink.api = null;
+  container = document.createElement('div');
+  document.body.appendChild(container);
+  root = createRoot(container);
+  act(() => {
+    root.render(<Probe />);
+  });
+}
 
 describe('usePublishDraft prefill', () => {
   it('fills the draft from parcel data and reports what it wrote', async () => {
@@ -197,5 +214,53 @@ describe('usePublishDraft prefill', () => {
     expect(api().prefillResult).toBeNull();
     expect(api().draft.street).toBe('');
     expect(api().draft.zip).toBe('');
+  });
+});
+
+describe('usePublishDraft legacy priceUnit normalization', () => {
+  it('defaults a persisted empty priceUnit to SELL for a SALE draft', () => {
+    localStorage.setItem(
+      DRAFT_KEY,
+      JSON.stringify({ offerType: 'SALE', priceUnit: '', street: 'Altweg 1' }),
+    );
+    mountFresh();
+
+    expect(api().draft.priceUnit).toBe('SELL');
+    expect(api().draft.street).toBe('Altweg 1');
+  });
+
+  it('defaults a persisted empty priceUnit to MONTHLY for a RENT draft', () => {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ offerType: 'RENT', priceUnit: '' }));
+    mountFresh();
+
+    expect(api().draft.priceUnit).toBe('MONTHLY');
+  });
+
+  it('defaults a priceUnit that no longer matches its offer type', () => {
+    // Stale combination: a sale-only unit paired with a rent draft, which
+    // can only happen via hand-edited or pre-defaulting-era localStorage.
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ offerType: 'RENT', priceUnit: 'SELLM2' }));
+    mountFresh();
+
+    expect(api().draft.priceUnit).toBe('MONTHLY');
+  });
+
+  it('keeps a valid persisted priceUnit untouched', () => {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ offerType: 'RENT', priceUnit: 'YEARLY' }));
+    mountFresh();
+
+    expect(api().draft.priceUnit).toBe('YEARLY');
+  });
+
+  it('resets to a defaulted priceUnit, never an empty one', () => {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ offerType: 'RENT', priceUnit: 'WEEKLY' }));
+    mountFresh();
+    expect(api().draft.priceUnit).toBe('WEEKLY');
+
+    act(() => {
+      api().reset();
+    });
+
+    expect(api().draft.priceUnit).toBe('SELL');
   });
 });
