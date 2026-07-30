@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { RotateCcw, Send } from 'lucide-react';
+import { AddressSearch } from '@aireon/shared';
 import Navbar from '../Navbar';
-import AddressSearch from '../reporter/AddressSearch';
 import ListingForm from './ListingForm';
 import PrefillSummary from './PrefillSummary';
 import ImagePicker from './ImagePicker';
@@ -13,6 +13,7 @@ import { useRoute } from '../../lib/router';
 import { signal } from '../../lib/signal';
 import { useI18n } from '../../contexts/I18nContext';
 import { validateDraft } from '../../lib/idx/validate';
+import { buildSearchLabels } from '../../lib/searchLabels';
 import type { GeocodeResult } from '../../lib/geocode';
 
 interface DeepLink {
@@ -38,7 +39,7 @@ function parseParams(search: string): DeepLink | null {
  * and the per-portal upload guide.
  */
 export default function PublishView() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { search } = useRoute();
   const {
     draft,
@@ -69,8 +70,13 @@ export default function PublishView() {
     void prefillFromLocation(deepLink.lat, deepLink.lng, deepLink.address ?? '');
   }, [deepLink, prefillFromLocation]);
 
+  // Surfaces the shared AddressSearch's onError in the same spot/styling the
+  // retired bespoke box used to render its own inline fetch failures.
+  const [searchError, setSearchError] = useState<string | null>(null);
+
   const handleSelectAddress = useCallback(
     (result: GeocodeResult) => {
+      setSearchError(null);
       void signal.send('Search for Address', {
         address: result.label,
         lat: result.lat,
@@ -80,6 +86,15 @@ export default function PublishView() {
     },
     [prefillFromLocation],
   );
+
+  const handleSearchError = useCallback(
+    (err: unknown) => {
+      setSearchError(err instanceof Error ? err.message : t('page.reporter.search_error_fallback'));
+    },
+    [t],
+  );
+
+  const searchLabels = useMemo(() => buildSearchLabels(t), [t]);
 
   // Two-tap reset — the suite forbids native confirm(). The armed state
   // disarms itself after 3 s so a stray first click cannot linger.
@@ -139,7 +154,17 @@ export default function PublishView() {
               <h2 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-gray-400">
                 {t('page.publish.prefill.title')}
               </h2>
-              <AddressSearch onSelect={handleSelectAddress} />
+              <AddressSearch
+                dark
+                locale={locale}
+                labels={searchLabels}
+                history
+                appName="showroom"
+                maxRecent={6}
+                onSelect={handleSelectAddress}
+                onError={handleSearchError}
+              />
+              {searchError && <p className="mt-1.5 text-xs text-red-400">{searchError}</p>}
               {prefillState === 'idle' ? (
                 <p className="mt-2.5 text-xs leading-snug text-gray-500">
                   {t('page.publish.prefill.hint')}
