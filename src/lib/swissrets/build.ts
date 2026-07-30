@@ -40,9 +40,10 @@ function text(value: string | undefined | null): string | undefined {
 }
 
 /**
- * Digit-cleaned positive integer ("2'500" -> 2500). Zero is treated as absent:
- * the JSON schema allows 0 but XML 2.7.0 types these as positiveInteger /
- * positiveDecimal (minExclusive 0), and one model feeds both serializers.
+ * Digit-cleaned positive integer ("2'500" -> 2500), for the fields both tracks
+ * type as integers. Zero is treated as absent: the JSON schema allows 0 but
+ * XML 2.7.0 types these as positiveInteger, and one model feeds both
+ * serializers.
  */
 function positiveInt(value: string): number | undefined {
   const digits = value.replace(/\D+/g, '');
@@ -51,11 +52,17 @@ function positiveInt(value: string): number | undefined {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
-/** Positive decimal accepting room halves in either notation ("4.5", "4,5"). */
+/**
+ * Positive decimal, for the fields both tracks type as decimals. Accepts room
+ * halves in either notation ("4.5", "4,5") and tolerates a trailing unit the
+ * way the IDX digit-cleaner does, so "128 m2" still yields 128. Zero is absent,
+ * for the same positiveDecimal reason as `positiveInt`.
+ */
 function positiveFloat(value: string): number | undefined {
   const cleaned = value.trim().replace(/['\s]/g, '').replace(',', '.');
-  if (!/^\d+(\.\d+)?$/.test(cleaned)) return undefined;
-  const parsed = Number(cleaned);
+  const match = /\d+(?:\.\d+)?/.exec(cleaned);
+  if (!match) return undefined;
+  const parsed = Number(match[0]);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
@@ -78,13 +85,24 @@ function year(value: string): number | undefined {
 
 const DAY_MONTH_YEAR = /^(\d{2})\.(\d{2})\.(\d{4})$/;
 
-/** IDX availability date (DD.MM.YYYY) to an ISO instant at midnight UTC. */
+/**
+ * IDX availability date (DD.MM.YYYY) to an ISO instant at midnight UTC.
+ * A shape check alone would let "31.02.2026" through, and xs:dateTime rejects
+ * impossible calendar dates, so the parsed date is round-tripped through Date:
+ * JS rolls 31.02 over to 03.03, and the mismatch is what rejects it.
+ */
 function isoStartDate(value: string): string | undefined {
   const match = DAY_MONTH_YEAR.exec(value.trim());
   if (!match) return undefined;
   const [, day, month, yyyy] = match;
-  if (Number(month) < 1 || Number(month) > 12) return undefined;
-  if (Number(day) < 1 || Number(day) > 31) return undefined;
+  const parsed = new Date(Date.UTC(Number(yyyy), Number(month) - 1, Number(day)));
+  if (
+    parsed.getUTCFullYear() !== Number(yyyy) ||
+    parsed.getUTCMonth() !== Number(month) - 1 ||
+    parsed.getUTCDate() !== Number(day)
+  ) {
+    return undefined;
+  }
   return `${yyyy}-${month}-${day}T00:00:00Z`;
 }
 
@@ -114,17 +132,21 @@ function rentInterval(unit: PriceUnit | ''): 'day' | 'week' | 'month' | 'year' {
  * "<name> = <value>" (for example "isUnderRoof = does-not-apply"), because a
  * few IDX object types map to a characteristic rather than to a category; a
  * bare name without a value means 'applies'.
+ *
+ * PRECEDENCE: an explicit statement from the user always wins. The hint is
+ * inferred from the object type, so for PARK/3 ("Garage") it would otherwise
+ * overwrite a deliberate garage = 'N' with 'applies' and contradict the IDX
+ * record sitting in the same ZIP. It therefore only fills a slot the feature
+ * map left empty, which is why this runs AFTER the feature map, not before.
  */
-function applyMappedCharacteristic(
-  target: Record<string, unknown>,
-  spec: string | null,
-): void {
+function applyMappedCharacteristic(target: Record<string, unknown>, spec: string | null): void {
   if (!spec) return;
   const separator = spec.indexOf('=');
   const name = (separator === -1 ? spec : spec.slice(0, separator)).trim();
   const rawValue = separator === -1 ? '' : spec.slice(separator + 1).trim();
   const value = rawValue || 'applies';
   if (!name || !APPLICABLE_VALUES.has(value)) return;
+  if (name in target) return;
   target[name] = value;
 }
 
@@ -153,14 +175,17 @@ function buildCharacteristics(
   put('isOldBuilding', applicable(f.oldBuilding));
   put('hasSwimmingPool', applicable(f.swimmingpool));
 
-  // Numerics.
+  // Numerics. Integer vs decimal follows the schema per field: areas, volume
+  // and room count are `number` in JSON 3.6.0 and positiveDecimal in XML 2.7.0,
+  // so "128.5" must survive as 128.5; floor counts, unit counts and years are
+  // integer / positiveInteger in both tracks.
   put('numberOfRooms', positiveFloat(draft.rooms));
   put('floor', signedInt(draft.floor));
   put('numberOfFloors', positiveInt(draft.numberOfFloors));
   put('numberOfApartements', positiveInt(draft.apartments));
-  put('areaBwf', positiveInt(draft.surfaceLiving));
-  put('areaPropertyLand', positiveInt(draft.surfaceProperty));
-  put('volumeGva', positiveInt(draft.volume));
+  put('areaBwf', positiveFloat(draft.surfaceLiving));
+  put('areaPropertyLand', positiveFloat(draft.surfaceProperty));
+  put('volumeGva', positiveFloat(draft.volume));
   put('yearBuilt', year(draft.yearBuilt));
   put('yearLastRenovated', year(draft.yearRenovated));
 

@@ -188,6 +188,28 @@ describe('buildSwissRetsInventory', () => {
     expect(c.isUnderRoof).toBe('does-not-apply');
   });
 
+  it('lets an explicit feature statement win over the mapped characteristic', () => {
+    // PARK/3 ("Garage") maps to hasGarage = applies, but the user explicitly
+    // unchecked Garage. The mapped hint is inferred from the object type, so it
+    // must not contradict the IDX record shipped in the same package.
+    const d = minimalDraft();
+    d.category = 'PARK';
+    d.objectType = 3;
+    d.features.garage = 'N';
+    expect(characteristics(buildSwissRetsInventory(d, OPTS)).hasGarage).toBe('does-not-apply');
+
+    d.features.garage = 'Y';
+    expect(characteristics(buildSwissRetsInventory(d, OPTS)).hasGarage).toBe('applies');
+  });
+
+  it('fills the mapped characteristic when the user made no statement', () => {
+    const d = minimalDraft();
+    d.category = 'PARK';
+    d.objectType = 3;
+    d.features.garage = '';
+    expect(characteristics(buildSwissRetsInventory(d, OPTS)).hasGarage).toBe('applies');
+  });
+
   it('maps the tri-state features: Y applies, N does-not-apply, blank absent', () => {
     const c = characteristics(buildSwissRetsInventory(filledDraft(), OPTS));
     expect(c.hasNiceView).toBe('applies');
@@ -218,6 +240,35 @@ describe('buildSwissRetsInventory', () => {
     expect(c.volumeGva).toBe(780);
     expect(c.yearBuilt).toBe(1998);
     expect(c.yearLastRenovated).toBe(2019);
+  });
+
+  it('keeps decimals on the fields both tracks type as decimals', () => {
+    const d = filledDraft();
+    d.surfaceLiving = '128.5';
+    d.surfaceProperty = '340,75';
+    d.volume = '780.25';
+    d.rooms = '4,5';
+    const c = characteristics(buildSwissRetsInventory(d, OPTS));
+    expect(c.areaBwf).toBe(128.5);
+    expect(c.areaPropertyLand).toBe(340.75);
+    expect(c.volumeGva).toBe(780.25);
+    expect(c.numberOfRooms).toBe(4.5);
+  });
+
+  it('still tolerates a unit suffix on the decimal fields', () => {
+    const d = filledDraft();
+    d.surfaceLiving = "1'250.5 m2";
+    expect(characteristics(buildSwissRetsInventory(d, OPTS)).areaBwf).toBe(1250.5);
+  });
+
+  it('keeps the integer-typed characteristics integral', () => {
+    const d = filledDraft();
+    const c = characteristics(buildSwissRetsInventory(d, OPTS));
+    expect(Number.isInteger(c.numberOfFloors)).toBe(true);
+    expect(Number.isInteger(c.numberOfApartements ?? 0)).toBe(true);
+    expect(Number.isInteger(c.floor)).toBe(true);
+    expect(Number.isInteger(c.yearBuilt)).toBe(true);
+    expect(Number.isInteger(c.yearLastRenovated)).toBe(true);
   });
 
   it('sets minergieCertification only for a certified listing', () => {
@@ -315,6 +366,34 @@ describe('buildSwissRetsInventory', () => {
     const d = filledDraft();
     d.availableFrom = 'nach Vereinbarung';
     expect(property(buildSwissRetsInventory(d, OPTS)).availability).toEqual({ state: 'active' });
+  });
+
+  it('rejects a well-shaped but impossible calendar date', () => {
+    // 31.02 passes the DD.MM.YYYY shape check but xs:dateTime rejects it, so it
+    // must never reach export.xml.
+    for (const bad of ['31.02.2026', '30.02.2026', '31.04.2026', '32.01.2026', '01.13.2026']) {
+      const d = filledDraft();
+      d.availableFrom = bad;
+      expect(property(buildSwissRetsInventory(d, OPTS)).availability, bad).toEqual({
+        state: 'active',
+      });
+    }
+  });
+
+  it('still accepts real leap-day and month-end dates', () => {
+    const cases: [string, string][] = [
+      ['29.02.2028', '2028-02-29T00:00:00Z'],
+      ['31.01.2026', '2026-01-31T00:00:00Z'],
+      ['30.04.2026', '2026-04-30T00:00:00Z'],
+    ];
+    for (const [input, expected] of cases) {
+      const d = filledDraft();
+      d.availableFrom = input;
+      expect(property(buildSwissRetsInventory(d, OPTS)).availability, input).toEqual({
+        state: 'active',
+        start: expected,
+      });
+    }
   });
 });
 

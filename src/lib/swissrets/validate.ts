@@ -46,12 +46,20 @@ export async function validateSwissRetsInventory(
     // CommonJS package: depending on the interop path the named export lands
     // on the namespace or on `default`.
     const validate = mod.validateSwissRets ?? mod.default?.validateSwissRets;
-    if (typeof validate !== 'function') return { valid: true, errors: [] };
+    if (typeof validate !== 'function') {
+      console.warn(
+        '[swissrets] @qualipool/swissrets-json exposes no validateSwissRets function; export not validated',
+      );
+      return { valid: true, errors: [] };
+    }
 
     const errors = validate(inventory);
     if (!Array.isArray(errors) || errors.length === 0) return { valid: true, errors: [] };
     return { valid: false, errors: errors.map(describe) };
-  } catch {
+  } catch (cause) {
+    // Deliberately not silent: the export still proceeds, but a broken or
+    // unreachable validator has to be visible somewhere.
+    console.warn('[swissrets] validation could not run; export not validated', cause);
     return { valid: true, errors: [] };
   }
 }
