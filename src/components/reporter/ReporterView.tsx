@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MapPin, RefreshCw, AlertTriangle, FileBarChart, FileDown } from 'lucide-react';
-import { WelcomeAddressCard, useGlass, type AddressSearchResult } from '@aireon/shared';
+import { WelcomeAddressCard, AddressSearch, useGlass, type AddressSearchResult } from '@aireon/shared';
 import Navbar from '../Navbar';
-import AddressSearch from './AddressSearch';
 import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
 import ReportDialog from './report/ReportDialog';
@@ -11,6 +10,7 @@ import { navigate, useRoute } from '../../lib/router';
 import { isGeocodingConfigured } from '../../lib/geocode';
 import { signal } from '../../lib/signal';
 import { useI18n } from '../../contexts/I18nContext';
+import { buildSearchLabels } from '../../lib/searchLabels';
 import { useAuth } from '../../auth/AuthContext';
 import type { ReporterAppId } from '../../lib/reporterApps';
 import { REPORTER_APPS } from '../../lib/reporterApps';
@@ -62,6 +62,10 @@ export default function ReporterView() {
 
   const [reportOpen, setReportOpen] = useState(false);
 
+  // Surfaces the shared AddressSearch's onError in the same spot/styling the
+  // retired bespoke box used to render its own inline fetch failures.
+  const [searchError, setSearchError] = useState<string | null>(null);
+
   // Reset everything when the location changes (new search).
   useEffect(() => {
     setRegenKey(0);
@@ -75,6 +79,7 @@ export default function ReporterView() {
   // params/URL update, so a fresh search always lands the user on the report
   // immediately with no confirm step.
   const handleSelectAddress = useCallback((r: AddressSearchResult) => {
+    setSearchError(null);
     void signal.send('Search for Address', {
       address: r.label,
       lat: r.lat,
@@ -88,18 +93,14 @@ export default function ReporterView() {
     navigate(`/reporter?${qs.toString()}`);
   }, []);
 
-  const welcomeSearchLabels = useMemo(
-    () => ({
-      placeholder: t('page.reporter.search_placeholder'),
-      loading: t('page.reporter.welcome.search_loading'),
-      noResults: t('page.reporter.welcome.search_no_results'),
-      clear: t('page.reporter.welcome.search_clear'),
-      recent: t('page.reporter.welcome.search_recent'),
-      removeRecent: t('page.reporter.welcome.search_remove_recent'),
-      resultsCount: (n: number) => t('page.reporter.welcome.search_results_count', { n }),
-    }),
+  const handleSearchError = useCallback(
+    (err: unknown) => {
+      setSearchError(err instanceof Error ? err.message : t('page.reporter.search_error_fallback'));
+    },
     [t],
   );
+
+  const welcomeSearchLabels = useMemo(() => buildSearchLabels(t), [t]);
 
   const toggleSelect = useCallback((id: ReporterAppId) => {
     setSelection((prev) => {
@@ -181,7 +182,18 @@ export default function ReporterView() {
 
         {params ? (
           <div data-tour="reporter-search" className="max-w-xl mb-8">
-            <AddressSearch initialValue={params.address ?? ''} onSelect={handleSelectAddress} />
+            <AddressSearch
+              dark
+              locale={locale}
+              labels={welcomeSearchLabels}
+              history
+              appName="showroom"
+              maxRecent={6}
+              activeAddress={params?.address ?? null}
+              onSelect={handleSelectAddress}
+              onError={handleSearchError}
+            />
+            {searchError && <p className="mt-1.5 text-xs text-red-400">{searchError}</p>}
           </div>
         ) : (
           <div data-tour="reporter-search" className="mx-auto mb-8 w-full max-w-md">
