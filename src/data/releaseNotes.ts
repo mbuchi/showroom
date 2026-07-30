@@ -12,6 +12,38 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.0',
+    date: 'July 31, 2026',
+    codename: 'Four hands on the form',
+    summary: 'The Publish page fills itself in four new ways: AI-written listing copy, dwelling data from the federal register, a clear price-unit picker, and the suite-standard address search with history.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Sparkles,
+        text: 'Magic fill: one click writes a listing title and description from the facts already in the form, in your language, powered by the same Gemini model your hub administrator configured for Claire. The text is grounded strictly in the listing facts, respects the portal limits (70 and 4000 characters), and never overwrites your own words without a confirming second tap.',
+        prs: [],
+      },
+      {
+        kind: 'new' as ChangeKind,
+        icon: LayoutGrid,
+        text: 'Dwelling data from the federal register (GWR): confirming an address now also fetches the building and dwelling register. Building facts (floors, apartments, construction year) fill in automatically; a single-dwelling building also fills living space, rooms, and floor, and a multi-dwelling building shows a compact "Which unit are you listing?" picker.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: BadgeCheck,
+        text: 'The price unit is now a clear choice: human labels in all four languages (Total sale price, Rent per month, Rent per m2 per year, and so on) instead of raw codes, with a sensible default per offer type and no empty state. Re-tapping the active offer tab no longer resets your chosen unit.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: History,
+        text: 'The address search on the Publish page and the reporter is now the suite-standard search box: your recent searches from every Aireon app appear on focus, each removable, and searches made here join the shared history.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.23.0',
     date: 'July 29, 2026',
     codename: 'Speaks SwissRETS',
