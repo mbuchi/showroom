@@ -5,6 +5,7 @@ import { I18nProvider } from './contexts/I18nContext';
 import { ShowroomAccessGate } from './components/ShowroomAccessGate';
 import GalleryView from './components/gallery/GalleryView';
 import ReporterSkeleton from './components/reporter/ReporterSkeleton';
+import PublishSkeleton from './components/publish/PublishSkeleton';
 import { useRoute } from './lib/router';
 import { hasCompletedTour, markTourCompleted, TOUR_REQUEST_EVENT } from './lib/tour';
 
@@ -21,9 +22,10 @@ const PublishView = lazy(() => import('./components/publish/PublishView'));
 // menu — so returning visitors never download the joyride chunk at all.
 const Tour = lazy(() => import('./components/Tour').then((m) => ({ default: m.Tour })));
 
-// App-boot skeleton: a faux navbar and a coarse content shell, shown while
-// auth resolves on non-reporter routes (the reporter route has its own).
-function RouteSkeleton() {
+// Gallery-shaped boot skeleton: faux navbar, search bar, and export-tile
+// grid. Shown only on the gallery route - the reporter and publish routes
+// have their own page-shaped skeletons.
+function GallerySkeleton() {
   return (
     <div className="min-h-screen">
       <div className="sticky top-0 z-[45] glass-nav">
@@ -75,9 +77,11 @@ function AppShell() {
   }, []);
 
   if (isLoading) {
-    // On the reporter route, show its skeleton straight away so a shared
-    // /reporter link lands on the page's shape instead of a spinner.
-    return isReporter ? <ReporterSkeleton /> : <RouteSkeleton />;
+    // Each route boots into its own page's shape, so a shared deep link
+    // (or a hard refresh) never flashes another page's skeleton.
+    if (isReporter) return <ReporterSkeleton />;
+    if (isPublish) return <PublishSkeleton />;
+    return <GallerySkeleton />;
   }
 
   // Anonymous visitors get the suite-standard blocking login modal, rendered
@@ -108,7 +112,7 @@ function AppShell() {
   if (isPublish) {
     return (
       <>
-        <Suspense fallback={<RouteSkeleton />}>
+        <Suspense fallback={<PublishSkeleton />}>
           <PublishView />
         </Suspense>
         {tour}
