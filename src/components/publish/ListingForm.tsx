@@ -1,6 +1,8 @@
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { SegmentedTabs } from '@aireon/shared';
 import Field, { type FieldOption } from './Field';
+import MagicFillButton from './MagicFillButton';
+import { categoryLabel } from './listingFacts';
 import { useI18n } from '../../contexts/I18nContext';
 import { OBJECT_CATEGORY_LABELS, OBJECT_TYPE_CODES, objectTypeLabel } from '../../lib/idx/codes';
 import type {
@@ -42,12 +44,6 @@ const FEATURE_KEYS: (keyof ListingFeatures)[] = [
   'minergieCertified',
 ];
 
-function categoryLabel(category: ObjectCategory, locale: string): string {
-  const labels = OBJECT_CATEGORY_LABELS[category];
-  if (locale === 'de' || locale === 'fr' || locale === 'it') return labels[locale];
-  return labels.en;
-}
-
 interface ListingFormProps {
   draft: ListingDraft;
   patch: (partial: Partial<ListingDraft>) => void;
@@ -58,6 +54,11 @@ interface ListingFormProps {
    *  price inputs. Purely informational: it is never multiplied by a plot or
    *  building area, because the two bases are unrelated. */
   pricePerM2Living: number | null;
+  /** Construction zone from the last prefill. Grounds the generated copy; it
+   *  belongs to no IDX field of its own. */
+  zone?: string | null;
+  /** Buildings standing on the parcel, from the last prefill. */
+  buildingCount?: number | null;
 }
 
 /**
@@ -72,15 +73,29 @@ export default function ListingForm({
   patchFeature,
   errorFields,
   pricePerM2Living,
+  zone = null,
+  buildingCount = null,
 }: ListingFormProps) {
   const { t, locale } = useI18n();
 
-  const section = (title: string, children: ReactNode, cols = 'sm:grid-cols-2') => (
+  const section = (
+    title: string,
+    children: ReactNode,
+    cols = 'sm:grid-cols-2',
+    action?: ReactNode,
+  ) => (
     <section className="surface rounded-2xl p-4 sm:p-5">
-      <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">{title}</h2>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">{title}</h2>
+        {action}
+      </div>
       <div className={`grid gap-3 ${cols}`}>{children}</div>
     </section>
   );
+
+  // Parcel context for the copywriter, memoized so the button's fact list is
+  // referentially stable across the keystrokes that do not change it.
+  const factContext = useMemo(() => ({ zone, buildingCount }), [zone, buildingCount]);
 
   const typeOptions: FieldOption[] = OBJECT_TYPE_CODES[draft.category].map((code) => ({
     value: String(code.code),
@@ -271,6 +286,12 @@ export default function ListingForm({
             onChange={(v) => patch({ url: v })}
           />
         </>,
+        'sm:grid-cols-2',
+        <MagicFillButton
+          draft={draft}
+          context={factContext}
+          onApply={(copy) => patch({ title: copy.title, description: copy.description })}
+        />,
       )}
 
       {section(
