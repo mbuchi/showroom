@@ -11,6 +11,7 @@ import type {
   PriceUnit,
   YesNo,
 } from '../../lib/idx/types';
+import { normalizedPriceUnit, priceUnitsFor } from '../../lib/publishPriceUnit';
 
 // IDX 3.01 caps: the record builder truncates at these lengths, so the form
 // counts down to them live instead of letting the export silently cut copy.
@@ -21,10 +22,6 @@ const CATEGORIES = Object.keys(OBJECT_CATEGORY_LABELS) as ObjectCategory[];
 
 /** Swiss thousands grouping for the informational per-m2 price estimate. */
 const PRICE_FORMAT = new Intl.NumberFormat('de-CH', { maximumFractionDigits: 0 });
-
-/** Price units the spec allows per offer type. */
-const SALE_UNITS: PriceUnit[] = ['SELL', 'SELLM2'];
-const RENT_UNITS: PriceUnit[] = ['MONTHLY', 'WEEKLY', 'DAILY', 'YEARLY', 'M2YEARLY'];
 
 /** Feature checkboxes, in the order the IDX record carries them. */
 const FEATURE_KEYS: (keyof ListingFeatures)[] = [
@@ -104,13 +101,29 @@ export default function ListingForm({
     patch({ category, objectType: keepsType ? draft.objectType : (codes[0]?.code ?? null) });
   };
 
-  const priceUnits = draft.offerType === 'SALE' ? SALE_UNITS : RENT_UNITS;
-  const priceUnitOptions: FieldOption[] = [
-    { value: '', label: '-' },
-    ...priceUnits.map((unit) => ({ value: unit, label: unit })),
-  ];
-
   const err = (field: string) => errorFields.has(field);
+
+  // Every option is a real, human-labelled unit — no empty placeholder,
+  // since the draft's priceUnit is never '' once defaulting is in place.
+  const priceUnitOptions: FieldOption[] = priceUnitsFor(draft.offerType).map((unit) => ({
+    value: unit,
+    label: t(`page.publish.unit.${unit}`),
+  }));
+
+  // Rendered right next to the primary price input in both offer-type
+  // branches below, so the unit is always visible beside the number it
+  // qualifies rather than trailing after the secondary rent-extra field.
+  const priceUnitField = (
+    <Field
+      name="priceUnit"
+      label={t('page.publish.field.priceUnit')}
+      variant="select"
+      options={priceUnitOptions}
+      value={draft.priceUnit}
+      onChange={(v) => patch({ priceUnit: v as PriceUnit })}
+      error={err('priceUnit')}
+    />
+  );
 
   return (
     <div className="space-y-4">
@@ -127,7 +140,14 @@ export default function ListingForm({
                 { id: 'SALE', label: t('page.publish.offer.sale') },
               ]}
               value={draft.offerType}
-              onChange={(id) => patch({ offerType: id, priceUnit: '' })}
+              // SegmentedTabs fires onChange on every click, including the
+              // already-active tab — so this must not always jump to the
+              // default unit. normalizedPriceUnit is a no-op when the
+              // current unit is still valid for `id` (a re-click of the
+              // active tab) and only resets on a real offer-type switch.
+              onChange={(id) =>
+                patch({ offerType: id, priceUnit: normalizedPriceUnit(draft.priceUnit, id) })
+              }
               ariaLabel={t('page.publish.section.offer')}
               dark
               size="sm"
@@ -257,14 +277,17 @@ export default function ListingForm({
         t('page.publish.section.pricing'),
         <>
           {draft.offerType === 'SALE' ? (
-            <Field
-              name="sellingPrice"
-              label={t('page.publish.field.sellingPrice')}
-              value={draft.sellingPrice}
-              inputMode="numeric"
-              onChange={(v) => patch({ sellingPrice: v })}
-              error={err('sellingPrice')}
-            />
+            <>
+              <Field
+                name="sellingPrice"
+                label={t('page.publish.field.sellingPrice')}
+                value={draft.sellingPrice}
+                inputMode="numeric"
+                onChange={(v) => patch({ sellingPrice: v })}
+                error={err('sellingPrice')}
+              />
+              {priceUnitField}
+            </>
           ) : (
             <>
               <Field
@@ -275,6 +298,7 @@ export default function ListingForm({
                 onChange={(v) => patch({ rentNet: v })}
                 error={err('rentNet')}
               />
+              {priceUnitField}
               <Field
                 name="rentExtra"
                 label={t('page.publish.field.rentExtra')}
@@ -284,15 +308,6 @@ export default function ListingForm({
               />
             </>
           )}
-          <Field
-            name="priceUnit"
-            label={t('page.publish.field.priceUnit')}
-            variant="select"
-            options={priceUnitOptions}
-            value={draft.priceUnit}
-            onChange={(v) => patch({ priceUnit: v as PriceUnit | '' })}
-            error={err('priceUnit')}
-          />
           <Field
             name="currency"
             label={t('page.publish.field.currency')}

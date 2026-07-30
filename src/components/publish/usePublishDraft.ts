@@ -7,36 +7,45 @@ import {
   type ListingImageRef,
 } from '../../lib/idx/types';
 import { fetchParcelInfo } from '../../lib/parcelInfo';
+import { normalizedPriceUnit } from '../../lib/publishPriceUnit';
 import { applyParcelPrefill } from '../../lib/publishPrefill';
 import { signal } from '../../lib/signal';
 
 /** localStorage slot for the in-progress listing. Versioned so a future shape
- *  break can be retired without stranding old drafts in the browser. */
-const DRAFT_KEY = 'showroom:publish:draft:v1';
+ *  break can be retired without stranding old drafts in the browser.
+ *  Exported for the test suite, which seeds legacy drafts under this key. */
+export const DRAFT_KEY = 'showroom:publish:draft:v1';
 
 /** Writes are debounced — the form is a controlled component and every
  *  keystroke would otherwise hit localStorage synchronously. */
 const PERSIST_DELAY_MS = 400;
 
+/** priceUnit never rests on '' — an offer-type switch (see ListingForm)
+ *  always assigns the matching default, so the only way it can be empty or
+ *  mismatched here is a draft persisted by a build that predates that rule. */
+function normalizeDraft(draft: ListingDraft): ListingDraft {
+  return { ...draft, priceUnit: normalizedPriceUnit(draft.priceUnit, draft.offerType) };
+}
+
 /** Restore a stored draft, merged over a fresh empty draft so a draft written
  *  by an older build (missing fields) still loads with sane defaults. */
 function loadDraft(): ListingDraft {
   const base = emptyListingDraft();
-  if (typeof localStorage === 'undefined') return base;
+  if (typeof localStorage === 'undefined') return normalizeDraft(base);
   try {
     const raw = localStorage.getItem(DRAFT_KEY);
-    if (!raw) return base;
+    if (!raw) return normalizeDraft(base);
     const parsed = JSON.parse(raw) as Partial<ListingDraft> | null;
-    if (!parsed || typeof parsed !== 'object') return base;
-    return {
+    if (!parsed || typeof parsed !== 'object') return normalizeDraft(base);
+    return normalizeDraft({
       ...base,
       ...parsed,
       features: { ...emptyListingFeatures(), ...(parsed.features ?? {}) },
       images: Array.isArray(parsed.images) ? parsed.images : [],
-    };
+    });
   } catch {
     // Corrupt JSON (hand-edited, quota-truncated) must never break the page.
-    return base;
+    return normalizeDraft(base);
   }
 }
 
@@ -143,7 +152,7 @@ export function usePublishDraft(): PublishDraftApi {
     // draft the user just cleared.
     prefillSeq.current += 1;
     prefillAbort.current?.abort();
-    setDraft(emptyListingDraft());
+    setDraft(normalizeDraft(emptyListingDraft()));
     setPrefillState('idle');
     setPrefillResult(null);
   }, []);
