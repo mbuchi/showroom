@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.1',
+    date: 'July 31, 2026',
+    codename: 'Short and sweet',
+    summary: 'The sign-in card now reads like the rest of the suite: one clear line instead of a paragraph.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: LogIn,
+        text: 'The sign-in card drops its "Members only" preamble for the suite-standard one-liner, matching the minimal login used across the other Aireon apps.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.0',
     date: 'July 31, 2026',
     codename: 'Four hands on the form',
