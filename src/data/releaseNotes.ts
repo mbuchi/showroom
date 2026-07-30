@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.22.1',
+    date: 'July 29, 2026',
+    codename: 'The right bones',
+    summary: 'Opening the Publish page no longer flashes the gallery skeleton; it now loads into its own two-column shape.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: LayoutGrid,
+        text: 'The Publish page booted into the gallery\'s loading skeleton (search bar and image tiles) before its real layout appeared. It now shows a skeleton matching its own shape - form section cards on the left, the validation and export rail on the right - during both app boot and the lazy page load, so the swap to live content is position-stable.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.22.0',
     date: 'July 29, 2026',
     codename: 'The form fills itself',
