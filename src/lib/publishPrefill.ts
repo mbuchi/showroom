@@ -7,6 +7,7 @@
 // typed copy to a background lookup is far worse than an unfilled field.
 
 import type { ParcelInfo } from './parcelInfo';
+import type { GwrBuilding, GwrDwelling } from './gwrLookup';
 import type { ListingDraft } from './idx/types';
 
 export interface PrefillOutcome {
@@ -18,7 +19,7 @@ export interface PrefillOutcome {
   filled: string[];
 }
 
-/** Draft keys holding a plain string that parcel data may fill. */
+/** Draft keys holding a plain string that a prefill source may fill. */
 type PrefillableKey =
   | 'refProperty'
   | 'street'
@@ -26,6 +27,8 @@ type PrefillableKey =
   | 'city'
   | 'canton'
   | 'surfaceProperty'
+  | 'surfaceLiving'
+  | 'floor'
   | 'yearBuilt'
   | 'numberOfFloors'
   | 'rooms'
@@ -98,6 +101,75 @@ export function applyParcelPrefill(
     };
     if (built <= now.getFullYear() - OLD_BUILDING_AGE_YEARS) flag('oldBuilding');
     if (built === now.getFullYear()) flag('newBuilding');
+  }
+
+  return { draft: next, filled };
+}
+
+export interface GwrPrefillOptions {
+  /**
+   * Let the dwelling fields (surfaceLiving, rooms, floor) overwrite values that
+   * are already there.
+   *
+   * OFF for the automatic pass, which obeys the same blank-only invariant as
+   * applyParcelPrefill: a background lookup must never eat typed copy.
+   *
+   * ON for an explicit pick in the dwelling picker. There the user has just
+   * pointed at one specific unit in the building, which is a direct statement
+   * that the listing IS that unit — so its living space, room count and floor
+   * replace whatever a previous auto-fill or an earlier pick left behind.
+   * Without this, picking a second unit after the first would silently keep the
+   * first unit's numbers, which is worse than any overwrite.
+   *
+   * Building-level fields stay blank-only in BOTH modes: picking a unit says
+   * nothing about the building's year, floor count or apartment total.
+   */
+  overwriteDwellingFields?: boolean;
+}
+
+/**
+ * Fill an IDX listing draft from the federal building and dwelling register.
+ *
+ * `building` supplies the building-level facts, `dwelling` the unit-level ones.
+ * Pass `dwelling` as null when the building holds several units and the user
+ * has not picked one yet — guessing a unit would put a stranger's living space
+ * into someone's listing.
+ */
+export function applyGwrPrefill(
+  draft: ListingDraft,
+  building: GwrBuilding | null,
+  dwelling: GwrDwelling | null,
+  options: GwrPrefillOptions = {},
+): PrefillOutcome {
+  const next: ListingDraft = { ...draft, features: { ...draft.features } };
+  const filled: string[] = [];
+
+  /** Blank-only write — whatever the user typed wins. */
+  const fill = (key: PrefillableKey, value: string | null) => {
+    if (value === null || value === '') return;
+    if (next[key].trim() !== '') return;
+    next[key] = value;
+    filled.push(key);
+  };
+
+  /** Unconditional write, used only on an explicit dwelling pick. */
+  const force = (key: PrefillableKey, value: string | null) => {
+    if (value === null || value === '') return;
+    next[key] = value;
+    filled.push(key);
+  };
+
+  if (building) {
+    fill('numberOfFloors', counted(building.floors));
+    fill('apartments', counted(building.dwellingCount));
+    fill('yearBuilt', counted(building.yearBuilt));
+  }
+
+  if (dwelling) {
+    const write = options.overwriteDwellingFields ? force : fill;
+    write('surfaceLiving', rounded(dwelling.areaM2));
+    write('rooms', counted(dwelling.rooms));
+    write('floor', dwelling.floorLabel);
   }
 
   return { draft: next, filled };

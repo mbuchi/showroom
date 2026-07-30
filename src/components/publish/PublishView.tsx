@@ -4,6 +4,7 @@ import { AddressSearch } from '@aireon/shared';
 import Navbar from '../Navbar';
 import ListingForm from './ListingForm';
 import PrefillSummary from './PrefillSummary';
+import DwellingPicker from './DwellingPicker';
 import ImagePicker from './ImagePicker';
 import ValidationPanel from './ValidationPanel';
 import ExportPanel from './ExportPanel';
@@ -50,6 +51,9 @@ export default function PublishView() {
     prefillFromLocation,
     prefillState,
     prefillResult,
+    gwrDwellings,
+    selectedDwellingEwid,
+    selectDwelling,
   } = usePublishDraft();
 
   const issues = useMemo(() => validateDraft(draft), [draft]);
@@ -172,6 +176,13 @@ export default function PublishView() {
               ) : (
                 <PrefillSummary state={prefillState} result={prefillResult} />
               )}
+              {/* Only rendered when the register lists several units in the
+                  building — one unit is filled automatically. */}
+              <DwellingPicker
+                dwellings={gwrDwellings}
+                selectedEwid={selectedDwellingEwid}
+                onSelect={selectDwelling}
+              />
             </section>
 
             <div data-tour="publish-form">

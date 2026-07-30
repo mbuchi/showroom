@@ -206,6 +206,21 @@ const translations: Record<Locale, Record<string, string>> = {
     'page.publish.prefill.nodata': 'No parcel data found here. Fill in the listing manually.',
     'page.publish.prefill.zone': 'Zone',
     'page.publish.prefill.buildings': '{n} buildings on the parcel',
+
+    // Publish page - dwelling picker fed by the federal building and dwelling
+    // register (GWR). Floor names are locale-aware; the value written into the
+    // listing's floor field is a plain number.
+    'page.publish.gwr.pick': 'Which unit are you listing?',
+    'page.publish.gwr.pickHint':
+      'The federal register lists {n} dwellings in this building. Pick one to fill living space, rooms, and floor.',
+    'page.publish.gwr.unitLabel': '{floor}, {rooms} rooms, {area} m2',
+    'page.publish.gwr.rooms': '{n} rooms',
+    'page.publish.gwr.area': '{n} m2',
+    'page.publish.gwr.groundFloor': 'Ground floor',
+    'page.publish.gwr.upperFloor': 'Floor {n}',
+    'page.publish.gwr.basement': 'Basement {n}',
+    'page.publish.gwr.unit': 'Dwelling {n}',
+    'page.publish.gwr.filled': 'Dwelling data from the federal register (GWR)',
     'page.publish.section.offer': 'Offer',
     'page.publish.section.location': 'Location',
     'page.publish.section.content': 'Listing content',
@@ -680,6 +695,20 @@ const translations: Record<Locale, Record<string, string>> = {
       'Aucune donnée de parcelle trouvée ici. Complétez l’annonce manuellement.',
     'page.publish.prefill.zone': 'Zone',
     'page.publish.prefill.buildings': '{n} bâtiments sur la parcelle',
+
+    // Page Publier - selecteur de logement alimente par le registre federal
+    // des batiments et des logements (RegBL)
+    'page.publish.gwr.pick': 'Quel logement mettez-vous en ligne ?',
+    'page.publish.gwr.pickHint':
+      'Le registre fédéral recense {n} logements dans ce bâtiment. Choisissez-en un pour remplir la surface habitable, les pièces et l’étage.',
+    'page.publish.gwr.unitLabel': '{floor}, {rooms} pièces, {area} m2',
+    'page.publish.gwr.rooms': '{n} pièces',
+    'page.publish.gwr.area': '{n} m2',
+    'page.publish.gwr.groundFloor': 'Rez-de-chaussée',
+    'page.publish.gwr.upperFloor': 'Étage {n}',
+    'page.publish.gwr.basement': 'Sous-sol {n}',
+    'page.publish.gwr.unit': 'Logement {n}',
+    'page.publish.gwr.filled': 'Données du logement issues du registre fédéral (RegBL)',
     'page.publish.section.offer': 'Offre',
     'page.publish.section.location': 'Localisation',
     'page.publish.section.content': 'Contenu de l’annonce',
@@ -1155,6 +1184,20 @@ const translations: Record<Locale, Record<string, string>> = {
       'Hier wurden keine Grundstücksdaten gefunden. Fülle das Inserat manuell aus.',
     'page.publish.prefill.zone': 'Zone',
     'page.publish.prefill.buildings': '{n} Gebäude auf dem Grundstück',
+
+    // Publizieren-Seite - Wohnungsauswahl aus dem eidgenoessischen Gebaeude-
+    // und Wohnungsregister (GWR)
+    'page.publish.gwr.pick': 'Welche Wohnung inserierst du?',
+    'page.publish.gwr.pickHint':
+      'Das eidgenössische Register führt {n} Wohnungen in diesem Gebäude. Wähle eine aus, um Wohnfläche, Zimmer und Geschoss zu übernehmen.',
+    'page.publish.gwr.unitLabel': '{floor}, {rooms} Zimmer, {area} m2',
+    'page.publish.gwr.rooms': '{n} Zimmer',
+    'page.publish.gwr.area': '{n} m2',
+    'page.publish.gwr.groundFloor': 'Erdgeschoss',
+    'page.publish.gwr.upperFloor': '{n}. Obergeschoss',
+    'page.publish.gwr.basement': '{n}. Untergeschoss',
+    'page.publish.gwr.unit': 'Wohnung {n}',
+    'page.publish.gwr.filled': 'Wohnungsdaten aus dem eidgenössischen Register (GWR)',
     'page.publish.section.offer': 'Angebot',
     'page.publish.section.location': 'Lage',
     'page.publish.section.content': 'Inseratsinhalt',
@@ -1629,6 +1672,20 @@ const translations: Record<Locale, Record<string, string>> = {
       'Nessun dato della particella trovato qui. Compila l’annuncio manualmente.',
     'page.publish.prefill.zone': 'Zona',
     'page.publish.prefill.buildings': '{n} edifici sulla particella',
+
+    // Pagina Pubblica - selettore dell'abitazione dal Registro federale degli
+    // edifici e delle abitazioni (REA)
+    'page.publish.gwr.pick': 'Quale abitazione stai pubblicando?',
+    'page.publish.gwr.pickHint':
+      'Il registro federale elenca {n} abitazioni in questo edificio. Scegline una per compilare superficie abitabile, locali e piano.',
+    'page.publish.gwr.unitLabel': '{floor}, {rooms} locali, {area} m2',
+    'page.publish.gwr.rooms': '{n} locali',
+    'page.publish.gwr.area': '{n} m2',
+    'page.publish.gwr.groundFloor': 'Pianterreno',
+    'page.publish.gwr.upperFloor': 'Piano {n}',
+    'page.publish.gwr.basement': 'Piano interrato {n}',
+    'page.publish.gwr.unit': 'Abitazione {n}',
+    'page.publish.gwr.filled': 'Dati dell’abitazione dal registro federale (REA)',
     'page.publish.section.offer': 'Offerta',
     'page.publish.section.location': 'Ubicazione',
     'page.publish.section.content': 'Contenuto dell’annuncio',
