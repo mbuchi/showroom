@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.23.0',
+    date: 'July 29, 2026',
+    codename: 'Speaks SwissRETS',
+    summary: 'The portal package now also ships SwissRETS, the modern successor to IDX: a validated JSON 3.6 export plus the XML 2.7 flavor the live portal interfaces accept.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Package,
+        text: 'SwissRETS export: the Publish page package now contains swissrets/export.json (SwissRETS 3.6, the actively developed standard, validated in the browser against the official schema before download) and swissrets/export.xml (SwissRETS 2.7, accepted by newhome\'s import interface, CASAGATEWAY, and the SMG gateway). Categories map from the official Qualipool IDX-to-SwissRETS table, images are referenced by their public gallery URLs, and a standalone SwissRETS JSON download is available next to the other export actions.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.22.1',
     date: 'July 29, 2026',
     codename: 'The right bones',
