@@ -11,7 +11,7 @@ import type {
   PriceUnit,
   YesNo,
 } from '../../lib/idx/types';
-import { defaultPriceUnit, priceUnitsFor } from '../../lib/publishPriceUnit';
+import { normalizedPriceUnit, priceUnitsFor } from '../../lib/publishPriceUnit';
 
 // IDX 3.01 caps: the record builder truncates at these lengths, so the form
 // counts down to them live instead of letting the export silently cut copy.
@@ -140,7 +140,14 @@ export default function ListingForm({
                 { id: 'SALE', label: t('page.publish.offer.sale') },
               ]}
               value={draft.offerType}
-              onChange={(id) => patch({ offerType: id, priceUnit: defaultPriceUnit(id) })}
+              // SegmentedTabs fires onChange on every click, including the
+              // already-active tab — so this must not always jump to the
+              // default unit. normalizedPriceUnit is a no-op when the
+              // current unit is still valid for `id` (a re-click of the
+              // active tab) and only resets on a real offer-type switch.
+              onChange={(id) =>
+                patch({ offerType: id, priceUnit: normalizedPriceUnit(draft.priceUnit, id) })
+              }
               ariaLabel={t('page.publish.section.offer')}
               dark
               size="sm"

@@ -2,6 +2,7 @@ import { act, useEffect } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ParcelInfo } from '../../../lib/parcelInfo';
+import { normalizedPriceUnit } from '../../../lib/publishPriceUnit';
 import { DRAFT_KEY, usePublishDraft, type PublishDraftApi } from '../usePublishDraft';
 
 // The hook is driven through a real React root (React 18.3 ships `act`), so no
@@ -262,5 +263,15 @@ describe('usePublishDraft legacy priceUnit normalization', () => {
     });
 
     expect(api().draft.priceUnit).toBe('SELL');
+  });
+
+  it('leaves a user-chosen non-default unit alone on a same-offer-type call', () => {
+    // Regression: SegmentedTabs (the offer-type control in ListingForm) fires
+    // onChange on every click, including a click on the tab that is already
+    // active. ListingForm calls normalizedPriceUnit(draft.priceUnit, id) —
+    // not defaultPriceUnit(id) — precisely so that re-clicking the active
+    // RENT tab while "Rent per year" is selected does not silently fall back
+    // to the MONTHLY default underneath a real, already-typed rent amount.
+    expect(normalizedPriceUnit('YEARLY', 'RENT')).toBe('YEARLY');
   });
 });
