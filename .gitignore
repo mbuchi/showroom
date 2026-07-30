@@ -27,3 +27,5 @@ dist-ssr
 
 # Superpowers brainstorming companion (local only)
 .superpowers/
+.vercel
+.env*
