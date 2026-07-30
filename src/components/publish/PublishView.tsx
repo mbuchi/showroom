@@ -192,6 +192,8 @@ export default function PublishView() {
                 patchFeature={patchFeature}
                 errorFields={errorFields}
                 pricePerM2Living={prefillResult?.pricePerM2Living ?? null}
+                zone={prefillResult?.zone ?? null}
+                buildingCount={prefillResult?.buildingCount ?? null}
               />
             </div>
 
