@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.2',
+    date: 'July 31, 2026',
+    codename: 'Tooltip manners',
+    summary: 'Toolbar tooltips now close when you click a button instead of staying pinned open.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text: 'Toolbar tooltips no longer stay open after clicking a button.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.1',
     date: 'July 31, 2026',
     codename: 'Short and sweet',
