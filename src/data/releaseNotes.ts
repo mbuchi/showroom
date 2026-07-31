@@ -12,7 +12,7 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
-    version: '0.24.2',
+    version: '0.24.3',
     date: 'July 31, 2026',
     codename: 'Hub, but over there',
     summary: 'Jumping to the Aireon hub no longer navigates away: hub links now open in a new browser tab.',
@@ -21,6 +21,20 @@ export const RELEASES: Release[] = [
         kind: 'improved' as ChangeKind,
         icon: ExternalLink,
         text: 'Links to the Aireon hub, including the See all Aireon applications button in the About dialog and the Aireon badge in the navbar, now open in a new browser tab so your work in showroom stays open.',
+        prs: [],
+      },
+    ],
+  },
+  {
+    version: '0.24.2',
+    date: 'July 31, 2026',
+    codename: 'Tooltip manners',
+    summary: 'Toolbar tooltips now close when you click a button instead of staying pinned open.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text: 'Toolbar tooltips no longer stay open after clicking a button.',
         prs: [],
       },
     ],
