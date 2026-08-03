@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.4',
+    date: 'August 3, 2026',
+    codename: 'Frosted, not solid',
+    summary: 'The confirmation that appears after you copy a share link is now translucent frosted glass, so the page behind it stays visible.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Link2,
+        text: 'Choosing Share this view in the account menu copies the link and shows a confirmation at the top of the screen. That confirmation used to be a flat green panel laid over the page. It is now translucent frosted glass that blurs and gently dims whatever sits behind it, so you keep sight of where you were, and the label stays easy to read even over a busy photo or map.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.3',
     date: 'July 31, 2026',
     codename: 'Hub, but over there',
