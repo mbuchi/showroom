@@ -23,6 +23,12 @@ export const RELEASES: Release[] = [
         text: 'Choosing Share this view in the account menu copies the link and shows a confirmation at the top of the screen. That confirmation used to be a flat green panel laid over the page. It is now translucent frosted glass that blurs and gently dims whatever sits behind it, so you keep sight of where you were, and the label stays easy to read even over a busy photo or map.',
         prs: [],
       },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: ShieldAlert,
+        text: 'Opening showroom now stays signed out by default even when the browser carries an Aireon SSO hint: it does not redirect to Zitadel or open a sign-in prompt automatically. The hard-coded blocking login screen is removed, so the App Manager access policy is authoritative; when showroom is Public, it remains usable without an account, while Sign in still starts the normal interactive login when requested.',
+        prs: [],
+      },
     ],
   },
   {

@@ -10,7 +10,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <SharedAuthProvider
       appName="showroom"
-      loginBlocking
+      silentSso={false}
+      loginPromptOnFirstVisit={false}
       loginDescription="Sign in to see your parcel exports - screenshots, reports and rendered outputs."
     >
       {children}
