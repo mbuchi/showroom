@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.5',
+    date: 'August 5, 2026',
+    codename: 'Keep the composition',
+    summary: 'Signing in now keeps the exact page, parcel, panels and in-progress publishing work in place.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: ShieldAlert,
+        text: 'Sign in now completes without reloading showroom, so the current gallery or reporter page, selected parcel, open panel, entered publishing details and unfinished work remain exactly as they were.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.4',
     date: 'August 3, 2026',
     codename: 'Frosted, not solid',
