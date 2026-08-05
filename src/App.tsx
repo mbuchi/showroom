@@ -47,7 +47,7 @@ function GallerySkeleton() {
 }
 
 function AppShell() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
   const { pathname } = useRoute();
   const isReporter = pathname === '/reporter';
   const isPublish = pathname === '/publish';
@@ -84,14 +84,9 @@ function AppShell() {
     return <GallerySkeleton />;
   }
 
-  // Anonymous visitors get the suite-standard blocking login modal, rendered
-  // by the shared AuthProvider; the app sits behind a plain backdrop.
-  if (!isAuthenticated) {
-    return <div className="min-h-screen bg-gray-50 dark:bg-gray-950" />;
-  }
-
-  // Rendered only on the authenticated branch so the tour never probes the
-  // bare signed-out backdrop (zero targets there would eat the first run).
+  // The gallery, reporter, and publisher are public surfaces. Authentication
+  // only unlocks account-backed actions, so signed-out visitors get the same
+  // primary UI and can choose Sign in when they need those actions.
   const tour = tourActive ? (
     <Suspense fallback={null}>
       <Tour onClose={handleTourClose} />

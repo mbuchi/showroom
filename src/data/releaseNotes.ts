@@ -26,7 +26,7 @@ export const RELEASES: Release[] = [
       {
         kind: 'improved' as ChangeKind,
         icon: ShieldAlert,
-        text: 'Opening showroom now stays signed out by default even when the browser carries an Aireon SSO hint: it does not redirect to Zitadel or open a sign-in prompt automatically. The hard-coded blocking login screen is removed, so the App Manager access policy is authoritative; when showroom is Public, it remains usable without an account, while Sign in still starts the normal interactive login when requested.',
+        text: 'Opening showroom now stays signed out by default even when the browser carries an Aireon SSO hint: it does not redirect to Zitadel or open a sign-in prompt automatically. The hard-coded blocking login screen and its empty signed-out backdrop are removed, so the App Manager access policy is authoritative; when showroom is Public, its gallery, reporter, and publisher remain usable without an account, while Sign in still starts the normal interactive login when requested.',
         prs: [],
       },
     ],
