@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.6',
+    date: 'August 8, 2026',
+    codename: 'No forced sign-in',
+    summary: 'Signed-out visitors are never redirected to the sign-in page anymore: the app always opens directly, and signing in stays your choice.',
+    items: [
+      {
+        kind: 'changed' as ChangeKind,
+        icon: Sparkles,
+        text: 'Opening showroom while signed out used to bounce some visitors through the account service, and could even strand you on its sign-in page when an old session had expired. That automatic redirect is gone across the whole Aireon suite: showroom now always loads anonymously, and you only ever see the sign-in screen after choosing Sign in yourself.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.5',
     date: 'August 5, 2026',
     codename: 'Keep the composition',
