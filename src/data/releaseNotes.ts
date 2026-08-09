@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.8',
+    date: 'August 9, 2026',
+    codename: 'Faster foundations',
+    summary: 'Showroom is now built with Vite 8, so it is quicker to build and a little lighter to load.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'Showroom now builds on Vite 8 (Rolldown), the new all-in-one build engine. Preparing a new version of the app takes 2.6 seconds instead of 6.3, which means fixes and improvements reach you sooner. The stylesheet also came out slightly smaller, so the first screen paints a touch faster.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'The app is now delivered as more, smaller pieces at the same overall size. Because each piece is smaller, a returning visit only needs to re-download the parts that actually changed, and the rest is served straight from your browser cache.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.7',
     date: 'August 9, 2026',
     codename: 'Location included',
