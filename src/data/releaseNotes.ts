@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.7',
+    date: 'August 9, 2026',
+    codename: 'Location included',
+    summary: 'Confirming an address now keeps the exact location in the browser link across the reporter and publisher.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Link2,
+        text: 'Address confirmations now use the suite-wide canonical location link: latitude, longitude and the chosen address are updated together while unrelated page options remain intact.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.6',
     date: 'August 8, 2026',
     codename: 'No forced sign-in',
