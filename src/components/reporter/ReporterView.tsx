@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MapPin, RefreshCw, AlertTriangle, FileBarChart, FileDown } from 'lucide-react';
-import { WelcomeAddressCard, AddressSearch, useGlass, type AddressSearchResult } from '@aireon/shared';
+import {
+  WelcomeAddressCard,
+  AddressSearch,
+  useGlass,
+  isAddressGateBypassed,
+  type AddressSearchResult,
+} from '@aireon/shared';
 import Navbar from '../Navbar';
 import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
@@ -39,6 +45,14 @@ function allIds(): Set<ReporterAppId> {
 export default function ReporterView() {
   const { search } = useRoute();
   const params = parseParams(search);
+
+  // ?search_modal=off / ?welcome=off: the visitor asked to skip the address
+  // gate. Showroom has no map to fall through to, so we take the compact
+  // AddressSearch branch instead of the big welcome card. That drops the card
+  // while keeping a working search surface and the data-tour="reporter-search"
+  // anchor the app tour targets. Deliberately NOT isWelcomeSuppressed(), which
+  // is mode-inheriting: mode=screenshot|embed|kiosk must keep the card.
+  const gateBypassed = isAddressGateBypassed();
   const { t, locale } = useI18n();
   const { status, login } = useAuth();
   const { level: glassLevel } = useGlass();
@@ -180,7 +194,7 @@ export default function ReporterView() {
           </div>
         )}
 
-        {params ? (
+        {params || gateBypassed ? (
           <div data-tour="reporter-search" className="max-w-xl mb-8">
             <AddressSearch
               dark
