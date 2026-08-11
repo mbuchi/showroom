@@ -2,6 +2,7 @@ import { CheckCircle2 } from 'lucide-react';
 import { Skeleton } from '@aireon/shared';
 import { useI18n } from '../../contexts/I18nContext';
 import type { PrefillResult, PrefillState } from './usePublishDraft';
+import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 
 // Outcome of the address prefill, rendered under the address search: what the
 // parcel lookup wrote into the form, plus the two parcel facts that inform a
@@ -25,10 +26,10 @@ export default function PrefillSummary({ state, result }: PrefillSummaryProps) {
 
   if (state === 'loading') {
     return (
-      <div className="mt-2.5" role="status" aria-label={t('page.publish.prefill.loading')}>
+      <PolicyLoadingFeedback label={t('page.publish.prefill.loading')} skeleton={<div className="mt-2.5" role="status" aria-label={t('page.publish.prefill.loading')}>
         <Skeleton height={11} radius={4} className="w-56" />
         <Skeleton height={11} radius={4} delay="80ms" className="mt-1.5 w-40" />
-      </div>
+      </div>} />
     );
   }
 

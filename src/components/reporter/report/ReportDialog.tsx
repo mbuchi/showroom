@@ -11,6 +11,7 @@ import { signal } from '../../../lib/signal';
 import { captureMany } from './captureCard';
 import { buildReportPayload, reportFilename } from './buildReport';
 import type { WidgetReportRaw } from './types';
+import { PolicyLoadingFeedback } from '../../PolicyLoadingFeedback';
 
 type Phase = 'idle' | 'capturing' | 'rendering' | 'ready' | 'error';
 
@@ -244,7 +245,7 @@ function PhaseBlock({
 }) {
   if (phase === 'capturing') {
     return (
-      <Stage
+      <PolicyLoadingFeedback label={t('report.dialog.capturing')} skeleton={<Stage
         icon={<Skeleton width={18} height={18} radius={5} />}
         title={t('report.dialog.capturing')}
         body={t('report.dialog.capturing_body')}
@@ -254,12 +255,12 @@ function PhaseBlock({
             <Skeleton key={i} width={88} height={26} radius={6} delay={`${i * 70}ms`} />
           ))}
         </div>
-      </Stage>
+      </Stage>} />
     );
   }
   if (phase === 'rendering') {
     return (
-      <Stage
+      <PolicyLoadingFeedback label={t('report.dialog.rendering')} skeleton={<Stage
         icon={<Skeleton width={18} height={18} radius={5} />}
         title={t('report.dialog.rendering')}
         body={t('report.dialog.rendering_body')}
@@ -267,7 +268,7 @@ function PhaseBlock({
         <div className="mt-4">
           <Skeleton height={120} radius={8} />
         </div>
-      </Stage>
+      </Stage>} />
     );
   }
   if (phase === 'ready') {

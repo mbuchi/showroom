@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { ExternalLink, AlertTriangle, MapPinned, RefreshCw, Check } from 'lucide-react';
 import { Skeleton } from '@aireon/shared';
 import { useI18n } from '../../contexts/I18nContext';
+import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 
 // Presentational shell for one reporter widget: a 16:10 live-map slot. The
 // headline stat renders large over a gradient scrim at the bottom of the map;
@@ -123,7 +124,11 @@ export default function WidgetCard({
         </span>
 
         {status === 'loading' && (
-          <Skeleton className="absolute inset-0 pointer-events-none" radius={0} />
+          <PolicyLoadingFeedback
+            fill
+            label={t('page.reporter.widget.status.loading')}
+            skeleton={<Skeleton className="h-full w-full pointer-events-none" radius={0} />}
+          />
         )}
 
         {status === 'no_data' && (

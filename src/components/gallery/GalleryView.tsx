@@ -12,6 +12,7 @@ import ParcelGroup from './ParcelGroup';
 import ExportCard from './ExportCard';
 import ExportLightbox from '../lightbox/ExportLightbox';
 import { useI18n } from '../../contexts/I18nContext';
+import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 
 const FILTERS_STORAGE_KEY = 'showroom:filters:v1';
 
@@ -279,7 +280,10 @@ export default function GalleryView() {
 
         <div data-tour="gallery-content" className="mt-6">
           {isLoading ? (
-            viewMode === 'grouped' ? <GroupedSkeleton /> : <ExportSkeleton />
+            <PolicyLoadingFeedback
+              label="Loading exports…"
+              skeleton={viewMode === 'grouped' ? <GroupedSkeleton /> : <ExportSkeleton />}
+            />
           ) : error ? (
             <ErrorState message={error} onRetry={() => load()} />
           ) : images.length === 0 ? (

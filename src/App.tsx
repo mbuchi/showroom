@@ -8,6 +8,7 @@ import ReporterSkeleton from './components/reporter/ReporterSkeleton';
 import PublishSkeleton from './components/publish/PublishSkeleton';
 import { useRoute } from './lib/router';
 import { hasCompletedTour, markTourCompleted, TOUR_REQUEST_EVENT } from './lib/tour';
+import { PolicyLoadingFeedback } from './components/PolicyLoadingFeedback';
 
 // The reporter pulls in mapbox-gl + leaflet — lazy-loaded so the gallery page
 // never downloads the map bundles.
@@ -79,9 +80,12 @@ function AppShell() {
   if (isLoading) {
     // Each route boots into its own page's shape, so a shared deep link
     // (or a hard refresh) never flashes another page's skeleton.
-    if (isReporter) return <ReporterSkeleton />;
-    if (isPublish) return <PublishSkeleton />;
-    return <GallerySkeleton />;
+    const skeleton = isReporter
+      ? <ReporterSkeleton />
+      : isPublish
+        ? <PublishSkeleton />
+        : <GallerySkeleton />;
+    return <PolicyLoadingFeedback label="Loading Showroom…" skeleton={skeleton} />;
   }
 
   // The gallery, reporter, and publisher are public surfaces. Authentication
@@ -96,7 +100,7 @@ function AppShell() {
   if (isReporter) {
     return (
       <>
-        <Suspense fallback={<ReporterSkeleton />}>
+        <Suspense fallback={<PolicyLoadingFeedback label="Loading reporter…" skeleton={<ReporterSkeleton />} />}>
           <ReporterView />
         </Suspense>
         {tour}
@@ -107,7 +111,7 @@ function AppShell() {
   if (isPublish) {
     return (
       <>
-        <Suspense fallback={<PublishSkeleton />}>
+        <Suspense fallback={<PolicyLoadingFeedback label="Loading publisher…" skeleton={<PublishSkeleton />} />}>
           <PublishView />
         </Suspense>
         {tour}
