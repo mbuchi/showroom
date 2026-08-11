@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.9',
+    date: 'August 11, 2026',
+    codename: 'Calmer startup',
+    summary: 'Startup now stays visually calm during quick access and app initialization; the full loading skeleton appears only after 2.5 seconds.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text: 'Startup now stays visually calm during quick access and app initialization; the full loading skeleton appears only after 2.5 seconds.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.8',
     date: 'August 9, 2026',
     codename: 'Faster foundations',
