@@ -12,6 +12,18 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.11',
+    date: 'August 12, 2026',
+    codename: 'Calm by default',
+    summary: 'Loading placeholders now follow the suite-wide Hub setting and stay hidden by default during quick waits.',
+    items: [{
+      kind: 'improved' as ChangeKind,
+      icon: Sparkles,
+      text: 'Gallery, reporter, publisher, image and report-building placeholders now follow the loading-feedback policy managed in the Aireon Hub. Both the spinner and skeleton are off by default; an administrator can enable either mode and choose when skeletons appear for longer waits.',
+      prs: [],
+    }],
+  },
+  {
     version: '0.24.10',
     date: 'August 12, 2026',
     codename: 'Straight to search',

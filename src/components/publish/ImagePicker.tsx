@@ -6,6 +6,7 @@ import { listImages, type SavedImage } from '../../services/imageService';
 import { sanitizeIdxFilename } from '../../lib/idx/latin1';
 import { IDX_MAX_PICTURES } from '../../lib/idx/record';
 import type { ListingImageRef } from '../../lib/idx/types';
+import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 
 /** Append `-2`, `-3`, … before the extension until the name is free. Two
  *  gallery exports very often share `screenshot.png`, and the IDX images/
@@ -114,11 +115,11 @@ export default function ImagePicker({ images, onChange }: ImagePickerProps) {
       <p className="mb-3 text-xs leading-snug text-gray-500">{t('page.publish.images.hint')}</p>
 
       {gallery === null && (
-        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-5">
+        <PolicyLoadingFeedback label="Loading gallery…" skeleton={<div className="grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: 6 }).map((_, i) => (
             <Skeleton key={i} className="w-full aspect-video" radius={8} delay={`${i * 60}ms`} />
           ))}
-        </div>
+        </div>} />
       )}
 
       {gallery !== null && gallery.length === 0 && (

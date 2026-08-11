@@ -14,6 +14,7 @@ import type { SavedImage } from '../../services/imageService';
 import MetadataPanel from './MetadataPanel';
 import { useI18n } from '../../contexts/I18nContext';
 import { Skeleton, useFocusTrap } from '@aireon/shared';
+import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 
 interface LightboxProps {
   images: SavedImage[];
@@ -188,10 +189,16 @@ export default function ExportLightbox({
             onClick={(e) => e.stopPropagation()}
           >
             {!imgLoaded && (
-              <Skeleton
-                className="absolute w-[70vw] max-w-3xl h-[60vh] max-h-[calc(100dvh-9rem)]"
-                radius={8}
-              />
+              <div
+                data-lightbox-loading-host="true"
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-3xl h-[60vh] max-h-[calc(100dvh-9rem)]"
+              >
+                <PolicyLoadingFeedback
+                  fill
+                  label="Loading image…"
+                  skeleton={<Skeleton className="h-full w-full" radius={8} />}
+                />
+              </div>
             )}
             <img
               key={image.id}

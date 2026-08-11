@@ -16,6 +16,7 @@ import {
 import { fetchParcelInfo, type ParcelInfo } from '../../lib/parcelInfo';
 import { useI18n } from '../../contexts/I18nContext';
 import { useAuth } from '../../auth/AuthContext';
+import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 
 // Parcel-context strip rendered above the reporter cards, so the suite-standard
 // parcel identity (address + EGRID) leads the report view, followed by a
@@ -192,11 +193,11 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
 
   if (state.kind === 'loading') {
     return (
-      <div className="surface rounded-xl px-4 py-3 mb-6 flex flex-wrap items-center gap-2">
+      <PolicyLoadingFeedback label="Loading parcel information…" skeleton={<div className="surface rounded-xl px-4 py-3 mb-6 flex flex-wrap items-center gap-2">
         {[72, 88, 64, 80, 56, 76].map((w, i) => (
           <Skeleton key={i} width={w} height={28} radius={8} delay={`${i * 60}ms`} />
         ))}
-      </div>
+      </div>} />
     );
   }
 

@@ -5,6 +5,7 @@ import type { SavedImage } from '../../services/imageService';
 import { APP_LABELS, APP_BADGE_CLASSES } from '../../services/imageService';
 import { formatRelativeTime } from '../../lib/format';
 import { useI18n } from '../../contexts/I18nContext';
+import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 
 interface ExportCardProps {
   image: SavedImage;
@@ -43,7 +44,13 @@ export default function ExportCard({
         aria-label={t('card.open', { name: image.original_filename })}
       >
         <div className="relative aspect-[4/3] bg-ink-900 overflow-hidden">
-          {!loaded && <Skeleton className="absolute inset-0" radius={0} />}
+          {!loaded && (
+            <PolicyLoadingFeedback
+              fill
+              label="Loading image…"
+              skeleton={<Skeleton className="h-full w-full" radius={0} />}
+            />
+          )}
           <img
             src={image.public_url}
             alt={image.original_filename}
