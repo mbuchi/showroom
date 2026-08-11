@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.24.10',
+    date: 'August 12, 2026',
+    codename: 'Straight to search',
+    summary: 'Reporter links can now skip the welcome card and open straight on the compact address search.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Link2,
+        text: 'Adding ?search_modal=off (or the older ?welcome=off) to a reporter link now skips the full welcome card and opens the reporter with the compact address search instead. A shared link lands on the app itself rather than on a gate, and you can still search for any address from there. Screenshot, embed and kiosk links are unaffected and keep showing the welcome card.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.9',
     date: 'August 11, 2026',
     codename: 'Calmer startup',
