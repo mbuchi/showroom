@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aireon/shared": "github:mbuchi/aireon-shared#v1.158.0",
-    "@openreplay/tracker": "^18.1.0",
+    "@openreplay/tracker": "^18.1.2",
     "@qualipool/swissrets-json": "^3.6.0",
     "@react-pdf/renderer": "^4.5.1",
     "fflate": "^0.8.3",
@@ -33,7 +33,7 @@
     "@eslint/js": "^9.39.5",
     "@rolldown/plugin-babel": "^0.2.3",
     "@types/babel__core": "^7.20.5",
-    "@types/leaflet": "^1.9.21",
+    "@types/leaflet": "^1.9.22",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^6.0.5",
