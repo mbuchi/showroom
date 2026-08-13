@@ -1,4 +1,9 @@
 <!doctype html>
+<!-- class="dark" stays: showroom is a dark-only app (`:root { color-scheme: dark }`,
+     body painted with the dark ink palette, no theme toggle). It is a static class,
+     not a competing pre-paint script, and it keeps the injected static shell dark for
+     a visitor whose suite-wide cookie says light - which is what this app paints
+     anyway. Removing it would light the shell and then flash to dark on mount. -->
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
@@ -7,15 +12,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://hub.aireon.ch/favicon-32x32.png" />
     <meta name="theme-color" content="#08090b" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Warm the TLS connection to the Zitadel SSO host so the silent
-         sign-in check on load doesn't pay a cold DNS + handshake first. -->
-    <link rel="preconnect" href="https://swissnovo-ekqvxs.ch1.zitadel.cloud" crossorigin />
-    <!-- crossorigin lets html-to-image (report image export) read this sheet's
-         cssRules to embed fonts; without it the export logs a cssRules
-         SecurityError. Google Fonts serves Access-Control-Allow-Origin: *. -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Varela+Round&display=swap" rel="stylesheet" crossorigin="anonymous" />
+    <!-- No font or SSO <link> hints here on purpose. Fonts are self-hosted through
+         @aireon/shared/fonts.css (see src/main.tsx), and the pre-paint theme
+         bootstrap plus the preconnects the first screen actually uses are injected
+         at build time by aireonHtmlPlugin in vite.config.ts. See
+         aireon-shared/docs/PERFORMANCE_STANDARD.md. -->
     <title>showroom - Free Real Estate Report Builder</title>
     <meta name="description" content="Assemble a property report from all aireon services instantly" />
     <meta property="og:type" content="website" />
