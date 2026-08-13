@@ -12,6 +12,38 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.25.0',
+    date: 'August 13, 2026',
+    codename: 'First frame',
+    summary: 'Showroom now paints instantly on open instead of sitting on a blank page while the app downloads.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'Opening Showroom now shows the dark page and the top bar in the very first frame, before any code has run, so the tab never flashes white and the gallery no longer starts from an empty screen.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Type,
+        text: 'Inter, JetBrains Mono and Varela Round are now served from Showroom itself instead of being fetched from Google Fonts. Text appears sooner, the app keeps its typefaces on networks that block Google, and saved images and reports still embed the real fonts.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text: 'The connection to the Aireon services that hold your exports is now opened while the app is still loading, so your gallery tiles arrive earlier. A leftover connection to the sign-in host that nothing used has been dropped.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Shield,
+        text: 'Updated @aireon/shared to v1.160.0 and confirmed that build files are cached by the browser for a year, so repeat visits reuse what they already have.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.24.12',
     date: 'August 12, 2026',
     codename: 'Quiet all the way down',
