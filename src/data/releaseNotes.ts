@@ -56,6 +56,26 @@ export const RELEASES: Release[] = [
     ],
   },
   {
+    version: '0.26.1',
+    date: 'August 14, 2026',
+    codename: 'Small maps',
+    summary: 'The little maps Claire draws inside her answers now appear properly instead of showing an empty grey box.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text: 'When you ask Claire about a parcel and she answers with a small map or a building preview, that little map could come up completely blank. It now draws correctly. The large maps on the Reporter cards were never affected.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Shield,
+        text: 'Updated @aireon/shared to v1.165.0, keeping Showroom in step with the rest of the Aireon apps.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.26.0',
     date: 'August 14, 2026',
     codename: 'Newer engine',
