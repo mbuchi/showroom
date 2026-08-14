@@ -19,6 +19,18 @@ export function navigate(to: string): void {
   window.dispatchEvent(new PopStateEvent('popstate'));
 }
 
+/**
+ * Same as {@link navigate}, but rewrites the current history entry instead of
+ * pushing a new one. Used to heal a deep link in place once the real address of
+ * its coordinates is known: the visitor is still looking at the same location,
+ * so this must not add a Back-button step.
+ */
+export function replaceLocation(to: string): void {
+  if (to === window.location.pathname + window.location.search) return;
+  window.history.replaceState({}, '', to);
+  window.dispatchEvent(new PopStateEvent('popstate'));
+}
+
 export function useRoute(): Location {
   const [loc, setLoc] = useState<Location>(currentLocation);
   useEffect(() => {

@@ -14,6 +14,7 @@ import {
   type PrmRecord,
 } from '@aireon/shared';
 import { fetchParcelInfo, type ParcelInfo } from '../../lib/parcelInfo';
+import { prmLabel, type ParcelAddressResolution } from '../../lib/reportAddress';
 import { useI18n } from '../../contexts/I18nContext';
 import { useAuth } from '../../auth/AuthContext';
 import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
@@ -27,9 +28,14 @@ import { PolicyLoadingFeedback } from '../PolicyLoadingFeedback';
 interface ParcelInfoStripProps {
   lat: number;
   lng: number;
-  /** Searched address from the URL query — used as the saved-parcel label
-   *  when present, falling back to formatted coordinates otherwise. */
-  address?: string | null;
+  /**
+   * The address resolved from the PARCEL's identity, or null while that lookup
+   * is still running. Deliberately not the `?q=` text from the URL: that is a
+   * label somebody else attached to these coordinates and it can name a
+   * different parcel entirely, which is how wrong addresses used to end up
+   * stored on saved parcels forever. See lib/reportAddress.ts.
+   */
+  resolvedAddress?: ParcelAddressResolution | null;
   /** Bubble the fetched parcel up to ReporterView so the PDF report can embed
    *  it without paying for a second /api/parcel-data request. Fires once per
    *  load, with `null` on failure. */
@@ -79,11 +85,13 @@ function Chip({
   );
 }
 
-function formatCoords(lat: number, lng: number): string {
-  return `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-}
 
-export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelInfoStripProps) {
+export default function ParcelInfoStrip({
+  lat,
+  lng,
+  resolvedAddress,
+  onLoaded,
+}: ParcelInfoStripProps) {
   const { t } = useI18n();
   const { getAccessToken, isAuthenticated } = useAuth();
   const accessToken = isAuthenticated ? getAccessToken() ?? null : null;
@@ -144,7 +152,10 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
     try {
       const record = await createPrmRecord(accessToken, {
         parcel_id: info.egrid!,
-        parcel_label: address?.trim() || formatCoords(lat, lng),
+        // The saved record is keyed by EGRID, so its label must describe THAT
+        // parcel. Resolved address first, then the parcel's own stored
+        // address, and only coordinates when the register knows neither.
+        parcel_label: prmLabel(info, resolvedAddress, lat, lng),
         parcel_municipality: info.locality ?? '',
         parcel_area: info.buildingSizeM2 ?? 0,
         parcel_lng: lng,
@@ -218,8 +229,8 @@ export default function ParcelInfoStrip({ lat, lng, address, onLoaded }: ParcelI
           subtitle, and a copyable monospace EGRID chip. Replaces the old
           address + parcel-id chips so the strip leads with "which parcel". */}
       <ParcelIdentityHeader
-        address={info.address ?? info.locality}
-        subtitle={info.address ? info.locality : null}
+        address={resolvedAddress?.street ?? info.address ?? info.locality}
+        subtitle={(resolvedAddress?.street ?? info.address) ? info.locality : null}
         egrid={info.egrid}
         dark
         labels={{

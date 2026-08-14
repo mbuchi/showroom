@@ -12,8 +12,15 @@ import ReportGrid from './ReportGrid';
 import ParcelInfoStrip from './ParcelInfoStrip';
 import ReportDialog from './report/ReportDialog';
 import ReporterClaire from './ReporterClaire';
-import { navigate, useRoute } from '../../lib/router';
-import { isGeocodingConfigured } from '../../lib/geocode';
+import { navigate, replaceLocation, useRoute } from '../../lib/router';
+import { geocodeAddress, isGeocodingConfigured } from '../../lib/geocode';
+import {
+  displayAddress,
+  healedSearch,
+  parseReportParams,
+  readDeepLinkAddress,
+} from '../../lib/reportParams';
+import { resolveReportAddress, type ParcelAddressResolution } from '../../lib/reportAddress';
 import { signal } from '../../lib/signal';
 import { useI18n } from '../../contexts/I18nContext';
 import { buildSearchLabels } from '../../lib/searchLabels';
@@ -23,28 +30,13 @@ import { REPORTER_APPS } from '../../lib/reporterApps';
 import type { ParcelInfo } from '../../lib/parcelInfo';
 import type { WidgetReportRaw } from './report/types';
 
-interface ReportParams {
-  lat: number;
-  lng: number;
-  address: string | null;
-}
-
-function parseParams(search: string): ReportParams | null {
-  const p = new URLSearchParams(search);
-  const lat = Number.parseFloat(p.get('lat') ?? '');
-  const lng = Number.parseFloat(p.get('lng') ?? '');
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
-  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
-  return { lat, lng, address: p.get('q') };
-}
-
 function allIds(): Set<ReporterAppId> {
   return new Set<ReporterAppId>(REPORTER_APPS.map((a) => a.id));
 }
 
 export default function ReporterView() {
   const { search } = useRoute();
-  const params = parseParams(search);
+  const params = parseReportParams(search);
 
   // ?search_modal=off / ?welcome=off: the visitor asked to skip the address
   // gate. Showroom has no map to fall through to, so we take the compact
@@ -73,6 +65,14 @@ export default function ReporterView() {
   // Parcel facts for the report's identification page — lifted from the strip
   // so the PDF can embed them without a second /api/parcel-data round-trip.
   const [parcel, setParcel] = useState<ParcelInfo | null>(null);
+  // The strip reports `null` both before it has looked and after a failed
+  // lookup, so the address resolver needs to know the difference.
+  const [parcelSettled, setParcelSettled] = useState(false);
+
+  // The address of the PARCEL the coordinates land on. Overwrites the URL text
+  // as soon as it arrives — see lib/reportParams.ts for why the text never
+  // wins.
+  const [resolved, setResolved] = useState<ParcelAddressResolution | null>(null);
 
   const [reportOpen, setReportOpen] = useState(false);
 
@@ -86,7 +86,67 @@ export default function ReporterView() {
     setSelection(allIds());
     setRawByWidget({});
     setParcel(null);
+    setParcelSettled(false);
+    setResolved(null);
   }, [params?.lat, params?.lng]);
+
+  // The URL text is a hint; the coordinates are the identity. Once the parcel
+  // lookup for this point has settled, ask the parcel for its address, show
+  // that instead, and stamp it back over the stale text so the link heals
+  // itself and every copy taken from here on is right.
+  //
+  // Deliberately NOT gated on "no address in the URL": a truthy hint
+  // short-circuiting this effect is exactly the defect that made a wrong label
+  // permanent. See aireon-shared/docs/URL_PARAMS_STANDARD.md, "Address
+  // precedence".
+  const lat = params?.lat;
+  const lng = params?.lng;
+  useEffect(() => {
+    if (lat === undefined || lng === undefined || !parcelSettled) return;
+    const ctrl = new AbortController();
+    let cancelled = false;
+    void resolveReportAddress(lat, lng, parcel, ctrl.signal).then((result) => {
+      // No answer: keep showing the hint. Better than a blank banner.
+      if (cancelled || !result) return;
+      setResolved(result);
+      replaceLocation(
+        `${window.location.pathname}?${healedSearch(window.location.search, result.label)}`,
+      );
+    });
+    return () => {
+      cancelled = true;
+      ctrl.abort();
+    };
+  }, [lat, lng, parcel, parcelSettled]);
+
+  // A bare `?q=` with no coordinates is the one case where the text IS the
+  // answer: nobody handed us a place to defer to, so geocode it and go there
+  // instead of leaving the visitor on an empty welcome card.
+  const deepLinkAddress = readDeepLinkAddress(search);
+  const bareQuery = deepLinkAddress.authoritative ? deepLinkAddress.hint : null;
+  useEffect(() => {
+    if (!bareQuery) return;
+    const ctrl = new AbortController();
+    let cancelled = false;
+    void geocodeAddress(bareQuery, ctrl.signal)
+      .then((results) => {
+        const hit = results[0];
+        if (cancelled || !hit) return;
+        const qs = new URLSearchParams(window.location.search);
+        qs.set('lat', hit.lat.toFixed(6));
+        qs.set('lng', hit.lng.toFixed(6));
+        qs.set('q', hit.label);
+        qs.delete('address');
+        replaceLocation(`${window.location.pathname}?${qs.toString()}`);
+      })
+      .catch(() => {
+        /* silent — the welcome card stays, the visitor can search by hand */
+      });
+    return () => {
+      cancelled = true;
+      ctrl.abort();
+    };
+  }, [bareQuery]);
 
   // Shared by the welcome card (no report yet) and the returning in-page
   // AddressSearch (re-search once a report is loaded) — both drive the same
@@ -143,6 +203,7 @@ export default function ReporterView() {
 
   const handleParcel = useCallback((info: ParcelInfo | null) => {
     setParcel(info);
+    setParcelSettled(true);
   }, []);
 
   const regenerate = useCallback(() => {
@@ -150,16 +211,20 @@ export default function ReporterView() {
     setRawByWidget({});
   }, []);
 
+  // What every surface shows: the parcel's own address once it is known, the
+  // URL text only as a placeholder until then, so nothing flashes blank.
+  const shownAddress = displayAddress(resolved?.label, params?.addressHint);
+
   const openReport = useCallback(() => {
     if (!params) return;
     void signal.send('Open Report Builder', {
       lat: params.lat,
       lng: params.lng,
-      address: params.address ?? undefined,
+      address: shownAddress ?? undefined,
       metaData: { widgets: Array.from(selection) },
     });
     setReportOpen(true);
-  }, [params, selection]);
+  }, [params, shownAddress, selection]);
 
   const selectedCount = selection.size;
   const liveSelectedCount = useMemo(
@@ -203,7 +268,7 @@ export default function ReporterView() {
               history
               appName="showroom"
               maxRecent={6}
-              activeAddress={params?.address ?? null}
+              activeAddress={shownAddress}
               onSelect={handleSelectAddress}
               onError={handleSearchError}
             />
@@ -241,7 +306,7 @@ export default function ReporterView() {
                 <div className="flex items-center gap-2 text-gray-100">
                   <MapPin size={15} className="text-cyan-400 flex-shrink-0" />
                   <span className="text-sm font-semibold truncate">
-                    {params.address || t('page.reporter.selected_location')}
+                    {shownAddress || t('page.reporter.selected_location')}
                   </span>
                 </div>
                 <p className="mt-0.5 text-xs text-gray-500 font-mono">
@@ -291,7 +356,7 @@ export default function ReporterView() {
             <ParcelInfoStrip
               lat={params.lat}
               lng={params.lng}
-              address={params.address}
+              resolvedAddress={resolved}
               onLoaded={handleParcel}
             />
 
@@ -313,7 +378,7 @@ export default function ReporterView() {
               onClose={() => setReportOpen(false)}
               lat={params.lat}
               lng={params.lng}
-              address={params.address}
+              address={shownAddress}
               parcel={parcel}
               selection={selection}
               rawByWidget={rawByWidget}
@@ -326,7 +391,7 @@ export default function ReporterView() {
               <ReporterClaire
                 lat={params.lat}
                 lng={params.lng}
-                address={params.address}
+                address={shownAddress}
                 parcel={parcel}
                 rawByWidget={rawByWidget}
               />
