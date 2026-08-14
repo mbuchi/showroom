@@ -12,6 +12,50 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.27.0',
+    date: 'August 14, 2026',
+    codename: 'The place decides',
+    summary: 'A shared Reporter link now shows the address of the parcel it actually points at, even when the link was labeled wrong.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text: 'A Reporter link carries both a location and a name for it, and the two could disagree. The name in the link now only fills the header for the moment it takes to look the location up, and is then replaced by the address of the parcel the location is actually on. A link that opened on "Alte Rheinstrasse 87" while the parcel details below read number 91 now shows 91 in both places.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Link2,
+        text: 'Once the real address is known, the link in your address bar is rewritten to match, so the next person you send it to gets the corrected version.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bookmark,
+        text: 'Saving a parcel from the Reporter now stores the parcel’s own address on the saved record. Previously it stored whatever text the link happened to carry, which could name a neighboring property and stayed on the record for good.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: FileBarChart,
+        text: 'The generated PDF report and Claire now quote the same resolved address as the page, so nothing in the report contradicts the parcel details.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Compass,
+        text: 'A Reporter link that carries only an address and no coordinates now finds that address and opens its report, instead of stopping at the search card.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Shield,
+        text: 'Updated @aireon/shared to v1.166.0, keeping Showroom in step with the rest of the Aireon apps.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.26.1',
     date: 'August 14, 2026',
     codename: 'Small maps',
