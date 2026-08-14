@@ -38,8 +38,14 @@ interface ParcelInfoStripProps {
   resolvedAddress?: ParcelAddressResolution | null;
   /** Bubble the fetched parcel up to ReporterView so the PDF report can embed
    *  it without paying for a second /api/parcel-data request. Fires once per
-   *  load, with `null` on failure. */
-  onLoaded?: (info: ParcelInfo | null) => void;
+   *  load, with `null` on failure.
+   *
+   *  The coordinates the parcel was fetched FOR are reported with it, and the
+   *  parent keys on them. It cannot infer them: by the time this fires the
+   *  parent's own lat/lng may already have moved on to a newer search, and a
+   *  parcel adopted by the wrong point resolves that point's address from the
+   *  wrong EGRID. */
+  onLoaded?: (info: ParcelInfo | null, lat: number, lng: number) => void;
 }
 
 type State =
@@ -106,12 +112,12 @@ export default function ParcelInfoStrip({
       .then((info) => {
         if (ctrl.signal.aborted) return;
         setState(info ? { kind: 'ok' as const, info } : { kind: 'error' as const });
-        onLoaded?.(info);
+        onLoaded?.(info, lat, lng);
       })
       .catch(() => {
         if (!ctrl.signal.aborted) {
           setState({ kind: 'error' });
-          onLoaded?.(null);
+          onLoaded?.(null, lat, lng);
         }
       });
     return () => ctrl.abort();

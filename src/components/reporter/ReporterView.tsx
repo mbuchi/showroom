@@ -19,6 +19,9 @@ import {
   healedSearch,
   parseReportParams,
   readDeepLinkAddress,
+  settledAtPoint,
+  valueAtPoint,
+  type PointScoped,
 } from '../../lib/reportParams';
 import { resolveReportAddress, type ParcelAddressResolution } from '../../lib/reportAddress';
 import { signal } from '../../lib/signal';
@@ -62,17 +65,29 @@ export default function ReporterView() {
     Partial<Record<ReporterAppId, WidgetReportRaw>>
   >({});
 
+  const lat = params?.lat;
+  const lng = params?.lng;
+
   // Parcel facts for the report's identification page — lifted from the strip
   // so the PDF can embed them without a second /api/parcel-data round-trip.
-  const [parcel, setParcel] = useState<ParcelInfo | null>(null);
-  // The strip reports `null` both before it has looked and after a failed
-  // lookup, so the address resolver needs to know the difference.
-  const [parcelSettled, setParcelSettled] = useState(false);
+  //
+  // Both this and the resolved address are tagged with the point they describe
+  // and read back through valueAtPoint, never directly. A re-search commits new
+  // coordinates one render before the reset for them lands, so an untagged read
+  // hands the NEW point the OLD parcel — and the resolver then answers for the
+  // new location off the old EGRID. See lib/reportParams.ts, PointScoped.
+  const [parcelAt, setParcelAt] = useState<PointScoped<ParcelInfo | null> | null>(null);
 
   // The address of the PARCEL the coordinates land on. Overwrites the URL text
   // as soon as it arrives — see lib/reportParams.ts for why the text never
   // wins.
-  const [resolved, setResolved] = useState<ParcelAddressResolution | null>(null);
+  const [resolvedAt, setResolvedAt] = useState<PointScoped<ParcelAddressResolution> | null>(null);
+
+  const parcel = valueAtPoint(parcelAt, lat, lng);
+  // The strip reports `null` both before it has looked and after a failed
+  // lookup, so the address resolver needs to know the difference.
+  const parcelSettled = settledAtPoint(parcelAt, lat, lng);
+  const resolved = valueAtPoint(resolvedAt, lat, lng);
 
   const [reportOpen, setReportOpen] = useState(false);
 
@@ -80,14 +95,14 @@ export default function ReporterView() {
   // retired bespoke box used to render its own inline fetch failures.
   const [searchError, setSearchError] = useState<string | null>(null);
 
-  // Reset everything when the location changes (new search).
+  // Reset everything when the location changes (new search). `parcelAt` and
+  // `resolvedAt` are deliberately absent: they are scoped to their own point,
+  // so a new location stops reading them the instant it renders, without
+  // waiting for this effect to flush.
   useEffect(() => {
     setRegenKey(0);
     setSelection(allIds());
     setRawByWidget({});
-    setParcel(null);
-    setParcelSettled(false);
-    setResolved(null);
   }, [params?.lat, params?.lng]);
 
   // The URL text is a hint; the coordinates are the identity. Once the parcel
@@ -99,8 +114,6 @@ export default function ReporterView() {
   // short-circuiting this effect is exactly the defect that made a wrong label
   // permanent. See aireon-shared/docs/URL_PARAMS_STANDARD.md, "Address
   // precedence".
-  const lat = params?.lat;
-  const lng = params?.lng;
   useEffect(() => {
     if (lat === undefined || lng === undefined || !parcelSettled) return;
     const ctrl = new AbortController();
@@ -108,7 +121,13 @@ export default function ReporterView() {
     void resolveReportAddress(lat, lng, parcel, ctrl.signal).then((result) => {
       // No answer: keep showing the hint. Better than a blank banner.
       if (cancelled || !result) return;
-      setResolved(result);
+      setResolvedAt({ lat, lng, value: result });
+      // Only heal the URL that still points at the coordinates this answer is
+      // for. The route can move on while the resolver is out, and stamping an
+      // address onto someone else's coordinates is the very thing this change
+      // exists to stop.
+      const live = parseReportParams(window.location.search);
+      if (!live || live.lat !== lat || live.lng !== lng) return;
       replaceLocation(
         `${window.location.pathname}?${healedSearch(window.location.search, result.label)}`,
       );
@@ -127,11 +146,14 @@ export default function ReporterView() {
   useEffect(() => {
     if (!bareQuery) return;
     const ctrl = new AbortController();
+    const startedAt = window.location.search;
     let cancelled = false;
     void geocodeAddress(bareQuery, ctrl.signal)
       .then((results) => {
         const hit = results[0];
-        if (cancelled || !hit) return;
+        // The visitor can search by hand while the geocoder is out, which lands
+        // real coordinates. Never rewrite a route this answer is not about.
+        if (cancelled || !hit || window.location.search !== startedAt) return;
         const qs = new URLSearchParams(window.location.search);
         qs.set('lat', hit.lat.toFixed(6));
         qs.set('lng', hit.lng.toFixed(6));
@@ -201,9 +223,8 @@ export default function ReporterView() {
     });
   }, []);
 
-  const handleParcel = useCallback((info: ParcelInfo | null) => {
-    setParcel(info);
-    setParcelSettled(true);
+  const handleParcel = useCallback((info: ParcelInfo | null, atLat: number, atLng: number) => {
+    setParcelAt({ lat: atLat, lng: atLng, value: info });
   }, []);
 
   const regenerate = useCallback(() => {

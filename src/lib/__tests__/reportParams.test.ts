@@ -4,6 +4,8 @@ import {
   healedSearch,
   parseReportParams,
   readDeepLinkAddress,
+  settledAtPoint,
+  valueAtPoint,
 } from '../reportParams';
 
 // The URL from the original report. These coordinates are on Embrach parcel
@@ -109,5 +111,42 @@ describe('healedSearch', () => {
     expect(parseReportParams(`?${healed}`)!.addressHint).toBe(
       'Alte Rheinstrasse 91 8424 Embrach',
     );
+  });
+});
+
+describe('point scoping', () => {
+  // The reporter's parcel and its resolved address outlive the coordinates they
+  // describe by one render. Reproduced before this guard existed: an in-page
+  // re-search from A to B ran the resolve effect with point B and parcel A, so
+  // A's address was shown for B and stamped into B's URL under `q=` — the
+  // reported defect, self-inflicted, on the one path that writes links.
+  const A = { lat: 47.521503, lng: 8.583285 };
+  const B = { lat: 47.376888, lng: 8.541694 };
+  const parcelA = { lat: A.lat, lng: A.lng, value: { egrid: 'CH813872487780' } };
+
+  it("refuses to hand one point another point's value", () => {
+    expect(valueAtPoint(parcelA, A.lat, A.lng)).toEqual({ egrid: 'CH813872487780' });
+    expect(valueAtPoint(parcelA, B.lat, B.lng)).toBeNull();
+  });
+
+  it('counts a lookup as settled only at its own point', () => {
+    expect(settledAtPoint(parcelA, A.lat, A.lng)).toBe(true);
+    // The gate that starts the address resolve. False here is what stops the
+    // resolver being handed the previous location's EGRID.
+    expect(settledAtPoint(parcelA, B.lat, B.lng)).toBe(false);
+  });
+
+  it('distinguishes "settled with no parcel" from "not looked yet"', () => {
+    const nothingFound = { lat: A.lat, lng: A.lng, value: null };
+    expect(valueAtPoint(nothingFound, A.lat, A.lng)).toBeNull();
+    expect(settledAtPoint(nothingFound, A.lat, A.lng)).toBe(true);
+    expect(settledAtPoint(null, A.lat, A.lng)).toBe(false);
+  });
+
+  it('reads as unset while the route carries no coordinates', () => {
+    expect(valueAtPoint(parcelA, undefined, undefined)).toBeNull();
+    expect(settledAtPoint(parcelA, undefined, undefined)).toBe(false);
+    // A half-parsed route must not match on latitude alone.
+    expect(settledAtPoint(parcelA, A.lat, undefined)).toBe(false);
   });
 });

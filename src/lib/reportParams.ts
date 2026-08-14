@@ -118,3 +118,57 @@ export function healedSearch(search: string, label: string): string {
   p.delete('address');
   return p.toString();
 }
+
+/**
+ * A value that answers for ONE point and must never be read at another.
+ *
+ * The reporter holds two of these — the parcel fetched from RES, and the
+ * address resolved from it — and both outlive the coordinates they describe by
+ * one render. When a visitor re-searches in place, React commits the new
+ * coordinates before the state reset for them lands, so for that one commit the
+ * component holds the NEW point next to the OLD parcel. An effect that reads
+ * them as a pair resolves the previous address for the current location and
+ * stamps it into the URL, which is the exact defect this module exists to
+ * prevent, self-inflicted. Verified reproducible: an in-page re-search paired
+ * "point=B" with "address-of(parcel-A)".
+ *
+ * Tagging the value with its point makes the mismatch unreadable rather than
+ * merely unlikely, so correctness does not rest on effect-cleanup timing.
+ */
+export interface PointScoped<T> {
+  lat: number;
+  lng: number;
+  value: T;
+}
+
+function samePoint(
+  scoped: PointScoped<unknown> | null | undefined,
+  lat: number | undefined,
+  lng: number | undefined,
+): boolean {
+  return (
+    scoped != null && lat !== undefined && lng !== undefined && scoped.lat === lat && scoped.lng === lng
+  );
+}
+
+/** The value, but only if it was recorded for exactly this point. */
+export function valueAtPoint<T>(
+  scoped: PointScoped<T> | null | undefined,
+  lat: number | undefined,
+  lng: number | undefined,
+): T | null {
+  return samePoint(scoped, lat, lng) ? (scoped as PointScoped<T>).value : null;
+}
+
+/**
+ * Whether a lookup for exactly this point has settled. Distinct from
+ * {@link valueAtPoint} because "settled with no parcel" and "not looked yet"
+ * are both a null value but only one of them may start the address resolve.
+ */
+export function settledAtPoint(
+  scoped: PointScoped<unknown> | null | undefined,
+  lat: number | undefined,
+  lng: number | undefined,
+): boolean {
+  return samePoint(scoped, lat, lng);
+}
