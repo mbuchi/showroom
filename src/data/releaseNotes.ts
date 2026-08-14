@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.26.0',
+    date: 'August 14, 2026',
+    codename: 'Newer engine',
+    summary: 'The maps on the Reporter cards now run on a newer map engine, and everything looks and works the same.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: MapPin,
+        text: 'The Valoo and Roofs cards in the Reporter now draw their maps with a newer version of the map engine. The maps look the same, report the same building height and price figures, and still come through in saved images and PDF reports exactly as before.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Shield,
+        text: 'Updated @aireon/shared to v1.163.0, keeping Showroom in step with the rest of the Aireon apps.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.25.0',
     date: 'August 13, 2026',
     codename: 'First frame',

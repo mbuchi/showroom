@@ -2,11 +2,27 @@ import { useEffect, useRef } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 import { loadMapboxStyleForMapLibre } from '@aireon/shared';
+import { applyMapWorkerUrl } from '@aireon/shared/map-worker';
 
 // A small, non-interactive MapLibre GL map for the Valoo and Roofs widgets,
 // keeping the same Mapbox-hosted basemap styles. `interactive: false` disables
 // all drag/zoom/rotate at once — the card is a fixed report snapshot, not an
 // explorable map.
+
+// MapLibre v6 is ESM-only and starts its tile worker as a module Worker whose
+// URL it derives from its own `import.meta.url`. Once a bundler has rewritten
+// the engine into an app chunk that derivation yields nothing usable: the
+// worker never starts, no vector tile is parsed, and the canvas paints blank.
+// This points the module we construct from at the worker asset the build
+// actually emitted. The call is idempotent and must run before the first
+// `new maplibregl.Map(...)`, so it sits at module scope.
+//
+// Both imports are STATIC on purpose and are still off the first-load path:
+// this file is only reachable through the lazy `/reporter` route (App.tsx
+// `lazy(() => import('./components/reporter/ReporterView'))`), so MapLibre and
+// this seam share that route's chunk. Do NOT lift either import into an eager
+// module — that would drag the whole engine back into the initial bundle.
+applyMapWorkerUrl(maplibregl);
 
 const MAPBOX_TOKEN = (import.meta.env.VITE_MAPBOX_TOKEN as string | undefined) ?? '';
 
