@@ -12,6 +12,38 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.28.0',
+    date: 'August 17, 2026',
+    codename: 'How old is this number?',
+    summary: 'The About dialog now names the parcel snapshot showroom is showing and the date each layer behind it was last calculated.',
+    items: [
+      {
+        kind: 'added' as ChangeKind,
+        icon: Info,
+        text: 'About now names the parcel snapshot showroom is reading and the date it was last calculated, so you can see at a glance how current the figures in a report are.',
+        prs: [],
+      },
+      {
+        kind: 'added' as ChangeKind,
+        icon: Layers,
+        text: 'A "Pipeline details" disclosure in the same dialog opens a dated list of every enrichment layer behind a parcel, including each federal source’s own vintage, so you can tell which part of the data is fresh and which part is waiting on its next federal release.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Globe,
+        text: 'The new line follows the language you have selected, in both the navbar About dialog and the one in the account menu.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Every building volume was recalculated on August 17, 2026. That also refreshed the utilization figures, which were still being derived from volumes computed before duplicate building reconstructions were removed. Updated @aireon/shared to v1.172.2, which carries the data-vintage line with the sentence translated per language rather than assembled in English word order.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.27.0',
     date: 'August 14, 2026',
     codename: 'The place decides',

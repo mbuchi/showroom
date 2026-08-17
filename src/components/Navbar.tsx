@@ -248,6 +248,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         {...createShowroomAboutModalProps(t)}
         glassLevel={glassLevel}
         dark
+        locale={locale}
         onClose={() => setShowAbout(false)}
       />
     )}
