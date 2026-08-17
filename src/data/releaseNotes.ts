@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.29.1',
+    date: 'August 18, 2026',
+    codename: 'Claire reads the same zone label',
+    summary: 'Claire now names a parcel zone by the harmonized label the panel shows, instead of quoting the municipal designation next to it.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Bot,
+        text: 'Claire now refers to a parcel\'s zone by the same harmonized label the panel shows, instead of quoting the municipal designation next to it. The municipal wording is still passed along, but only as secondary detail (@aireon/shared v1.173.3).',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.29.0',
     date: 'August 18, 2026',
     codename: 'One zone per parcel',
