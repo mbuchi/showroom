@@ -148,6 +148,7 @@ export default function UserMenu({
           {...createShowroomAboutModalProps(t)}
           glassLevel={glassLevel}
           dark
+          locale={locale}
           onClose={() => setShowAbout(false)}
         />
       )}
