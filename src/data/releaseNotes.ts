@@ -12,6 +12,32 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.29.0',
+    date: 'August 18, 2026',
+    codename: 'One zone per parcel',
+    summary: 'The zone shown for a parcel is now the harmonized federal category, the same label every Aireon app prints, instead of the municipal wording.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: MapPin,
+        text: 'The zone chip in the Reporter parcel strip, the zone fact on the PDF report and the zone line under the publish prefill now show the harmonized federal category ("Wohnzonen", "Mischzonen", "Zentrumszonen") rather than the municipal designation ("Wohnzone, Bauklasse 4"). It is one label per parcel and it reads the same in every Aireon app. Parcels that have no harmonized category yet (all of the canton of Zürich as of August 2026) keep showing their municipal designation, so nothing goes blank.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bot,
+        text: 'Claire now actually receives the parcel zone in her context. It was handed over under keys her context builder does not read, so questions about the zone were answered without it.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated @aireon/shared to v1.173.1, which carries the suite-wide zone rule (harmonized category first, municipal fallback, legal cross-references and canton codes never shown as a zone). Cached parcel facts from before this release are refreshed on next lookup so the old wording does not linger.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.28.0',
     date: 'August 17, 2026',
     codename: 'How old is this number?',

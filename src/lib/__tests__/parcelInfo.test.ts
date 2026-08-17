@@ -20,6 +20,7 @@ describe('normalizeParcelProps', () => {
         bldg_count: 4,
         bldg_constr_year: 1897,
         cz_local: 'W3 Wohnzone',
+        cz_harmonized: 'Wohnzonen',
         estimated_price_m2: 13062.08,
       },
       47.3768,
@@ -32,7 +33,7 @@ describe('normalizeParcelProps', () => {
       buildingSizeM2: 420,
       buildingVolumeM3: 1850,
       flats: 8,
-      zone: 'W3 Wohnzone',
+      zone: 'Wohnzonen',
       lat: 47.3768,
       lng: 8.5395,
       zip: '8001',
@@ -94,7 +95,46 @@ describe('normalizeParcelProps', () => {
     expect(info.locality).toBe('3000 BE');
   });
 
-  it('prefers cz_local for the zone and falls back to cz_abbrev', () => {
+  // Zone display is the suite-wide rule in @aireon/shared/parcel-zone
+  // (PARCEL_ZONE_STANDARD.md): the harmonized federal category is the zone;
+  // the municipal designation only fills in where there is none. Asserted on
+  // the real production rows so a re-ordered chain fails here, not in prod.
+  it('shows the harmonized federal category as the zone (Grenchen row)', () => {
+    expect(
+      normalizeParcelProps(
+        { cz_local: 'Wohnzone, Bauklasse 4', cz_harmonized: 'Wohnzonen', cz_canton_name: 'SO' },
+        47, 7,
+      ).zone,
+    ).toBe('Wohnzonen');
+  });
+
+  it('falls back to the municipal designation where no harmonized zone exists (Zürich row)', () => {
+    expect(
+      normalizeParcelProps(
+        {
+          cz_local: 'dreigeschossige Wohnzone',
+          cz_harmonized: null,
+          cz_canton: 'siehe gültige Bau- und Zonenordnung der Stadt Zürich',
+          cz_canton_name: 'ZH',
+        },
+        47, 8,
+      ).zone,
+    ).toBe('dreigeschossige Wohnzone');
+  });
+
+  it('never shows a legal cross-reference, a canton code or a raw non-catalog cz_harmonized as the zone', () => {
+    // Only a cross-reference sentence and the canton code: nothing usable.
+    expect(
+      normalizeParcelProps(
+        { cz_canton: 'siehe gültige Bau- und Zonenordnung der Stadt Zürich', cz_canton_name: 'ZH' },
+        47, 8,
+      ).zone,
+    ).toBeNull();
+    // Ticino carries cantonal abbreviations in cz_harmonized; they are not
+    // federal categories, so the chain falls through to the municipal label.
+    expect(normalizeParcelProps({ cz_harmonized: 'R2', cz_local: 'Zona residenziale R2' }, 46, 9).zone)
+      .toBe('Zona residenziale R2');
+    // Long municipal designations survive the fallback intact.
     const long = 'Zone für öffentliche Bauten: max. 4 Vollgeschosse, Höhe 16 m';
     expect(normalizeParcelProps({ cz_local: long, cz_abbrev: 'OeB' }, 47, 8).zone).toBe(long);
     expect(normalizeParcelProps({ cz_abbrev: 'W3' }, 47, 8).zone).toBe('W3');

@@ -51,8 +51,11 @@ export default function ReporterClaire({
       address: headerAddress,
       locality: parcel.locality ?? undefined,
       municipality: parcel.locality ?? undefined,
-      cz_abbrev: parcel.zone ?? undefined,
-      zone: parcel.zone ?? undefined,
+      // The resolved zone (harmonized federal category, municipal fallback;
+      // see parcelInfo.ts). Sent under `construction_zone`, a key Claire's
+      // context labeller knows; the former `cz_abbrev`/`zone` keys were not in
+      // its label map, so the zone never reached the prompt.
+      construction_zone: parcel.zone ?? undefined,
       bldg_size: parcel.buildingSizeM2 ?? undefined,
       building_size_m2: parcel.buildingSizeM2 ?? undefined,
       bldg_vol_sb3dgdb: parcel.buildingVolumeM3 ?? undefined,

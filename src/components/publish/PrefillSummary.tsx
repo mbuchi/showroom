@@ -77,8 +77,9 @@ export default function PrefillSummary({ state, result }: PrefillSummaryProps) {
       {zone && (
         <p className="flex min-w-0 gap-1.5 text-xs text-gray-400">
           <span className="flex-shrink-0 text-gray-500">{t('page.publish.prefill.zone')}</span>
-          {/* Zoning text runs to a full sentence on some parcels; the title
-              attribute keeps the whole value reachable. */}
+          {/* The harmonized zone is short ("Wohnzonen"), but the municipal
+              fallback for parcels without one can run to a full sentence;
+              the title attribute keeps the whole value reachable. */}
           <span className="min-w-0 truncate text-gray-300" title={zone}>
             {zone}
           </span>
