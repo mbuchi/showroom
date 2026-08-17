@@ -20,7 +20,7 @@
     "fflate": "^0.8.3",
     "html-to-image": "^1.11.13",
     "leaflet": "^1.9.4",
-    "lucide-react": "^0.344.0",
+    "lucide-react": "^1.31.0",
     "maplibre-gl": "^6.3.0",
     "oidc-client-ts": "^3.5.0",
     "react": "^18.3.1",
