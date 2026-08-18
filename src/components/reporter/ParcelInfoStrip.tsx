@@ -268,13 +268,12 @@ export default function ParcelInfoStrip({
             {info.flats} {info.flats === 1 ? t('page.reporter.flats_one') : t('page.reporter.flats_other')}
           </Chip>
         )}
-        {/* `zone` is the harmonized federal category ("Wohnzonen"), resolved
-            once in parcelInfo.ts via @aireon/shared/parcel-zone. Parcels with
-            no harmonized category (all of Zürich as of 2026-08) fall back to
-            the municipal designation, which can still run to a full sentence
-            ("Zone für öffentliche Bauten: max. 4 Vollgeschosse, ..."), so the
-            chip stays width-capped and ellipsized; the title attribute keeps
-            the whole value reachable. */}
+        {/* `zone` is the municipal designation ("Wohnzone, Bauklasse 4"),
+            resolved once in parcelInfo.ts via @aireon/shared/parcel-zone. A
+            municipal designation can run to a full sentence ("Zone für
+            öffentliche Bauten: max. 4 Vollgeschosse, ..."), so the chip stays
+            width-capped and ellipsized; the title attribute keeps the whole
+            value reachable. */}
         {info.zone && (
           <Chip
             icon={<MapIcon size={13} />}

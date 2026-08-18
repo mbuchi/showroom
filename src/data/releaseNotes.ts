@@ -12,6 +12,32 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.30.0',
+    date: 'August 19, 2026',
+    codename: 'The zone the municipality calls it',
+    summary: 'The parcel zone is now the municipal designation ("Dorfzone 2", "Wohnzone, Bauklasse 4") instead of the federal main-use category ("Zentrumszonen", "Wohnzonen").',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: MapPin,
+        text: 'The zone chip in the Reporter parcel strip, the zone fact on the PDF report, the zone line under the publish prefill and the zoning fact behind the generated listing copy now show the municipal designation ("Dorfzone 2", "Wohnzone, Bauklasse 4") instead of the federal main-use category ("Zentrumszonen", "Wohnzonen"). The federal category stays available in raw data and as a filter. Suite-wide rule via @aireon/shared v1.177.0.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Bot,
+        text: 'Claire refers to a parcel\'s zone by the same municipal designation the strip shows, one zone line in her context.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Cached parcel facts from before this release are refreshed on next lookup so the federal wording does not linger for the cache lifetime.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.29.1',
     date: 'August 18, 2026',
     codename: 'Claire reads the same zone label',

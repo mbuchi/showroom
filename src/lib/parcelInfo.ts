@@ -23,21 +23,22 @@ const PARCEL_CACHE_MAX_BYTES = 8 * 1024 * 1024; // 8 MB
 const memoryCache = new Map<string, ParcelInfo>();
 // Store name carries a shape version: entries live for 14 days, so widening
 // ParcelInfo would otherwise serve half-empty records from a previous build.
-// Renaming the store cold-starts the cache instead. 'info-v3' (2026-08-18):
-// `zone` changed meaning from the municipal designation to the harmonized
-// federal category, and a cached record carries the label already resolved,
-// so the old store would have kept printing "Wohnzone, Bauklasse 4" for two
-// weeks where every other Aireon app says "Wohnzonen".
+// Renaming the store cold-starts the cache instead. 'info-v4' (2026-08-19):
+// `zone` is the municipal designation again ("Wohnzone, Bauklasse 4"), after
+// one day (v0.29.x, 'info-v3') on the harmonized federal category. A cached
+// record carries the label already resolved, so the old store would have kept
+// printing "Wohnzonen" for two weeks where every other Aireon app now says
+// "Wohnzone, Bauklasse 4".
 //
 // The `version` bump is NOT optional. IndexedDB only creates object stores in
 // `onupgradeneeded`, which fires on a version increase — an already-installed
-// client holds `showroom-parcel` at version 2, so without this the 'info-v3'
+// client holds `showroom-parcel` at version 3, so without this the 'info-v4'
 // store is never created and every read/write throws (silently, inside
 // IndexedDBCache) for the rest of that browser's life. That would not
 // cold-start the L2 cache, it would disable it.
-const PARCEL_CACHE_DB_VERSION = 3;
+const PARCEL_CACHE_DB_VERSION = 4;
 
-const persistentCache = new IndexedDBCache<ParcelInfo>('showroom-parcel', 'info-v3', {
+const persistentCache = new IndexedDBCache<ParcelInfo>('showroom-parcel', 'info-v4', {
   ttlMinutes: PARCEL_CACHE_TTL_MINUTES,
   maxBytes: PARCEL_CACHE_MAX_BYTES,
   version: PARCEL_CACHE_DB_VERSION,
@@ -56,9 +57,9 @@ export interface ParcelInfo {
   buildingSizeM2: number | null;   // bldg_size
   buildingVolumeM3: number | null; // bldg_vol_sb3dgdb
   flats: number | null;            // bldg_flats
-  /** The parcel's zone as the suite shows it: the harmonized federal
-   *  category ("Wohnzonen") via `resolveZoneLabel`; the municipal designation
-   *  only for parcels that have none (Zürich, Ticino as of 2026-08). Never
+  /** The parcel's zone as the suite shows it: the municipal designation
+   *  ("Wohnzone, Bauklasse 4", "Dorfzone 2") via `resolveZoneLabel`, one line.
+   *  The federal category ("Wohnzonen") is a filter, never this label. Never
    *  `cz_canton_name`, which is a canton code, not a zone. */
   zone: string | null;
   lat: number;
@@ -135,7 +136,8 @@ export function normalizeParcelProps(
     buildingVolumeM3: num(props.bldg_vol_sb3dgdb),
     flats: num(props.bldg_flats),
     // One zone per parcel, resolved by the suite-wide rule in
-    // @aireon/shared/parcel-zone (harmonized first, municipal fallback, legal
+    // @aireon/shared/parcel-zone (municipal designation cz_local first, then
+    // the harmonized category / cz_abbrev / cz_canton fallbacks, legal
     // cross-references and canton codes rejected). Never hand-roll a
     // cz_local/cz_abbrev chain here: this value feeds the reporter strip, the
     // PDF, Claire's context and the publish prefill alike.
