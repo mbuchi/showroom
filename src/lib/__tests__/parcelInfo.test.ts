@@ -33,7 +33,7 @@ describe('normalizeParcelProps', () => {
       buildingSizeM2: 420,
       buildingVolumeM3: 1850,
       flats: 8,
-      zone: 'Wohnzonen',
+      zone: 'W3 Wohnzone',
       lat: 47.3768,
       lng: 8.5395,
       zip: '8001',
@@ -96,19 +96,20 @@ describe('normalizeParcelProps', () => {
   });
 
   // Zone display is the suite-wide rule in @aireon/shared/parcel-zone
-  // (PARCEL_ZONE_STANDARD.md): the harmonized federal category is the zone;
-  // the municipal designation only fills in where there is none. Asserted on
-  // the real production rows so a re-ordered chain fails here, not in prod.
-  it('shows the harmonized federal category as the zone (Grenchen row)', () => {
+  // (PARCEL_ZONE_STANDARD.md, v1.177.0): the municipal designation cz_local
+  // is the zone; the harmonized federal category is a filter, never the label,
+  // and only fills in where there is no municipal designation. Asserted on the
+  // real production rows so a re-ordered chain fails here, not in prod.
+  it('shows the municipal designation as the zone, not the federal category (Grenchen row)', () => {
     expect(
       normalizeParcelProps(
-        { cz_local: 'Wohnzone, Bauklasse 4', cz_harmonized: 'Wohnzonen', cz_canton_name: 'SO' },
+        { cz_local: 'Wohnzone, Bauklasse 4', cz_canton: 'Wohnzone 4 G', cz_harmonized: 'Wohnzonen', cz_canton_name: 'SO' },
         47, 7,
       ).zone,
-    ).toBe('Wohnzonen');
+    ).toBe('Wohnzone, Bauklasse 4');
   });
 
-  it('falls back to the municipal designation where no harmonized zone exists (Zürich row)', () => {
+  it('shows the municipal designation where no harmonized zone exists either (Zürich row)', () => {
     expect(
       normalizeParcelProps(
         {
@@ -131,10 +132,12 @@ describe('normalizeParcelProps', () => {
       ).zone,
     ).toBeNull();
     // Ticino carries cantonal abbreviations in cz_harmonized; they are not
-    // federal categories, so the chain falls through to the municipal label.
+    // federal categories and never the label anyway: the municipal wins.
     expect(normalizeParcelProps({ cz_harmonized: 'R2', cz_local: 'Zona residenziale R2' }, 46, 9).zone)
       .toBe('Zona residenziale R2');
-    // Long municipal designations survive the fallback intact.
+    // A parcel with only the federal category still gets a label (fallback).
+    expect(normalizeParcelProps({ cz_harmonized: 'Wohnzonen' }, 47, 8).zone).toBe('Wohnzonen');
+    // Long municipal designations survive intact.
     const long = 'Zone für öffentliche Bauten: max. 4 Vollgeschosse, Höhe 16 m';
     expect(normalizeParcelProps({ cz_local: long, cz_abbrev: 'OeB' }, 47, 8).zone).toBe(long);
     expect(normalizeParcelProps({ cz_abbrev: 'W3' }, 47, 8).zone).toBe('W3');
