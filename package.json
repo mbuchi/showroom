@@ -16,7 +16,7 @@
     "@aireon/shared": "github:mbuchi/aireon-shared#v1.177.0",
     "@openreplay/tracker": "^18.1.2",
     "@qualipool/swissrets-json": "^3.6.0",
-    "@react-pdf/renderer": "^4.5.1",
+    "@react-pdf/renderer": "^4.6.0",
     "fflate": "^0.8.3",
     "html-to-image": "^1.11.13",
     "leaflet": "^1.9.4",
