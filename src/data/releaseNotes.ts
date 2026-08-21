@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.32.0',
+    date: 'August 21, 2026',
+    codename: 'Open with, suite-wide',
+    summary: 'The Open with menu now reaches every map app in the suite, each listed by its wordmark and what it does.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: ExternalLink,
+        text: 'Open with now offers every map app in the Aireon suite instead of a short list, prints each app\'s wordmark next to a one-line description of what it does, and adds a search box so you can jump straight to the app you want. The descriptions follow the language you picked.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated @aireon/shared to v1.182.2.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.31.2',
     date: 'August 21, 2026',
     codename: 'Every letter is back',

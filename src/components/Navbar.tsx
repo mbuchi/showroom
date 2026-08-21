@@ -192,6 +192,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
                 currentAppId="showroom"
                 dark
                 label={t('nav.open_with')}
+                locale={locale}
                 onOpen={(appId) =>
                   void signal.send('Open address in app', {
                     lat: openWithLocation.lat,
