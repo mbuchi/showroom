@@ -12,6 +12,13 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.31.2',
+    date: 'August 21, 2026',
+    codename: 'Every letter is back',
+    summary: 'The About dialog now spells the Showroom name correctly.',
+    items: [{ kind: 'fixed' as ChangeKind, icon: Type, text: 'Corrected the About wordmark from “shoorm” to “showroom” while keeping the Aireon red accent on the double “oo” only.', prs: [] }],
+  },
+  {
     version: '0.31.1',
     date: 'August 21, 2026',
     codename: 'Varela wordmark',
