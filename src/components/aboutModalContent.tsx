@@ -8,7 +8,7 @@ export function createShowroomAboutModalProps(
   return {
     wordmark: (
       <>
-        sh<span className="text-red-500">oo</span>rm
+        showr<span className="text-red-500">oo</span>m
       </>
     ),
     description: t('about.description'),
