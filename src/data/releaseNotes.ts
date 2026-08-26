@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.33.0',
+    date: 'August 26, 2026',
+    codename: 'One engine for the suite',
+    summary: 'The map engine now loads from the shared Aireon asset host, cached once across every Aireon app.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'The MapLibre map engine (about 1 MB) is no longer bundled into showroom. It loads from the shared Aireon asset host and stays cached in your browser across every Aireon app and every showroom release, so repeat visits and switches between apps start faster. The reporter maps themselves are unchanged.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated @aireon/shared to v1.192.0.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.32.0',
     date: 'August 21, 2026',
     codename: 'Open with, suite-wide',
