@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.34.0',
+    date: 'August 26, 2026',
+    codename: 'One report, not many',
+    summary: 'Usage reporting now sends a single request as you leave the page instead of one per action.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Send,
+        text: 'Showroom used to send a separate usage report every time you did something, such as opening a listing or running a search. Those reports are now collected as you work and sent together in one request when you close the page or switch away. The information collected is the same as before, and the page does a little less network work while you use it.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.33.0',
     date: 'August 26, 2026',
     codename: 'One engine for the suite',
