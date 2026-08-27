@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.35.0',
+    date: 'August 27, 2026',
+    codename: 'Along for the ride',
+    summary: 'Usage reporting now travels on a request the app was already making, so a normal session adds no background requests of its own.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Usage reporting no longer needs a request of its own. The app already asks the server for details about the parcel you select, and the usage record for that same action now travels along with it. In an ordinary session that means no extra background requests at all, where before there was one small request per action and, since the last release, one when you left the page. What gets collected is exactly the same as before, and so is how long it is kept. Only the way it travels has changed.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.34.0',
     date: 'August 26, 2026',
     codename: 'One report, not many',

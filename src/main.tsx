@@ -28,7 +28,7 @@ errorLogger.install({ captureConsoleErrors: true });
 // This is a transport change: the same data is collected and stored as before.
 // It reduces how visible first-party analytics are in the Network tab; it is
 // not a privacy or security measure. See aireon-shared/docs/SIGNAL_STANDARD.md.
-installSignalCarrier({ endpoint: '/api/ctx' });
+installSignalCarrier({ paths: ['/api/claire-pois'], endpoint: '/api/ctx' });
 
 initOpenReplay({ projectKey: import.meta.env.VITE_OPENREPLAY_PROJECT_KEY as string | undefined, trackerOptions: { canvas: { disableCanvas: true } } });
 

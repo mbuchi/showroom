@@ -3,6 +3,7 @@
 // Forwards Claire's surrounding-POI lookups to the RES backend's
 // `/score/poi-osm` endpoint (local PostGIS dataset, ~100 ms). Mirrors
 // scoore's `/api/overpass` proxy - same shape, dedicated path for Claire.
+import { withSignalCarrier } from '@aireon/shared/signal-carrier';
 export const config = { maxDuration: 15 };
 
 const RES_POI_URL = "https://res.zeroo.ch/score/poi-osm";
@@ -19,6 +20,9 @@ const CORS_HEADERS: Record<string, string> = {
 interface NodeReq {
   method?: string;
   body?: unknown;
+  // Read by withSignalCarrier below, which drains the X-Aireon-Ctx batch off
+  // the request. Most app handlers declare only { method, body }.
+  headers?: Record<string, string | string[] | undefined>;
 }
 
 interface NodeRes {
@@ -33,7 +37,7 @@ function send(res: NodeRes, status: number, body: unknown): void {
   res.status(status).json(body);
 }
 
-export default async function handler(req: NodeReq, res: NodeRes): Promise<void> {
+async function carrierTarget(req: NodeReq, res: NodeRes): Promise<void> {
   if (req.method === "OPTIONS") {
     for (const [k, v] of Object.entries(CORS_HEADERS)) res.setHeader(k, v);
     res.status(204).end();
@@ -91,3 +95,24 @@ export default async function handler(req: NodeReq, res: NodeRes): Promise<void>
     clearTimeout(timer);
   }
 }
+
+// Carrier for showroom's queued usage signals.
+//
+// The shared Claire assistant prefetches surrounding POIs the moment a parcel
+// is selected (a useEffect keyed on the parcel coordinate in
+// @aireon/shared ClaireAssistant), which is the same interaction that emits a
+// signal. So the batch rides this request and adds none of its own.
+//
+// The wrapper drains the X-Aireon-Ctx request header, forwards each signal to
+// RES with the caller's real X-Forwarded-For, and acknowledges the count on the
+// response. This handler's own request and response are otherwise untouched.
+//
+// The wildcard Access-Control-Allow-Origin does NOT disqualify this: the carrier
+// only ever attaches to same-origin requests, which involve no CORS, and a
+// hand-crafted cross-origin one is stopped at preflight because
+// Access-Control-Allow-Headers does not list X-Aireon-Ctx. Nor does the
+// s-maxage some of these handlers set: only GET and HEAD responses are ever
+// cached, and this is POST-only.
+//
+// See aireon-shared/docs/SIGNAL_STANDARD.md.
+export default withSignalCarrier(carrierTarget);
