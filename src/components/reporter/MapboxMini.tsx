@@ -3,6 +3,8 @@ import * as maplibregl from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 import { loadMapboxStyleForMapLibre } from '@aireon/shared';
 import { applyMapWorkerUrl } from '@aireon/shared/map-worker';
+import { MapUnavailable } from '@aireon/shared/webgl';
+import { MapStartupUnsupportedError, isMapUsable, webglSupported } from '../../lib/mapStartup';
 
 // A small, non-interactive MapLibre GL map for the Valoo and Roofs widgets,
 // keeping the same Mapbox-hosted basemap styles. `interactive: false` disables
@@ -55,8 +57,28 @@ export default function MapboxMini({
   onLoadRef.current = onLoad;
   onIdleRef.current = onIdle;
 
+  const webgl = webglSupported();
+
   useEffect(() => {
     if (!containerRef.current || !mapboxConfigured) return;
+
+    // WebGL2 preflight (@aireon/shared/webgl, suite standard). MapLibre v6
+    // dropped the WebGL1 renderer AND does not throw when the context is
+    // refused — it aborts its own constructor half way and hands back a Map
+    // with no painter. Constructing on such a client produced a half-built
+    // instance whose `requestAnimationFrame(() => m.resize())` below then died
+    // a frame later, outside this promise chain's `.catch`, on
+    // `Cannot read properties of undefined (reading 'resize')`. Never build the
+    // map there; the render below shows <MapUnavailable/> instead.
+    if (!webglSupported()) {
+      // An absent WebGL2 context is a property of the visitor's device, not a
+      // showroom defect. console.warn (not console.error) because main.tsx
+      // installs the shared error logger with captureConsoleErrors, which would
+      // otherwise file one hub bug row per WebGL2-less visit.
+      console.warn('MapLibre startup unsupported:', new MapStartupUnsupportedError().message);
+      return;
+    }
+
     const container = containerRef.current;
 
     let cancelled = false;
@@ -87,6 +109,29 @@ export default function MapboxMini({
           // (Mapbox GL exposed it as a top-level `preserveDrawingBuffer`).
           canvasContextAttributes: { preserveDrawingBuffer: true },
         });
+
+        // Second gate, for the window the preflight cannot cover: the style is
+        // resolved over the network first, so the context can still be refused
+        // between the probe and this constructor (a tab that lost its GPU
+        // process, or a client already at the browser's WebGL context limit —
+        // the reporter mounts several of these mini-maps at once, each with its
+        // own map, so that limit is realistically reachable here). MapLibre
+        // reports it by leaving `painter` undefined; drop the instance HERE
+        // rather than let it poison the resize and the teardown.
+        if (!isMapUsable(map)) {
+          console.warn('MapLibre startup unsupported:', new MapStartupUnsupportedError().message);
+          // A half-built map still holds a container and listeners, but
+          // `remove()` walks the painter, so this is best-effort.
+          try {
+            map.remove();
+          } catch {
+            /* half-built map: nothing to tear down */
+          }
+          // Cleared so the effect cleanup does not try to remove it again.
+          map = null;
+          return;
+        }
+
         const m = map;
 
         let idleFired = false;
@@ -105,7 +150,18 @@ export default function MapboxMini({
         // Defensive re-measure on the next frame, mirroring LeafletMini — the
         // container can still be settling inside the aspect-ratio card on first
         // paint.
-        raf = requestAnimationFrame(() => m.resize());
+        //
+        // ⚠ The callback must RE-CHECK the map, not just capture it. It runs a
+        // frame later, outside the promise chain, so anything it throws is an
+        // uncaught runtime error no ErrorBoundary sees. Two ways the map is
+        // gone by then: the cleanup already ran `remove()` (React 18 StrictMode
+        // double-invokes this effect, and a retry remounts the card), or the
+        // instance is half-built — either way `resize()` dies inside
+        // `_resizeInternal` on `...undefined (reading 'resize')`.
+        raf = requestAnimationFrame(() => {
+          if (cancelled || !map || !isMapUsable(map)) return;
+          map.resize();
+        });
       })
       .catch((error) => {
         console.error('Unable to load the reporter mini-map style for MapLibre', error);
@@ -114,9 +170,28 @@ export default function MapboxMini({
     return () => {
       cancelled = true;
       cancelAnimationFrame(raf);
-      map?.remove();
+      // `remove()` walks the painter to free GL resources, so it throws
+      // ("...reading 'destroy'") on a map that never finished initializing.
+      // Teardown must not be the thing that files the bug row.
+      try {
+        map?.remove();
+      } catch (err) {
+        console.warn('MapLibre teardown skipped:', err);
+      }
     };
   }, [lat, lng, zoom, pitch, styleUrl]);
+
+  // No WebGL2 => no map was built above, so show the shared fallback panel
+  // rather than an empty box. In practice the reporter widgets short-circuit to
+  // their own "unavailable" card before mounting this component; this keeps
+  // MapboxMini honest on its own for any other caller.
+  if (!webgl) {
+    return (
+      <div className="reporter-mini-map absolute inset-0 isolate">
+        <MapUnavailable dark />
+      </div>
+    );
+  }
 
   // Two divs on purpose: Mapbox adds the `.mapboxgl-map` class (which forces
   // `position: relative`) to whatever element it is given. If that element

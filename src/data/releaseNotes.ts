@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.35.1',
+    date: 'August 28, 2026',
+    codename: 'No map, no crash',
+    summary: 'Devices that cannot draw maps now say so on the reporter cards instead of failing in the background.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: ShieldAlert,
+        text: 'The reporter cards that draw a live map (Valoo and Roofs) now check first whether the device can render one at all. On machines without hardware graphics, or in a browser tab that has lost access to the graphics card, the map engine used to hand back a map that only looked ready, which then failed a moment later somewhere unrelated and could leave the card blank. Those cards now show a short "map unavailable on this device" message straight away, the rest of the report is unaffected, and the situation is recorded as a device limitation rather than an app fault.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.35.0',
     date: 'August 27, 2026',
     codename: 'Along for the ride',

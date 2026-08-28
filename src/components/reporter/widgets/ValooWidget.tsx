@@ -4,6 +4,7 @@ import { reporterApp, deepLink } from '../../../lib/reporterApps';
 import { extractParcelStats } from '../../../lib/parcelLookup';
 import WidgetCard from '../WidgetCard';
 import MapboxMini, { mapboxConfigured } from '../MapboxMini';
+import { webglSupported } from '../../../lib/mapStartup';
 import { useReporterWidget } from './useReporterWidget';
 import { useI18n } from '../../../contexts/I18nContext';
 import type { WidgetReportRaw } from '../report/types';
@@ -85,14 +86,20 @@ export default function ValooWidget({ lat, lng, selected, onToggleSelect, onRepo
     });
   }, [status, priceM2, onReport]);
 
-  if (!mapboxConfigured) {
+  // Two ways this widget cannot draw its map, both ending in the same card.
+  // ⚠ WebGL2: MapLibre v6 dropped the WebGL1 renderer and does NOT throw when
+  // the context is refused — it returns a painter-less Map that detonates in a
+  // later callback. Preflight here so the map is never built, and say so
+  // instead of leaving the card spinning until useReporterWidget's 25s
+  // timeout flips it to a bare 'failed'.
+  if (!mapboxConfigured || !webglSupported()) {
     return (
       <WidgetCard
         label={app.label}
         blurb={app.blurb}
         deepLink={deepLink(app, lat, lng)}
         status="error"
-        error={t('page.reporter.widget.mapbox_missing')}
+        error={t(mapboxConfigured ? 'page.reporter.widget.webgl_missing' : 'page.reporter.widget.mapbox_missing')}
         captureId="reporter-widget-valoo"
         selectable
         selected={selected}
