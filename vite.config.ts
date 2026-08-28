@@ -31,7 +31,12 @@ export default defineConfig({
     aireonHtmlPlugin({ archetype: 'data-app', defaultTheme: 'dark' }),
   ],
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    // @aireon/shared is excluded because Vite 8's rolldown dep pre-bundler
+    // cannot resolve the `?worker&url` suffix on the MapLibre worker import
+    // that lives inside the package, and dies with UNLOADABLE_DEPENDENCY
+    // before serving a single request. optimizeDeps is dev-server only, so
+    // this does not touch `npm run build`.
+    exclude: ['lucide-react', '@aireon/shared'],
   },
   test: {
     environment: 'jsdom',

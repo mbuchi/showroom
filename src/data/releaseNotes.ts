@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.36.0',
+    date: 'August 28, 2026',
+    codename: 'The same menu on every page',
+    summary: 'The account menu now shows your saved parcels on every page, not only on some of them.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bookmark,
+        text: 'The account menu changed shape depending on which page you opened it from. On the reporter and the publish page it showed the standard Aireon saved-parcels block, with your total, the four pipeline stages and the export and proom shortcuts. On the gallery, which is also the page you land on, that block was replaced by a single line counting your images. It now shows the saved-parcels block everywhere, and the gallery count has moved to its own row with the number beside it.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text: 'Opening a saved parcel from the menu no longer throws away the view you had set up, and no longer carries the saved name along as a search term, which could describe a different parcel than the coordinates it travelled with.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.35.1',
     date: 'August 28, 2026',
     codename: 'No map, no crash',

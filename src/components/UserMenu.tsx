@@ -16,6 +16,7 @@ import {
 import { useI18n } from '../contexts/I18nContext';
 import { CURRENT_VERSION, REPO_URL } from '../data/releaseMeta';
 import { errorLogger } from '../lib/errorLog';
+import { navigate } from '../lib/router';
 import { requestTour } from '../lib/tour';
 import { createShowroomAboutModalProps } from './aboutModalContent';
 
@@ -54,13 +55,21 @@ export default function UserMenu({
     rn.openPanel();
   }, [rn]);
 
+  // Open a saved parcel in the reporter. Built from the LIVE url so theme,
+  // lang and the other appearance params survive the jump, then pointed at
+  // /reporter. The stale selection identity is dropped rather than re-seeded:
+  // `q` used to carry the record's own label, which can name a different
+  // parcel than the coordinates it travels with. `select` goes too, because
+  // @aireon/shared v1.185.0+ stamps `select=off` when a parcel panel is closed.
   const openParcelHere = (rec: PrmRecord) => {
-    const params = new URLSearchParams({
-      lat: String(rec.parcel_lat),
-      lng: String(rec.parcel_lng),
-    });
-    if (rec.parcel_label) params.set('q', rec.parcel_label);
-    window.location.href = `/reporter?${params.toString()}`;
+    const url = new URL(window.location.href);
+    url.pathname = '/reporter';
+    url.searchParams.set('lat', String(rec.parcel_lat));
+    url.searchParams.set('lng', String(rec.parcel_lng));
+    for (const stale of ['q', 'address', 'egrid', 'EGRID', 'parcel_id', 'select']) {
+      url.searchParams.delete(stale);
+    }
+    window.location.href = url.toString();
   };
 
   // showroom has no navbar settings gear (no shared MapToolbar), so the Liquid
@@ -98,14 +107,24 @@ export default function UserMenu({
     },
   ];
 
-  const dropdownSummary =
-    typeof exportCount === 'number' ? (
-      <div className="flex items-center gap-3 text-xs">
-        <ImageIcon size={14} className="text-cyan-400" aria-hidden="true" />
-        <span className="min-w-0 flex-1 truncate text-gray-400">{t('menu.in_your_gallery')}</span>
-        <span className="font-semibold tabular-nums text-gray-100">{exportCount}</span>
-      </div>
-    ) : undefined;
+  // The gallery count used to be a custom summary node. That prop sets
+  // `hasCustomDropdownSummary` in the shared shell, which suppresses the whole
+  // built-in saved-parcels block - and because only GalleryView passes
+  // `exportCount`, the block appeared on /reporter and /publish and vanished on
+  // the gallery, which is also `/` and every unknown path. Same menu, two
+  // shapes, decided by the route. The count is now an account-section row, so
+  // the standard block renders everywhere.
+  // `badge` must be a STRING: a raw 0 is falsy and would render no badge at all.
+  const extraItems: MapUserMenuAction[] =
+    typeof exportCount === 'number'
+      ? [{
+          key: 'gallery-count',
+          label: t('menu.in_your_gallery'),
+          icon: <ImageIcon size={16} aria-hidden="true" />,
+          badge: String(exportCount),
+          onClick: () => navigate('/'),
+        }]
+      : [];
 
   return (
     <>
@@ -120,7 +139,7 @@ export default function UserMenu({
         toolbarItems={toolbarItems}
         toolbarLabel={t('menu.more_tools')}
         bugReport={bugReport}
-        dropdownSummary={dropdownSummary}
+        extraItems={extraItems}
         labels={{
           signIn: t('nav.sign_in'),
           userMenu: t('nav.open_user_menu'),
