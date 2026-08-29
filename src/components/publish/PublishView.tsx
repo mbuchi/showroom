@@ -103,7 +103,7 @@ export default function PublishView() {
   // Two-tap reset — the suite forbids native confirm(). The armed state
   // disarms itself after 3 s so a stray first click cannot linger.
   const [confirmReset, setConfirmReset] = useState(false);
-  const resetTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(
     () => () => {
       if (resetTimerRef.current) clearTimeout(resetTimerRef.current);

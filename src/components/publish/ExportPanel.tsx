@@ -89,7 +89,7 @@ export default function ExportPanel({ draft, issues }: ExportPanelProps) {
   // The most recent object URL, revoked before the next export and on unmount
   // so a long session does not leak multi-megabyte blobs.
   const objectUrlRef = useRef<string | null>(null);
-  const copyTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(
     () => () => {

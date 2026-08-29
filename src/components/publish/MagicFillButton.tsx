@@ -35,7 +35,7 @@ export default function MagicFillButton({ draft, context, onApply }: MagicFillBu
   const [armed, setArmed] = useState(false);
   const [error, setError] = useState<ErrorKind | null>(null);
 
-  const armTimer = useRef<ReturnType<typeof setTimeout>>();
+  const armTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const abortRef = useRef<AbortController | null>(null);
   // Guards the post-await setState calls: an unmount mid-flight (the user
   // navigates away from /publish) must not write into a dead component.
