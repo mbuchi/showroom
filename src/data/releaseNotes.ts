@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.37.0',
+    date: 'August 29, 2026',
+    codename: 'New engine, same showroom',
+    summary: 'Showroom now runs on React 19, the current version of the framework the whole Aireon suite is built on.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'The app has moved to React 19. Nothing about the gallery, the reporter or the publish flow changes for you, but the framework underneath is now the current one, which is where upstream fixes and performance work land from here on. The automatic optimizer that memoizes the interface can now use the runtime React ships itself instead of a compatibility package that only existed to bridge the older version, so the app carries one dependency less.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text: 'The project type-check runs clean again. A test added in the previous release imported Node built-ins that the type-checker was not configured to know about, so the check reported errors that had nothing to do with the app itself.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.36.0',
     date: 'August 28, 2026',
     codename: 'The same menu on every page',

@@ -62,7 +62,7 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   // "Share this view" moved into the account menu; the Navbar still owns its
   // link-copy state so it can flash the suite-standard "Link copied" pill.
   const [shareCopied, setShareCopied] = useState(false);
-  const shareTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const shareTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);

@@ -5,6 +5,9 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    /* typescript7 does not auto-include @types for the `node:fs` imports in the
+       source-contract tests; explicit types + @types/node devDep fixes it. */
+    "types": ["node"],
 
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

@@ -115,7 +115,7 @@ export function usePublishDraft(): PublishDraftApi {
   const [prefillResult, setPrefillResult] = useState<PrefillResult | null>(null);
   const [gwrDwellings, setGwrDwellings] = useState<GwrDwelling[]>([]);
   const [selectedDwellingEwid, setSelectedDwellingEwid] = useState<string | null>(null);
-  const persistTimer = useRef<ReturnType<typeof setTimeout>>();
+  const persistTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // What the last register lookup found, kept in a ref so `selectDwelling`
   // stays a stable callback the picker can hold across renders.
