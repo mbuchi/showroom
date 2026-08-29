@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.38.0',
+    date: 'August 29, 2026',
+    codename: 'Steadier under the hood',
+    summary: 'A shared-library update brings a properly styled account menu, steadier map startup and quieter error reporting.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Showroom now runs on the current version of the shared Aireon library, which carries a handful of fixes into the app at once. The account menu is drawn with showroom’s own styling instead of a generic runtime element, so it matches the rest of the app, and its compact controls keep a full 44 pixel touch target on small screens. The mini-maps in the reporter now wait until the browser has handed over a working graphics context before they are used, so a half-started map can no longer show up as a blank or broken canvas. The check that asks whether a device can draw maps at all no longer holds on to a graphics context every time it runs. And error reporting no longer files bug reports for noise coming from the visitor’s own browser extensions.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.37.0',
     date: 'August 29, 2026',
     codename: 'New engine, same showroom',
