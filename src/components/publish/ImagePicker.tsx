@@ -123,15 +123,15 @@ export default function ImagePicker({ images, onChange }: ImagePickerProps) {
       )}
 
       {gallery !== null && gallery.length === 0 && (
-        <div className="flex items-start gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-gray-400">
-          <ImageOff size={16} className="mt-0.5 flex-shrink-0 text-gray-500" />
+        <div className="flex items-start gap-2.5 rounded-xl border border-white/5 bg-white/2 px-4 py-3 text-sm text-gray-400">
+          <ImageOff size={16} className="mt-0.5 shrink-0 text-gray-500" />
           <div className="min-w-0">
             <p>{failed ? t('page.reporter.widget.failed_to_load') : t('page.publish.images.empty')}</p>
             {failed && (
               <button
                 type="button"
                 onClick={() => setReloadKey((k) => k + 1)}
-                className="mt-1.5 text-xs font-semibold text-cyan-300 hover:text-cyan-200 focus-ring rounded"
+                className="mt-1.5 text-xs font-semibold text-cyan-300 hover:text-cyan-200 focus-ring rounded-sm"
               >
                 {t('page.reporter.widget.retry')}
               </button>
@@ -182,15 +182,15 @@ export default function ImagePicker({ images, onChange }: ImagePickerProps) {
           {images.map((ref, i) => (
             <li
               key={ref.publicUrl}
-              className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-2 py-2"
+              className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/2 px-2 py-2"
             >
-              <span className="w-5 flex-shrink-0 text-center text-[11px] font-bold text-gray-500 tabular-nums">
+              <span className="w-5 shrink-0 text-center text-[11px] font-bold text-gray-500 tabular-nums">
                 {i + 1}
               </span>
               <img
                 src={ref.publicUrl}
                 alt=""
-                className="h-9 w-14 flex-shrink-0 rounded object-cover"
+                className="h-9 w-14 shrink-0 rounded-sm object-cover"
               />
               <input
                 type="text"
@@ -200,7 +200,7 @@ export default function ImagePicker({ images, onChange }: ImagePickerProps) {
                 aria-label={t('page.publish.images.titlePlaceholder')}
                 className="h-8 min-w-0 flex-1 rounded-lg border border-white/10 bg-ink-900/70 px-2.5 text-sm max-lg:text-base text-gray-200 placeholder-gray-600 focus-ring"
               />
-              <div className="flex flex-shrink-0 items-center gap-0.5">
+              <div className="flex shrink-0 items-center gap-0.5">
                 <button
                   type="button"
                   onClick={() => move(i, -1)}

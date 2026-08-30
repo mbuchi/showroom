@@ -29,7 +29,7 @@ const Tour = lazy(() => import('./components/Tour').then((m) => ({ default: m.To
 function GallerySkeleton() {
   return (
     <div className="min-h-screen">
-      <div className="sticky top-0 z-[45] glass-nav">
+      <div className="sticky top-0 z-45 glass-nav">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <Skeleton width={112} height={20} radius={4} />
           <Skeleton circle width={32} />
@@ -39,7 +39,7 @@ function GallerySkeleton() {
         <Skeleton height={36} radius={12} className="w-full max-w-md" />
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {Array.from({ length: 10 }).map((_, i) => (
-            <Skeleton key={i} className="w-full aspect-[4/3]" radius={12} delay={`${i * 60}ms`} />
+            <Skeleton key={i} className="w-full aspect-4/3" radius={12} delay={`${i * 60}ms`} />
           ))}
         </div>
       </main>

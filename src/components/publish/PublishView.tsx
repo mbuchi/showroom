@@ -141,7 +141,7 @@ export default function PublishView() {
           <button
             type="button"
             onClick={handleReset}
-            className={`inline-flex h-9 flex-shrink-0 items-center gap-1.5 rounded-lg border px-3 text-xs font-semibold transition-colors focus-ring ${
+            className={`inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg border px-3 text-xs font-semibold transition-colors focus-ring ${
               confirmReset
                 ? 'border-red-400/50 bg-red-500/15 text-red-200'
                 : 'border-white/10 text-gray-400 hover:border-white/20 hover:text-gray-200'

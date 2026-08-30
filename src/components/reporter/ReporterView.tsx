@@ -271,7 +271,7 @@ export default function ReporterView() {
 
         {!isGeocodingConfigured && (
           <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-            <AlertTriangle size={16} className="mt-0.5 flex-shrink-0" />
+            <AlertTriangle size={16} className="mt-0.5 shrink-0" />
             <span>
               {t('page.reporter.search_disabled_prefix')}{' '}
               <code className="font-mono">VITE_MAPBOX_TOKEN</code>{' '}
@@ -325,7 +325,7 @@ export default function ReporterView() {
             <div className="surface rounded-xl px-4 sm:px-5 py-4 mb-6 flex flex-wrap items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 text-gray-100">
-                  <MapPin size={15} className="text-cyan-400 flex-shrink-0" />
+                  <MapPin size={15} className="text-cyan-400 shrink-0" />
                   <span className="text-sm font-semibold truncate">
                     {shownAddress || t('page.reporter.selected_location')}
                   </span>
@@ -355,7 +355,7 @@ export default function ReporterView() {
                   }
                   className={`inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-xs font-semibold transition-colors ${
                     selectedCount === 0
-                      ? 'cursor-not-allowed border border-white/5 bg-white/[0.02] text-gray-600'
+                      ? 'cursor-not-allowed border border-white/5 bg-white/2 text-gray-600'
                       : 'border border-cyan-400/40 bg-cyan-500/15 text-cyan-200 hover:bg-cyan-500/25 hover:border-cyan-300/60'
                   }`}
                 >

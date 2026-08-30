@@ -436,7 +436,7 @@ export default function ListingForm({
                   type="checkbox"
                   checked={checked}
                   onChange={(e) => patchFeature(key, e.target.checked ? 'Y' : '')}
-                  className="h-4 w-4 flex-shrink-0 rounded border-white/20 bg-ink-900 accent-cyan-500 focus-ring"
+                  className="h-4 w-4 shrink-0 rounded-sm border-white/20 bg-ink-900 accent-cyan-500 focus-ring"
                 />
                 <span className="min-w-0 truncate">{t(`page.publish.feature.${key}`)}</span>
               </label>

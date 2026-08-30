@@ -117,7 +117,7 @@ export default function MagicFillButton({ draft, context, onApply }: MagicFillBu
         <button
           type="button"
           onClick={handleClick}
-          className="min-w-0 rounded text-[11px] leading-snug text-red-300 underline decoration-dotted underline-offset-2 transition-colors hover:text-red-200 focus-ring"
+          className="min-w-0 rounded-sm text-[11px] leading-snug text-red-300 underline decoration-dotted underline-offset-2 transition-colors hover:text-red-200 focus-ring"
         >
           {t('page.publish.magic.failed')}
         </button>
@@ -128,7 +128,7 @@ export default function MagicFillButton({ draft, context, onApply }: MagicFillBu
         onClick={handleClick}
         disabled={!enabled || busy}
         aria-busy={busy || undefined}
-        className={`inline-flex h-8 flex-shrink-0 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-semibold transition-colors focus-ring disabled:cursor-not-allowed disabled:opacity-40 ${
+        className={`inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-semibold transition-colors focus-ring disabled:cursor-not-allowed disabled:opacity-40 ${
           armed
             ? 'border-amber-400/50 bg-amber-500/15 text-amber-200'
             : 'border-cyan-400/30 bg-cyan-500/10 text-cyan-300 enabled:hover:border-cyan-400/50 enabled:hover:bg-cyan-500/20'

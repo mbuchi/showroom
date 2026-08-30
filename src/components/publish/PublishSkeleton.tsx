@@ -49,7 +49,7 @@ function RailCardSkeleton({ rows, baseDelay }: { rows: number; baseDelay: number
 export default function PublishSkeleton() {
   return (
     <div className="min-h-screen">
-      <div className="sticky top-0 z-[45] glass-nav">
+      <div className="sticky top-0 z-45 glass-nav">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <Skeleton width={112} height={20} radius={4} />
           <Skeleton circle width={32} />

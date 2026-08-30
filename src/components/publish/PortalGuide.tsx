@@ -35,7 +35,7 @@ export default function PortalGuide() {
           const open = openId === card.id;
           const panelId = `publish-guide-${card.id}`;
           return (
-            <div key={card.id} className="rounded-lg border border-white/5 bg-white/[0.02]">
+            <div key={card.id} className="rounded-lg border border-white/5 bg-white/2">
               <button
                 type="button"
                 onClick={() => setOpenId(open ? null : card.id)}
@@ -47,7 +47,7 @@ export default function PortalGuide() {
                 <ChevronDown
                   size={14}
                   aria-hidden="true"
-                  className={`flex-shrink-0 text-gray-500 transition-transform ${open ? 'rotate-180' : ''}`}
+                  className={`shrink-0 text-gray-500 transition-transform ${open ? 'rotate-180' : ''}`}
                 />
               </button>
               {open && (
@@ -59,7 +59,7 @@ export default function PortalGuide() {
                     href={card.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-1.5 inline-flex items-center gap-1 rounded text-[11px] font-semibold text-cyan-300 hover:text-cyan-200 focus-ring"
+                    className="mt-1.5 inline-flex items-center gap-1 rounded-sm text-[11px] font-semibold text-cyan-300 hover:text-cyan-200 focus-ring"
                   >
                     {card.host}
                     <ExternalLink size={11} aria-hidden="true" />

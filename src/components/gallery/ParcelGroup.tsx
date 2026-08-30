@@ -43,9 +43,9 @@ export default function ParcelGroup({
     <section className="rounded-2xl surface-raised overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full px-4 sm:px-5 py-4 flex items-start gap-3 hover:bg-white/[0.02] transition-colors text-left focus-ring"
+        className="w-full px-4 sm:px-5 py-4 flex items-start gap-3 hover:bg-white/2 transition-colors text-left focus-ring"
       >
-        <div className="mt-0.5 w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-300 flex items-center justify-center flex-shrink-0">
+        <div className="mt-0.5 w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-300 flex items-center justify-center shrink-0">
           <MapPin size={15} />
         </div>
 
@@ -96,7 +96,7 @@ export default function ParcelGroup({
           )}
         </div>
 
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {!open && remaining > 0 && (
             <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold text-gray-300 bg-ink-700">
               +{remaining}
@@ -126,7 +126,7 @@ export default function ParcelGroup({
           {!open && remaining > 0 && (
             <button
               onClick={() => setOpen(true)}
-              className="rounded-xl border border-dashed border-white/10 hover:border-cyan-500/40 hover:bg-cyan-500/5 text-gray-400 hover:text-cyan-300 transition-colors aspect-[4/3] flex flex-col items-center justify-center text-center px-3 focus-ring"
+              className="rounded-xl border border-dashed border-white/10 hover:border-cyan-500/40 hover:bg-cyan-500/5 text-gray-400 hover:text-cyan-300 transition-colors aspect-4/3 flex flex-col items-center justify-center text-center px-3 focus-ring"
             >
               <span className="text-2xl font-semibold tabular-nums">+{remaining}</span>
               <span className="mt-1 text-[11px]">{t('gallery.group.show_all')}</span>

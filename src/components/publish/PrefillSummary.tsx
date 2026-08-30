@@ -53,7 +53,7 @@ export default function PrefillSummary({ state, result }: PrefillSummaryProps) {
   return (
     <div className="mt-2.5 space-y-2" role="status">
       <p className="flex items-center gap-1.5 text-xs font-medium text-emerald-300">
-        <CheckCircle2 size={13} aria-hidden="true" className="flex-shrink-0" />
+        <CheckCircle2 size={13} aria-hidden="true" className="shrink-0" />
         {t('page.publish.prefill.done', { n: filled.length })}
       </p>
 
@@ -76,7 +76,7 @@ export default function PrefillSummary({ state, result }: PrefillSummaryProps) {
 
       {zone && (
         <p className="flex min-w-0 gap-1.5 text-xs text-gray-400">
-          <span className="flex-shrink-0 text-gray-500">{t('page.publish.prefill.zone')}</span>
+          <span className="shrink-0 text-gray-500">{t('page.publish.prefill.zone')}</span>
           {/* The municipal designation ("Wohnzone, Bauklasse 4") can run to
               a full sentence for some parcels; the title attribute keeps the
               whole value reachable. */}

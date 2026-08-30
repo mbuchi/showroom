@@ -137,12 +137,12 @@ function Row({
 }) {
   return (
     <div className="flex gap-3 items-baseline">
-      <span className="w-24 flex-shrink-0 text-gray-400 inline-flex items-center gap-1.5">
+      <span className="w-24 shrink-0 text-gray-400 inline-flex items-center gap-1.5">
         {icon}
         <span className="capitalize">{label}</span>
       </span>
       <span
-        className={`flex-1 break-words text-gray-200 ${mono ? 'font-mono text-[11px]' : ''}`}
+        className={`flex-1 wrap-break-word text-gray-200 ${mono ? 'font-mono text-[11px]' : ''}`}
       >
         {value}
       </span>

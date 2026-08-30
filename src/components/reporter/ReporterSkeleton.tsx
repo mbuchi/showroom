@@ -9,7 +9,7 @@ export default function ReporterSkeleton() {
   return (
     <div className="min-h-screen">
       {/* Faux navbar — the real one mounts with the reporter chunk. */}
-      <div className="sticky top-0 z-[45] glass-nav">
+      <div className="sticky top-0 z-45 glass-nav">
         <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <Skeleton width={112} height={20} radius={4} />
           <Skeleton circle width={32} />
@@ -39,7 +39,7 @@ export default function ReporterSkeleton() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="surface-raised overflow-hidden rounded-xl">
-              <Skeleton className="w-full aspect-[16/10]" radius={0} delay={`${i * 90}ms`} />
+              <Skeleton className="w-full aspect-16/10" radius={0} delay={`${i * 90}ms`} />
               <div className="flex items-center justify-between gap-2 px-3.5 py-3">
                 <div className="space-y-1.5">
                   <Skeleton width={80} height={14} radius={4} />

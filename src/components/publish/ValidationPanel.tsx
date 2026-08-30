@@ -38,7 +38,7 @@ export default function ValidationPanel({ issues }: ValidationPanelProps) {
               : 'text-amber-300 hover:bg-amber-500/10'
           }`}
         >
-          <Icon size={14} className="mt-px flex-shrink-0" aria-hidden="true" />
+          <Icon size={14} className="mt-px shrink-0" aria-hidden="true" />
           <span className="min-w-0">{t(`page.publish.${issue.messageKey}`, issue.params)}</span>
         </button>
       </li>
@@ -53,7 +53,7 @@ export default function ValidationPanel({ issues }: ValidationPanelProps) {
 
       {issues.length === 0 ? (
         <div className="flex items-start gap-2 text-xs leading-snug text-emerald-300">
-          <CheckCircle2 size={14} className="mt-px flex-shrink-0" aria-hidden="true" />
+          <CheckCircle2 size={14} className="mt-px shrink-0" aria-hidden="true" />
           <span>{t('page.publish.validation.ok')}</span>
         </div>
       ) : (

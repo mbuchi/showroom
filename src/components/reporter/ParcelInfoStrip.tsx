@@ -85,7 +85,7 @@ function Chip({
       title={title}
       className={`inline-flex items-center gap-1.5 h-7 px-2.5 rounded-lg border border-white/10 bg-white/5 text-xs text-gray-200 ${className}`}
     >
-      <span className="text-cyan-400 flex-shrink-0">{icon}</span>
+      <span className="text-cyan-400 shrink-0">{icon}</span>
       <span className="min-w-0 truncate tabular-nums">{children}</span>
     </span>
   );
