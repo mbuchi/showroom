@@ -25,7 +25,7 @@ export default function EmptyState({ variant, onClear }: EmptyStateProps) {
           href={ROOFS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-cyan-500 to-indigo-500 hover:from-cyan-400 hover:to-indigo-400 text-white shadow-glow-cyan transition-all"
+          className="mt-6 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-linear-to-r from-cyan-500 to-indigo-500 hover:from-cyan-400 hover:to-indigo-400 text-white shadow-glow-cyan transition-all"
         >
           {t('gallery.empty.open_roofs')}
           <ArrowUpRight size={13} />
@@ -43,7 +43,7 @@ export default function EmptyState({ variant, onClear }: EmptyStateProps) {
         <h3 className="text-sm font-semibold text-gray-100 mb-1">{t('gallery.empty.no_favorites_title')}</h3>
         <p className="text-xs text-gray-400 leading-relaxed">
           {t('gallery.empty.no_favorites_body_prefix')}{' '}
-          <kbd className="px-1.5 py-0.5 rounded bg-ink-700 border border-white/5 text-[10px] font-medium">F</kbd>{' '}
+          <kbd className="px-1.5 py-0.5 rounded-sm bg-ink-700 border border-white/5 text-[10px] font-medium">F</kbd>{' '}
           {t('gallery.empty.no_favorites_body_suffix')}
         </p>
         {onClear && (
@@ -87,7 +87,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
         <ImageOff size={20} className="text-red-400" />
       </div>
       <h3 className="text-sm font-semibold text-gray-100 mb-1">{t('gallery.error.title')}</h3>
-      <p className="text-xs text-gray-400 leading-relaxed break-words">{message}</p>
+      <p className="text-xs text-gray-400 leading-relaxed wrap-break-word">{message}</p>
       {onRetry && (
         <button
           onClick={onRetry}

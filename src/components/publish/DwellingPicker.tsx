@@ -25,9 +25,9 @@ export default function DwellingPicker({
   if (dwellings.length < 2) return null;
 
   return (
-    <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.02] p-3">
+    <div className="mt-3 rounded-xl border border-white/10 bg-white/2 p-3">
       <p className="flex items-center gap-1.5 text-xs font-semibold text-gray-200">
-        <Building2 size={13} aria-hidden="true" className="flex-shrink-0 text-cyan-400" />
+        <Building2 size={13} aria-hidden="true" className="shrink-0 text-cyan-400" />
         {t('page.publish.gwr.pick')}
       </p>
       <p className="mt-1 text-xs leading-snug text-gray-500">
@@ -56,7 +56,7 @@ export default function DwellingPicker({
                   <Check
                     size={13}
                     aria-hidden="true"
-                    className="flex-shrink-0 text-cyan-300"
+                    className="shrink-0 text-cyan-300"
                   />
                 )}
               </button>

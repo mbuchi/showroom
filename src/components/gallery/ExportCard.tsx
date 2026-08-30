@@ -43,7 +43,7 @@ export default function ExportCard({
         className="block w-full text-left focus-ring"
         aria-label={t('card.open', { name: image.original_filename })}
       >
-        <div className="relative aspect-[4/3] bg-ink-900 overflow-hidden">
+        <div className="relative aspect-4/3 bg-ink-900 overflow-hidden">
           {!loaded && (
             <PolicyLoadingFeedback
               fill
@@ -58,21 +58,21 @@ export default function ExportCard({
             onLoad={() => setLoaded(true)}
             className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04] img-fade-in ${loaded ? 'loaded' : ''}`}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
           <span className={`absolute top-2 left-2 px-1.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wide border backdrop-blur-md ${appClass}`}>
             {appLabel}
           </span>
 
           {isFavorite && (
-            <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-amber-400/90 backdrop-blur flex items-center justify-center shadow">
+            <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-amber-400/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
               <Star size={12} className="text-ink-900 fill-current" />
             </span>
           )}
         </div>
       </button>
 
-      <div className="absolute inset-x-0 bottom-0 px-3 pt-8 pb-3 bg-gradient-to-t from-black/85 via-black/55 to-transparent translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none">
+      <div className="absolute inset-x-0 bottom-0 px-3 pt-8 pb-3 bg-linear-to-t from-black/85 via-black/55 to-transparent translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none">
         <div className="flex items-center gap-1 text-[11px] text-gray-300 truncate">
           {address ? (
             <span className="truncate" title={address}>{address}</span>
@@ -91,7 +91,7 @@ export default function ExportCard({
         {!isFavorite && (
           <button
             onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
-            className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-ink-800 text-gray-200 backdrop-blur flex items-center justify-center transition-colors focus-ring"
+            className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-ink-800 text-gray-200 backdrop-blur-sm flex items-center justify-center transition-colors focus-ring"
             aria-label={t('card.add_favorite')}
             title={t('card.favorite_tooltip')}
           >
@@ -101,7 +101,7 @@ export default function ExportCard({
         {isFavorite && (
           <button
             onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
-            className="w-7 h-7 rounded-md bg-amber-400/90 hover:bg-amber-300 text-ink-900 backdrop-blur flex items-center justify-center transition-colors focus-ring"
+            className="w-7 h-7 rounded-md bg-amber-400/90 hover:bg-amber-300 text-ink-900 backdrop-blur-sm flex items-center justify-center transition-colors focus-ring"
             aria-label={t('card.remove_favorite')}
             title={t('card.unfavorite_tooltip')}
           >
@@ -113,7 +113,7 @@ export default function ExportCard({
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-ink-800 text-gray-200 backdrop-blur flex items-center justify-center transition-colors focus-ring"
+          className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-ink-800 text-gray-200 backdrop-blur-sm flex items-center justify-center transition-colors focus-ring"
           aria-label={t('card.open_original_aria')}
           title={t('card.open_original')}
         >
@@ -122,7 +122,7 @@ export default function ExportCard({
         <button
           onClick={(e) => { e.stopPropagation(); onDelete(); }}
           disabled={isDeleting}
-          className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-red-500/30 text-gray-200 hover:text-red-300 backdrop-blur flex items-center justify-center transition-colors focus-ring disabled:opacity-50"
+          className="w-7 h-7 rounded-md bg-ink-900/80 hover:bg-red-500/30 text-gray-200 hover:text-red-300 backdrop-blur-sm flex items-center justify-center transition-colors focus-ring disabled:opacity-50"
           aria-label={t('card.delete_aria')}
           title={t('card.delete')}
         >

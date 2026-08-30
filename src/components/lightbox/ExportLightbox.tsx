@@ -88,7 +88,7 @@ export default function ExportLightbox({
     <div
       ref={lightboxRef}
       tabIndex={-1}
-      className="fixed inset-0 z-[150] flex flex-col focus:outline-none"
+      className="fixed inset-0 z-150 flex flex-col focus:outline-hidden"
       role="dialog"
       aria-modal="true"
       aria-label={image.original_filename}
@@ -168,7 +168,7 @@ export default function ExportLightbox({
           {hasPrev && (
             <button
               onClick={(e) => { e.stopPropagation(); onIndexChange(safeIndex - 1); }}
-              className="absolute left-2 sm:left-4 z-10 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur text-gray-200 hover:text-white flex items-center justify-center transition-colors focus-ring"
+              className="absolute left-2 sm:left-4 z-10 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-sm text-gray-200 hover:text-white flex items-center justify-center transition-colors focus-ring"
               aria-label={t('modal.detail.previous')}
             >
               <ChevronLeft size={20} />
@@ -177,7 +177,7 @@ export default function ExportLightbox({
           {hasNext && (
             <button
               onClick={(e) => { e.stopPropagation(); onIndexChange(safeIndex + 1); }}
-              className="absolute right-2 sm:right-4 z-10 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur text-gray-200 hover:text-white flex items-center justify-center transition-colors focus-ring"
+              className="absolute right-2 sm:right-4 z-10 w-11 h-11 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-sm text-gray-200 hover:text-white flex items-center justify-center transition-colors focus-ring"
               aria-label={t('modal.detail.next')}
             >
               <ChevronRight size={20} />
@@ -212,7 +212,7 @@ export default function ExportLightbox({
 
         {showInfo && (
           <aside
-            className="hidden md:flex flex-col w-80 lg:w-96 flex-shrink-0 border-l border-white/5 bg-ink-900/80 backdrop-blur-md overflow-y-auto thin-scrollbar animate-slide-in-right"
+            className="hidden md:flex flex-col w-80 lg:w-96 shrink-0 border-l border-white/5 bg-ink-900/80 backdrop-blur-md overflow-y-auto thin-scrollbar animate-slide-in-right"
             onClick={(e) => e.stopPropagation()}
           >
             <MetadataPanel image={image} />

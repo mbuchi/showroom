@@ -9,7 +9,7 @@ export default function ExportSkeleton({ count = 8 }: SkeletonProps) {
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="rounded-xl overflow-hidden surface-raised">
-          <Skeleton className="w-full aspect-[4/3]" radius={0} delay={`${i * 60}ms`} />
+          <Skeleton className="w-full aspect-4/3" radius={0} delay={`${i * 60}ms`} />
           <div className="p-3 space-y-2">
             <Skeleton height={12} radius={4} className="w-3/4" delay={`${i * 60}ms`} />
             <Skeleton height={8} radius={4} className="w-1/2" delay={`${i * 60}ms`} />

@@ -255,7 +255,7 @@ export default function GalleryView() {
             <button
               onClick={() => setDeleteError(null)}
               aria-label={t('gallery.tip_close')}
-              className="shrink-0 rounded px-1 text-red-300/70 hover:text-red-200 transition-colors focus-ring"
+              className="shrink-0 rounded-sm px-1 text-red-300/70 hover:text-red-200 transition-colors focus-ring"
             >
               ×
             </button>
@@ -330,11 +330,11 @@ export default function GalleryView() {
           <footer className="mt-12 pt-6 border-t border-white/5 text-center text-[11px] text-gray-400">
             <p>
               {t('gallery.tips_label')}{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">/</kbd> {t('gallery.tip_search')} ·{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">←</kbd>{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">→</kbd> {t('gallery.tip_navigate')} ·{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">F</kbd> {t('gallery.tip_favorite')} ·{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-ink-800 border border-white/5">Esc</kbd> {t('gallery.tip_close')}
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-ink-800 border border-white/5">/</kbd> {t('gallery.tip_search')} ·{' '}
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-ink-800 border border-white/5">←</kbd>{' '}
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-ink-800 border border-white/5">→</kbd> {t('gallery.tip_navigate')} ·{' '}
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-ink-800 border border-white/5">F</kbd> {t('gallery.tip_favorite')} ·{' '}
+              <kbd className="px-1.5 py-0.5 rounded-sm bg-ink-800 border border-white/5">Esc</kbd> {t('gallery.tip_close')}
             </p>
           </footer>
         )}
@@ -358,11 +358,11 @@ export default function GalleryView() {
       {pendingDelete &&
         createPortal(
           <div
-            className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+            className="fixed inset-0 z-200 flex items-center justify-center p-4"
             onClick={cancelDelete}
             onKeyDown={(e) => { if (e.key === 'Escape') cancelDelete(); }}
           >
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" />
             <div
               role="alertdialog"
               aria-modal="true"

@@ -100,7 +100,7 @@ export default function GalleryToolbar(props: GalleryToolbarProps) {
             <select
               value={sortMode}
               onChange={(e) => onSortChange(e.target.value as SortMode)}
-              className="pl-7 pr-7 py-1.5 rounded-lg text-xs font-medium bg-ink-800/70 hover:bg-ink-700 border border-white/5 hover:border-white/10 text-gray-200 focus:outline-none focus:ring-1 focus:ring-cyan-500/40 appearance-none cursor-pointer"
+              className="pl-7 pr-7 py-1.5 rounded-lg text-xs font-medium bg-ink-800/70 hover:bg-ink-700 border border-white/5 hover:border-white/10 text-gray-200 focus:outline-hidden focus:ring-1 focus:ring-cyan-500/40 appearance-none cursor-pointer"
             >
               {SORT_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value} className="bg-ink-800">

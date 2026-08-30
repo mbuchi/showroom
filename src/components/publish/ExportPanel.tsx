@@ -234,7 +234,7 @@ export default function ExportPanel({ draft, issues }: ExportPanelProps) {
           disabled={primaryDisabled}
           className={`inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg px-3.5 text-xs font-semibold transition-colors focus-ring ${
             primaryDisabled
-              ? 'cursor-not-allowed border border-white/5 bg-white/[0.02] text-gray-600'
+              ? 'cursor-not-allowed border border-white/5 bg-white/2 text-gray-600'
               : 'border border-cyan-400/40 bg-cyan-500/15 text-cyan-200 hover:border-cyan-300/60 hover:bg-cyan-500/25'
           }`}
         >
@@ -250,7 +250,7 @@ export default function ExportPanel({ draft, issues }: ExportPanelProps) {
           disabled={primaryDisabled}
           className={`inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border px-3.5 text-xs font-semibold transition-colors focus-ring ${
             primaryDisabled
-              ? 'cursor-not-allowed border-white/5 bg-white/[0.02] text-gray-600'
+              ? 'cursor-not-allowed border-white/5 bg-white/2 text-gray-600'
               : 'border-white/10 text-gray-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 hover:text-cyan-300'
           }`}
         >
@@ -264,7 +264,7 @@ export default function ExportPanel({ draft, issues }: ExportPanelProps) {
           disabled={primaryDisabled}
           className={`inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border px-3.5 text-xs font-semibold transition-colors focus-ring ${
             primaryDisabled
-              ? 'cursor-not-allowed border-white/5 bg-white/[0.02] text-gray-600'
+              ? 'cursor-not-allowed border-white/5 bg-white/2 text-gray-600'
               : 'border-white/10 text-gray-300 hover:border-cyan-500/40 hover:bg-cyan-500/10 hover:text-cyan-300'
           }`}
         >
@@ -294,7 +294,7 @@ export default function ExportPanel({ draft, issues }: ExportPanelProps) {
 
       {swissretsErrors.length > 0 && (
         <p className="mt-2.5 flex items-start gap-1.5 text-[11px] leading-snug text-amber-300">
-          <AlertTriangle size={13} className="mt-px flex-shrink-0" aria-hidden="true" />
+          <AlertTriangle size={13} className="mt-px shrink-0" aria-hidden="true" />
           <span>
             {t('page.publish.export.swissretsInvalid', {
               errors: swissretsErrors.slice(0, 3).join('; '),
@@ -305,14 +305,14 @@ export default function ExportPanel({ draft, issues }: ExportPanelProps) {
 
       {failedNames.length > 0 && (
         <p className="mt-2.5 flex items-start gap-1.5 text-[11px] leading-snug text-amber-300">
-          <AlertTriangle size={13} className="mt-px flex-shrink-0" aria-hidden="true" />
+          <AlertTriangle size={13} className="mt-px shrink-0" aria-hidden="true" />
           <span>{t('page.publish.images.failed', { names: failedNames.join(', ') })}</span>
         </p>
       )}
 
       {error && (
         <p className="mt-2.5 flex items-start gap-1.5 text-[11px] leading-snug text-red-300">
-          <AlertTriangle size={13} className="mt-px flex-shrink-0" aria-hidden="true" />
+          <AlertTriangle size={13} className="mt-px shrink-0" aria-hidden="true" />
           <span>{t('page.reporter.widget.failed_to_load')}</span>
         </p>
       )}

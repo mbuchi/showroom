@@ -67,7 +67,7 @@ export default function WidgetCard({
   return (
     <div className="surface-raised surface-hover rounded-xl overflow-hidden flex flex-col">
       <div
-        className="reporter-capture relative aspect-[16/10] bg-ink-900 overflow-hidden"
+        className="reporter-capture relative aspect-16/10 bg-ink-900 overflow-hidden"
         data-capture-id={captureId}
       >
         {children}
@@ -87,7 +87,7 @@ export default function WidgetCard({
                 ? t('page.reporter.widget.deselect_for_report', { label })
                 : t('page.reporter.widget.select_for_report', { label })
             }
-            className={`absolute top-2 left-2 z-20 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[10px] font-semibold backdrop-blur-sm transition-colors ${
+            className={`absolute top-2 left-2 z-20 inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[10px] font-semibold backdrop-blur-xs transition-colors ${
               canSelect
                 ? selected
                   ? 'border-cyan-400/60 bg-cyan-500/20 text-cyan-200 hover:bg-cyan-500/30'
@@ -96,7 +96,7 @@ export default function WidgetCard({
             }`}
           >
             <span
-              className={`flex h-3 w-3 items-center justify-center rounded-sm border ${
+              className={`flex h-3 w-3 items-center justify-center rounded-xs border ${
                 selected
                   ? 'border-cyan-300 bg-cyan-400 text-ink-900'
                   : canSelect
@@ -117,7 +117,7 @@ export default function WidgetCard({
         {/* Status badge — top-right, every status. */}
         <span
           data-capture-skip="true"
-          className="absolute top-2 right-2 z-20 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-900/85 px-2 py-1 text-[10px] font-semibold text-gray-200 backdrop-blur-sm"
+          className="absolute top-2 right-2 z-20 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-900/85 px-2 py-1 text-[10px] font-semibold text-gray-200 backdrop-blur-xs"
         >
           <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
           <span className={meta.text}>{t(meta.labelKey)}</span>
@@ -160,7 +160,7 @@ export default function WidgetCard({
 
         {/* Headline value — large, over a gradient scrim. Only when live. */}
         {status === 'ok' && stat != null && (
-          <div className="reporter-card-stat absolute inset-x-0 bottom-0 z-10 pointer-events-none bg-gradient-to-t from-ink-900/95 via-ink-900/60 to-transparent px-3.5 pt-10 pb-3">
+          <div className="reporter-card-stat absolute inset-x-0 bottom-0 z-10 pointer-events-none bg-linear-to-t from-ink-900/95 via-ink-900/60 to-transparent px-3.5 pt-10 pb-3">
             {metricLabel && (
               <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-300">
                 {metricLabel}
@@ -184,7 +184,7 @@ export default function WidgetCard({
           rel="noopener noreferrer"
           title={t('page.reporter.widget.open_at_location', { label })}
           aria-label={t('page.reporter.widget.open_at_location', { label })}
-          className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors flex-shrink-0"
+          className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 transition-colors shrink-0"
         >
           <ExternalLink size={14} />
         </a>

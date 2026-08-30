@@ -147,7 +147,7 @@ export default function ReportDialog({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-80 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="report-dialog-title"
@@ -309,9 +309,9 @@ function Stage({
   tone?: 'neutral' | 'error';
 }) {
   return (
-    <div className={`rounded-xl border px-4 py-4 ${tone === 'error' ? 'border-red-500/30 bg-red-500/5' : 'border-white/10 bg-white/[0.02]'}`}>
+    <div className={`rounded-xl border px-4 py-4 ${tone === 'error' ? 'border-red-500/30 bg-red-500/5' : 'border-white/10 bg-white/2'}`}>
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 flex-shrink-0">{icon}</div>
+        <div className="mt-0.5 shrink-0">{icon}</div>
         <div className="min-w-0 flex-1">
           <p className={`text-sm font-semibold ${tone === 'error' ? 'text-red-200' : 'text-gray-100'}`}>
             {title}
