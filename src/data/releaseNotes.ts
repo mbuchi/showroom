@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.39.1',
+    date: 'August 30, 2026',
+    codename: 'A map older browsers can read',
+    summary: 'The shared map engine is now served in a form older Safari and Firefox versions can read, so the reporter mini-maps appear instead of an empty space.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text: 'Writing the engine address directly into the app fixed Firefox 104 to 107, but not Safari 16.0 to 16.3. The engine file itself was still the modern build, written in a form of JavaScript that Safari before 16.4, Firefox before 93 and Chrome before 94 cannot read at all, so those browsers found the file and then failed on the first line of it. The Aireon asset host now also publishes the same engine compiled down to what those browsers understand, and Showroom loads that one. Nothing changes on current browsers, and every map feature behaves exactly as before.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.39.0',
     date: 'August 30, 2026',
     codename: 'A map on older browsers',
