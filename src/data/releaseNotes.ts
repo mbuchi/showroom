@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.39.0',
+    date: 'August 30, 2026',
+    codename: 'A map on older browsers',
+    summary: 'The map engine now loads by direct URL from the shared Aireon asset host, so the reporter maps work on older Safari and Firefox versions that previously showed nothing.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text: 'Showroom loads its map engine from the shared Aireon asset host so the file is fetched once and reused across every Aireon app. That was first done with an import map, a browser feature that needs Safari 16.4 or newer and Firefox 108 or newer, which is above the range the rest of the app supports. On Safari 16.0 through 16.3 the engine could not be found, so the mini-maps in the reporter stayed empty while every other part of the page kept working. The engine address is now written directly into the app when it is built, which needs nothing newer than the app itself, so those maps appear again on those browsers. Nothing changes on current browsers, and no report or saved setting is affected.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.38.0',
     date: 'August 29, 2026',
     codename: 'Steadier under the hood',
