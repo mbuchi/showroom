@@ -14,13 +14,13 @@ export const RELEASES: Release[] = [
   {
     version: '0.40.2',
     date: 'September 1, 2026',
-    codename: 'Light mode stays light',
-    summary: 'Light mode no longer flips back to dark when showroom loads, and the guided tour now follows the theme while it is running.',
+    codename: 'Dark, and consistently so',
+    summary: 'showroom is now consistently dark everywhere, and the guided tour follows the theme while it is running.',
     items: [
       {
         kind: 'fixed' as ChangeKind,
         icon: Palette,
-        text: 'If you had chosen light mode, showroom could still open in dark mode, or start light and then switch itself back to dark a moment after loading. The page was carrying a leftover dark setting written into it before the app had even started, and that setting quietly won over your saved choice. showroom now leaves the theme entirely to your saved preference, so light mode is there the moment the page appears and stays there. Dark mode is still what you get if you have never picked a theme.',
+        text: 'showroom is a dark only app: it has no light and dark switch, and its background and panels are painted dark by design. It was still reading the light or dark choice you had made in other Aireon apps, though, which could leave the top bar and account menu in light colors on top of a permanently dark page. showroom now stays dark whatever you have chosen elsewhere, and your choice is left untouched for every other app. If you would like a real light theme for showroom, that is a change worth asking for rather than something this fix guesses at.',
         prs: [],
       },
       {
