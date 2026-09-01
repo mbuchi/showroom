@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.40.1',
+    date: 'September 1, 2026',
+    codename: 'Light mode all the way through',
+    summary: 'Switching to light mode now changes the whole app at once, instead of leaving the floating panels and side panel dark until a reload.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Palette,
+        text: 'Switching between light and dark mode used to only half work. The first time you changed the theme in the app, the page background, the floating dialogs and the side panel kept the color they had when the page opened, so you could end up with dark panels sitting under a light navbar, or the reverse. Reloading the page always sorted it out. The app now moves every part of the theme together, so one click switches the entire app in both directions and no reload is needed.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.40.0',
     date: 'August 30, 2026',
     codename: 'Same look, newer engine',
