@@ -1,10 +1,11 @@
 <!doctype html>
-<!-- class="dark" stays: showroom is a dark-only app (`:root { color-scheme: dark }`,
-     body painted with the dark ink palette, no theme toggle). It is a static class,
-     not a competing pre-paint script, and it keeps the injected static shell dark for
-     a visitor whose suite-wide cookie says light - which is what this app paints
-     anyway. Removing it would light the shell and then flash to dark on mount. -->
-<html lang="en" class="dark">
+<!-- No theme class here. The pre-paint bootstrap injected by aireonHtmlPlugin is
+     the only writer of the first frame (docs/THEME_STANDARD.md section 2b), and it
+     already honors showroom's dark default via `defaultTheme: 'dark'` in
+     vite.config.ts. A static class used to be unremovable, so a visitor whose
+     stored choice was light got a first frame of class=dark + data-theme=light and
+     light mode flipped back on every load. -->
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="https://hub.aireon.ch/favicon.svg" />

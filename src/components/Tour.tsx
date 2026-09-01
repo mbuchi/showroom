@@ -63,8 +63,27 @@ function buildSteps(t: TranslateFn, pathname: string): Step[] {
 
 interface TourSession {
   steps: Step[];
-  isDark: boolean;
   pathname: string;
+}
+
+/** Live `dark`-class read. The tour launches on a 900 ms timer (with an 1800 ms
+ *  retry) and then runs for many seconds, so it can outlive a theme flip: the
+ *  shared account menu hydrates the user's remote profile asynchronously and
+ *  calls adoptStoredTheme(), which toggles `.dark` on <html> whenever the stored
+ *  preference differs from showroom's dark-first default. Joyride paints its
+ *  card, arrow and overlay from INLINE styles on portaled nodes, so no Tailwind
+ *  `dark:` variant can correct a stale snapshot after the fact - the value has to
+ *  stay live. Same MutationObserver pattern as ValooWidget. */
+function useIsDark(): boolean {
+  const read = () => document.documentElement.classList.contains('dark');
+  const [isDark, setIsDark] = useState(read);
+  useEffect(() => {
+    const obs = new MutationObserver(() => setIsDark(read()));
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    setIsDark(read());
+    return () => obs.disconnect();
+  }, []);
+  return isDark;
 }
 
 /** Suite tour standard: translucent tint + spotlight only - NO backdrop blur
@@ -104,6 +123,9 @@ export function Tour({ onClose }: { onClose: (completed: boolean) => void }) {
   const { t } = useI18n();
   const { pathname } = useRoute();
   const [session, setSession] = useState<TourSession | null>(null);
+  // Called before the `if (!session) return null` early return so hook order
+  // stays stable across renders.
+  const isDark = useIsDark();
 
   // Refs so the mount-once launch effect always reads the live t/onClose
   // without re-arming its timers on every render.
@@ -124,11 +146,7 @@ export function Tour({ onClose }: { onClose: (completed: boolean) => void }) {
     const attempt = () => {
       const steps = buildSteps(tRef.current, window.location.pathname);
       if (steps.length > 0) {
-        setSession({
-          steps,
-          isDark: document.documentElement.classList.contains('dark'),
-          pathname: window.location.pathname,
-        });
+        setSession({ steps, pathname: window.location.pathname });
         return;
       }
       if (!retried) {
@@ -173,7 +191,7 @@ export function Tour({ onClose }: { onClose: (completed: boolean) => void }) {
         next: t('tour.next'),
         skip: t('tour.skip'),
       }}
-      styles={buildStyles(session.isDark)}
+      styles={buildStyles(isDark)}
     />
   );
 }
