@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.40.2',
+    date: 'September 1, 2026',
+    codename: 'Light mode stays light',
+    summary: 'Light mode no longer flips back to dark when showroom loads, and the guided tour now follows the theme while it is running.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Palette,
+        text: 'If you had chosen light mode, showroom could still open in dark mode, or start light and then switch itself back to dark a moment after loading. The page was carrying a leftover dark setting written into it before the app had even started, and that setting quietly won over your saved choice. showroom now leaves the theme entirely to your saved preference, so light mode is there the moment the page appears and stays there. Dark mode is still what you get if you have never picked a theme.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Compass,
+        text: 'The guided tour read the theme once when it opened and then kept it for the rest of the run. If your saved theme arrived a moment later, as it does when you are signed in, the tour cards could stay in the wrong colors for the whole tour, for example a dark card with a dark shade over a light page. The tour now follows the theme while it is running and repaints as soon as it changes.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.40.1',
     date: 'September 1, 2026',
     codename: 'Light mode all the way through',
