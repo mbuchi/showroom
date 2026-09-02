@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.40.3',
+    date: 'September 2, 2026',
+    codename: 'Current shared foundation',
+    summary: 'showroom now uses @aireon/shared v1.207.4, which removes a way for an app to silently switch its own usage reporting off.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Package,
+        text: 'showroom now uses @aireon/shared v1.207.4. The shared library batches the anonymous usage counts an app reports back to the suite. It used to treat an app that named its reporting address explicitly as a non-standard setup and quietly stopped batching for it, even when the address named was the standard one. Naming the standard address now behaves exactly like leaving it unset. showroom leaves it unset and was never affected, so this is preventative here. This release also brings the shared client for the central report engine and the Cloudflare bot gate, which stays inert in showroom. The reports, the map and the published views are unchanged.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.40.2',
     date: 'September 1, 2026',
     codename: 'Dark, and consistently so',
