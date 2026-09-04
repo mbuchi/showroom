@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.40.5',
+    date: 'September 4, 2026',
+    codename: 'One compiler, one linter',
+    summary: 'showroom now type-checks on TypeScript 7 as its only compiler and lints with Oxlint instead of ESLint; production builds refuse to ship with type errors.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'showroom now type-checks on TypeScript 7 as its only compiler and lints with Oxlint instead of ESLint; production builds refuse to ship with type errors. No change to what you see.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.40.4',
     date: 'September 4, 2026',
     codename: 'Shared foundation v1.209.0',
