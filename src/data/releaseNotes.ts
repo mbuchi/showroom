@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.40.4',
+    date: 'September 4, 2026',
+    codename: 'Shared foundation v1.208.1',
+    summary: 'showroom now uses @aireon/shared v1.208.1, which refreshes the typed connection to the Aireon data service and repairs the assistant fallback chain.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated the shared Aireon foundation from v1.207.4 to v1.208.1. The typed connection to the Aireon data service now follows contract 1.19.0, and the assistant fallback chain no longer ends in a model that does not exist, so Claire can no longer fail over into a dead model. The reports, the map and the published views are unchanged.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.40.3',
     date: 'September 2, 2026',
     codename: 'Current shared foundation',
