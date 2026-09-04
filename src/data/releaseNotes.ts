@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.40.4',
+    date: 'September 4, 2026',
+    codename: 'Shared foundation v1.209.0',
+    summary: 'showroom now uses @aireon/shared v1.209.0, whose error reporter no longer files transient browser noise to the bug tracker.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated the shared Aireon foundation from v1.207.4 to v1.209.0. Transient browser noise (stale script chunks, page unloads, offline moments) is no longer reported as an application error, so the bug tracker shows real problems only, and automated test runs now mark themselves as synthetic. The reports, the map and the published views are unchanged.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.40.3',
     date: 'September 2, 2026',
     codename: 'Current shared foundation',
