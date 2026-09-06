@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.41.0',
+    date: 'September 6, 2026',
+    codename: 'A bot gate that waits in the wings',
+    summary: 'showroom is wired to the shared Cloudflare Turnstile bot gate, which stays completely inert until the keys are provisioned.',
+    items: [
+      {
+        kind: 'new' as ChangeKind,
+        icon: Shield,
+        text: 'The two anonymous data endpoints showroom exposes, the parcel lookup behind the report parcel strip and the Claire POI lookup, now check for a Turnstile clearance cookie before answering, using the shared bot gate guard. A hidden check in front of the access gate mints that cookie for real visitors, so most people will never see anything at all. The gate does nothing until showroom is given a site key and a secret, so this release changes no behavior on its own.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.40.6',
     date: 'September 6, 2026',
     codename: 'Fewer false faults',
