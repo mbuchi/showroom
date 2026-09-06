@@ -4,6 +4,7 @@
 // `/score/poi-osm` endpoint (local PostGIS dataset, ~100 ms). Mirrors
 // scoore's `/api/overpass` proxy - same shape, dedicated path for Claire.
 import { withSignalCarrier } from '@aireon/shared/signal-carrier';
+import { withTurnstile } from '@aireon/shared/turnstile-guard';
 export const config = { maxDuration: 15 };
 
 const RES_POI_URL = "https://res.zeroo.ch/score/poi-osm";
@@ -115,4 +116,7 @@ async function carrierTarget(req: NodeReq, res: NodeRes): Promise<void> {
 // cached, and this is POST-only.
 //
 // See aireon-shared/docs/SIGNAL_STANDARD.md.
-export default withSignalCarrier(carrierTarget);
+// The Turnstile bot gate goes OUTERMOST, so an uncleared caller never reaches
+// the signal carrier or RES. Inert until TURNSTILE_SECRET_KEY is set.
+// See aireon-shared/docs/TURNSTILE_STANDARD.md.
+export default withTurnstile(withSignalCarrier(carrierTarget));

@@ -4,6 +4,8 @@
 // the RES token server-side so it never reaches the browser. Mirrors the
 // signal-collect proxy. The reporter's ParcelInfoStrip calls this.
 
+import { withTurnstileWeb } from "@aireon/shared/turnstile-guard";
+
 export const config = {
   runtime: "edge",
 };
@@ -43,7 +45,7 @@ function json(body: unknown, status: number): Response {
   });
 }
 
-export default async function handler(req: Request): Promise<Response> {
+async function handler(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") {
     return new Response(null, { status: 200, headers: corsHeaders });
   }
@@ -101,3 +103,7 @@ export default async function handler(req: Request): Promise<Response> {
     return json({ error: (error as Error).message }, 502);
   }
 }
+
+// Turnstile bot gate. Edge runtime, so the Web wrapper. Inert until
+// TURNSTILE_SECRET_KEY is set. See aireon-shared/docs/TURNSTILE_STANDARD.md.
+export default withTurnstileWeb(handler);
