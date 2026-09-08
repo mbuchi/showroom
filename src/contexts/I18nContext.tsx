@@ -2044,6 +2044,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(detectLocale);
 
   useEffect(() => {
+    // Keep <html lang> in step with the active locale. index.html ships a
+    // static lang="en", and showroom builds its own context instead of using
+    // shared's createI18n, so nothing used to update this: a German UI stayed
+    // lang="en" for screen readers, which pronounce the page from it. The
+    // shared ClaireAssistant also falls back to this attribute for its
+    // thinking-indicator copy, so this backstops the explicit `locale` prop
+    // ReporterClaire passes. Written BEFORE the persist below, and outside its
+    // try, so a throwing localStorage (private mode) cannot skip it.
+    document.documentElement.lang = locale;
+
     try {
       localStorage.setItem(STORAGE_KEY, locale);
     } catch {
