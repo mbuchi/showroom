@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { ClaireAssistant } from '@aireon/shared';
+import { useI18n } from '../../contexts/I18nContext';
 import type { ParcelInfo } from '../../lib/parcelInfo';
 import { REPORTER_APPS } from '../../lib/reporterApps';
 import type { ReporterAppId } from '../../lib/reporterApps';
@@ -28,6 +29,14 @@ interface ReporterClaireProps {
  * side - no Gemini key is read or bundled client-side (chat routes through
  * the RES proxy).
  *
+ * `locale` carries showroom's own UI language to Claire's status copy (today
+ * the thinking indicator that shared v1.213.0 added). The prop is optional and
+ * falls back to `<html lang>`, but showroom's language lives in I18nContext
+ * rather than in a shared `createI18n` instance, so nothing here used to write
+ * that attribute and every non-English user got an English status line under a
+ * translated UI. Passing it explicitly is the direct fix; I18nProvider now also
+ * keeps `<html lang>` in step, which fixes screen-reader pronunciation.
+ *
  * Claire renders its launcher and panel into a body portal, both already
  * tagged `data-screenshot-ignore` by the shared component; the reporter's
  * per-widget capture is scoped to each `.reporter-capture` element, so Claire
@@ -41,6 +50,10 @@ export default function ReporterClaire({
   parcel,
   rawByWidget,
 }: ReporterClaireProps) {
+  // showroom's Locale is the shared 'de' | 'en' | 'fr' | 'it' union, which is
+  // exactly ClaireThinkingLocale, so this needs no narrowing or cast.
+  const { locale } = useI18n();
+
   // Parcel identity for Claire's prompt. Municipality is the locality line
   // ("8001 Zürich ZH") when present - Claire reads it for the place name.
   const properties = useMemo<Record<string, unknown>>(() => {
@@ -92,6 +105,7 @@ export default function ReporterClaire({
         enrichment={enrichment}
         lngLat={{ lng, lat }}
         headerAddress={headerAddress}
+        locale={locale}
       />
     </div>
   );
