@@ -1,40 +1,57 @@
 // The MapLibre startup contract for the reporter's mini-maps.
 //
-// ⚠ MapLibre v6 does NOT throw when the WebGL2 context is refused. Its
-// constructor runs `this._setupPainter(); if (!this.painter) return;`
-// (maplibre-gl 6.3.0), fires a `GPUInitializationError` at the half-built map,
-// and hands back a `Map` that looks constructed but has no painter, no style
-// and no handlers. So a `try { new maplibregl.Map(...) } catch {}` is
-// UNREACHABLE for the one cause people write it for, and the half-built
-// instance goes on to detonate somewhere unrelated:
+// ⚠ MapLibre v6 has TWO mutually exclusive ways of reporting a refused WebGL2
+// context, and the engine switched between them inside the same major:
+//
+//   <= 6.6.0  `_setupPainter` fires a `GPUInitializationError` EVENT; the
+//             constructor runs `this._setupPainter(); if (!this.painter) return;`
+//             and RESOLVES, handing back a `Map` that looks constructed but has
+//             no painter, no style and no handlers. A
+//             `try { new maplibregl.Map(...) } catch {}` is UNREACHABLE here.
+//   >= 6.7.0  `_setupPainter` THROWS; the constructor does
+//             `try { this._setupPainter() } catch (e) { this._cleanupContainer(); throw e }`
+//             and THROWS, so there is no instance at all and every
+//             post-construction painter gate is DEAD CODE.
+//
+// The <= 6.6.0 half-built instance detonates somewhere unrelated:
 //
 //   - `resize()` -> `_resizeInternal` -> `this.painter.resize(...)`
 //     => `Cannot read properties of undefined (reading 'resize')`
 //   - `Marker.addTo` -> project through the painter transform => `...'0'`
 //   - the cleanup's `remove()` -> `this.painter.destroy()` => `...'destroy'`
 //
-// MapboxMini owned two of those live surfaces: a bare
-// `requestAnimationFrame(() => m.resize())` a frame after the promise chain had
-// exited (so uncaught — no ErrorBoundary sees it) and a bare `map?.remove()` in
-// the effect cleanup.
+// The >= 6.7.0 throw is worse in a different way HERE: MapboxMini builds its map
+// inside a `.then()`, so the throw rejects the chain and lands in the `.catch`,
+// whose `console.error` main.tsx turns into one hub bug row per affected visitor
+// (`errorLogger.install({ captureConsoleErrors: true })`, no beforeCapture veto
+// in src/lib/errorLog.ts) — while the card just sat on its skeleton.
 //
-// This file pins the contract that actually holds — preflight, painter gate
-// before the instance is used, a re-checking rAF callback, guarded teardown —
-// against a fake engine that reproduces the real failure, so it fails when the
-// BEHAVIOR regresses and not merely when wording moves. The source pins at the
-// bottom keep the components wired to that behavior.
+// So construction goes through `constructMapSafely` from `@aireon/shared/webgl`,
+// which folds BOTH behaviors into a `null` return and rethrows anything that is
+// not a GPU-init failure. This file pins the contract that actually holds —
+// preflight, one guarded construction, a re-checking rAF callback, safe teardown,
+// and warn-never-error for a device condition — against a fake engine that
+// reproduces both real failures, so it fails when the BEHAVIOR regresses and not
+// merely when wording moves. The source pins at the bottom keep the components
+// wired to that behavior.
 //
-// Suite memory: maplibre-gpu-init-returns-half-built-map (hexoo #129,
-// doorway #225, hood #280, choose #263).
+// Suite memory: maplibre-6-7-0-throws-on-gpu-init,
+// maplibre-gpu-init-returns-half-built-map (hexoo #129, doorway #225, hood #280,
+// choose #263).
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+// ⚠ Only `isWebGLAvailable` is faked (mapStartup's memoized probe needs a
+// controllable answer). Everything else — including `constructMapSafely`, the
+// helper under test below — comes from the REAL @aireon/shared/webgl, so these
+// cases exercise the shipped implementation rather than a restatement of it.
 const probe = vi.fn(() => true);
-vi.mock('@aireon/shared/webgl', () => ({
-  isWebGLAvailable: () => probe(),
-  MapUnavailable: () => null,
-}));
+vi.mock('@aireon/shared/webgl', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@aireon/shared/webgl')>();
+  return { ...actual, isWebGLAvailable: () => probe(), MapUnavailable: () => null };
+});
 
+import { constructMapSafely, isGpuInitializationError, safeRemoveMap } from '@aireon/shared/webgl';
 import miniSource from '../../components/reporter/MapboxMini.tsx?raw';
 import roofsSource from '../../components/reporter/widgets/RoofsWidget.tsx?raw';
 import valooSource from '../../components/reporter/widgets/ValooWidget.tsx?raw';
@@ -53,10 +70,11 @@ const at = (source: string, label: string, needle: string) => {
 };
 
 /**
- * A stand-in for maplibre-gl v6's real failure mode: the painter-dependent
- * methods dereference `this.painter` unguarded, exactly like the engine, so on
- * a map whose GPU init was refused they throw the production messages this
- * suite keeps seeing in the hub bug tracker.
+ * A stand-in for the <= 6.6.0 failure mode: the painter-dependent methods
+ * dereference `this.painter` unguarded, exactly like the engine, so on a map
+ * whose GPU init was refused they throw the production messages this suite kept
+ * seeing in the hub bug tracker. Still the right model for a map whose context
+ * dies AFTER a healthy boot, which happens on every engine.
  */
 function fakeMap({ painter }: { painter?: unknown }) {
   return {
@@ -91,6 +109,51 @@ type FakeMap = ReturnType<typeof fakeMap>;
 const healthyPainter = () => ({ resize: vi.fn(), transform: [0, 0], destroy: vi.fn() });
 
 /**
+ * The >= 6.7.0 failure mode: the engine throws out of the constructor, having
+ * already run `_cleanupContainer()`, so there is no instance to hand back.
+ *
+ * ⚠ Recognized by NAME, never by `instanceof` — the suite loads the engine from
+ * static.aireon.ch through an import map, so the class an app catches need not
+ * be the one any bundled copy exposes.
+ */
+function gpuInitError(): Error {
+  const error = new Error(
+    'WebGL2 is required to display this map, but it is not supported by your browser.',
+  );
+  error.name = 'GPUInitializationError';
+  return error;
+}
+
+/** The construction branch exactly as MapboxMini writes it. */
+function buildMini(construct: () => FakeMap) {
+  const warns: string[] = [];
+  const errors: string[] = [];
+  let unavailable = false;
+  let handedToCallbacks: FakeMap | null = null;
+
+  let map: FakeMap | null = null;
+  try {
+    map = constructMapSafely(construct);
+    if (!map) {
+      warns.push('MapLibre startup unsupported');
+      unavailable = true;
+    } else {
+      handedToCallbacks = map;
+    }
+  } catch (error) {
+    // The `.catch` on the promise chain.
+    if (isGpuInitializationError(error)) {
+      warns.push('MapLibre startup unsupported');
+      unavailable = true;
+    } else {
+      errors.push(`Unable to load the reporter mini-map style for MapLibre: ${String(error)}`);
+    }
+  }
+
+  return { map, unavailable, handedToCallbacks, warns, errors };
+}
+
+/**
  * The `requestAnimationFrame` callback exactly as MapboxMini wires it. This is
  * the mini-map's late-callback surface: it runs a frame after the promise chain
  * has exited, so anything it throws is uncaught.
@@ -104,14 +167,13 @@ function rafResize(read: () => FakeMap | null, cancelled: boolean) {
   };
 }
 
-/** The effect cleanup exactly as MapboxMini writes it. */
+/**
+ * The effect cleanup exactly as MapboxMini writes it: the shared best-effort
+ * remove. `true` = `remove()` completed, `false` = there was nothing to remove
+ * or it threw (which the unmount path must survive either way).
+ */
 function teardown(map: FakeMap | null) {
-  try {
-    map?.remove();
-  } catch (err) {
-    return `warned: ${String(err)}`;
-  }
-  return 'removed';
+  return safeRemoveMap(map);
 }
 
 beforeEach(() => {
@@ -180,9 +242,9 @@ describe('a half-built map really is dangerous (non-vacuity)', () => {
     expect(() => fakeMap({ painter: undefined }).remove()).toThrow(/reading 'destroy'/);
   });
 
-  it('is exactly what a try/catch around the constructor cannot catch', () => {
-    // The shape of the useless guard: v6 returns the broken map instead of
-    // throwing out of the constructor, so the catch block is unreachable.
+  it('is exactly what a try/catch around the constructor cannot catch on <= 6.6.0', () => {
+    // Why the painter gate exists at all: this engine RESOLVES with the broken
+    // map instead of throwing, so a bare catch block never runs.
     const construct = () => fakeMap({ painter: undefined });
     let caught = false;
     let built: FakeMap | null = null;
@@ -196,25 +258,81 @@ describe('a half-built map really is dangerous (non-vacuity)', () => {
   });
 });
 
-describe('the painter gate keeps the half-built map out of MapboxMini', () => {
-  it('drops it instead of handing it to the load/idle callbacks', () => {
-    let map: FakeMap | null = fakeMap({ painter: undefined });
-    let handedToCallbacks: FakeMap | null = null;
-    if (!isMapUsable(map)) {
-      expect(teardown(map)).toMatch(/^warned:/); // best-effort, must not throw
-      map = null;
-    } else {
-      handedToCallbacks = map;
+describe('a >= 6.7.0 constructor really does throw (non-vacuity)', () => {
+  // The mirror image of the block above, and the reason the painter gate alone
+  // stopped being enough. If this ever stops throwing, every case below that
+  // proves the throw is absorbed passes for free.
+  it('throws out of the constructor instead of returning a broken map', () => {
+    let caught: unknown = null;
+    let built: FakeMap | null = null;
+    try {
+      built = ((): FakeMap => {
+        throw gpuInitError();
+      })();
+    } catch (error) {
+      caught = error;
     }
-    expect(map).toBeNull();
-    expect(handedToCallbacks).toBeNull();
+    expect(built).toBeNull();
+    expect(caught).not.toBeNull();
+    expect((caught as Error).name).toBe('GPUInitializationError');
+    // ...and the painter gate written for 6.6.0 is never reached by it.
+    expect(isGpuInitializationError(caught)).toBe(true);
+  });
+});
+
+describe('constructMapSafely folds both engine behaviors into one null', () => {
+  it('absorbs the >= 6.7.0 throw', () => {
+    const built = buildMini(() => {
+      throw gpuInitError();
+    });
+    expect(built.map).toBeNull();
+    expect(built.handedToCallbacks).toBeNull();
+    // The graceful path: the fallback panel renders and nothing is logged as an
+    // error, so no hub bug row is filed for a device setting.
+    expect(built.unavailable).toBe(true);
+    expect(built.warns).toEqual(['MapLibre startup unsupported']);
+    expect(built.errors).toEqual([]);
   });
 
-  it('still lets a healthy map through', () => {
-    const map: FakeMap | null = fakeMap({ painter: healthyPainter() });
-    let handedToCallbacks: FakeMap | null = null;
-    if (isMapUsable(map)) handedToCallbacks = map;
-    expect(handedToCallbacks).toBe(map);
+  it('absorbs the <= 6.6.0 painter-less instance', () => {
+    const built = buildMini(() => fakeMap({ painter: undefined }));
+    expect(built.map).toBeNull();
+    expect(built.handedToCallbacks).toBeNull();
+    expect(built.unavailable).toBe(true);
+    expect(built.warns).toEqual(['MapLibre startup unsupported']);
+    expect(built.errors).toEqual([]);
+  });
+
+  it('does NOT launder an unrelated constructor failure into "no WebGL here"', () => {
+    // A missing container, a malformed style, a genuine bug: these must stay
+    // loud and keep reaching the app's existing error path, or a real defect
+    // disappears behind a fallback panel nobody reports.
+    const built = buildMini(() => {
+      throw new TypeError("Cannot read properties of null (reading 'appendChild')");
+    });
+    expect(built.map).toBeNull();
+    expect(built.unavailable).toBe(false);
+    expect(built.warns).toEqual([]);
+    expect(built.errors).toEqual([
+      "Unable to load the reporter mini-map style for MapLibre: TypeError: Cannot read properties of null (reading 'appendChild')",
+    ]);
+  });
+
+  it('still lets a healthy map through to the load/idle callbacks', () => {
+    const built = buildMini(() => fakeMap({ painter: healthyPainter() }));
+    expect(built.map).not.toBeNull();
+    expect(built.handedToCallbacks).toBe(built.map);
+    expect(built.unavailable).toBe(false);
+    expect(built.warns).toEqual([]);
+    expect(built.errors).toEqual([]);
+  });
+
+  it('releases the half-built instance rather than leaking its container', () => {
+    // remove() throws on a painter-less map, so the helper has to swallow that
+    // too — the whole point of routing teardown through safeRemoveMap.
+    const map = fakeMap({ painter: undefined });
+    expect(() => constructMapSafely(() => map)).not.toThrow();
+    expect(map.removed).toBe(false); // remove() threw, and that was survivable
   });
 });
 
@@ -257,20 +375,24 @@ describe('the rAF resize degrades instead of crashing', () => {
   });
 });
 
-describe('teardown of a half-built map never throws', () => {
+describe('teardown of a painter-less map never throws', () => {
   it('survives it the way the effect cleanup does', () => {
+    // remove() walks the painter, so this is the `...reading 'destroy'` throw.
+    // A throw on the unmount path would take the React tree with it.
     const map = fakeMap({ painter: undefined });
     expect(() => teardown(map)).not.toThrow();
-    expect(teardown(map)).toMatch(/reading 'destroy'/);
+    expect(teardown(map)).toBe(false);
+    expect(map.removed).toBe(false);
   });
 
   it('is a no-op when no map was ever built', () => {
-    expect(teardown(null)).toBe('removed');
+    expect(() => teardown(null)).not.toThrow();
+    expect(teardown(null)).toBe(false);
   });
 
   it('still tears down a healthy map', () => {
     const map = fakeMap({ painter: healthyPainter() });
-    expect(teardown(map)).toBe('removed');
+    expect(teardown(map)).toBe(true);
     expect(map.removed).toBe(true);
   });
 });
@@ -287,26 +409,46 @@ describe('MapboxMini.tsx wiring', () => {
     );
   });
 
-  it('gates on the painter before the instance is used', () => {
-    expect(miniSource).toContain('if (!isMapUsable(map)) {');
-    const gate = at(miniSource, 'MapboxMini.tsx', 'if (!isMapUsable(map)) {');
-    // Storing a half-built map is what poisons every later callback.
+  it('routes EVERY construction through the shared two-behavior guard', () => {
+    expect(miniSource).toContain("from '@aireon/shared/webgl'");
+    expect(miniSource).toContain('constructMapSafely(() => new maplibregl.Map({');
+    // ⚠ Not just "a guarded one exists" — no BARE constructor may creep back
+    // in beside it. A bare `new maplibregl.Map(...)` is the bug on both
+    // engines: <= 6.6.0 hands back a painter-less map, >= 6.7.0 throws past
+    // every post-construction gate straight into the promise `.catch`.
+    const constructions = miniSource.match(/new maplibregl\.Map\(\{/g) ?? [];
+    expect(constructions.length, 'no map construction found at all').toBe(1);
+    const guarded = miniSource.match(/constructMapSafely\(\(\) => new maplibregl\.Map\(\{/g) ?? [];
+    expect(guarded.length).toBe(constructions.length);
+  });
+
+  it('gates on the guard result before the instance is used', () => {
+    // Same contract the retired `if (!isMapUsable(map)) {` pin protected: the
+    // gate sits between the constructor and the first use of the instance, so
+    // an unusable map never reaches the load/idle callbacks or the ref.
+    expect(miniSource).toContain('if (!map) {');
+    const gate = at(miniSource, 'MapboxMini.tsx', 'if (!map) {');
     expect(gate).toBeGreaterThan(at(miniSource, 'MapboxMini.tsx', 'new maplibregl.Map({'));
     expect(gate).toBeLessThan(at(miniSource, 'MapboxMini.tsx', 'const m = map;'));
-    // The dropped instance must not be left for the cleanup to remove again.
-    expect(miniSource).toContain('map = null;');
+    // ...and the failure renders the fallback rather than an empty container.
+    expect(gate).toBeLessThan(at(miniSource, 'MapboxMini.tsx', 'setUnavailable(true)'));
+    expect(miniSource).toContain('if (!webgl || unavailable) {');
   });
 
   it('re-checks the map inside the rAF resize callback', () => {
+    // Still load-bearing on every engine: the GL context can die AFTER a
+    // healthy boot, and MapLibre clears the painter when it does.
     expect(miniSource).toContain('if (cancelled || !map || !isMapUsable(map)) return;');
     // The bare form is the bug: it captures the map and never re-checks it.
     expect(miniSource).not.toContain('requestAnimationFrame(() => m.resize());');
   });
 
-  it('wraps teardown remove() in try/catch', () => {
-    expect(miniSource).toMatch(/try \{\s*\n\s*map\?\.remove\(\);\s*\n\s*\} catch/);
-    // The bare form is the bug.
+  it('tears down through the shared best-effort remove', () => {
+    expect(miniSource).toContain('safeRemoveMap(map)');
+    // The bare forms are the bug: remove() walks the painter, so it throws on a
+    // context-lost map and a throw on the unmount path takes the tree with it.
     expect(miniSource).not.toMatch(/\n {6}map\?\.remove\(\);/);
+    expect(miniSource).not.toMatch(/\bmap\??\.remove\(\)/);
   });
 
   it('renders the shared fallback instead of an empty box', () => {
@@ -315,15 +457,29 @@ describe('MapboxMini.tsx wiring', () => {
   });
 
   it('warns rather than files a bug row for a WebGL2-less visitor', () => {
-    // main.tsx installs the shared error logger with captureConsoleErrors, so a
-    // console.error here would post one hub bug row per WebGL2-less visit. An
-    // absent GPU is an environment condition, not a showroom defect.
+    // main.tsx installs the shared error logger with captureConsoleErrors and
+    // src/lib/errorLog.ts carries no beforeCapture veto, so a console.error on
+    // a startup path posts one hub bug row per affected visitor. An absent or
+    // refused GPU is an environment condition, not a showroom defect.
     expect(miniSource).toContain("console.warn('MapLibre startup unsupported:'");
     expect(miniSource).toContain('MapStartupUnsupportedError');
-    // Every map-startup / teardown log is a warn, never an error.
-    const startupLogs = miniSource.match(/console\.(warn|error)\('MapLibre[^']*'/g) ?? [];
-    expect(startupLogs.length, 'no MapLibre startup logging found at all').toBeGreaterThanOrEqual(3);
-    expect(startupLogs.filter((line) => line.startsWith('console.error'))).toEqual([]);
+    // All three startup surfaces warn: the preflight, the construction guard,
+    // and the promise catch a GPU-init throw would land in.
+    const startupWarns = miniSource.match(/console\.warn\('MapLibre startup unsupported:'/g) ?? [];
+    expect(startupWarns.length, 'a startup surface stopped warning').toBe(3);
+    // ⚠ Census over EVERY console.error in the file, not only literals starting
+    // with 'MapLibre'. The old regex (/console\.(warn|error)\('MapLibre[^']*'/)
+    // was structurally blind to
+    // `console.error('Unable to load the reporter mini-map style for MapLibre', error)`
+    // — the exact line a 6.7.0 GPU-init throw lands on — and reported a clean
+    // bill of health for it.
+    const errors = miniSource.match(/console\.error\(/g) ?? [];
+    expect(errors.length, 'a new console.error appeared on a startup path').toBe(1);
+    // The one that remains is for genuine style/network failures only: it is
+    // reachable solely after the GPU-init test has ruled a device condition out.
+    expect(at(miniSource, 'MapboxMini.tsx', 'if (isGpuInitializationError(error)) {')).toBeLessThan(
+      at(miniSource, 'MapboxMini.tsx', 'console.error('),
+    );
   });
 });
 
