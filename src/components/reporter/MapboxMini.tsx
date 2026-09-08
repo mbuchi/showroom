@@ -1,9 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 import { loadMapboxStyleForMapLibre } from '@aireon/shared';
 import { applyMapWorkerUrl } from '@aireon/shared/map-worker';
-import { MapUnavailable } from '@aireon/shared/webgl';
+import {
+  MapUnavailable,
+  constructMapSafely,
+  isGpuInitializationError,
+  safeRemoveMap,
+} from '@aireon/shared/webgl';
 import { MapStartupUnsupportedError, isMapUsable, webglSupported } from '../../lib/mapStartup';
 
 // A small, non-interactive MapLibre GL map for the Valoo and Roofs widgets,
@@ -59,17 +64,34 @@ export default function MapboxMini({
 
   const webgl = webglSupported();
 
+  // Set when the map could not be BUILT on this device — the case the preflight
+  // above structurally cannot see, because it is memoized for the life of the
+  // document and the style is fetched over the network in between. Without this
+  // flag a refused context left the component rendering an empty container and
+  // the card sat on its loading skeleton until useReporterWidget's 25s timeout
+  // flipped it to a bare 'error'.
+  const [unavailable, setUnavailable] = useState(false);
+
   useEffect(() => {
     if (!containerRef.current || !mapboxConfigured) return;
 
+    // A new position/style is a fresh attempt: clear a previous device refusal
+    // so the container gets a chance to mount again.
+    setUnavailable(false);
+
     // WebGL2 preflight (@aireon/shared/webgl, suite standard). MapLibre v6
-    // dropped the WebGL1 renderer AND does not throw when the context is
-    // refused — it aborts its own constructor half way and hands back a Map
-    // with no painter. Constructing on such a client produced a half-built
-    // instance whose `requestAnimationFrame(() => m.resize())` below then died
-    // a frame later, outside this promise chain's `.catch`, on
-    // `Cannot read properties of undefined (reading 'resize')`. Never build the
-    // map there; the render below shows <MapUnavailable/> instead.
+    // dropped the WebGL1 renderer, so a client without a WebGL2 context can
+    // never paint here. How the engine REPORTS that changed mid-v6 and the two
+    // behaviors are mutually exclusive, so neither guard alone is enough:
+    //
+    //   <= 6.6.0  `_setupPainter` fires a GPUInitializationError EVENT and the
+    //             constructor returns a painter-less Map that looks built
+    //   >= 6.7.0  `_setupPainter` THROWS and the constructor rethrows after
+    //             `_cleanupContainer()`, so there is no instance at all
+    //
+    // Preflighting here keeps both out of the common case; `constructMapSafely`
+    // below covers the window this probe cannot. The render at the bottom shows
+    // <MapUnavailable/> instead.
     if (!webglSupported()) {
       // An absent WebGL2 context is a property of the visitor's device, not a
       // showroom defect. console.warn (not console.error) because main.tsx
@@ -91,7 +113,22 @@ export default function MapboxMini({
       .then((style) => {
         if (cancelled) return;
 
-        map = new maplibregl.Map({
+        // Second gate, for the window the preflight cannot cover: the style is
+        // resolved over the network first, so the context can still be refused
+        // between the probe and this constructor (a tab that lost its GPU
+        // process, or a client already at the browser's WebGL context limit —
+        // the reporter mounts several of these mini-maps at once, each with its
+        // own map, so that limit is realistically reachable here).
+        //
+        // ⚠ Must be `constructMapSafely`, not a bare constructor plus a painter
+        // check. The painter check alone is DEAD CODE on maplibre-gl >= 6.7.0:
+        // the engine throws out of the constructor, the throw sails past every
+        // post-construction gate, rejects this promise chain and lands in the
+        // `.catch` below. A bare try/catch alone is dead code on <= 6.6.0 for
+        // the same reason inverted. The shared helper folds both into one
+        // `null` and RETHROWS anything that is not a GPU-init failure, so a bad
+        // style or a real bug still reaches the `.catch` and stays loud.
+        map = constructMapSafely(() => new maplibregl.Map({
           container,
           style: style as unknown as StyleSpecification,
           center: [lng, lat],
@@ -108,27 +145,14 @@ export default function MapboxMini({
           // MapLibre v5 this WebGL flag lives under `canvasContextAttributes`
           // (Mapbox GL exposed it as a top-level `preserveDrawingBuffer`).
           canvasContextAttributes: { preserveDrawingBuffer: true },
-        });
+        }));
 
-        // Second gate, for the window the preflight cannot cover: the style is
-        // resolved over the network first, so the context can still be refused
-        // between the probe and this constructor (a tab that lost its GPU
-        // process, or a client already at the browser's WebGL context limit —
-        // the reporter mounts several of these mini-maps at once, each with its
-        // own map, so that limit is realistically reachable here). MapLibre
-        // reports it by leaving `painter` undefined; drop the instance HERE
-        // rather than let it poison the resize and the teardown.
-        if (!isMapUsable(map)) {
+        // null = this device cannot paint a map. The helper already released
+        // whatever half-built instance a <= 6.6.0 engine handed back, so there
+        // is nothing left to remove and `map` is already null for the cleanup.
+        if (!map) {
           console.warn('MapLibre startup unsupported:', new MapStartupUnsupportedError().message);
-          // A half-built map still holds a container and listeners, but
-          // `remove()` walks the painter, so this is best-effort.
-          try {
-            map.remove();
-          } catch {
-            /* half-built map: nothing to tear down */
-          }
-          // Cleared so the effect cleanup does not try to remove it again.
-          map = null;
+          if (!cancelled) setUnavailable(true);
           return;
         }
 
@@ -155,15 +179,33 @@ export default function MapboxMini({
         // frame later, outside the promise chain, so anything it throws is an
         // uncaught runtime error no ErrorBoundary sees. Two ways the map is
         // gone by then: the cleanup already ran `remove()` (React 18 StrictMode
-        // double-invokes this effect, and a retry remounts the card), or the
-        // instance is half-built — either way `resize()` dies inside
-        // `_resizeInternal` on `...undefined (reading 'resize')`.
+        // double-invokes this effect, and a retry remounts the card), or the GL
+        // context died in between and MapLibre cleared the painter — either way
+        // `resize()` dies inside `_resizeInternal` on
+        // `...undefined (reading 'resize')`. This is the MID-SESSION guard, and
+        // it stays load-bearing on every engine: `constructMapSafely` above only
+        // vouches for the instant of construction.
         raf = requestAnimationFrame(() => {
           if (cancelled || !map || !isMapUsable(map)) return;
           map.resize();
         });
       })
       .catch((error) => {
+        // ⚠ A refused GPU is a property of the visitor's device, never a
+        // showroom defect, and it must not arrive here as an error. main.tsx
+        // installs the shared error logger with `captureConsoleErrors: true`
+        // and errorLog.ts carries no beforeCapture veto, so every console.error
+        // on this line files one hub bug row per affected visitor.
+        // `constructMapSafely` already absorbs the refusal at the constructor
+        // on both engines; this is the backstop for any other GPU-init failure
+        // the chain could surface, so the classification lives on both paths.
+        if (isGpuInitializationError(error)) {
+          console.warn('MapLibre startup unsupported:', new MapStartupUnsupportedError().message);
+          if (!cancelled) setUnavailable(true);
+          return;
+        }
+        // Everything else IS a real failure (a broken style document, a dead
+        // Mapbox token, a network fault) and stays loud.
         console.error('Unable to load the reporter mini-map style for MapLibre', error);
       });
 
@@ -171,21 +213,19 @@ export default function MapboxMini({
       cancelled = true;
       cancelAnimationFrame(raf);
       // `remove()` walks the painter to free GL resources, so it throws
-      // ("...reading 'destroy'") on a map that never finished initializing.
-      // Teardown must not be the thing that files the bug row.
-      try {
-        map?.remove();
-      } catch (err) {
-        console.warn('MapLibre teardown skipped:', err);
-      }
+      // ("...reading 'destroy'") on a map whose GL context died after a healthy
+      // boot. Teardown must not be the thing that files the bug row, so it goes
+      // through the shared best-effort helper.
+      safeRemoveMap(map);
     };
   }, [lat, lng, zoom, pitch, styleUrl]);
 
-  // No WebGL2 => no map was built above, so show the shared fallback panel
-  // rather than an empty box. In practice the reporter widgets short-circuit to
-  // their own "unavailable" card before mounting this component; this keeps
-  // MapboxMini honest on its own for any other caller.
-  if (!webgl) {
+  // No usable WebGL2 — either the preflight said so up front, or the map could
+  // not be constructed once the style had loaded. Show the shared fallback
+  // panel rather than an empty box. In practice the reporter widgets
+  // short-circuit to their own "unavailable" card before mounting this
+  // component; this keeps MapboxMini honest on its own for any other caller.
+  if (!webgl || unavailable) {
     return (
       <div className="reporter-mini-map absolute inset-0 isolate">
         <MapUnavailable dark />

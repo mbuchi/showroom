@@ -25,7 +25,8 @@ export class MapStartupUnsupportedError extends Error {
  * map widgets, so probe once and reuse.
  *
  * ⚠ The cache is the reason a LATER loss of the GPU process still has to be
- * caught — by {@link isMapUsable} after construction, never by this.
+ * caught — by `constructMapSafely` at the constructor and by
+ * {@link isMapUsable} in every late callback, never by this.
  */
 let webglProbe: boolean | undefined;
 
@@ -42,12 +43,21 @@ export function __resetWebglProbeForTest(): void {
 /**
  * Is this MapLibre instance usable?
  *
- * ⚠ MapLibre v6 never THROWS when the WebGL2 context cannot be created. Its
- * constructor runs `this._setupPainter(); if (!this.painter) return;` — the
- * painter setup fires a `GPUInitializationError` at the half-built map and
- * returns, so the constructor bails before the style, the handlers and the
- * event wiring exist, and hands back a `Map` that LOOKS constructed. Stored in
- * a ref it then detonates somewhere unrelated (maplibre-gl 6.3.0):
+ * ⚠ How MapLibre v6 reports a refused WebGL2 context CHANGED mid-major, and the
+ * two behaviors are mutually exclusive, so a guard written for one is dead code
+ * under the other:
+ *
+ *   <= 6.6.0  `_setupPainter` fires a `GPUInitializationError` EVENT and the
+ *             constructor runs `this._setupPainter(); if (!this.painter) return;`
+ *             — it bails before the style, the handlers and the event wiring
+ *             exist and hands back a `Map` that LOOKS constructed. A
+ *             `try/catch` around the constructor never fires.
+ *   >= 6.7.0  `_setupPainter` THROWS and the constructor rethrows after
+ *             `_cleanupContainer()` — so there is no instance at all, and a
+ *             post-construction painter check is never reached.
+ *
+ * Stored in a ref, the <= 6.6.0 half-built instance detonates somewhere
+ * unrelated (observed on maplibre-gl 6.3.0):
  *
  *   - `resize()` -> `_resizeInternal` -> `this.painter.resize(...)`
  *     => `Cannot read properties of undefined (reading 'resize')`
@@ -55,9 +65,18 @@ export function __resetWebglProbeForTest(): void {
  *   - the unmount's `remove()` -> `this.painter.destroy()`
  *     => `...(reading 'destroy')`
  *
- * One environment condition, three unrelated-looking bug rows. A `try/catch`
- * around the constructor cannot see any of it — the catch never runs. Gate on
- * the painter instead of trusting the constructor.
+ * One environment condition, three unrelated-looking bug rows. So CONSTRUCTION
+ * goes through `constructMapSafely` from `@aireon/shared/webgl`, which covers
+ * both engines in one place and rethrows anything that is not a GPU-init
+ * failure.
+ *
+ * This predicate is still load-bearing as the MID-SESSION guard: MapLibre also
+ * clears the painter when the GL context dies after a healthy boot, so every
+ * late callback (the mini-map's rAF resize) must re-check rather than trust the
+ * instance it captured.
+ *
+ * Suite memory: maplibre-6-7-0-throws-on-gpu-init,
+ * maplibre-gpu-init-returns-half-built-map.
  */
 export function isMapUsable(map: unknown): boolean {
   return (map as { painter?: unknown } | null | undefined)?.painter !== undefined;

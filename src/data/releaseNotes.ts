@@ -12,6 +12,26 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.41.1',
+    date: 'September 8, 2026',
+    codename: 'A map that bows out politely',
+    summary: 'The two map cards in the report now fail politely on a machine that cannot draw them, instead of leaving the card spinning for half a minute.',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: MapPin,
+        text: 'When your machine cannot give the report a drawing surface, because hardware acceleration is switched off or too many maps are already open in the tab, the Valoo and Roofs cards now say so right away and show the "map unavailable" panel. Before, the card could sit on its loading placeholder for 25 seconds and then show a bare error, and the moment was filed as a fault against showroom even though nothing was wrong with the app.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated the map engine to MapLibre 6.7.0 and the shared Aireon foundation to v1.211.0, which carries the matching startup guard. Genuine problems, such as a map style that fails to load, are still reported exactly as before. Nothing else in the reports, the gallery or the published views changes.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.41.0',
     date: 'September 6, 2026',
     codename: 'A bot gate that waits in the wings',
