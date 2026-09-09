@@ -18,6 +18,7 @@ import UserMenu from './UserMenu';
 import { createShowroomAboutModalProps } from './aboutModalContent';
 import { navigate, useRoute } from '../lib/router';
 import { useI18n } from '../contexts/I18nContext';
+import { useCompactLayout } from '../hooks/useCompactLayout';
 import { useAuth } from '../auth/AuthContext';
 import { signal } from '../lib/signal';
 
@@ -52,6 +53,17 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
   const { locale, setLocale, t } = useI18n();
   const { getAccessToken } = useAuth();
   const glassLevel = useGlassLevel();
+  // 768px is AppNavbar's OWN fold (`mobileCollapseBelow`), the width at which
+  // it collapses this whole actions block into a single ⋯ menu. Reusing it
+  // means the "Open with" handoff changes hands at exactly the width the bar
+  // changes shape — see the openWith block below.
+  //
+  // The same repo-local SYNCHRONOUS hook the reporter uses, and it has to be
+  // the same one: AppNavbar resolves its own fold synchronously, so a gate that
+  // only settles after an effect would disagree with the bar for a frame and
+  // leave the handoff briefly doubled or briefly missing. See
+  // src/hooks/useCompactLayout.ts.
+  const isCompact = useCompactLayout();
   // Search history is now opened from a navbar button (moved out of the account
   // menu). Tracked here so the History icon toggles the shared modal.
   const [showHistory, setShowHistory] = useState(false);
@@ -185,8 +197,17 @@ const Navbar = forwardRef<HTMLInputElement, NavbarProps>(function Navbar(
         actionsExtra={
           <>
             {/* "Open with" — cross-app deep-link menu; only shown on the reporter
-                route when a location (lat/lng) is active in the URL. */}
-            {openWithLocation && (
+                route when a location (lat/lng) is active in the URL.
+                COMPACT ONLY. From 768px up the handoff lives inside the
+                reporter's own address field, as a branded showroom wordmark
+                seated behind the field's hairline divider (see
+                reporter/ReporterView.tsx) — that is the suite standard, and
+                rendering it here as well would put it on screen twice. Below
+                768px showroom has no address field in the bar at all and
+                AppNavbar folds everything here into one ⋯ menu, where the
+                wordmark's extra width does not fit, so phones keep the compact
+                icon trigger and the handoff stays reachable. */}
+            {isCompact && openWithLocation && (
               <OpenWithMenu
                 location={openWithLocation}
                 currentAppId="showroom"

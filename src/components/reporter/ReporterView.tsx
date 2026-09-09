@@ -3,6 +3,7 @@ import { MapPin, RefreshCw, AlertTriangle, FileBarChart, FileDown } from 'lucide
 import {
   WelcomeAddressCard,
   AddressSearch,
+  OpenWithMenu,
   useGlass,
   isAddressGateBypassed,
   type AddressSearchResult,
@@ -26,6 +27,7 @@ import {
 import { resolveReportAddress, type ParcelAddressResolution } from '../../lib/reportAddress';
 import { signal } from '../../lib/signal';
 import { useI18n } from '../../contexts/I18nContext';
+import { useCompactLayout } from '../../hooks/useCompactLayout';
 import { buildSearchLabels } from '../../lib/searchLabels';
 import { useAuth } from '../../auth/AuthContext';
 import type { ReporterAppId } from '../../lib/reporterApps';
@@ -51,6 +53,16 @@ export default function ReporterView() {
   const { t, locale } = useI18n();
   const { status, login } = useAuth();
   const { level: glassLevel } = useGlass();
+  // 768px — deliberately AppNavbar's own fold (`mobileCollapseBelow`), not
+  // Tailwind's 640px `sm`, so the navbar handoff and the in-field one below
+  // hand over to each other at exactly one width.
+  //
+  // Repo-local and SYNCHRONOUS on purpose; the exported `useIsMobile` cannot be
+  // used here. It reports desktop on the first paint and corrects in an effect,
+  // and the desktop branch of THIS decision hands AddressSearch a `trailing`
+  // node — i.e. it changes the field's layout, so a phone would paint the
+  // reflowed field for one frame. See src/hooks/useCompactLayout.ts.
+  const isCompact = useCompactLayout();
 
   // Bumped by "Regenerate" — remounts the widget grid for a fresh capture.
   const [regenKey, setRegenKey] = useState(0);
@@ -247,6 +259,39 @@ export default function ReporterView() {
     setReportOpen(true);
   }, [params, shownAddress, selection]);
 
+  // "Open with" — the cross-app handoff for the location this report is about.
+  // It belongs beside the address it acts on, so from 768px up it sits INSIDE
+  // the address field's own frame (the hub's AddressLauncher shape) as a
+  // branded showroom wordmark, not as an anonymous external-link glyph out in
+  // the navbar. Below 768px the navbar keeps it (see components/Navbar.tsx);
+  // the two are mutually exclusive, so it is never on screen twice.
+  //
+  // Gated in JS to `undefined`, NEVER hidden with CSS: AddressSearch keys its
+  // whole framed layout off `trailing` being truthy, so a display:none child
+  // would still move the border onto the wrapper and paint an orphan hairline
+  // divider stub inside the field on phones. For the same reason the gate has
+  // to be right on the FIRST render and not one effect later — hence the
+  // synchronous hook above, and the first-paint case in
+  // __tests__/ReporterView.openWith.test.tsx that pins it.
+  const openWithTrailing =
+    !isCompact && params ? (
+      <OpenWithMenu
+        location={{ lat: params.lat, lng: params.lng }}
+        currentAppId="showroom"
+        defaultTargetAppId="showroom"
+        dark
+        label={t('nav.open_with')}
+        locale={locale}
+        onOpen={(appId) =>
+          void signal.send('Open address in app', {
+            lat: params.lat,
+            lng: params.lng,
+            metaData: { app: appId },
+          })
+        }
+      />
+    ) : undefined;
+
   const selectedCount = selection.size;
   const liveSelectedCount = useMemo(
     () =>
@@ -292,6 +337,7 @@ export default function ReporterView() {
               activeAddress={shownAddress}
               onSelect={handleSelectAddress}
               onError={handleSearchError}
+              trailing={openWithTrailing}
             />
             {searchError && <p className="mt-1.5 text-xs text-red-400">{searchError}</p>}
           </div>
