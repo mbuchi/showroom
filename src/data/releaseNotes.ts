@@ -12,6 +12,20 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.41.2',
+    date: 'September 9, 2026',
+    codename: 'One address, every app',
+    summary: 'On the report page, the control that opens the address you are looking at in another Aireon app now sits inside the address box itself and says "showroom".',
+    items: [
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: ExternalLink,
+        text: 'The control that hands the address of your report to another Aireon app was a small arrow-out-of-a-box icon parked off to the right of the top bar, unlabelled and easy to mistake for a generic "open in a new tab". Every other app in the suite has long since moved it into the address box, where it carries the name of the app you are in. showroom now does the same: at the right-hand end of the report\'s address box you will see "showroom", and the little arrow beside it still drops the full list of apps, each with its own name and a line saying what it is for. Nothing about the handoff itself changed, only where you find it and what it tells you before you click. On a phone, where the address box has no room to spare, it stays exactly where it was, in the "More" menu at the top right.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.41.1',
     date: 'September 8, 2026',
     codename: 'A map that bows out politely',
