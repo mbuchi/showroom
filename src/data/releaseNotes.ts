@@ -12,6 +12,38 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.41.3',
+    date: 'September 11, 2026',
+    codename: 'A lighter first load',
+    summary: 'The first page load is lighter, zeroo joins the Open with menu, and two kinds of harmless error stop reaching the bug tracker; the shared Aireon foundation moves to v1.219.0.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Zap,
+        text: 'The first page load is lighter. Claire\'s code used to arrive with the first load of every page, the gallery included, even though she only appears on a report; it is now fetched on its own when you open a report, so there is nearly a quarter less script to download before showroom starts. Claire works exactly as before.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: ExternalLink,
+        text: 'The Open with list now includes zeroo, the zero-commission marketplace, next to the other apps that can open at the address of your report. realioo stays out of the list until its live site can open a shared address on the right property instead of its home page.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text: 'Two kinds of report no longer reach the suite bug tracker: a privacy tool or a network failure stopping the Cloudflare bot check, which already falls back to its own retry card, and errors raised on a local development copy of showroom, which are now parked as test traffic. Real faults are reported as before.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated the shared Aireon foundation from v1.213.0 to v1.219.0. Nothing else changes in the reports, the gallery or the published views.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.41.2',
     date: 'September 9, 2026',
     codename: 'One address, every app',
