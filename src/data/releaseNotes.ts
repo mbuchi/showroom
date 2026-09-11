@@ -12,6 +12,38 @@ export { KIND_META } from '@aireon/shared';
 // the gallery, auth gate, and lightbox experience are stabilising.
 export const RELEASES: Release[] = [
   {
+    version: '0.41.4',
+    date: 'September 11, 2026',
+    codename: 'Claire keeps talking',
+    summary: 'Claire no longer times out on long answers about a report, keeps each reply with the address you asked about and explains problems plainly; she is ready to answer with Gemini or OpenAI once OpenAI is enabled. The shared Aireon foundation moves to v1.220.0.',
+    items: [
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Bot,
+        text: 'Long answers from Claire no longer time out. A reply that finishes after you opened a report for another address is dropped instead of landing in that address\'s conversation, and an answer that was cut off on the way is no longer shown and saved as if it were complete.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Sparkles,
+        text: 'Claire can answer with Gemini or OpenAI. Once the Aireon admins enable OpenAI, a small Gemini | OpenAI picker appears under the message box, and your choice is remembered across the Aireon apps. Until then nothing changes on screen. Voice calls stay on Gemini.',
+        prs: [],
+      },
+      {
+        kind: 'fixed' as ChangeKind,
+        icon: Bug,
+        text: 'Clearer error messages in Claire\'s chat. When a request fails, Claire tries again at most once, and only when the network or the server had a brief hiccup, instead of sending the same question up to six times. The keyboard hint under the message box now shows on desktop only.',
+        prs: [],
+      },
+      {
+        kind: 'improved' as ChangeKind,
+        icon: Package,
+        text: 'Updated the shared Aireon foundation from v1.219.0 to v1.220.0. The release only changes Claire\'s chat; nothing else changes in the reports, the gallery or the published views.',
+        prs: [],
+      },
+    ],
+  },
+  {
     version: '0.41.3',
     date: 'September 11, 2026',
     codename: 'A lighter first load',
